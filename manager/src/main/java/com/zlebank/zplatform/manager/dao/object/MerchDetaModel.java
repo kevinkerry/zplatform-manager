@@ -5,7 +5,11 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.zlebank.zplatform.member.pojo.PojoCoopInsti;
 
 /**
  * MerchDetaModel entity. @author MyEclipse Persistence Tools
@@ -94,6 +98,7 @@ public class MerchDetaModel implements java.io.Serializable {
     private String corpfileOpp;
     private String signfile;
     private String signfileOpp;
+    private PojoCoopInsti coopInsti;
 	// Constructors
 
 	/** default constructor */
@@ -901,6 +906,14 @@ public class MerchDetaModel implements java.io.Serializable {
     public void setSignfileOpp(String signfileOpp) {
         this.signfileOpp = signfileOpp;
     }
-	
-	
+    
+    @ManyToOne
+    @JoinColumn(name="COOP_INSTI_ID")
+	public PojoCoopInsti getCoopInsti() {
+		return coopInsti;
+	}
+
+	public void setCoopInsti(PojoCoopInsti coopInsti) {
+		this.coopInsti = coopInsti;
+	}
 }

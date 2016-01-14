@@ -79,10 +79,10 @@
 		class="com.zlebank.zplatform.trade.dao.impl.InsteadPayBatchDAOImpl">
 	</bean>
 	<bean id="transferBatchDAO" parent="hibernateDAOImpl"
-		class="com.zlebank.zplatform.commons.dao.impl.TransferBatchDAOImpl">
+		class="com.zlebank.zplatform.trade.dao.impl.TransferBatchDAOImpl">
 	</bean>
 	<bean id="transferDataDAO" parent="hibernateDAOImpl"
-		class="com.zlebank.zplatform.commons.dao.impl.TransferDataDAOImpl">
+		class="com.zlebank.zplatform.trade.dao.impl.TransferDataDAOImpl">
 	</bean>
 	<bean id="mccListDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.MccListDAOImpl">

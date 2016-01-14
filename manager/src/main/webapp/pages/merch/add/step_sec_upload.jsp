@@ -33,6 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="hidden" id="signfileFace_old" value="${merchDate.signfile}"/>
 		<input type="hidden" id="signfileOpp_old" value="${merchDate.signfileOpp}"/>
 		<input type="hidden" id="taxRegCert_old"  value="${merchDate.taxfile}"/>
+		<input type="text" id="isde"  value="${merchDate.isDelegation}"/>
 				<table width="100%">
 					<tr>
 						<td colspan="4" class="head-guide">第一步:企业信息录入----><font class="current-step"> 第二步:上传证件照片</font></td>
@@ -73,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<span id="corpfileOpp_span"></span>
 						</td>
 					</tr> 
-					<s:if test="{merchDate.isDelegation}==1">
+					<s:if test="merchDate.isDelegation==1">
 					<tr>
 						<td align="center" id="psamORpass">委托人身份证正面照</td>
 						<td>

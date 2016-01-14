@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.zlebank.zlplatform.manager</groupId>
 	<artifactId>manager</artifactId>
@@ -6,12 +7,34 @@
 	<version>1.2.0-SNAPSHOT</version>
 	<name>manager Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<properties>
 		<project.nexus>http://192.168.101.238:8081</project.nexus>
 	</properties>
-	
+
 	<repositories>
+		<repository>
+			<id>zplatform-Snapshots</id>
+			<name>zplatform-Snapshots</name>
+			<url>${project.nexus}/nexus/content/repositories/zplatform-Snapshots</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>zplatform-Releases</id>
+			<name>zplatform-Releases</name>
+			<url>${project.nexus}/nexus/content/repositories/zlatform-Releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 		<repository>
 			<id>nexus</id>
 			<name>Nexus</name>
@@ -128,8 +151,8 @@
 			<artifactId>spring-web</artifactId>
 			<version>4.2.0.RELEASE</version>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
@@ -147,30 +170,20 @@
 		</dependency>
 		<dependency>
 			<groupId>com.zlebank.zplatform</groupId>
-			<artifactId>zplatform-member</artifactId>
-			<version>1.2.0-SNAPSHOT</version>
-		</dependency> 
-		
-		
-			<dependency>
-			<groupId>com.zlebank.zplatform</groupId>
 			<artifactId>zplatform-trade-core</artifactId>
 			<version>1.2.0-SNAPSHOT</version>
-			</dependency>
-		
-	<!-- 	<dependency>
-			<groupId>com.zlebank.zplatform</groupId>
-			<artifactId>zplatform-trade-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency> -->
+		</dependency>
+
+		<!-- <dependency> <groupId>com.zlebank.zplatform</groupId> <artifactId>zplatform-trade-common</artifactId> 
+			<version>0.0.1-SNAPSHOT</version> </dependency> -->
 		<dependency>
 			<groupId>com.zlebank.zplatform</groupId>
 			<artifactId>javabase64</artifactId>
 			<version>1.3.1</version>
 		</dependency>
 	</dependencies>
-    <build>
-    	<finalName>zplatform-manager</finalName>
+	<build>
+		<finalName>zplatform-manager</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/java</directory>
@@ -188,12 +201,12 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>  
-	            	<configuration>  
-	                <source>1.6</source>  
-	                <target>1.6</target>  
-	                <encoding>UTF-8</encoding>  
-	            	</configuration>  
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<encoding>UTF-8</encoding>
+					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -223,9 +236,6 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-	
-	
 	<distributionManagement>
 		<repository>
 			<id>zplatform</id>

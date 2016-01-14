@@ -42,6 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="hidden" id="agreemtEnd_old" value="${merchDate.agreemtEnd}"/>
 		<input type="hidden" id="mcclist_old" value="${merchDate.mcclist}"/>
 		<input type="hidden" id="isDelegation_old" value="${merchDate.isDelegation}"/>
+		<input type="hidden" id="coopInstiId_old" value="${merchDate.coopInsti.id}"/>
 				<table width="100%">
 					<tr>
 						<td colspan="4" class="head-guide"><font class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
@@ -183,6 +184,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td colspan="4" class="head-title"></td>
 					</tr>
 					<tr> 
+						<td align="center">合作机构</td>
+						<td>
+							<select id="coop_insti_ins" class="easyui-validatebox" required="true"   name="merchDate.coopInsti.id" style="width:150px"  onchange="refreshProduct()"/></select>
+					        <font color="red">*</font>
+				        </td>
+				        <td align="center" colspan="2"></td>
+						
+					</tr>
+					<tr> 
 						<td align="center">产品</td>
 						<td>
 							<select id="prdtver_ins" class="easyui-validatebox" required="true"  name="merchDate.prdtver" style="width:150px"  onchange="showThreeVersion()"/></select>
@@ -307,7 +317,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showCounty('city_ins');
 			 
 			showMccList();
-			showProduct();
+			showCoopInsti() ;
+			//showProduct();
 			queryDistType($('#prdtver_old').val());
 			queryFee($('#prdtver_old').val());
 			queryRiskType($('#prdtver_old').val())
@@ -344,6 +355,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var jp = $("#banknode_ins").val(); 
 			if ($('#merchDateForm').form("validate")) {
 				$("#button_id").linkbutton('disable');
+				$("#coop_insti_ins").removeAttr('disabled');
 				$('#merchDateForm').form('submit', {
 					onSubmit: function() {
 						return $('#merchDateForm').form('validate');
@@ -646,11 +658,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			file.remove();
 		}
 		
-		function showProduct() {
+		function showProduct(coopInstiId) {
 			$.ajax({
 				async:false,
 				type: "POST",
-				url: "pages/fee/queryProductAllFeeAction.action",
+				url: "pages/coopinsti/queryCoopInstiProductCoopInstiAction.action?coopInstiId="+coopInstiId,
 				dataType: "json",
 				success: function(json) {
 					var prdtver = $('#prdtver_old').val();
@@ -667,6 +679,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			});
 		}
+		
 		function showCash() {
 			$.ajax({
 				type: "POST",
@@ -730,6 +743,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			});
 		}
+		
+		function showCoopInsti() {
+			$.ajax({
+				type: "POST",
+				url: "pages/coopinsti/queryAllCoopInstiAction.action",
+				dataType: "json",
+				success: function(json) {
+					var merCoopInstiId = $('#coopInstiId_old').val();
+					var html = "<option value=''>--请选择合作机构--</option>";
+					$.each(json,
+					function(key, value) {
+						if(value.id==merCoopInstiId){
+							html += '<option value="' + value.id + '" selected="selected">' + value.instiName + '</option>';
+						}else{
+							html += '<option value="' + value.id + '">' + value.instiName + '</option>';
+						}
+						
+					}) ;
+					$("#coop_insti_ins").html(html);
+					refreshProduct(merCoopInstiId);
+					$('#coop_insti_ins').attr('disabled','disabled');
+				}
+			});
+		}
+		
+		function refreshProduct(){
+			var coopInstiId = $("#coop_insti_ins").val();
+			if (coopInstiId != "" && coopInstiId != null) {
+				showProduct(coopInstiId);
+			}
+			showThreeVersion();
+		}
+		
 		function showThreeVersion() {
 			var pid = $("#prdtver_ins").val();
 			if (pid != "" && !pid != null) {

@@ -171,6 +171,7 @@ public class MerchDetaAction extends BaseAction {
         variables.put("address", merchDate.getAddress());
         variables.put("status", merchDate.getStatus());
         variables.put("flag", flag);
+        variables.put("coopInstiId", merchDate.getCoopInsti()!=null?merchDate.getCoopInsti().getId():null);
         Map<String, Object> merchList = serviceContainer.getMerchDetaService()
                 .findMerchByPage(variables, getPage(), getRows());
         json_encode(merchList);

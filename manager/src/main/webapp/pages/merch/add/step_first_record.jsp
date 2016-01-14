@@ -163,6 +163,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td colspan="4" class="head-title"></td>
 					</tr>
 					<tr> 
+						<td align="center">合作机构</td>
+						<td>
+							<select id="coop_insti_ins" class="easyui-validatebox" required="true"  name="merchDate.coopInsti.id" style="width:150px"  onchange="refreshProduct()"/></select>
+					        <font color="red">*</font>
+				        </td>
+				        <td align="center" colspan="2"></td>
+					</tr>
+					<tr> 
 						<td align="center">产品</td>
 						<td>
 							<select id="prdtver_ins" class="easyui-validatebox" required="true"  name="merchDate.prdtver" style="width:150px"  onchange="showThreeVersion()"/></select>
@@ -366,8 +374,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showProvince();
 			showMerchType();
 			//showqueryTrade();
+			showCoopInsti() ;
 			showMccList();
-			showProduct();
 			showCash();
 			showChnlname();
 			//showMerchParent(); 
@@ -703,10 +711,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			file.remove();
 		}
 		
-		function showProduct() {
+		function showProduct(coopInstiId) {
 			$.ajax({
 				type: "POST",
-				url: "pages/fee/queryProductAllFeeAction.action",
+				url: "pages/coopinsti/queryCoopInstiProductCoopInstiAction.action?coopInstiId="+coopInstiId,
 				dataType: "json",
 				success: function(json) {
 					var html = "<option value=''>--请选择产品--</option>";
@@ -718,6 +726,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			});
 		}
+		
 		function showCash() {
 			$.ajax({
 				type: "POST",
@@ -768,6 +777,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			});
 		}
+		
+		function showCoopInsti() {
+			$.ajax({
+				type: "POST",
+				url: "pages/coopinsti/queryAllCoopInstiAction.action",
+				dataType: "json",
+				success: function(json) {
+					var html = "<option value=''>--请选择合作机构--</option>";
+					$.each(json,
+					function(key, value) {
+						html += '<option value="' + value.id + '">' + value.instiName + '</option>';
+					}) ;
+					$("#coop_insti_ins").html(html);
+				}
+			});
+		}
+		
+		function refreshProduct(){
+			var coopInstiId = $("#coop_insti_ins").val();
+			var html = "<option value=''>--请选择风控版本--</option>";
+			$("#riskver").html(html);
+			 html = "<option value=''>--请选择分润版本--</option>";
+			$("#spiltver").html(html);
+			html = "<option value=''>--请选择扣率版本--</option>";
+			$("#feever_ins").html(html);
+			if (coopInstiId != "" && coopInstiId != null) {
+				showProduct(coopInstiId);
+			}
+		}
+		
 		function showThreeVersion() {
 			var pid = $("#prdtver_ins").val();
 			if (pid != "" && !pid != null) {

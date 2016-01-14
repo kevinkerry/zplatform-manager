@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.zlebank.zplatform.commons.dao.pojo.ProductModel;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.CashModel;
-import com.zlebank.zplatform.manager.dao.object.ProductModel;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 
 public class ProductAction extends BaseAction{

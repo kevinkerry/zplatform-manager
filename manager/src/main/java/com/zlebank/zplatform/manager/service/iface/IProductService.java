@@ -3,8 +3,8 @@ package com.zlebank.zplatform.manager.service.iface;
 import java.util.List;
 import java.util.Map;
 
+import com.zlebank.zplatform.commons.dao.pojo.ProductModel;
 import com.zlebank.zplatform.manager.dao.object.CashModel;
-import com.zlebank.zplatform.manager.dao.object.ProductModel;
 
 public interface IProductService extends IBaseService<ProductModel, Long>{
 	public Map<String, Object> findProductByPage(Map<String, Object> variables, int page,int rows) ;

@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			collapsible="false">		
 			<div style="padding-left:5px;padding-right:5px">
 		<form id="merchDateForm" action="pages/merchant/saveMerchDateMerchantAction.action" method="post" >
-		<input type="hidden" id="isDegegation" value="${merchMap.ISDELEGATION}" />
+		<input type="text" id="isDelegation" value="${merchMap.ISDELEGATION}" />
 		<input type="hidden" id="merchId" value="${merchMap.MERCHID}" />
 		<input type="hidden" id="flag_ins" value="${flag}" />
 				<table width="100%">
@@ -128,6 +128,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td colspan="4" class="head-title"></td>
 					</tr>
 					<tr> 
+						<td align="center">合作机构<font color="red">*</font></td>
+						<td>${merchMap.INSTI_NAME}</td>
+				        <td align="center" colspan="2"></td>
+					</tr>
+					<tr> 
 						<td align="center">产品<font color="red">*</font></td>
 						<td>${merchMap.PRDTNAME}</td>
 				        <td align="center">风控版本<font color="red">*</font></td>
@@ -221,8 +226,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<span id="corpfileOpp_cert_img"></span>
 						</td>
 					</tr> 
-					<s:if test="{merchDate.isDelegation}==1">
-					<tr>
+					<tr id="delegation_pic">
 						<td align="center">委托人身份证正面照</td>
 						<td>
 							<span id="signfileFace_cert_img"></span>
@@ -232,7 +236,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<span id="signfileOpp_cert_img"></span>
 						</td>
 					</tr> 
-					</s:if>
 					<tr>
 						<td align="center">税务登记证文件目录</td>
 						<td>
@@ -299,8 +302,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var isDelegation = $('#isDelegation').val();
 			if(isDelegation=='1'){
 				$('#delegation').show();
+				$('#delegation_pic').show();
 			}else{
 				$('#delegation').hide();
+				$('#delegation_pic').hide();
 			}
 		}
 		

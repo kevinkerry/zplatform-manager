@@ -38,7 +38,7 @@ import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IChargeService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
-import com.zlebank.zplatform.member.bean.enums.MemberType;
+import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
 import com.zlebank.zplatform.member.dao.ParaDicDAO;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
 import com.zlebank.zplatform.member.pojo.PojoMember;
@@ -146,10 +146,10 @@ public class ChargeServiceImpl
          cm.setIntime(new Date());
          cm.setInuser(userId);
          cm.setMemberid(member);
-         if(MemberType.fromValue("01")==member.getMembertype()){
-             cm.setChargetype(MemberType.Individual.getCode());
-         }else if(MemberType.fromValue("02")==member.getMembertype()){
-             cm.setChargetype(MemberType.MERCHANT.getCode());
+         if(BusinessActorType.fromValue("01")==member.getMembertype()){
+             cm.setChargetype(BusinessActorType.INDIVIDUAL.getCode());
+         }else if(BusinessActorType.fromValue("02")==member.getMembertype()){
+             cm.setChargetype(BusinessActorType.ENTERPRISE.getCode());
          }
          //渠道
          PojoParaDic changeno = paradic.getPrimay(CHARGENOINSTID);

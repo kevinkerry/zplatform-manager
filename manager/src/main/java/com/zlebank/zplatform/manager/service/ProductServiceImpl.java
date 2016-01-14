@@ -3,10 +3,10 @@ package com.zlebank.zplatform.manager.service;
 import java.util.List;
 import java.util.Map;
 
+import com.zlebank.zplatform.commons.dao.pojo.ProductModel;
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.object.CashModel;
-import com.zlebank.zplatform.manager.dao.object.ProductModel;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.IProductService;
 
@@ -50,11 +50,11 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductModel, Long> impl
 				"{CALL  PCK_FOR_SELECT.sel_business(?,?)}",columns,
 				paramaters, "cursor0");
 	}
-	 //新增一条产品组合
+	 //添加一个产品
 	public String AddOneProduct(ProductModel product,@SuppressWarnings("rawtypes") List listbusicode) {	
 		    String  busicodeStr="";		  
 		    if(product==null){
-		    	return "操作失败！";
+		    	return "产品不能为空";
 		    }
 		    if(listbusicode!=null&&listbusicode.size()>0){
 		    	 for(int i=0;i<listbusicode.size();i++){
@@ -79,7 +79,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductModel, Long> impl
 	public String UpdateProduct(ProductModel product,@SuppressWarnings("rawtypes") List listbusicode) {	
 	    String  busicodeStr="";		  
 	    if(product==null){
-	    	return "操作失败！";
+	    	return "产品不能为空";
 	    }
 	    if(listbusicode!=null&&listbusicode.size()>0){
 	    	 for(int i=0;i<listbusicode.size();i++){
@@ -113,7 +113,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductModel, Long> impl
    public String AddOneCash(CashModel cash,@SuppressWarnings("rawtypes") List listbusicode) {	
 	    String  busicodeStr="";		  
 	    if(cash==null){
-	    	return "操作失败！";
+	    	return "收银台不能为空";
 	    }
 	    if(listbusicode!=null&&listbusicode.size()>0){
 	    	 for(int i=0;i<listbusicode.size();i++){
@@ -156,7 +156,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductModel, Long> impl
 	public String UpdateCash(CashModel cash,@SuppressWarnings("rawtypes") List listbusicode) {	
 	    String  busicodeStr="";		  
 	    if(cash==null){
-	    	return "操作失败！";
+	    	return "收银台不能为空";
 	    }
 	    if(listbusicode!=null&&listbusicode.size()>0){
 	    	 for(int i=0;i<listbusicode.size();i++){

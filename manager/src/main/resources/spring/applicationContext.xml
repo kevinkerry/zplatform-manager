@@ -43,7 +43,7 @@
 				<value>com.zlebank.zplatform.manager.dao.object.UploadLogModel
 				</value>
 				<value>com.zlebank.zplatform.manager.dao.object.BnkTxnModel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.ProductModel</value>
+				<value>com.zlebank.zplatform.commons.dao.pojo.ProductModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.FeeModel</value>
 
 				<value>com.zlebank.zplatform.acc.pojo.PojoAbstractSubject</value>
@@ -68,8 +68,8 @@
 				<value>com.zlebank.zplatform.manager.dao.object.QuickpayCustModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.PojoTxnsLog</value>
 				<value>com.zlebank.zplatform.manager.dao.object.TxnsWithdrawModel</value>
-				<value>com.zlebank.zplatform.commons.dao.pojo.PojoTransferData</value>
-				<value>com.zlebank.zplatform.commons.dao.pojo.PojoTransferBatch</value>
+				<value>com.zlebank.zplatform.trade.model.PojoTransferData</value>
+				<value>com.zlebank.zplatform.trade.model.PojoTransferBatch</value>
 				<value>com.zlebank.zplatform.trade.model.PojoInsteadPayDetail</value>
 				<value>com.zlebank.zplatform.trade.model.PojoInsteadPayBatch</value>
 				<value>com.zlebank.zplatform.manager.dao.object.ChargeModel</value>
@@ -82,7 +82,9 @@
 				<value>com.zlebank.zplatform.manager.dao.object.EntryCountSPModel</value>	
 				<value>com.zlebank.zplatform.manager.dao.object.PojoRevision</value>
 				<value>com.zlebank.zplatform.trade.model.TxnsLogModel</value>		
-				<value>com.zlebank.zplatform.trade.model.MemberBaseModel</value>	
+				<value>com.zlebank.zplatform.trade.model.MemberBaseModel</value>
+				<value>com.zlebank.zplatform.member.pojo.PojoCoopInsti</value>
+				<value>com.zlebank.zplatform.member.pojo.PojoInstiMK</value>	
 				</list>
 		</property>
 		<property name="mappingResources">
