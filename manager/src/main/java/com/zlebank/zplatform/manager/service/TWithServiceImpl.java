@@ -51,7 +51,7 @@ import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.exception.TradeException;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.ITWithService;
-import com.zlebank.zplatform.member.bean.enums.MemberType;
+import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
 import com.zlebank.zplatform.member.dao.ParaDicDAO;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
 import com.zlebank.zplatform.member.pojo.PojoMember;
@@ -293,11 +293,11 @@ public class TWithServiceImpl
             return map;
         }
         // 个人账户+银行卡信息
-        if (MemberType.Individual == pm.getMembertype()) {
+        if (BusinessActorType.INDIVIDUAL == pm.getMembertype()) {
 
         }
         // 商户账户+银行卡信息
-        else if (MemberType.MERCHANT == pm.getMembertype()) {
+        else if (BusinessActorType.ENTERPRISE == pm.getMembertype()) {
             // 商户信息
             PojoMerchDeta merchPojo = merch.getMerchBymemberId(memberId);
             if (merchPojo == null) {

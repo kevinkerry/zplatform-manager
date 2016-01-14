@@ -25,7 +25,7 @@ import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
-import com.zlebank.zplatform.member.bean.enums.MemberType;
+import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
 
 public class UploadAction extends BaseAction {
 
@@ -76,9 +76,9 @@ public class UploadAction extends BaseAction {
         variables.put("memberName", memberName);
         if("person".equals(falg)){
         //个人会员查询
-        variables.put("membertype", MemberType.Individual.getCode());
+        variables.put("membertype", BusinessActorType.INDIVIDUAL.getCode());
         }else  if("merch".equals(falg)){
-            variables.put("membertype", MemberType.MERCHANT.getCode());
+            variables.put("membertype", BusinessActorType.ENTERPRISE.getCode());
         }
         Map<String, Object> memberList = serviceContainer.getUploadlogService()
                 .findMemberByPage(variables, getPage(), getRows());
