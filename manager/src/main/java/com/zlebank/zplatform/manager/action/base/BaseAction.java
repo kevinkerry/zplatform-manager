@@ -21,17 +21,17 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
 import com.zlebank.zplatform.manager.util.DateJsonValueProcessor;
 
-public class BaseAction extends ActionSupport{
+public class BaseAction extends ActionSupport {
 	private static final Log log = LogFactory.getLog(BaseAction.class);
-	
+
 	private static final long serialVersionUID = 1L;
 	private int page_index;
-	
-	private int page_size=10;
-	
-	private int page=1;
-	private int rows=10;
-	
+
+	private int page_size = 10;
+
+	private int page = 1;
+	private int rows = 10;
+
 	public int getPage() {
 		return page;
 	}
@@ -63,29 +63,37 @@ public class BaseAction extends ActionSupport{
 	public void setPage_index(int pageIndex) {
 		page_index = pageIndex;
 	}
-	public void json_encode(Object resultList){
+
+	public void json_encode(Object resultList) {
 		try {
-			JsonConfig jsonConfig=new JsonConfig();   
-			jsonConfig.registerJsonValueProcessor(java.sql.Date.class,new DateJsonValueProcessor("yyyy-MM-dd"));
-			jsonConfig.registerJsonValueProcessor(Date.class,new DateJsonValueProcessor("yyyy-MM-dd"));
-			JSONArray jsonobject =JSONArray.fromObject(resultList,jsonConfig);
-			
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.registerJsonValueProcessor(java.sql.Date.class,
+					new DateJsonValueProcessor("yyyy-MM-dd"));
+			jsonConfig.registerJsonValueProcessor(Date.class,
+					new DateJsonValueProcessor("yyyy-MM-dd"));
+			JSONArray jsonobject = JSONArray.fromObject(resultList, jsonConfig);
+
 			ServletActionContext.getResponse().setContentType("text/html");
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
-			log.debug(jsonobject.get(0).toString());
-			ServletActionContext.getResponse().getWriter().write(jsonobject.get(0).toString());
+			if (log.isDebugEnabled()) {
+				log.debug(jsonobject.get(0).toString());
+			}
+			ServletActionContext.getResponse().getWriter()
+					.write(jsonobject.get(0).toString());
 			ServletActionContext.getResponse().getWriter().flush();
 			ServletActionContext.getResponse().getWriter().close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void json_encode(String value){
+
+	public void json_encode(String value) {
 		try {
 			ServletActionContext.getResponse().setContentType("text/html");
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
-			log.debug(value);
+			if (log.isDebugEnabled()) {
+				log.debug(value);
+			}
 			ServletActionContext.getResponse().getWriter().write(value);
 			ServletActionContext.getResponse().getWriter().flush();
 			ServletActionContext.getResponse().getWriter().close();
@@ -93,77 +101,84 @@ public class BaseAction extends ActionSupport{
 			e.printStackTrace();
 		}
 	}
-	public void json_encode(List<?> resultList) throws IOException{
-		
+
+	public void json_encode(List<?> resultList) throws IOException {
+
 		try {
-			JsonConfig jsonConfig=new JsonConfig();   
-			jsonConfig.registerJsonValueProcessor(java.sql.Date.class,new DateJsonValueProcessor("yyyy-MM-dd"));
-			jsonConfig.registerJsonValueProcessor(Date.class,new DateJsonValueProcessor("yyyy-MM-dd"));
-			JSONArray jsonobject =JSONArray.fromObject(resultList,jsonConfig);
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.registerJsonValueProcessor(java.sql.Date.class,
+					new DateJsonValueProcessor("yyyy-MM-dd"));
+			jsonConfig.registerJsonValueProcessor(Date.class,
+					new DateJsonValueProcessor("yyyy-MM-dd"));
+			JSONArray jsonobject = JSONArray.fromObject(resultList, jsonConfig);
 			ServletActionContext.getResponse().setContentType("text/html");
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
-			log.debug(jsonobject.toString());
-			ServletActionContext.getResponse().getWriter().write(jsonobject.toString());
+			if (log.isDebugEnabled()) {
+				log.debug(jsonobject.toString());
+			}
+			ServletActionContext.getResponse().getWriter()
+					.write(jsonobject.toString());
 			ServletActionContext.getResponse().getWriter().flush();
 			ServletActionContext.getResponse().getWriter().close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public UserModel getCurrentUser(){
+
+	public UserModel getCurrentUser() {
 		ActionContext actionContext = ActionContext.getContext();
-		Map<String,Object> session = actionContext.getSession();
-		if(session.get("LOGIN_USER") instanceof UserModel){
-			log.debug("loginuser:"+((UserModel) session.get("LOGIN_USER")).getLoginName());
+		Map<String, Object> session = actionContext.getSession();
+		if (session.get("LOGIN_USER") instanceof UserModel) {
+			log.debug("loginuser:"
+					+ ((UserModel) session.get("LOGIN_USER")).getLoginName());
 			return (UserModel) session.get("LOGIN_USER");
 		}
 		return null;
 	}
-	
-	public String string2Date(String time){
-		Date date=null;
+
+	public String string2Date(String time) {
+		Date date = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			date=formatter.parse(time);
+			date = formatter.parse(time);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(date);
-		
+
 	}
-	
-	public boolean isNull(Object value){
-		if(value==null||value.toString().equals("")){
+
+	public boolean isNull(Object value) {
+		if (value == null || value.toString().equals("")) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
-		
+
 	}
-	public String getIpAddr(HttpServletRequest request) {  
-	   	 String ip = request.getHeader("x-forwarded-for");  
-	   	 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
-	   	  ip = request.getHeader("Proxy-Client-IP");  
-	   	 }  
-	   	 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
-	   	  ip = request.getHeader("WL-Proxy-Client-IP");  
-	   	 }  
-	   	 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
-	   	  ip = request.getRemoteAddr();  
-	   	 }  
-	   	 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
-	   	  ip = request.getHeader("http_client_ip");  
-	   	 }  
-	   	 if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
-	   	  ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
-	   	 }  
-	   	 // 濡傛灉鏄绾т唬鐞嗭紝閭ｄ箞鍙栫涓�釜ip涓哄鎴穒p   
-	   	 if (ip != null && ip.indexOf(",") != -1) {  
-	   	  ip = ip.substring(ip.lastIndexOf(",") + 1, ip.length()).trim();  
-	   	 }  
-	   	 return ip;  
-	   	} 
+
+	public String getIpAddr(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("http_client_ip");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		// 濡傛灉鏄绾т唬鐞嗭紝閭ｄ箞鍙栫涓�釜ip涓哄鎴穒p
+		if (ip != null && ip.indexOf(",") != -1) {
+			ip = ip.substring(ip.lastIndexOf(",") + 1, ip.length()).trim();
+		}
+		return ip;
+	}
 }
