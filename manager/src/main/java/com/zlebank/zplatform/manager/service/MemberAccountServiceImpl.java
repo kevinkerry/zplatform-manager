@@ -33,7 +33,7 @@ import com.zlebank.zplatform.manager.service.iface.IMemberService;
  * @date 2015年11月10日 下午1:41:50
  * @since 
  */
-@Service
+@Service("memberAccountService")
 public class MemberAccountServiceImpl implements IMemberAccountService {
     @Autowired
     private FreezeAcctService fas;

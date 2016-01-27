@@ -10,6 +10,8 @@
  */
 package com.zlebank.zplatform.manager.exception;
 
+import java.util.ResourceBundle;
+
 import com.zlebank.zplatform.commons.exception.AbstractDescribeException;
 
 /**
@@ -41,5 +43,14 @@ public class TradeException extends AbstractDescribeException{
     public String getCode() {
         return code;
     }
+	/**
+	 *
+	 * @return
+	 */
+	@Override
+	public ResourceBundle getResourceBundle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

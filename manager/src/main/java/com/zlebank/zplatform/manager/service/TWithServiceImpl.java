@@ -51,7 +51,7 @@ import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.exception.TradeException;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.ITWithService;
-import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
+import com.zlebank.zplatform.member.bean.enums.MemberType;
 import com.zlebank.zplatform.member.dao.ParaDicDAO;
 import com.zlebank.zplatform.member.pojo.PojoMember;
 import com.zlebank.zplatform.member.pojo.PojoMerchDeta;
@@ -285,16 +285,16 @@ public class TWithServiceImpl
             map.put("messg", "会员不存在");
             return map;
         }
-        if (pm.getMembertype() == null) {
+        if (pm.getMemberType() == null) {
             map.put("messg", "会员不合法");
             return map;
         }
         // 个人账户+银行卡信息
-        if (BusinessActorType.INDIVIDUAL == pm.getMembertype()) {
+        if (MemberType.INDIVIDUAL == pm.getMemberType()) {
 
         }
         // 商户账户+银行卡信息
-        else if (BusinessActorType.ENTERPRISE == pm.getMembertype()) {
+        else if (MemberType.ENTERPRISE == pm.getMemberType()) {
             // 商户信息
             PojoMerchDeta merchPojo = merch.getMerchBymemberId(memberId);
             if (merchPojo == null) {
@@ -331,7 +331,7 @@ public class TWithServiceImpl
                     return map;
                 }
                 if (StringUtil.isEmpty(merchPojo.getParent())) {
-                    txnsWinth.setMerchId(String.valueOf(merchPojo.getMemId()));
+                    txnsWinth.setMerchId(String.valueOf(merchPojo.getMemid()));
                 } else {
                     PojoMerchDeta pMerchPojo = merch
                             .getMerchBymemberId(merchPojo.getParent());
@@ -344,7 +344,7 @@ public class TWithServiceImpl
                             : pMerchPojo.getBanknode());
                     txnsWinth.setMerchId(merchPojo.getParent());
                     txnsWinth
-                            .setSubMerchId(String.valueOf(merchPojo.getMemId()));
+                            .setSubMerchId(String.valueOf(merchPojo.getMemid()));
                 }
                 txnsWinth.setCardType(card.getType());
                 // 银行主行号
