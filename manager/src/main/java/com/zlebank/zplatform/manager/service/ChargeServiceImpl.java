@@ -39,6 +39,7 @@ import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IChargeService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
+import com.zlebank.zplatform.member.bean.enums.MemberType;
 import com.zlebank.zplatform.member.dao.ParaDicDAO;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
 import com.zlebank.zplatform.member.pojo.PojoMember;
@@ -104,8 +105,8 @@ public class ChargeServiceImpl
             ChargeBean chargeBean = BeanCopyUtil.copyBean(ChargeBean.class,
                     chargePojo);
             chargeBean.setAmount(chargePojo.getAmount().toYuan());
-            chargeBean.setMemberid(chargePojo.getMemberid().getMemberid());
-            chargeBean.setMemberName(chargePojo.getMemberid().getMembername());
+            chargeBean.setMemberid(chargePojo.getMemberid().getMemberId());
+            chargeBean.setMemberName(chargePojo.getMemberid().getMemberName());
             chargeBean.setIntime(DateUtil.formatDateTime(
                     DEFAULT_TIME_STAMP_FROMAT, chargePojo.getIntime()));
             chargeBean.setStexatime(DateUtil.formatDateTime(
@@ -146,10 +147,10 @@ public class ChargeServiceImpl
          cm.setIntime(new Date());
          cm.setInuser(userId);
          cm.setMemberid(member);
-         if(BusinessActorType.fromValue("01")==member.getMembertype()){
-             cm.setChargetype(BusinessActorType.INDIVIDUAL.getCode());
-         }else if(BusinessActorType.fromValue("02")==member.getMembertype()){
-             cm.setChargetype(BusinessActorType.ENTERPRISE.getCode());
+         if(MemberType.fromValue("01")==member.getMemberType()){
+             cm.setChargetype(MemberType.INDIVIDUAL.getCode());
+         }else if(MemberType.fromValue("02")==member.getMemberType()){
+             cm.setChargetype(MemberType.ENTERPRISE.getCode());
          }
          //渠道
          PojoParaDic changeno = paradic.getPrimay(CHARGENOINSTID);
@@ -210,8 +211,8 @@ public class ChargeServiceImpl
                 .getAmount().getAmount());
         tradeInfo.setBusiCode(CHARGEBUSICODE);
         tradeInfo.setChannelId(charge.getChargenoinstid());
-        tradeInfo.setPayMemberId(charge.getMemberid().getMemberid());
-        tradeInfo.setPayToMemberId(charge.getMemberid().getMemberid());
+        tradeInfo.setPayMemberId(charge.getMemberid().getMemberId());
+        tradeInfo.setPayToMemberId(charge.getMemberid().getMemberId());
         tradeInfo.setTxnseqno(charge.getChargeno());
         tradeInfo.setCommission(new BigDecimal(0));
         tradeInfo.setCharge(new BigDecimal(0));

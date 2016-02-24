@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			collapsible="false">		
 			<div style="padding-left:5px;padding-right:5px">
 		<form id="merchDateForm" action="pages/merchant/saveMerchDateMerchantAction.action" method="post" >
-		<input type="text" id="isDelegation" value="${merchMap.ISDELEGATION}" />
+		<input type="hidden" id="isDelegation" value="${merchMap.ISDELEGATION}" />
 		<input type="hidden" id="merchId" value="${merchMap.MERCHID}" />
 		<input type="hidden" id="flag_ins" value="${flag}" />
 				<table width="100%">

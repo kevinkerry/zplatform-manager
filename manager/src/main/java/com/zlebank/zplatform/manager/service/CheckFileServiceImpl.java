@@ -69,7 +69,7 @@ public class CheckFileServiceImpl
       for(PojoCheckFile li:checkLi){
           CheckFileBean checkfileb=    BeanCopyUtil.copyBean(CheckFileBean.class, li);
           checkfileb.setMerchName(li.getMerchno().getMerchname());
-          checkfileb.setMerchno(li.getMerchno().getMemberid());
+          checkfileb.setMerchno(li.getMerchno().getMemberId());
           checkfileb.setAmount(li.getAmount().toYuan());
           checkfileb.setBusName(li.getBusicode().getBusiName());
           checkfileb.setBusicode(li.getBusicode().getBusiCode());

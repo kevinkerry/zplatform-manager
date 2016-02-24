@@ -9,7 +9,7 @@ import com.zlebank.zplatform.manager.dao.object.LimitCreditSingleModel;
 import com.zlebank.zplatform.manager.dao.object.RiskCaseModel;
 import com.zlebank.zplatform.manager.dao.object.RiskModel;
 import com.zlebank.zplatform.manager.dao.object.WhitePanModel;
-import com.zlebank.zplatform.manager.exception.TradeException;
+import com.zlebank.zplatform.trade.exception.TradeException;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
 
 public interface IRiskService extends IBaseService<RiskModel, Long>{
