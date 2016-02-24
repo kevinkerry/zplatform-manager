@@ -171,7 +171,7 @@
 		<dependency>
 			<groupId>com.zlebank.zplatform</groupId>
 			<artifactId>zplatform-trade-core</artifactId>
-			<version>1.2.0-SNAPSHOT</version>
+			<version>1.2.0</version>
 		</dependency>
 
 		<!-- <dependency> <groupId>com.zlebank.zplatform</groupId> <artifactId>zplatform-trade-common</artifactId> 
@@ -216,6 +216,22 @@
 						<skipTests>true</skipTests>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>external.atlassian.jgitflow</groupId>
+					<artifactId>jgitflow-maven-plugin</artifactId>
+					<version>1.0-m5.1</version>
+					<configuration>
+						<allowSnapshots>true</allowSnapshots>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<flowInitContext>
+							<masterBranchName>master</masterBranchName>
+							<developBranchName>develop</developBranchName>
+						</flowInitContext>
+						<pushReleases>true</pushReleases>
+						<pushHotfixes>true</pushHotfixes>
+						<allowSnapshots>false</allowSnapshots>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -233,6 +249,10 @@
 				<configuration>
 					<skip>true</skip>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
