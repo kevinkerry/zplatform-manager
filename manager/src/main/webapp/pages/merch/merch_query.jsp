@@ -20,9 +20,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="left" style="padding-left:5px" width="15%">
 							<input  id="merchId_ins" maxlength="15"/>
 						</td>
-						<td align="right" width="10%">商户名称</td>
+						<td align="right" width="10%">企业名称</td>
 						<td align="left" style="padding-left: 5px" width="15%" >
-							<input  id="merchName_ins" maxlength="50"/>
+							<input  id="memberName_ins" maxlength="50"/>
 						</td>
 						
 						<td align="right">
@@ -57,9 +57,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					remoteSort: false,
 					columns:[
 					[
-						{field:'MEMBERID',title:' 会员编号',align:'center',width:120},
-						{field:'MERCHNAME',title:'商户名称',width:150,align:'center'},
-						{field:'LICENCENO',title:'营业执照号',width:120,align:'center'},
+						{field:'MEMBER_ID',title:' 会员编号',align:'center',width:120},
+						{field:'ENTERPRISE_NAME',title:'企业名称',width:150,align:'center'},
+						{field:'LICENCE_NO',title:'营业执照号',width:120,align:'center'},
 						{field:'CORPORATION',title:'法人名称',width:100,align:'center'}, 
 						{field:'CONTACT',title:'联系人',width:100,align:'center'},
 						{field:'STATUS',title:'状态',width:100,align:'center',
@@ -108,11 +108,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						{field:'DEPT_ID',title:'操作',width:100,align:'center',
 							formatter:function(value,rec){
 								if(rec.STATUS=='11'||rec.STATUS=='21'){
-									return '<a href="javascript:ToMerchChange('+rec.MERCHID+')" style="color:blue;margin-left:10px">修改</a>&nbsp;<a href="javascript:ToMerchDetail('+rec.MERCHID+')" style="color:blue;margin-left:10px">详情</a>';
+									return '<a href="javascript:toMerchChange('+rec.SELF_ID+')" style="color:blue;margin-left:10px">修改</a>&nbsp;<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
 								}else if(rec.STATUS=='12'){
-									return '<a href="javascript:toUpload('+rec.MERCHID+')" style="color:blue;margin-left:10px">上传证件照片</a>';
+									return '<a href="javascript:toUpload('+rec.SELF_ID+')" style="color:blue;margin-left:10px">上传证件照片</a>';
 								}else{
-									return '<a href="javascript:ToMerchDetail('+rec.MERCHID+')" style="color:blue;margin-left:10px">详情</a>';
+									return '<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
 								}
 							}
 						}
@@ -143,9 +143,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				//	idField:'ORGAN_ID',
 					columns:[
 					[
-						{field:'MEMBERID',title:' 会员编号',align:'center',width:120},
-						{field:'MERCHNAME',title:'商户名称',width:100,align:'center'},
-						{field:'LICENCENO',title:'营业执照号',width:80,align:'center'},
+						{field:'MEMBER_ID',title:' 会员编号',align:'center',width:120},
+						{field:'ENTERPRISE_NAME',title:'商户名称',width:100,align:'center'},
+						{field:'LICENCE_NO',title:'营业执照号',width:80,align:'center'},
 						{field:'CORPORATION',title:'法人名称',width:80,align:'center'}, 
 						{field:'CONTACT',title:'联系人',width:100,align:'center'},
 						{field:'STATUS',title:'状态',width:100,align:'center',
@@ -192,11 +192,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						{field:'DEPT_ID',title:'操作',width:100,align:'center',
 							formatter:function(value,rec){
 								if(flag=='1'){
-									return '<a href="javascript:ToMerchChange('+rec.MERCHID+')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:ToMerchDetail('+rec.MERCHID+')" style="color:blue;margin-left:10px">详情</a>';
+									return '<a href="javascript:toMerchChange('+rec.SELF_ID+')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
 								}else if(flag=='2'){
-									return '<a href="javascript:ToMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">审核</a>';
+									return '<a href="javascript:toMerchAudit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">审核</a>';
 								}else{
-									return '<a href="javascript:ToMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">复核</a>';
+									return '<a href="javascript:toMerchAudit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">复核</a>';
 								}
 							}
 					  }
@@ -224,27 +224,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function search(){
 			//var url="pages/merchant/queryMerchMerchantAction.action?flag="+$("#flag").val();
 			var data={
-					'merchDate.memberid':$('#merchId_ins').val(),
-					'merchDate.merchname':$('#merchName_ins').val()
+					'merchDeta.member.memberId':$('#merchId_ins').val(),
+					'merchDeta.member.memberName':$('#memberName_ins').val()
 					};
 			$('#test').datagrid('load',data);
 		}
-		function ToMerchChange(merchid){
-			window.location.href= "<%=basePath%>" +'/pages/merchant/ToMerchChangeMerchantAction.action?merchId='+merchid;
+		function toMerchChange(merchApplyId){
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchChangeMerchantAction.action?merchApplyId='+merchApplyId;
 			//window.event.returnValue = false;
 		}
 
-		function ToMerchDetail(merchid){
-			window.location.href= "<%=basePath%>" +'/pages/merchant/ToMerchDetailMerchantAction.action?merchId='+merchid;
+		function toMerchDetail(merchApplyId){
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+merchApplyId;
 			//window.event.returnValue = false;
 		}
-		function ToMerchAudit(merchid){
+		function toMerchAudit(merchApplyId){
 			flag=$('#flag_ins').val();
-			window.location.href= "<%=basePath%>" +'/pages/merchant/ToMerchDetailMerchantAction.action?merchId='+merchid+'&flag='+flag;
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+merchApplyId+'&flag='+flag;
 			//window.event.returnValue = false;
 		}
-		function toUpload(merchid){
-			window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchId='+merchid;
+		function toUpload(merchApplyId){
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+merchApplyId;
 		}
 		
 	</script>

@@ -1,24 +1,23 @@
 package com.zlebank.zplatform.manager.action.merch;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.bean.Enterprise;
+import com.zlebank.zplatform.manager.bean.MerchDeta;
 import com.zlebank.zplatform.manager.dao.object.CityModel;
-import com.zlebank.zplatform.manager.dao.object.MerchDetaModel;
 import com.zlebank.zplatform.manager.dao.object.ProvinceModel;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
@@ -36,7 +35,8 @@ public class MerchDetaAction extends BaseAction {
     private String vid;
     private String flag;// 标记流程 1商户信息管理列表 2初审查询列表 3复审查询列表 5商户初审审核页面 10商户查询页面
     private String bankName;
-    private MerchDetaModel merchDate;
+    private MerchDeta merchDeta;
+    private Enterprise enterprise;
     private Map<String, Object> merchMap;
     private File headImage;
     private String headImageFileName; // 文件名称
@@ -50,6 +50,11 @@ public class MerchDetaAction extends BaseAction {
     private String isAgree;
     private String oldBankName;
     private String fouceDownload;
+    private String merchApplyId;
+    private String deposit;
+    private String charge;
+    private String merchStatus;
+    private final static BigDecimal HUNDERED = new BigDecimal(100);
 
     // 商户信息管理页面
     public String show() {
@@ -86,72 +91,44 @@ public class MerchDetaAction extends BaseAction {
         return "merch_query_all";
     }
 
-    // 商户修改页面
-    public String ToMerchChange() {
-        /*Long userId = getCurrentUser().getUserId();
-        merchMap = serviceContainer.getMerchDetaService().queryOneMerchDeta(
-                merchDate.getMerchid(), userId);*/
-        merchDate = serviceContainer.getMerchDetaService().get(Long.parseLong(merchId));
-        oldBankName = serviceContainer.getMerchDetaService().queryBankName(merchDate.getBanknode(), merchDate.getBankcode());
-        return "merch_change";
-    }
-
-    // 查看某一条商户信息,查看商户详细信息
-    public String ToMerchDetail() {
-        Long userId = getCurrentUser().getUserId();
-        merchMap = serviceContainer.getMerchDetaService().queryOneMerchDeta(
-                Long.parseLong(merchId), userId);
-        return "merch_detail";
-    }
-
     /**
      * 保存商户信息
      * 
      * @return
      */
-    public String saveMerchDate() {
-        String codeANDnode = merchDate.getBanknode();
+    public String saveMerchDeta() {
+        String codeANDnode = merchDeta.getBankNode();
         if (!"".equals(codeANDnode) && null != codeANDnode) {
             Object[] paramaters = codeANDnode.split(",");
-            merchDate.setBankcode(paramaters[0].toString());
-            merchDate.setBanknode(paramaters[1].toString());
+            merchDeta.setBankCode(paramaters[0].toString());
+            merchDeta.setBankNode(paramaters[1].toString());
         }
-        if (merchDate.getIsDelegation() == null) {
-            merchDate.setIsDelegation(0);
+        if (enterprise.getIsDelegation() == null) {
+            enterprise.setIsDelegation(0L);
+        }
+
+        if (charge == null || charge.equals("")) {
+            merchDeta.setCharge(Money.ZERO);
+        } else {
+            merchDeta.setCharge(Money.valueOf(new BigDecimal(charge)
+                    .multiply(HUNDERED)));
+        }
+
+        if (deposit == null || deposit.equals("")) {
+            merchDeta.setDeposit(Money.ZERO);
+        } else {
+            merchDeta.setDeposit(Money.valueOf(new BigDecimal(deposit)
+                    .multiply(HUNDERED)));
         }
 
         UserModel currentUser = getCurrentUser();
-        merchDate.setInuser(String.valueOf(currentUser.getUserId()));
+        merchDeta.setmInUser(currentUser.getUserId());
+        merchDeta.setMember(enterprise);
         List<?> resultlist = serviceContainer.getMerchDetaService()
-                .saveMerchDeta(merchDate);
+                .saveMerchDeta(merchDeta);
 
         json_encode(resultlist.get(0));
 
-        return null;
-    }
-
-    public String toUpload() {
-        merchDate = serviceContainer.getMerchDetaService().get(Long.parseLong(merchId));
-        if (merchDate == null) {
-        }
-
-        return "toUpload";
-    }
-
-    /**
-     * 修改商户信息
-     * 
-     * @return
-     */
-    public String saveChangeMerchDate() {
-        if (merchDate.getIsDelegation() == null) {
-            merchDate.setIsDelegation(0);
-        } 
-        merchDate.setMerchid(Long.parseLong(merchId));
-        List<?> resultlist = serviceContainer.getMerchDetaService()
-                .saveChangeMerchDeta(merchDate);
-        merchDate.setInuser(String.valueOf(getCurrentUser().getUserId()));
-        json_encode(resultlist.get(0));
         return null;
     }
 
@@ -163,283 +140,43 @@ public class MerchDetaAction extends BaseAction {
     public String queryMerch() {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("userId", getCurrentUser().getUserId());
-        if (merchDate == null) {
-            merchDate = new MerchDetaModel();
+        if (merchDeta != null) {
+            variables.put("merberId", merchDeta.getMember().getMemberId());
+            variables.put("merchName", merchDeta.getMember().getMemberName());
+            variables.put("address",
+                    ((Enterprise) merchDeta.getMember()).getAddress());
+            variables.put("status", merchStatus);
+            variables.put(
+                    "coopInstiId",
+                    merchDeta.getMember().getInstiCode() != null ? merchDeta
+                            .getMember() : null);
         }
-        variables.put("merberId", merchDate.getMemberid());
-        variables.put("merchName", merchDate.getMerchname());
-        variables.put("address", merchDate.getAddress());
-        variables.put("status", merchDate.getStatus());
+
         variables.put("flag", flag);
-        variables.put("coopInstiId", merchDate.getCoopInsti()!=null?merchDate.getCoopInsti().getId():null);
         Map<String, Object> merchList = serviceContainer.getMerchDetaService()
                 .findMerchByPage(variables, getPage(), getRows());
         json_encode(merchList);
-        // FTPClient ff= new FTPClient();
         return null;
     }
-
-    // 商户秘钥下载
-    public String loadMerchMk() {
-        if (memberId != null && !memberId.equals("")) {
-        }
-        merchMap = serviceContainer.getMerchDetaService().loadMerchMk(memberId);
-        if (merchMap == null) {
-            json_encode("没有密钥");
-            return null;
-        }
-        return "merch_mk_export";
-    }
-
     /**
-     * 商户审核（通过，否决，驳回） --0 通过 1 拒绝 9 终止
-     * 
-     * @return
-     * @throws Exception
-     */
-    public String audit() throws Exception { 
-        
-        merchDate.setMerchid(Long.parseLong(merchId));
-        //初审意见和复审意见，在页面中都是通过merchDate.stexaopt传过来的
-        String stexopt = URLDecoder.decode(merchDate.getStexaopt(), "utf-8");
-        if(flag.equals("2")){//初审，需要记录初审人和初审意见
-            
-            merchDate.setStexaopt(stexopt);
-            merchDate.setStexauser(String.valueOf(getCurrentUser().getUserId()));
-        }else if(flag.equals("3")){//复审，需要记录复审人和复审意见
-            merchDate.setCvlexaopt(stexopt);
-            merchDate.setCvlexauser(String.valueOf(getCurrentUser().getUserId()));
-        } 
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> resultlist = (List<Map<String, Object>>) serviceContainer
-                .getMerchDetaService().merchAudit(merchDate, flag,isAgree);
-        json_encode(resultlist);
-        return null;
-    }
-
-     
-    /**
-     * get cert img url
+     * 跳转到上传证件页面
      * 
      * @return
      */
-    public String downloadImgUrl() {
-        String webRootPath = ServletActionContext.getServletContext().getRealPath("/");
-        String realpath = webRootPath+"/"+CommonUtil.DOWNLOAD_ROOTPATH;
-        boolean fouce = (fouceDownload!=null&&fouceDownload.equals("fouce"));
-        String filePath = serviceContainer.getMerchDetaService()
-                .downloadFromFtp(Long.parseLong(merchId), realpath,
-                        CertType.format(certTypeCode),fouce);
-        Map<String, String> result = new HashMap<String, String>();
-       if(filePath==null) {
-           result.put("status", "fail"); 
-       }else if(filePath.equals("")){
-           result.put("status", "notExist");
-       } else{
-           result.put("status", "OK");
-           result.put("url", filePath);
-           new MerchantThread(webRootPath + "/" + filePath).start();
-       }
-        json_encode(result);
-        return null;
-    }
-
-    // 加载商户新增页面所有下拉框
-    // 省
-    public String queryProvince() {
-        try {
-            List<ProvinceModel> provinceList = serviceContainer
-                    .getProvinceService().findAll();
-            json_encode(provinceList);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public String toUpload() {
+        merchDeta = serviceContainer.getMerchDetaService().getBean(
+                Long.parseLong(merchApplyId));
+        if (merchDeta == null) {
+            // TODO return merchant not exist error
         }
-        return null;
+
+        return "toUpload";
     }
 
-    // 市
-    public String queryCity() {
-        try {
-            List<CityModel> cityList = serviceContainer.getCityService()
-                    .findNotMuniByPid(pid);
-            json_encode(cityList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 县
-    public String queryCounty() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryCounty(pid);
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 所属行业
-    public String queryTrate() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryTrade();
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 商户类型
-    public String queryMerchType() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryMerchType();
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 商户清算类型
-    public String queryMerchClearType() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .querysetltype();
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 所属商户
-    public String showMerchParent() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryMerchParent();
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 关键字查询开户行
-    public String queryBankNode() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryBankNode(bankName, getPage(), getRows());
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 收银台
-    public String queryCash() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryCashAll();
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 交易渠道
-    public String queryChnlnameAll() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryChnlnameAll();
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 路由版本
-    public String queryRouteAll() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryRouteAll();
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 产品下的风控版本
-    public String queryRiskType() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryRiskType(vid);
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 产品下的分润版本
-    public String querySplit() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .querySplit(vid);
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 产品下的扣率版本
-    public String queryFee() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .queryFee(vid);
-            json_encode(countyList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 清算周期
-    public String querySetlcycleAll() {
-        try {
-            List<?> countyList = serviceContainer.getMerchDetaService()
-                    .querySetlcycleAll();
-            json_encode(countyList);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // -----------------------------------------------------------------------------------------------------------
-    // 上传文件FTP
+    /**
+     * 
+     * @return
+     */
     public String upload() {
         Map<String, String> result = new HashMap<String, String>();
         if (certTypeCode == null || certTypeCode.equals("")) {
@@ -450,7 +187,7 @@ public class MerchDetaAction extends BaseAction {
 
         IMerchDetaService merchDetaService = serviceContainer
                 .getMerchDetaService();
-        boolean isSucc = merchDetaService.upload(Long.parseLong(merchId),
+        boolean isSucc = merchDetaService.upload(Long.parseLong(merchApplyId),
                 headImageFileName, headImage, certType);
         if (isSucc) {
             result.put("status", "OK");
@@ -461,134 +198,48 @@ public class MerchDetaAction extends BaseAction {
         return null;
     }
 
-    public String commitMerch() {
+    /**
+     * get cert img url
+     * 
+     * @return
+     */
+    public String downloadImgUrl() {
+        String webRootPath = ServletActionContext.getServletContext()
+                .getRealPath("/");
+        String realpath = webRootPath + "/" + CommonUtil.DOWNLOAD_ROOTPATH;
+        boolean fouce = (fouceDownload != null && fouceDownload.equals("fouce"));
+        String filePath = serviceContainer.getMerchDetaService()
+                .downloadFromFtp(Long.parseLong(merchApplyId), realpath,
+                        CertType.format(certTypeCode), fouce);
         Map<String, String> result = new HashMap<String, String>();
-        IMerchDetaService merchDetaService = serviceContainer
-                .getMerchDetaService();
-        boolean isSucc = merchDetaService.commitMerch(Long.parseLong(merchId));
-        if (isSucc) {
-            result.put("status", "OK");
+        if (filePath == null) {
+            result.put("status", "fail");
+        } else if (filePath.equals("")) {
+            result.put("status", "notExist");
         } else {
-            result.put("status", "FAIL");
+            result.put("status", "OK");
+            result.put("url", filePath);
+            new MerchantThread(webRootPath + "/" + filePath).start();
         }
         json_encode(result);
         return null;
     }
 
-    @SuppressWarnings("resource")
-    public long getFileSizes(File f) throws Exception {// 取得文件大小
-        long s = 0;
-        if (f.exists()) {
-            FileInputStream fis = null;
-            fis = new FileInputStream(f);
-            s = fis.available();
-        } else {
-            f.createNewFile();
-        }
-        return s;
-    }
-
-    public ServiceContainer getServiceContainer() {
-        return serviceContainer;
-    }
-
-    public void setServiceContainer(ServiceContainer serviceContainer) {
-        this.serviceContainer = serviceContainer;
-    }
-
-    public long getPid() {
-        return pid;
-    }
-
-    public void setPid(long pid) {
-        this.pid = pid;
-    }
-
-    public MerchDetaModel getMerchDate() {
-        return merchDate;
-    }
-
-    public void setMerchDate(MerchDetaModel merchDate) {
-        this.merchDate = merchDate;
-    }
-
-    public String getFlag() {
-        return flag;
-    }
-
-    public void setFlag(String flag) {
-        this.flag = flag;
-    }
-
     /**
-     * 重命名上传文件
+     * 商户修改页面
      * 
-     * @param fileName
      * @return
      */
-    public String generateFileName(String fileName) {
-        String formatDate = new SimpleDateFormat("yyMMddHHmmss")
-                .format(new Date());
-        int random = new Random().nextInt(10000);
-        int position = fileName.lastIndexOf(".");
-        String extension = fileName.substring(position);
-        return formatDate + random + extension;
-    }
+    public String toMerchChange() {
+        merchDeta = serviceContainer.getMerchDetaService().getBean(
+                Long.parseLong(merchApplyId));
+        oldBankName = serviceContainer.getMerchDetaService().queryBankName(
+                merchDeta.getBankNode(), merchDeta.getBankCode());
 
-    public File getHeadImage() {
-        return headImage;
-    }
+        charge = merchDeta.getCharge().toString();
+        deposit = merchDeta.getDeposit().toString();
 
-    public void setHeadImage(File headImage) {
-        this.headImage = headImage;
-    }
-
-    public String getHeadImageFileName() {
-        return headImageFileName;
-    }
-
-    public void setHeadImageFileName(String headImageFileName) {
-        this.headImageFileName = headImageFileName;
-    }
-
-    public String getHeadImageContentType() {
-        return headImageContentType;
-    }
-
-    public void setHeadImageContentType(String headImageContentType) {
-        this.headImageContentType = headImageContentType;
-    }
-
-    public String getBankName() {
-        return bankName;
-    }
-
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
-    }
-
-    public Map<String, Object> getMerchMap() {
-        return merchMap;
-    }
-
-    public void setMerchMap(Map<String, Object> merchMap) {
-        this.merchMap = merchMap;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
+        return "merch_change";
     }
 
     public class MerchantThread extends Thread {
@@ -615,8 +266,8 @@ public class MerchDetaAction extends BaseAction {
          */
         @SuppressWarnings("static-access")
         public void deleteFile(String sPath) {
-            try {//保留一小时
-                Thread.currentThread().sleep(1000*60*60);
+            try {// 保留一小时
+                Thread.currentThread().sleep(1000 * 60 * 60);
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -635,6 +286,413 @@ public class MerchDetaAction extends BaseAction {
         public void setsPath(String sPath) {
             this.sPath = sPath;
         }
+    }
+
+    /**
+     * 修改商户信息
+     * 
+     * @return
+     */
+    public String saveChangeMerchDeta() {
+        if (merchDeta.getMember().getIsDelegation() == null) {
+            merchDeta.getMember().setIsDelegation(0L);
+        }
+
+        if (merchDeta.getMember().getIsDelegation() == null) {
+            merchDeta.getMember().setIsDelegation(0L);
+        }
+
+        if (charge == null || charge.equals("")) {
+            merchDeta.setCharge(Money.ZERO);
+        } else {
+            merchDeta.setCharge(Money.valueOf(new BigDecimal(charge)
+                    .multiply(HUNDERED)));
+        }
+
+        if (deposit == null || deposit.equals("")) {
+            merchDeta.setDeposit(Money.ZERO);
+        } else {
+            merchDeta.setDeposit(Money.valueOf(new BigDecimal(deposit)
+                    .multiply(HUNDERED)));
+        }
+
+        List<?> resultlist = serviceContainer.getMerchDetaService()
+                .saveChangeMerchDeta(Long.parseLong(merchApplyId), merchDeta);
+        merchDeta.setmInUser(getCurrentUser().getUserId());
+        json_encode(resultlist.get(0));
+        return null;
+    }
+
+    /**
+     * 商户申请提交
+     * 
+     * @return
+     */
+    public String commitMerch() {
+        Map<String, String> result = new HashMap<String, String>();
+        IMerchDetaService merchDetaService = serviceContainer
+                .getMerchDetaService();
+        boolean isSucc = merchDetaService.commitMerch(Long
+                .parseLong(merchApplyId));
+        if (isSucc) {
+            result.put("status", "OK");
+        } else {
+            result.put("status", "FAIL");
+        }
+        json_encode(result);
+        return null;
+    }
+
+    /**
+     * 查看某一条商户信息,查看商户详细信息
+     * 
+     * @return
+     */
+    public String toMerchDetail() {
+        Long userId = getCurrentUser().getUserId();
+        merchMap = serviceContainer.getMerchDetaService().queryApplyMerchDeta(
+                Long.parseLong(merchApplyId), userId);
+        return "merch_detail";
+    }
+
+    /**
+     * 商户审核（通过，否决，驳回） --0 通过 1 拒绝 9 终止
+     * 
+     * @return
+     * @throws Exception
+     */
+    public String audit() throws Exception {
+
+        // 初审意见和复审意见，在页面中都是通过merchDate.stexaopt传过来的
+        String stexopt = URLDecoder.decode(merchDeta.getStexaOpt(), "utf-8");
+        if (flag.equals("2")) {// 初审，需要记录初审人和初审意见
+            merchDeta.setStexaOpt(stexopt);
+            merchDeta.setStexaUser(getCurrentUser().getUserId());
+        } else if (flag.equals("3")) {// 复审，需要记录复审人和复审意见
+            merchDeta.setCvlexaOpt(stexopt);
+            merchDeta.setCvlexaUser(getCurrentUser().getUserId());
+        }
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultlist = (List<Map<String, Object>>) serviceContainer
+                .getMerchDetaService().merchAudit(Long.parseLong(merchApplyId),
+                        merchDeta, flag, isAgree);
+        json_encode(resultlist);
+        return null;
+    }
+
+    /**
+     * 商户秘钥下载
+     * 
+     * @return
+     */
+    public String loadMerchMk() {
+        if (memberId != null && !memberId.equals("")) {
+        }
+        merchMap = serviceContainer.getMerchDetaService().loadMerchMk(memberId);
+        if (merchMap == null) {
+            json_encode("没有密钥");
+            return null;
+        }
+        return "merch_mk_export";
+    }
+    /**
+     * 查询正式在用的商户详细信息    
+     * @return
+     */
+    public String toOfficalMerchDetail(){
+        Long userId = getCurrentUser().getUserId();
+        merchMap = serviceContainer.getMerchDetaService().queryMerchDeta(
+                Long.parseLong(merchId), userId);
+        return "merch_detail";
+    }
+    
+    
+    /*
+     * 加载商户新增页面所有下拉框。这部分违反单一职责，考虑将这部分责任分散到对应的action中
+     */
+    /**
+     * 省
+     * 
+     * @return
+     */
+    public String queryProvince() {
+        try {
+            List<ProvinceModel> provinceList = serviceContainer
+                    .getProvinceService().findAll();
+            json_encode(provinceList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 市
+     * 
+     * @return
+     */
+    public String queryCity() {
+        try {
+            List<CityModel> cityList = serviceContainer.getCityService()
+                    .findNotMuniByPid(pid);
+            json_encode(cityList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 县
+     * 
+     * @return
+     */
+    public String queryCounty() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryCounty(pid);
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 所属行业
+     * 
+     * @return
+     */
+    public String queryTrate() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryTrade();
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 商户类型
+     * 
+     * @return
+     */
+    public String queryMerchType() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryMerchType();
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 商户清算类型
+     * 
+     * @return
+     */
+    public String queryMerchClearType() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .querysetltype();
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 所属商户
+     * 
+     * @return
+     */
+    public String showMerchParent() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryMerchParent();
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 关键字查询开户行
+     * 
+     * @return
+     */
+    public String queryBankNode() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryBankNode(bankName, getPage(), getRows());
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 收银台版本
+     * 
+     * @return
+     */
+    public String queryCash() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryCashAll();
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 交易渠道
+     * 
+     * @return
+     */
+    public String queryChnlnameAll() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryChnlnameAll();
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 路由版本
+     * 
+     * @return
+     */
+    public String queryRouteAll() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryRouteAll();
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 风控版本
+     * 
+     * @return
+     */
+    public String queryRiskType() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryRiskType(vid);
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 分润版本
+     * 
+     * @return
+     */
+    public String querySplit() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .querySplit(vid);
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 扣率版本
+     * 
+     * @return
+     */
+    public String queryFee() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .queryFee(vid);
+            json_encode(countyList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 清算周期
+     * 
+     * @return
+     */
+    public String querySetlcycleAll() {
+        try {
+            List<?> countyList = serviceContainer.getMerchDetaService()
+                    .querySetlcycleAll();
+            json_encode(countyList);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ServiceContainer getServiceContainer() {
+        return serviceContainer;
+    }
+
+    public void setServiceContainer(ServiceContainer serviceContainer) {
+        this.serviceContainer = serviceContainer;
+    }
+
+    public long getPid() {
+        return pid;
+    }
+
+    public void setPid(long pid) {
+        this.pid = pid;
+    }
+
+    public MerchDeta getMerchDeta() {
+        return merchDeta;
+    }
+
+    public void setMerchDate(MerchDeta merchDeta) {
+        this.merchDeta = merchDeta;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
     public String getVid() {
@@ -683,5 +741,105 @@ public class MerchDetaAction extends BaseAction {
 
     public void setFouceDownload(String fouceDownload) {
         this.fouceDownload = fouceDownload;
+    }
+
+    public void setMerchDeta(MerchDeta merchDeta) {
+        this.merchDeta = merchDeta;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
+    }
+
+    public Map<String, Object> getMerchMap() {
+        return merchMap;
+    }
+
+    public void setMerchMap(Map<String, Object> merchMap) {
+        this.merchMap = merchMap;
+    }
+
+    public File getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(File headImage) {
+        this.headImage = headImage;
+    }
+
+    public String getHeadImageFileName() {
+        return headImageFileName;
+    }
+
+    public void setHeadImageFileName(String headImageFileName) {
+        this.headImageFileName = headImageFileName;
+    }
+
+    public String getHeadImageContentType() {
+        return headImageContentType;
+    }
+
+    public void setHeadImageContentType(String headImageContentType) {
+        this.headImageContentType = headImageContentType;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public String getMerchApplyId() {
+        return merchApplyId;
+    }
+
+    public void setMerchApplyId(String merchApplyId) {
+        this.merchApplyId = merchApplyId;
+    }
+
+    public String getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(String deposit) {
+        this.deposit = deposit;
+    }
+
+    public String getCharge() {
+        return charge;
+    }
+
+    public void setCharge(String charge) {
+        this.charge = charge;
+    }
+
+    public String getMerchStatus() {
+        return merchStatus;
+    }
+
+    public void setMerchStatus(String merchStatus) {
+        this.merchStatus = merchStatus;
     }
 }

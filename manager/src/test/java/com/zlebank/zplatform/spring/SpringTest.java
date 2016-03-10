@@ -18,7 +18,7 @@ public class SpringTest {
 		context = new ClassPathXmlApplicationContext("/spring/*");
 		IMerchDetaService merchDetaService =(IMerchDetaService) context.getBean("merchDetaService");
 		try {
-			merchDetaService.merchAudit(null, "3","1");
+			//merchDetaService.merchAudit(null, "3","1");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
