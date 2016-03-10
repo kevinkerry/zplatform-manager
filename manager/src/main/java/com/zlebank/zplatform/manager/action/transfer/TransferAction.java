@@ -32,6 +32,9 @@ import com.zlebank.zplatform.manager.enums.TransFerDataStatusEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.ITransferBatchService;
 import com.zlebank.zplatform.manager.service.iface.ITransferService;
+import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
+import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
+import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 
 /**
  * 划拨
@@ -43,283 +46,343 @@ import com.zlebank.zplatform.manager.service.iface.ITransferService;
  */
 public class TransferAction extends BaseAction {
 
-    /**
-     * serialVersionUID
-     */
-    private static final long serialVersionUID = 1L;
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private String falg;
+	private String falg;
 
-    @Autowired
-    private ITransferService transfer;
-    @Autowired
-    private ITransferBatchService batchservice;
+	@Autowired
+	private ITransferService transfer;
+	@Autowired
+	private ITransferBatchService batchservice;
 
-    private TransferDataQuery transQuery;
+	private TransferDataQuery transQuery;
 
-    private AuditBean ftb;
+	private AuditBean ftb;
 
-    private TransferBatchQuery tbq;
-    
-    private String batchno;
+	private TransferBatchQuery tbq;
 
-    public String getBatchno() {
-        return batchno;
-    }
+	private String batchno;
 
-    public void setBatchno(String batchno) {
-        this.batchno = batchno;
-    }
+	public String getBatchno() {
+		return batchno;
+	}
 
-    public TransferBatchQuery getTbq() {
-        return tbq;
-    }
+	public void setBatchno(String batchno) {
+		this.batchno = batchno;
+	}
 
-    public void setTbq(TransferBatchQuery tbq) {
-        this.tbq = tbq;
-    }
+	public TransferBatchQuery getTbq() {
+		return tbq;
+	}
 
-    public AuditBean getFtb() {
-        return ftb;
-    }
+	public void setTbq(TransferBatchQuery tbq) {
+		this.tbq = tbq;
+	}
 
-    public void setFtb(AuditBean ftb) {
-        this.ftb = ftb;
-    }
+	public AuditBean getFtb() {
+		return ftb;
+	}
 
-    public String getFalg() {
-        return falg;
-    }
+	public void setFtb(AuditBean ftb) {
+		this.ftb = ftb;
+	}
 
-    public void setFalg(String falg) {
-        this.falg = falg;
-    }
+	public String getFalg() {
+		return falg;
+	}
 
-    public TransferDataQuery getTransQuery() {
-        return transQuery;
-    }
+	public void setFalg(String falg) {
+		this.falg = falg;
+	}
 
-    public void setTransQuery(TransferDataQuery transQuery) {
-        this.transQuery = transQuery;
-    }
+	public TransferDataQuery getTransQuery() {
+		return transQuery;
+	}
 
-    public String getTrinsfer() {
-        return this.SUCCESS;
-    }
+	public void setTransQuery(TransferDataQuery transQuery) {
+		this.transQuery = transQuery;
+	}
 
-    /**
-     * 通过条件查询划拨数据
-     */
-    public void queryTrinsfer() {
-        int page = this.getPage();
-        int pageSize = this.getRows();
-        Map<String, Object> map = new HashMap<String, Object>();
+	public String getTrinsfer() {
+		return this.SUCCESS;
+	}
 
-        if (StringUtil.isNotEmpty(falg)) {
-            if (transQuery == null) {
-                transQuery = new TransferDataQuery();
-            }
-            if ("first".equals(falg)) {
-                transQuery.setStatus(TransFerDataStatusEnum.FIRSTTRIAL
-                        .getCode());
-            } else if ("second".equals(falg)) {
-                transQuery.setStatus(TransFerDataStatusEnum.SECONDTRIAL
-                        .getCode());
-            }
+	/**
+	 * 通过条件查询划拨数据
+	 */
+	public void queryTrinsfer() {
+		int page = this.getPage();
+		int pageSize = this.getRows();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-        }
-        PagedResult<TransferData> pr = transfer.queryPaged(page, pageSize,
-                transQuery);
-        try {
-            List<TransferData> li = pr.getPagedResult();
-            Long total = pr.getTotal();
-            map.put("total", total);
-            map.put("rows", li);
-            json_encode(map);
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * 根据条件进行审核
-     */
-   public void secondAuditByConditions(){
-       Long userId = getCurrentUser().getUserId();
-       ftb.setStexauser(userId);
-       String messg = null;
-       if (transQuery == null) {
-           transQuery = new TransferDataQuery();
-       }
-       if (StringUtil.isNotEmpty(falg)) {
-           if (transQuery == null) {
-               transQuery = new TransferDataQuery();
-           }
-           if ("first".equals(falg)) {
-               transQuery.setStatus(TransFerDataStatusEnum.FIRSTTRIAL
-                       .getCode());
-           } else if ("second".equals(falg)) {
-               transQuery.setStatus(TransFerDataStatusEnum.SECONDTRIAL
-                       .getCode());
-           }
+		if (StringUtil.isNotEmpty(falg)) {
+			if (transQuery == null) {
+				transQuery = new TransferDataQuery();
+			}
+			if ("first".equals(falg)) {
+				transQuery.setStatus(TransFerDataStatusEnum.FIRSTTRIAL
+						.getCode());
+			} else if ("second".equals(falg)) {
+				transQuery.setStatus(TransFerDataStatusEnum.SECONDTRIAL
+						.getCode());
+			}
 
-       }
-       try {
-           transfer.secondAuditByConditions(ftb, transQuery,falg);
-           messg = "操作成功";
-       } catch (ManagerWithdrawException e) {
-           messg = e.getMessage();
-       } catch (AccBussinessException e) {
-           messg = e.getMessage();
-       } catch (AbstractBusiAcctException e) {
-           messg = e.getMessage();
-       } catch (NumberFormatException e) {
-           messg = e.getMessage();
-       }
+		}
+		PagedResult<TransferData> pr = transfer.queryPaged(page, pageSize,
+				transQuery);
+		try {
+			List<TransferData> li = pr.getPagedResult();
+			Long total = pr.getTotal();
+			map.put("total", total);
+			map.put("rows", li);
+			json_encode(map);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-       json_encode(messg);
-       
-   } 
+	/**
+	 * 根据条件进行审核
+	 */
+	public void secondAuditByConditions() {
+		Long userId = getCurrentUser().getUserId();
+		ftb.setStexauser(userId);
+		String messg = null;
+		if (transQuery == null) {
+			transQuery = new TransferDataQuery();
+		}
+		if (StringUtil.isNotEmpty(falg)) {
+			if (transQuery == null) {
+				transQuery = new TransferDataQuery();
+			}
+			if ("first".equals(falg)) {
+				transQuery.setStatus(TransFerDataStatusEnum.FIRSTTRIAL
+						.getCode());
+			} else if ("second".equals(falg)) {
+				transQuery.setStatus(TransFerDataStatusEnum.SECONDTRIAL
+						.getCode());
+			}
 
-    
+		}
+		try {
+			transfer.secondAuditByConditions(ftb, transQuery, falg);
+			messg = "操作成功";
+		} catch (ManagerWithdrawException e) {
+			messg = e.getMessage();
+		} catch (AccBussinessException e) {
+			messg = e.getMessage();
+		} catch (AbstractBusiAcctException e) {
+			messg = e.getMessage();
+		} catch (NumberFormatException e) {
+			messg = e.getMessage();
+		}
 
-    /**
-     * 划拨初审
-     */
-    public void firstAudit() {
+		json_encode(messg);
 
-        Long userId = getCurrentUser().getUserId();
-        ftb.setStexauser(userId);
-        String messg = "";
-        try {
-            transfer.firstAudit(ftb,null);
-            messg = "操作成功";
-        } catch (ManagerWithdrawException e) {
-            messg = e.getMessage();
-        } catch (AccBussinessException e) {
-            messg = e.getMessage();
-        } catch (AbstractBusiAcctException e) {
-            messg = e.getMessage();
-        } catch (NumberFormatException e) {
-            messg = e.getMessage();
-        }
+	}
 
-        json_encode(messg);
+	/**
+	 * 划拨初审
+	 */
+	public void firstAudit() {
 
-    }
+		Long userId = getCurrentUser().getUserId();
+		ftb.setStexauser(userId);
+		String messg = "";
+		try {
+			transfer.firstAudit(ftb, null);
+			messg = "操作成功";
+		} catch (ManagerWithdrawException e) {
+			messg = e.getMessage();
+		} catch (AccBussinessException e) {
+			messg = e.getMessage();
+		} catch (AbstractBusiAcctException e) {
+			messg = e.getMessage();
+		} catch (NumberFormatException e) {
+			messg = e.getMessage();
+		}
 
-    public String getFirstTrial() {
-        return "first";
-    }
+		json_encode(messg);
 
-    public String getSecondTrial() {
-        return "second";
+	}
 
-    }
+	public String getFirstTrial() {
+		return "first";
+	}
 
-    public void secondAudit() {
-        Long userId = getCurrentUser().getUserId();
-        ftb.setStexauser(userId);
-        String messg = null;
-        try {
-            transfer.secondAudit(ftb,null);
-            messg = "操作成功";
-        } catch (ManagerWithdrawException e) {
-            messg = e.getMessage();
-        } catch (AccBussinessException e) {
-            messg = e.getMessage();
-        } catch (AbstractBusiAcctException e) {
-            messg = e.getMessage();
-        } catch (NumberFormatException e) {
-            messg = e.getMessage();
-        }
+	public String getSecondTrial() {
+		return "second";
 
-        json_encode(messg);
-    }
-    /**
-     * 得到划拨页面
-     * 
-     * @return
-     */
-    public String getTransferBatch() {
-        return "queryBatch";
+	}
 
-    }
-    
-    
-    /**
-     * 划拨
-     * 
-     * @return
-     */
-    public String transferBatch() {
-        return "batch";
+	public void secondAudit() {
+		Long userId = getCurrentUser().getUserId();
+		ftb.setStexauser(userId);
+		String messg = null;
+		try {
+			transfer.secondAudit(ftb, null);
+			messg = "操作成功";
+		} catch (ManagerWithdrawException e) {
+			messg = e.getMessage();
+		} catch (AccBussinessException e) {
+			messg = e.getMessage();
+		} catch (AbstractBusiAcctException e) {
+			messg = e.getMessage();
+		} catch (NumberFormatException e) {
+			messg = e.getMessage();
+		}
 
-    }
-    /**
-     * 根据条件查询划拨总数据
-     */
-    public void querytransfer() {
-        int page = this.getPage();
-        int pageSize = this.getRows();
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (StringUtil.isNotEmpty(falg)) {
-            if (tbq == null) {
-                tbq = new TransferBatchQuery();
-            }
-            tbq.setStatus("01");
+		json_encode(messg);
+	}
 
-        }
-        
-        PagedResult<TransferBatch> tfr = batchservice.queryPaged(page,
-                pageSize, tbq);
-        try {
-            List<TransferBatch> li = tfr.getPagedResult();
-            for (TransferBatch trans : li) {
-                trans.setSumMoney(Money.valueOf(
-                        new BigDecimal(trans.getSumamount()==null?0:trans.getSumamount())).toYuan());
+	/**
+	 * 得到划拨页面
+	 * 
+	 * @return
+	 */
+	public String getTransferBatch() {
+		return "queryBatch";
 
-                trans.setSuccMoney(Money.valueOf(
-                        new BigDecimal(trans.getSuccamount()==null?0:trans.getSuccamount())).toYuan());
+	}
 
-                trans.setFailMoney(Money.valueOf(
-                        new BigDecimal(trans.getFailamount()==null?0:trans.getFailamount())).toYuan());
+	/**
+	 * 划拨
+	 * 
+	 * @return
+	 */
+	public String transferBatch() {
+		return "batch";
 
-            }
-            Long total = tfr.getTotal();
-            map.put("total", total);
-            map.put("rows", li);
-            json_encode(map);
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    /***
-     * 划拨
-     */
-        public void transfer(){
-            String messg = null;
-            try {
-                batchservice.TransferBatch(batchno);
-                messg="操作成功";
-            } catch (ManagerWithdrawException e) {
-               messg="操作失败:"+e.getMessage();
-            }   
-            catch (Exception e){
-                messg="操作失败:内部错误";
-                
-            }
-            json_encode(messg);
-        }
-    
-        
-        
- 
-        
-        
-        
-    
-    
+	}
+
+	/**
+	 * 根据条件查询划拨总数据
+	 */
+	public void querytransfer() {
+		int page = this.getPage();
+		int pageSize = this.getRows();
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (StringUtil.isNotEmpty(falg)) {
+			if (tbq == null) {
+				tbq = new TransferBatchQuery();
+			}
+			tbq.setStatus("01");
+
+		}
+
+		PagedResult<TransferBatch> tfr = batchservice.queryPaged(page,
+				pageSize, tbq);
+		try {
+			List<TransferBatch> li = tfr.getPagedResult();
+			for (TransferBatch trans : li) {
+				trans.setSumMoney(Money.valueOf(
+						new BigDecimal(trans.getSumamount() == null ? 0 : trans
+								.getSumamount())).toYuan());
+
+				trans.setSuccMoney(Money.valueOf(
+						new BigDecimal(trans.getSuccamount() == null ? 0
+								: trans.getSuccamount())).toYuan());
+
+				trans.setFailMoney(Money.valueOf(
+						new BigDecimal(trans.getFailamount() == null ? 0
+								: trans.getFailamount())).toYuan());
+
+			}
+			Long total = tfr.getTotal();
+			map.put("total", total);
+			map.put("rows", li);
+			json_encode(map);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/***
+	 * 划拨
+	 */
+	public void transfer() {
+		String messg = null;
+		try {
+			batchservice.TransferBatch(batchno);
+			messg = "操作成功";
+		} catch (ManagerWithdrawException e) {
+			messg = "操作失败:" + e.getMessage();
+		} catch (Exception e) {
+			messg = "操作失败:内部错误";
+		}
+		json_encode(messg);
+	}
+
+	/**************************************以下为1.3.0版本******************************************/
+	@Autowired
+	private TransferBatchDAO transferBatchDAO;
+	@Autowired
+	private TransferDataDAO transferDataDAO;
+	@Autowired
+	private ITransferService transferService;
+	private QueryTransferBean queryTransferBean;
+	private AuditBean auditBean;
+	public String showTrial() {
+		return "audit";
+	}
+	
+	public void queryBatch(){
+		Map<String, Object> map = transferService.queryBatchTransfer(queryTransferBean,getPage(),getPage_size());
+		json_encode(map);
+	}
+	
+	public void queryDetail(){
+		if(queryTransferBean!=null){
+			if(StringUtil.isNotEmpty(queryTransferBean.getBatchNo())){
+				Map<String, Object> map = transferService.queryDetaTransfer(queryTransferBean,getPage(),getPage_size());
+				json_encode(map);
+			}
+		}
+		
+		
+		
+	}
+	
+	/**
+	 * 批量审核
+	 */
+	public void batchTrail(){
+		String[] batchno_array = auditBean.getBatchno().split("\\|");
+		for(String batchno:batchno_array){
+			transferService.transferBatchTrial(batchno.trim(), auditBean.getFalg());
+		}
+		
+	}
+	
+	
+	public void trailTransferDeta(){
+		String[] batchno_array = auditBean.getOrderNo().split("\\|");
+		for(String orderNo:batchno_array){
+			transferService.transferDataTrial(orderNo, auditBean.getFalg());
+		}
+	}
+
+	public QueryTransferBean getQueryTransferBean() {
+		return queryTransferBean;
+	}
+
+	public void setQueryTransferBean(QueryTransferBean queryTransferBean) {
+		this.queryTransferBean = queryTransferBean;
+	}
+
+	public AuditBean getAuditBean() {
+		return auditBean;
+	}
+
+	public void setAuditBean(AuditBean auditBean) {
+		this.auditBean = auditBean;
+	}
+
+	
+	
 }

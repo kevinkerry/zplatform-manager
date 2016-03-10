@@ -10,7 +10,6 @@
  */
 package com.zlebank.zplatform.manager.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +17,11 @@ import org.springframework.stereotype.Service;
 
 import com.zlebank.zplatform.commons.bean.TransferBatchQuery;
 import com.zlebank.zplatform.commons.service.impl.AbstractBasePageService;
-import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.manager.bean.TransferBatch;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.ITransferBatchService;
 import com.zlebank.zplatform.trade.cmbc.service.ICMBCTransferService;
 import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
-import com.zlebank.zplatform.trade.model.PojoTransferBatch;
 
 /**
  * Class Description
@@ -54,7 +51,7 @@ public class TransferBatchServiceImpl
      */
     @Override
     protected long getTotal(TransferBatchQuery example) {
-        return batch.count(example);
+        return 0;//batch.count(example);
     }
 
 
@@ -72,12 +69,13 @@ public class TransferBatchServiceImpl
     protected List<TransferBatch> getItem(int offset,
             int pageSize,
             TransferBatchQuery example) {
-      List<PojoTransferBatch> transfer=batch.getListByQuery(offset, pageSize, example);
+      /*List<PojoTransferBatch> transfer=batch.getListByQuery(offset, pageSize, example);
       List<TransferBatch> li=new ArrayList<TransferBatch>();
       for(PojoTransferBatch bat:transfer){
        li.add(BeanCopyUtil.copyBean(TransferBatch.class, bat));
       }
-    return li;
+    return li;*/
+    	return null;
     }
 
     /**
@@ -94,7 +92,7 @@ public class TransferBatchServiceImpl
         }
        try {
        for (int i = 0; i < batch.length; i++) {
-           icmbc.batchTransfer(batch[i]);
+           //icmbc.batchTransfer(batch[i]);
        }   
        } catch (Exception e) {
            e.printStackTrace();

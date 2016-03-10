@@ -24,11 +24,9 @@ import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.commons.bean.AuditBean;
-import com.zlebank.zplatform.commons.bean.CardBin;
 import com.zlebank.zplatform.commons.dao.CardBinDao;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
-import com.zlebank.zplatform.manager.enums.TransFerDataStatusEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IInsteadPayService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
@@ -38,7 +36,6 @@ import com.zlebank.zplatform.trade.bean.enums.InsteadEnum;
 import com.zlebank.zplatform.trade.dao.InsteadPayDetailDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.model.PojoInsteadPayDetail;
-import com.zlebank.zplatform.trade.model.PojoTransferData;
 
 /**
  * Class Description
@@ -95,7 +92,7 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
         }
         // 审核通过
         if (trial.getFalg() == true) {
-            through(pojoinstead);
+            //through(pojoinstead);
             pojoinstead.setStexauser(trial.getStexauser());
             pojoinstead.setStexaopt(trial.getStexaopt());
         } else {
@@ -135,8 +132,8 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
      * @param pojoinstead
      * @throws ManagerWithdrawException 
      */
-    private PojoTransferData through(PojoInsteadPayDetail pojoinstead) throws ManagerWithdrawException {
-        if (StringUtil.isEmpty(pojoinstead.getAccNo())) {
+    private String through(PojoInsteadPayDetail pojoinstead) throws ManagerWithdrawException {
+        /*if (StringUtil.isEmpty(pojoinstead.getAccNo())) {
             throw new ManagerWithdrawException("G100016");
         }
         CardBin card = cardbin.getCard(pojoinstead.getAccNo());
@@ -172,7 +169,8 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
         pojotransDate.setBusicode(BUSINESSCODE);
         pojotransDate.setBusitype(BUSINESSTYPE);
         pojotransDate.setRelatedorderno(pojoinstead.getOrderId());
-        return transdata.merge(pojotransDate);
+        return transdata.merge(pojotransDate);*/
+    	return null;
 
     }
 

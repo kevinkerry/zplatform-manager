@@ -45,7 +45,6 @@ import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
 import com.zlebank.zplatform.manager.dao.iface.ITWithdrawDAO;
 import com.zlebank.zplatform.manager.dao.object.TxnsWithdrawModel;
 import com.zlebank.zplatform.manager.enums.ReviewEnum;
-import com.zlebank.zplatform.manager.enums.TransFerDataStatusEnum;
 import com.zlebank.zplatform.manager.enums.WithdrawalsBusCodeEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
@@ -61,7 +60,6 @@ import com.zlebank.zplatform.member.service.PersonService;
 import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.exception.TradeException;
-import com.zlebank.zplatform.trade.model.PojoTransferData;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
 
 /**
@@ -331,7 +329,7 @@ public class TWithServiceImpl
                     return map;
                 }
                 if (StringUtil.isEmpty(merchPojo.getParent())) {
-                    txnsWinth.setMerchId(String.valueOf(merchPojo.getMemid()));
+                    txnsWinth.setMerchId(String.valueOf(merchPojo.getMemId()));
                 } else {
                     PojoMerchDeta pMerchPojo = merch
                             .getMerchBymemberId(merchPojo.getParent());
@@ -344,7 +342,7 @@ public class TWithServiceImpl
                             : pMerchPojo.getBanknode());
                     txnsWinth.setMerchId(merchPojo.getParent());
                     txnsWinth
-                            .setSubMerchId(String.valueOf(merchPojo.getMemid()));
+                            .setSubMerchId(String.valueOf(merchPojo.getMemId()));
                 }
                 txnsWinth.setCardType(card.getType());
                 // 银行主行号
@@ -550,7 +548,7 @@ public class TWithServiceImpl
             // 复审通过
             if (secondTrial.getFalg() == true) {
                 // 如果有民生银行的卡 单独处理
-                if (TOTALBANKCODE.equals(txns.getTotalBankCode())) {
+                /*if (TOTALBANKCODE.equals(txns.getTotalBankCode())) {
                     
                     PojoTransferData pojotransDate = saveTransfer(txns);
                     pojotransDate.setTransfertype(CMBC);
@@ -560,7 +558,7 @@ public class TWithServiceImpl
                     pojotransDate.setTransfertype(OTHER);
                     pojotransDate.setCreatetime(new Date());
 
-                }
+                }*/
 
             } else {
                 // 复审拒绝
@@ -573,10 +571,10 @@ public class TWithServiceImpl
     /**
      * 新增划拨数据
      */
-    private PojoTransferData saveTransfer(TxnsWithdrawModel txns) {
+    private void saveTransfer(TxnsWithdrawModel txns) {
         txns.setStatus(ReviewEnum.BATCH.getCode());
         // 通过后需要将数据记录到划拨明细表中 并且将数据统计写入划拨表中
-        PojoTransferData pojotransDate = new PojoTransferData();
+        /*PojoTransferData pojotransDate = new PojoTransferData();
         // 批次号
         pojotransDate.setBatchno(txns.getBatchno());
         pojotransDate.setMemberid(txns.getMemberid());
@@ -599,7 +597,7 @@ public class TWithServiceImpl
         pojotransDate.setRelatedorderno(txns.getWithdraworderno());
         pojotransDate.setTxnseqno(txns.getTxnseqNo());
         // transdata.merge(pojotransDate);
-        return transdata.merge(pojotransDate);
+        return transdata.merge(pojotransDate);*/
     }
 
     /**

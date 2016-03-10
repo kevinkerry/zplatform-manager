@@ -80,6 +80,7 @@ public class BaseAction extends ActionSupport {
 			}
 			ServletActionContext.getResponse().getWriter()
 					.write(jsonobject.get(0).toString());
+			log.info(jsonobject.get(0).toString());
 			ServletActionContext.getResponse().getWriter().flush();
 			ServletActionContext.getResponse().getWriter().close();
 		} catch (IOException e) {

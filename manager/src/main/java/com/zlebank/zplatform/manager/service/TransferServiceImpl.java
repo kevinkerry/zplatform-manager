@@ -11,47 +11,40 @@
 package com.zlebank.zplatform.manager.service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
-import com.zlebank.zplatform.acc.pojo.Money;
+import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.commons.bean.AuditBean;
+import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.bean.TransferData;
 import com.zlebank.zplatform.commons.bean.TransferDataQuery;
-import com.zlebank.zplatform.commons.service.impl.AbstractBasePageService;
-import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
-import com.zlebank.zplatform.commons.utils.DateUtil;
-import com.zlebank.zplatform.commons.utils.StringUtil;
+import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.iface.ITWithdrawDAO;
-import com.zlebank.zplatform.manager.dao.object.TxnsWithdrawModel;
-import com.zlebank.zplatform.manager.enums.InsteadEnum;
-import com.zlebank.zplatform.manager.enums.ReviewEnum;
-import com.zlebank.zplatform.manager.enums.TransFerDataStatusEnum;
+import com.zlebank.zplatform.manager.enums.TransferTrialEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
+import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.IInsteadPayService;
 import com.zlebank.zplatform.manager.service.iface.ITWithService;
 import com.zlebank.zplatform.manager.service.iface.ITransferService;
 import com.zlebank.zplatform.member.dao.ParaDicDAO;
-import com.zlebank.zplatform.member.util.MemberUtil;
+import com.zlebank.zplatform.trade.batch.spliter.BatchSpliter;
+import com.zlebank.zplatform.trade.bean.enums.BusinessEnum;
+import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.dao.InsteadPayDetailDAO;
 import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
-import com.zlebank.zplatform.trade.model.PojoInsteadPayDetail;
-import com.zlebank.zplatform.trade.model.PojoTransferBatch;
-import com.zlebank.zplatform.trade.model.PojoTransferData;
+import com.zlebank.zplatform.trade.model.PojoTranBatch;
+import com.zlebank.zplatform.trade.model.PojoTranData;
 
 /**
  * Class Description
@@ -64,7 +57,7 @@ import com.zlebank.zplatform.trade.model.PojoTransferData;
 @Service
 public class TransferServiceImpl
         extends
-            AbstractBasePageService<TransferDataQuery, TransferData>
+           BaseServiceImpl<PojoTranData, Long>
         implements
             ITransferService {
 
@@ -83,6 +76,15 @@ public class TransferServiceImpl
     @Autowired
     private InsteadPayDetailDAO insteadPayDetailDAO;
 
+    @Autowired
+	private TransferBatchDAO transferBatchDAO;
+	@Autowired
+	private TransferDataDAO transferDataDAO;
+	@Autowired
+    private AccEntryService accEntryService;
+	@Autowired
+	private BatchSpliter batchSpliter;
+	
     /** 行内 **/
     private final static String CMBC = "01";
     /** 行外 **/
@@ -96,15 +98,7 @@ public class TransferServiceImpl
     private final static String SEQUENCES = "seq_t_txns_withdraw_batchno";
     /** 民生渠道 **/
     private final static String CMBCCHNL = "93000001";
-    /**
-     *
-     * @param example
-     * @return
-     */
-    @Override
-    protected long getTotal(TransferDataQuery example) {
-        return transferDao.count(example);
-    }
+    
 
     /**
      *
@@ -112,7 +106,7 @@ public class TransferServiceImpl
      * @param pageSize
      * @param example
      * @return
-     */
+     *//*
     @Override
     protected List<TransferData> getItem(int offset,
             int pageSize,
@@ -141,14 +135,14 @@ public class TransferServiceImpl
         return li;
     }
 
-    /**
+    *//**
      *
      * @param ftb
      * @throws ManagerWithdrawException
      * @throws NumberFormatException
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
-     */
+     *//*
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void firstAudit(AuditBean ftb, List<PojoTransferData> pjfd)
@@ -331,13 +325,13 @@ public class TransferServiceImpl
 
     }
 
-    /**
+    *//**
      * 将数据分为普通银行和民生
      * 
      * @param transferdate
      * @return
      * @throws ManagerWithdrawException
-     */
+     *//*
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     private Map<String, List<PojoTransferData>> getCmbc(List<PojoTransferData> transferdate)
             throws ManagerWithdrawException {
@@ -374,12 +368,12 @@ public class TransferServiceImpl
 
     }
 
-    /**
+    *//**
      * 将划拨数据按不同的code进行分类
      * 
      * @param trans
      * @return
-     */
+     *//*
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     private Map<String, List<PojoTransferData>> getTransferByCode(List<PojoTransferData> trans) {
         Map<String, List<PojoTransferData>> rtn = new HashMap<String, List<PojoTransferData>>();
@@ -400,12 +394,12 @@ public class TransferServiceImpl
         return rtn;
     }
 
-    /**
+    *//**
      * 将数据按四千比一个阶梯分类
      * 
      * @param rtn
      * @return
-     */
+     *//*
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     private Map<Integer, List<PojoTransferData>> getTransferByBank(Map<String, List<PojoTransferData>> rtn) {
         Map<Integer, List<PojoTransferData>> map = new HashMap<Integer, List<PojoTransferData>>(); // 用map存起来新的分组后数据
@@ -435,13 +429,13 @@ public class TransferServiceImpl
         }
         return map;
     }
-    /**
+    *//**
      * 根据流水号得到划拨数据
      * 
      * @param with
      * @return
      * @throws ManagerWithdrawException
-     */
+     *//*
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     private List<PojoTransferData> gettransByNo(String with)
             throws ManagerWithdrawException {
@@ -465,7 +459,7 @@ public class TransferServiceImpl
         return li;
     }
 
-    /***
+    *//***
      * 划拨拒绝
      * 
      * @param withdraworderno
@@ -473,7 +467,7 @@ public class TransferServiceImpl
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
      * @throws ManagerWithdrawException
-     */
+     *//*
     private void firstrefunsed(String txnseqNo, String businessType)
             throws AccBussinessException, AbstractBusiAcctException,
             NumberFormatException, ManagerWithdrawException {
@@ -509,7 +503,7 @@ public class TransferServiceImpl
         return batchno;
     }
 
-    /**
+    *//**
      *
      * @param ftb
      * @param pjfd
@@ -517,7 +511,7 @@ public class TransferServiceImpl
      * @throws AccBussinessException
      * @throws AbstractBusiAcctException
      * @throws NumberFormatException
-     */
+     *//*
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void secondAudit(AuditBean ftb, List<PojoTransferData> pjfd)
@@ -554,7 +548,7 @@ public class TransferServiceImpl
         };
     }
 
-    /**
+    *//**
      *
      * @param ftb
      * @param tbq
@@ -562,7 +556,7 @@ public class TransferServiceImpl
      * @throws AccBussinessException
      * @throws AbstractBusiAcctException
      * @throws NumberFormatException
-     */
+     *//*
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void secondAuditByConditions(AuditBean ftb,
@@ -583,5 +577,229 @@ public class TransferServiceImpl
             this.secondAudit(ftb, li);
         }
     }
+*/
+	
 
+	@Override
+	public PagedResult<TransferData> queryPaged(int page, int pageSize,
+			TransferDataQuery example) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void firstAudit(AuditBean ftb, List<PojoTranData> pjfd)
+			throws ManagerWithdrawException, AccBussinessException,
+			AbstractBusiAcctException, NumberFormatException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void secondAudit(AuditBean ftb, List<PojoTranData> pjfd)
+			throws ManagerWithdrawException, AccBussinessException,
+			AbstractBusiAcctException, NumberFormatException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void secondAuditByConditions(AuditBean ftb, TransferDataQuery tbq,
+			String falg) throws ManagerWithdrawException,
+			AccBussinessException, AbstractBusiAcctException,
+			NumberFormatException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	
+
+	@Override
+	public Map<String, Object> queryBatchTransfer(
+			QueryTransferBean queryTransferBean, int page, int pageSize) {
+		return transferBatchDAO.queryTransferBatchByPage(queryTransferBean, page, pageSize);
+	}
+
+
+	@Override
+	public IBaseDAO<PojoTranData, Long> getDao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+	public boolean transferBatchTrial(String batchNo,boolean flag){
+		try {
+			TransferTrialEnum transferTrialEnum = null;
+			if(flag){
+				transferTrialEnum = TransferTrialEnum.SUCCESSFUL;
+			}else {
+				transferTrialEnum = TransferTrialEnum.REFUSED;
+			}
+			List<PojoTranData> transferDataList = transferBatchDAO.queryBatchTransfer(batchNo, transferTrialEnum.getCode());
+	    	//统计审核通过和不同过的数据，笔数和金额
+			long approveCount = 0L;
+			long approveAmount = 0L;
+			long unApproveCount = 0L;
+			long unApproveAmount = 0L;
+			PojoTranBatch transferBatch = transferBatchDAO.getByBatchNo(batchNo);
+	    	if("00".equals(transferTrialEnum.getCode())){
+	    		PojoTranData[] pojoTransferDatas = new PojoTranData[transferDataList.size()];
+	    		transferDataList.toArray(pojoTransferDatas);
+	    		//调用分批算法
+	    		batchSpliter.split(pojoTransferDatas);
+	    		//更划拨新批次信息
+	    		for(PojoTranData transferData : transferDataList){
+	    			if("00".equals(transferData.getStatus())){
+	    				approveCount++;
+	    				approveAmount+=transferData.getTranAmt().longValue();
+	    			}else{
+	    				unApproveCount++;
+	    				unApproveAmount+=transferData.getTranAmt().longValue();
+	    			}
+	    		}
+	    		transferBatch.setApproveAmt(new BigDecimal(transferBatch.getApproveAmt().longValue()+approveAmount));
+	    		transferBatch.setApproveCount(approveCount+transferBatch.getApproveCount());
+	    		transferBatch.setUnapproveAmt(new BigDecimal(transferBatch.getUnapproveAmt().longValue()+unApproveAmount));
+	    		transferBatch.setUnapproveCount(unApproveCount+transferBatch.getUnapproveCount());
+	    		transferBatch.setApproveFinishTime(new Date());
+	    		if(transferBatch.getUnapproveCount()>0){
+	    			transferBatch.setStatus("02");
+	    		}else{
+	    			transferBatch.setStatus("03");
+	    		}
+	    		
+	    		transferDataDAO.updateBatchTransferSingle(transferBatch);
+	    	}else{
+	    		
+	    		for(PojoTranData transferData : transferDataList){
+	    			unApproveCount++;
+					unApproveAmount+=transferData.getTranAmt().longValue();
+					transferData.setStatus(transferTrialEnum.getCode());
+					transferDataDAO.update(transferData);
+					//开始退款
+					BusinessEnum businessEnum = null;
+		    		//00：代付01：提现02：退款
+		    		if("00".equals(transferBatch.getBusitype())){
+		    			businessEnum = BusinessEnum.INSTEADPAY_REFUND;
+		    		}else if("01".equals(transferBatch.getBusitype())){
+		    			businessEnum = BusinessEnum.WITHDRAWALS_REFUND;
+		    		}else if("02".equals(transferBatch.getBusitype())){
+		    			businessEnum = BusinessEnum.REFUND_REFUND;
+		    		}
+		    		businessRefund(transferData,businessEnum);
+	    		}
+	    		transferBatch.setUnapproveAmt(new BigDecimal(transferBatch.getUnapproveAmt().longValue()+unApproveAmount));
+	    		transferBatch.setUnapproveCount(unApproveCount+transferBatch.getUnapproveCount());
+	    		if(transferBatch.getUnapproveCount()>0){
+	    			transferBatch.setStatus("02");
+	    		}else{
+	    			transferBatch.setStatus("03");
+	    		}
+	    		transferDataDAO.updateBatchTransferSingle(transferBatch);
+	    	}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+    public void businessRefund(PojoTranData transferData,BusinessEnum businessEnum) throws AccBussinessException, AbstractBusiAcctException,NumberFormatException {
+        TradeInfo tradeInfo = new TradeInfo();
+        tradeInfo.setAmount(transferData.getTranAmt());
+        tradeInfo.setBusiCode(businessEnum.getBusiCode());
+        tradeInfo.setPayMemberId(transferData.getMemberId());
+        tradeInfo.setTxnseqno(transferData.getTxnseqno());
+        //tradeInfo.setTxnseqno(pojoinstead.getOrderId());
+        tradeInfo.setCommission(new BigDecimal(0));
+        tradeInfo.setCharge(transferData.getTranFee());
+        accEntryService.accEntryProcess(tradeInfo);
+    }
+	
+	/**
+	 * 单笔审核
+	 *
+	 * @param tranDataSeqNo
+	 * @param flag
+	 * @return
+	 */
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+	public boolean transferDataTrial(String tranDataSeqNo,boolean flag){
+		try {
+			TransferTrialEnum transferTrialEnum = null;
+			if(flag){
+				transferTrialEnum = TransferTrialEnum.SUCCESSFUL;
+			}else {
+				transferTrialEnum = TransferTrialEnum.REFUSED;
+			}
+			PojoTranData transferData = transferDataDAO.queryTransferData(tranDataSeqNo);
+	    	//统计审核通过和不同过的数据，笔数和金额
+			long approveCount = 0L;
+			long approveAmount = 0L;
+			long unApproveCount = 0L;
+			long unApproveAmount = 0L;
+			//判断划拨明细数据状态
+	    	PojoTranBatch transferBatch = transferBatchDAO.getByBatchNo(transferData.getTranBatchId());
+	    	if("00".equals(transferTrialEnum.getCode())){//审核通过的执行分批算法
+	    		PojoTranData[] pojoTransferDatas = new PojoTranData[]{transferData};
+	    		//调用分批算法
+	    		batchSpliter.split(pojoTransferDatas);
+				if("00".equals(transferData.getStatus())){
+					approveCount++;
+					approveAmount+=transferData.getTranAmt().longValue();
+				}else{
+					unApproveCount++;
+					unApproveAmount+=transferData.getTranAmt().longValue();
+				}
+				//更新审核结果笔数和金额
+	    		transferBatch.setApproveAmt(new BigDecimal(transferBatch.getApproveAmt().longValue()+approveAmount));
+	    		transferBatch.setApproveCount(approveCount+transferBatch.getApproveCount());
+	    		transferBatch.setUnapproveAmt(new BigDecimal(transferBatch.getUnapproveAmt().longValue()+unApproveAmount));
+	    		transferBatch.setUnapproveCount(unApproveCount+transferBatch.getUnapproveCount());
+	    		
+	    	}else{
+				unApproveCount++;
+				unApproveAmount+=transferData.getTranAmt().longValue();
+				transferData.setStatus(transferTrialEnum.getCode());
+				this.update(transferData);
+	    		transferBatch.setUnapproveAmt(new BigDecimal(transferBatch.getUnapproveAmt().longValue()+unApproveAmount));
+	    		transferBatch.setUnapproveCount(unApproveCount+transferBatch.getUnapproveCount());
+	    		BusinessEnum businessEnum = null;
+	    		//00：代付01：提现02：退款
+	    		if("00".equals(transferBatch.getBusitype())){
+	    			businessEnum = BusinessEnum.INSTEADPAY_REFUND;
+	    		}else if("01".equals(transferBatch.getBusitype())){
+	    			businessEnum = BusinessEnum.WITHDRAWALS_REFUND;
+	    		}else if("02".equals(transferBatch.getBusitype())){
+	    			businessEnum = BusinessEnum.REFUND_REFUND;
+	    		}
+	    		//业务退汇
+	    		businessRefund(transferData,businessEnum);
+	    	}
+	    	transferDataDAO.updateBatchTransferSingle(transferBatch);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+	public Map<String, Object> queryDetaTransfer(
+			QueryTransferBean queryTransferBean, int page, int pageSize) {
+		// TODO Auto-generated method stub
+		return transferDataDAO.queryTranfersDetaByPage(queryTransferBean, page, pageSize);
+	}
 }

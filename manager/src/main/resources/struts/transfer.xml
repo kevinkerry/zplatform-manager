@@ -12,8 +12,8 @@
 			<result name="first">/pages/transfer/first_transfer.jsp</result>
 			<result name="second">/pages/transfer/second_transfer.jsp</result>
 			<result name="queryBatch">/pages/transfer/query_transfer_batch.jsp</result>
-				<result name="batch">/pages/transfer/transfer_batch.jsp</result>
-		
+			<result name="batch">/pages/transfer/transfer_batch.jsp</result>
+			<result name="audit">/pages/transfer/transfer_audit.jsp</result>
 		</action>
    
    
