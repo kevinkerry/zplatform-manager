@@ -1,7 +1,7 @@
 package com.zlebank.zplatform.manager.service.certhandler;
 
 import com.zlebank.zplatform.manager.action.merch.CertType;
-import com.zlebank.zplatform.manager.dao.object.MerchDetaModel;
+import com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDetaApply;
 
 public class BusiLicePicHandler extends CertPicHandler{
     
@@ -10,13 +10,13 @@ public class BusiLicePicHandler extends CertPicHandler{
     }
     
     @Override
-    public MerchDetaModel decorate(MerchDetaModel merchDeta,String fileName) {
-        merchDeta.setLicencefile(fileName);
-        return merchDeta;
+    public PojoEnterpriseDetaApply decorate(PojoEnterpriseDetaApply enterpriseDetaApply,String fileName) {
+        enterpriseDetaApply.setLicenceFile(fileName);
+        return enterpriseDetaApply;
     }
     
     @Override
-    public String getFileName(MerchDetaModel merch){
-        return merch.getLicencefile();
+    public String getFileName(PojoEnterpriseDetaApply enterpriseDetaApply){
+        return enterpriseDetaApply.getLicenceFile();
     }
 }

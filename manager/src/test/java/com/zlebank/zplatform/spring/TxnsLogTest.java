@@ -27,7 +27,6 @@ public class TxnsLogTest {
     public static ApplicationContext context;
    
     public void getTxns(){
-        
     }
     
     

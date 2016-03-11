@@ -36,8 +36,7 @@
 				<value>com.zlebank.zplatform.manager.dao.object.OperLogModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.UserRoleModel
 				</value>
-				<value>com.zlebank.zplatform.manager.dao.object.MerchDetaModel
-				</value>
+				 
 				<value>com.zlebank.zplatform.manager.dao.object.FTPModel</value>
 
 				<value>com.zlebank.zplatform.manager.dao.object.UploadLogModel
@@ -78,6 +77,12 @@
 				<value>com.zlebank.zplatform.manager.dao.object.PojoRevision</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoCoopInsti</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoInstiMK</value>	
+				<value>com.zlebank.zplatform.manager.dao.object.PojoMerchDetaApply</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoMemberApply</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDetaApply</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoMerchDeta</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoMember</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDeta</value>
 				</list>
 		</property>
 		<property name="packagesToScan">

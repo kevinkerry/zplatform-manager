@@ -115,8 +115,8 @@ public class MemberMessageAction extends BaseAction{
      */
     public void memberBaseMessage(){
         Long userId=getCurrentUser().getUserId();
-        Map<String ,Object>    merchMap= serviceContainer.getMerchDetaService().queryOneMerchDeta(Long.parseLong(mid),userId);
-      json_encode(merchMap);  
+       // Map<String ,Object>    merchMap= serviceContainer.getMerchDetaService().queryOneMerchDeta(Long.parseLong(mid),userId);
+      //json_encode(merchMap);  
       
     }
     /**
