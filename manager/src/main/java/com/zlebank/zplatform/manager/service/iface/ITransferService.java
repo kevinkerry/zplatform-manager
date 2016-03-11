@@ -21,6 +21,7 @@ import com.zlebank.zplatform.commons.bean.TransferDataQuery;
 import com.zlebank.zplatform.commons.service.IBasePageService;
 import com.zlebank.zplatform.manager.enums.TransferTrialEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
+import com.zlebank.zplatform.trade.bean.enums.BusinessEnum;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.model.PojoTranData;
 
@@ -33,38 +34,7 @@ import com.zlebank.zplatform.trade.model.PojoTranData;
  * @since 
  */
 public interface ITransferService extends IBasePageService<TransferDataQuery,TransferData> {
-    /**
-     * 划拨初审
-     * @param ftb
-     * @throws ManagerWithdrawException
-     * @throws AccBussinessException
-     * @throws AbstractBusiAcctException
-     * @throws NumberFormatException
-     */
-	@Deprecated
-    public void firstAudit(AuditBean ftb,List<PojoTranData> pjfd) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException ;
-    /**
-     * 划拨复审
-     * @param ftb
-     * @throws ManagerWithdrawException
-     * @throws AccBussinessException
-     * @throws AbstractBusiAcctException
-     * @throws NumberFormatException
-     */
-	@Deprecated
-    public void secondAudit(AuditBean ftb, List<PojoTranData> pjfd) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException;
-    /**
-     * 按条件复审
-     * @param ftb
-     * @param tbq
-     * @throws ManagerWithdrawException
-     * @throws AccBussinessException
-     * @throws AbstractBusiAcctException
-     * @throws NumberFormatException
-     */
-	@Deprecated
-    public void  secondAuditByConditions(AuditBean ftb,TransferDataQuery tbq,String falg)throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException;;
-    
+   
     /**************************以下为1.3版本新增内容***********************************/
     
     
@@ -96,10 +66,24 @@ public interface ITransferService extends IBasePageService<TransferDataQuery,Tra
     
     /**
      * 
-     * @param tranDataSeqNo
+     * @param tid
      * @param transferTrialEnum
      * @return
      */
-    public boolean transferDataTrial(String tranDataSeqNo,boolean flag);
+    public boolean transferDataTrial(Long tid,boolean flag);
+    
+    /**
+     * 针对各个业务（代付/提现/退款）的业务退款方法，交易失败或审核拒绝时
+     * @param transferData
+     * @param businessEnum
+     */
+    public void businessRefund(List<PojoTranData> transferDataList) ;
+    
+    /**
+     * 更新划拨明细状态，主要用于转账结果的更新
+     * @param tid
+     * @param status
+     */
+    public void updateTransferDataToFinish(Long tid,String status);
 
 }

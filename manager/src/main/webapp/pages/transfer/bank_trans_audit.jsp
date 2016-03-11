@@ -23,7 +23,7 @@ table tr td select {
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						<td align="right" width="10%">划拨批次号:</td>
+						<td align="right" width="10%">转账批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="transQuery.batchno" id="batchno" maxlength="32" />
 						</td>
@@ -94,19 +94,19 @@ table tr td select {
 		$('#endDate').datebox();
 		//$("#withdraworcheckbox").unbind();
 		$('#test').datagrid({
-			title : '划拨批次审核',
+			title : '转账批次审核',
 			iconCls : 'icon-save',
 			height : 300,
 			singleSelect : true,
 			nowrap : false,
 			striped : true,
-			url :'pages/transfer/queryBatchTransferAction.action', 
+			url :'pages/transfer/queryBankBatchTransferAction.action', 
 			remoteSort : false,
 			idField : 'ORGAN_ID',
 			collapsible:true,
 			columns : [ [
 					{field : 'ck',checkbox : true},
-					{field : 'tid',title : '划拨批次号',width : 90,align : 'center'},
+					{field : 'bankTranBatchNo',title : '转账批次号',width : 90,align : 'center'},
 					{field : 'totalCount',title : '总笔数',width : 90,align : 'center'},
 					{field : 'totalAmt',title : '总金额',width : 90,align : 'center'},
 					{field : 'approveCount',title : '通过笔数',width : 90,align : 'center'},
@@ -192,19 +192,19 @@ table tr td select {
 		$('#test2')
 		.datagrid(
 				{
-					title : '划拨明细审核',
+					title : '转账明细审核',
 					iconCls : 'icon-save',
 					height : 300,
 					collapsible:true,
 					singleSelect : true,
 					nowrap : false,
 					striped : true,
-					url :'pages/transfer/queryDetailTransferAction.action', 
+					url :'pages/transfer/queryBankDataTransferAction.action', 
 					remoteSort : false,
 					idField : 'ORGAN_ID',
 					columns : [ [
 							{field : 'ck',checkbox : true},
-							{field : 'tranDataSeqNo',title : '划拨流水号',width : 190,align : 'center'},
+							{field : 'bankTranDataSeqNo',title : '转账流水号',width : 190,align : 'center'},
 							{field : 'accType',title : '账户类型',width : 90,align : 'center',
 								formatter : function(value, rec) {
 												if (value == '1') {
@@ -247,13 +247,13 @@ table tr td select {
 					toolbar : [ {
 						id : 'btnadd',
 						text : '审核',
-						iconCls : 'icon-add',
+						iconCls : 'icon-ok',
 						handler : function() {
 							var check= $('#test2' ).datagrid( 'getChecked');
 							if(check.length!=0){
 							var myArray="";
                                for (var i=0;i<check.length;i++){
-                            	   myArray+=check[i].tid+"|";
+                            	   myArray+=check[i].tranDataSeqNo+"|";
                               } 
 							$("#firstTrial")[0].reset();
 							$("#btn_submit").linkbutton('enable');
@@ -342,10 +342,10 @@ table tr td select {
 	
 	function batchTrial(falg){
 		if(falg==true){
-			$("#firstTrial").attr("action","pages/transfer/batchTrailTransferAction.action");
+			$("#firstTrial").attr("action","pages/transfer/batchBankTrialTransferAction.action");
 			$("#falg").val("true");
 		}else{
-			$("#firstTrial").attr("action","pages/transfer/batchTrailTransferAction.action");
+			$("#firstTrial").attr("action","pages/transfer/batchBankTrialTransferAction.action");
 			$("#falg").val("false");
 		}
 		$('#firstTrial').form('submit', {  
@@ -394,8 +394,7 @@ table tr td select {
 		var ison=false;
 		$.ajax( { 
 				type: "POST",
-	             url: "pages/transfer/queryTrinsferTransferAction.action",
-	             data: {"transQuery.tranId":tranid,"falg":"first"},
+	             url: "pages/transfer/queryBankBatchTransferAction.action",
 	             dataType: "json",
 	             async:false,
 	             success: function(data){
@@ -423,11 +422,11 @@ table tr td select {
 	            		if (json.status == '01') {
 	            			$("#tstatus").html("初始");
 						} else if (json.status == '02') {
-							$("#tstatus").html("划拨中");
+							$("#tstatus").html("转账中");
 						} else if (json.status == '00') {
-							$("#tstatus").html("划拨成功");
+							$("#tstatus").html("转账成功");
 						} else if (json.status == '03') {
-							$("#tstatus").html("划拨失败");
+							$("#tstatus").html("转账失败");
 						} else if (json.status == '11') {
 							$("#tstatus").html("待初审");
 						} else if (json.status == '21') {

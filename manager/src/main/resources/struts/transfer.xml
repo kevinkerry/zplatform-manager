@@ -14,6 +14,8 @@
 			<result name="queryBatch">/pages/transfer/query_transfer_batch.jsp</result>
 			<result name="batch">/pages/transfer/transfer_batch.jsp</result>
 			<result name="audit">/pages/transfer/transfer_audit.jsp</result>
+			<result name="banktransfter">/pages/transfer/bank_trans_audit.jsp</result>
+			
 		</action>
    
    
