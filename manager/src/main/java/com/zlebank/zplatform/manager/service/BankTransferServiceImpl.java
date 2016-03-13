@@ -68,7 +68,6 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 			}else {
 				transferTrialEnum = TransferTrialEnum.REFUSED;
 			}
-			
 	    	
 			PojoBankTransferBatch transferBatch = bankTransferBatchDAO.getByBankTranBatchNo(Long.valueOf(batchNo));
 	    	if("00".equals(transferTrialEnum.getCode())){
@@ -79,9 +78,9 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "04");
 	    		//处理划拨流程中的数据
 	    		//获取全部为审核的转账数据
-				List<PojoBankTransferData> transferDataList = bankTransferDataDAO.findTransDataByBatchNo(batchNo);
-	    		for(PojoBankTransferData transferData : transferDataList){
-	    			transferService.updateTransferDataToFinish(Long.valueOf(transferData.getTranDataId()),"09");
+				List<PojoBankTransferData> bankTransferDataList = bankTransferDataDAO.findTransDataByBatchNo(batchNo);
+	    		for(PojoBankTransferData bankTransferData : bankTransferDataList){
+	    			transferService.updateTransferDataToFinish(Long.valueOf(bankTransferData.getTranData().getTid()),"09");
 	    		}
 	    	}
 	    	transferBatch.setStatus("02");

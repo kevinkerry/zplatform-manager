@@ -16,49 +16,34 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.zlebank.zplatform.acc.bean.TradeInfo;
-import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
-import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.service.AccEntryService;
-import com.zlebank.zplatform.commons.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.bean.TransferData;
 import com.zlebank.zplatform.commons.bean.TransferDataQuery;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
-import com.zlebank.zplatform.manager.dao.iface.ITWithdrawDAO;
 import com.zlebank.zplatform.manager.enums.TransferTrialEnum;
-import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
-import com.zlebank.zplatform.manager.service.iface.IInsteadPayService;
-import com.zlebank.zplatform.manager.service.iface.ITWithService;
 import com.zlebank.zplatform.manager.service.iface.ITransferService;
-import com.zlebank.zplatform.member.dao.ParaDicDAO;
 import com.zlebank.zplatform.trade.batch.spliter.BatchSpliter;
-import com.zlebank.zplatform.trade.bean.enums.BusinessEnum;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.dao.BankTransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.BankTransferDataDAO;
-import com.zlebank.zplatform.trade.dao.InsteadPayDetailDAO;
 import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
-import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
-import com.zlebank.zplatform.trade.model.PojoBankTransferData;
 import com.zlebank.zplatform.trade.model.PojoTranBatch;
 import com.zlebank.zplatform.trade.model.PojoTranData;
 
 /**
- * Class Description
- *
+ * 
  * @author yangpeng
  * @version
  * @date 2015年12月8日 下午4:17:10
- * @since
+ * @since 1.1.0
  */
 @Service
 public class TransferServiceImpl
@@ -221,7 +206,7 @@ public class TransferServiceImpl
 			long unApproveCount = 0L;
 			long unApproveAmount = 0L;
 			//判断划拨明细数据状态
-	    	PojoTranBatch transferBatch = transferBatchDAO.getByBatchNo(transferData.getTranBatchId()+"");
+	    	PojoTranBatch transferBatch = transferData.getTranBatch();
 	    	switch (transferTrialEnum) {
 				case SUCCESSFUL:
 					PojoTranData[] pojoTransferDatas = new PojoTranData[]{transferData};
@@ -279,18 +264,11 @@ public class TransferServiceImpl
 		transferDataDAO.updateTransferDataStatus(tid, status);
 		//判断划拨批次是否全部完成,判断状态为02的数据的数量
 		PojoTranData pojoTranData= transferDataDAO.queryTransferData(tid);
-		Long count = transferDataDAO.queryWaritTransferCount(pojoTranData.getTranBatchId());
+		Long count = transferDataDAO.queryWaritTransferCount(pojoTranData.getTranBatch().getTid());
 		if(count==0){//批次转账全部完成
-			PojoTranBatch pojoTranBatch = transferBatchDAO.getByBatchNo(pojoTranData.getTranBatchId()+"");
+			PojoTranBatch pojoTranBatch = pojoTranData.getTranBatch();
 			pojoTranBatch.setStatus("00");
 			transferBatchDAO.update(pojoTranBatch);
 		}
-		
 	}
-
-
-
-	
-
-	
 }
