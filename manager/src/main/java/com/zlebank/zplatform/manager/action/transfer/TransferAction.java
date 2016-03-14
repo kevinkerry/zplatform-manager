@@ -80,7 +80,7 @@ public class TransferAction extends BaseAction {
 	}
 	
 	/**
-	 * 批量审核
+	 * 批量划拨审核
 	 */
 	public void batchTrail(){
 		String[] batchno_array = auditBean.getBatchno().split("\\|");

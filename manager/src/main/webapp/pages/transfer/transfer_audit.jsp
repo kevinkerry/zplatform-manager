@@ -106,16 +106,28 @@ table tr td select {
 			collapsible:true,
 			columns : [ [
 					{field : 'ck',checkbox : true},
-					{field : 'tid',title : '划拨批次号',width : 90,align : 'center'},
+					{field : 'tranBatchNo',title : '划拨批次号',width : 90,align : 'center'},
 					{field : 'totalCount',title : '总笔数',width : 90,align : 'center'},
-					{field : 'totalAmt',title : '总金额',width : 90,align : 'center'},
+					{field : 'totalAmt',title : '总金额',width : 90,align : 'center',
+						formatter:function(value,rec){
+									return value/100.00;
+						}},
 					{field : 'approveCount',title : '通过笔数',width : 90,align : 'center'},
-					{field : 'approveAmt',title : '通过金额',width : 90,align : 'center'},
-					{field : 'unapproveCount',title : '拒绝笔数',width : 90,align : 'center'},
-					{field : 'unapproveAmt',title : '拒绝金额',width : 90,align : 'center'},
+					{field : 'approveAmt',title : '通过金额',width : 90,align : 'center',
+						formatter:function(value,rec){
+							return value/100.00;
+					}},
+					{field : 'refuseCount',title : '拒绝笔数',width : 90,align : 'center'},
+					{field : 'refuseAmt',title : '拒绝金额',width : 90,align : 'center',
+						formatter:function(value,rec){
+							return value/100.00;
+					}},
 					{field : 'waitApproveCount',title : '待审笔数',width : 90,align : 'center'},
-					{field : 'waitApproveAmt',title : '待审金额',width : 90,align : 'center'},
-					{field : 'busitype',title : '业务名称',width : 90,align : 'center',
+					{field : 'waitApproveAmt',title : '待审金额',width : 90,align : 'center',
+						formatter:function(value,rec){
+									return value/100.00;
+					}},
+					{field : 'busiType',title : '业务名称',width : 90,align : 'center',
 						formatter : function(value, rec) {
 										if (value == '00') {
 											return '代付';
@@ -207,9 +219,9 @@ table tr td select {
 							{field : 'tranDataSeqNo',title : '划拨流水号',width : 190,align : 'center'},
 							{field : 'accType',title : '账户类型',width : 90,align : 'center',
 								formatter : function(value, rec) {
-												if (value == '1') {
+												if (value == '01') {
 													return '对公账户';
-												} else if (value == '0') {
+												} else if (value == '00') {
 													return '对私账户';
 												} 
 											} 
@@ -218,8 +230,11 @@ table tr td select {
 							{field : 'accName',title : '户名',width : 120,align : 'center'},
 							{field : 'bankNo',title : '支付行号',width : 120,align : 'center',},
 							{field : 'bankName',title : '开户行名称',width : 120,align : 'center'},
-							{field : 'insteadDataId',title : '关联订单号',width : 120,align : 'center'},
-							{field : 'tranAmt',title : '金额(元)',width : 90,align : 'center'},
+							{field : 'busiDataId',title : '业务订单号',width : 120,align : 'center'},
+							{field : 'tranAmt',title : '金额(元)',width : 90,align : 'center',
+								formatter:function(value,rec){
+										return value/100.00;
+							}},
 							{field : 'tranFee',title : '手续费(元)',width : 90,align : 'center'},
 							{field : 'applyTime',title : '创建时间',width : 120,align : 'center'},
 							{field : 'approveTime',title : '通过时间',width : 120,align : 'center'},

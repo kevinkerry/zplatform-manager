@@ -109,25 +109,10 @@ table tr td select {
 					{field : 'bankTranBatchNo',title : '转账批次号',width : 90,align : 'center'},
 					{field : 'totalCount',title : '总笔数',width : 90,align : 'center'},
 					{field : 'totalAmt',title : '总金额',width : 90,align : 'center'},
-					{field : 'approveCount',title : '通过笔数',width : 90,align : 'center'},
-					{field : 'approveAmt',title : '通过金额',width : 90,align : 'center'},
-					{field : 'unapproveCount',title : '拒绝笔数',width : 90,align : 'center'},
-					{field : 'unapproveAmt',title : '拒绝金额',width : 90,align : 'center'},
-					{field : 'waitApproveCount',title : '待审笔数',width : 90,align : 'center'},
-					{field : 'waitApproveAmt',title : '待审金额',width : 90,align : 'center'},
-					{field : 'busitype',title : '业务名称',width : 90,align : 'center',
-						formatter : function(value, rec) {
-										if (value == '00') {
-											return '代付';
-										} else if (value == '01') {
-											return '提现';
-										}else if (value == '02') {
-											return '退款';
-										}else  {
-											return '';
-										}
-									}
-					},
+					{field : 'successCount',title : '通过笔数',width : 90,align : 'center'},
+					{field : 'successAmt',title : '通过金额',width : 90,align : 'center'},
+					{field : 'failCount',title : '拒绝笔数',width : 90,align : 'center'},
+					{field : 'failAmt',title : '拒绝金额',width : 90,align : 'center'},
 					{field : 'applyTime',title : '申请时间',width : 90,align : 'center'},
 					{field : 'approveFinishTime',title : '审核完成时间',width : 90,align : 'center'},
 					{field : 'finishTime',title : '转账完成时间',width : 90,align : 'center'},
@@ -227,10 +212,12 @@ table tr td select {
 								formatter : function(value, rec) {
 												if (value == '01') {
 													return '未审核';
-												} else if (value == '09') {
-													return '审核拒绝';
+												} else if (value == '02') {
+													return '等待转账';
+												} else if (value == '03') {
+													return '正在转账';
 												} else if (value == '00') {
-													return '审核通过';
+													return '转账成功';
 												} else {
 													return '';
 												}

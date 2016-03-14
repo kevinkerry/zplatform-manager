@@ -125,12 +125,15 @@ public class TransferServiceImpl
 					PojoTranData[] pojoTransferDatas = new PojoTranData[transferDataList.size()];
 		    		transferDataList.toArray(pojoTransferDatas);
 		    		//调用分批算法
-		    		batchSpliter.split(pojoTransferDatas);
+		    		//batchSpliter.split(pojoTransferDatas);
 		    		//更划拨新批次信息
 		    		for(PojoTranData transferData : transferDataList){
 		    			if("00".equals(transferData.getStatus())){
 		    				approveCount++;
 		    				approveAmount+=transferData.getTranAmt().longValue();
+		    			}else if("01".equals(transferData.getStatus())){//为待审状态时不做处理
+		    				//unApproveCount++;
+		    				//unApproveAmount+=transferData.getTranAmt().longValue();
 		    			}else{
 		    				unApproveCount++;
 		    				unApproveAmount+=transferData.getTranAmt().longValue();
@@ -211,10 +214,13 @@ public class TransferServiceImpl
 				case SUCCESSFUL:
 					PojoTranData[] pojoTransferDatas = new PojoTranData[]{transferData};
 		    		//调用分批算法
-		    		batchSpliter.split(pojoTransferDatas);
+		    		//batchSpliter.split(pojoTransferDatas);
 					if("00".equals(transferData.getStatus())){
 						approveCount++;
 						approveAmount+=transferData.getTranAmt().longValue();
+					}else if("01".equals(transferData.getStatus())){
+						//unApproveCount++;
+						//unApproveAmount+=transferData.getTranAmt().longValue();
 					}else{
 						unApproveCount++;
 						unApproveAmount+=transferData.getTranAmt().longValue();

@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 
+import com.alibaba.fastjson.JSON;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
@@ -66,21 +67,21 @@ public class BaseAction extends ActionSupport {
 
 	public void json_encode(Object resultList) {
 		try {
-			JsonConfig jsonConfig = new JsonConfig();
+			/*JsonConfig jsonConfig = new JsonConfig();
 			jsonConfig.registerJsonValueProcessor(java.sql.Date.class,
 					new DateJsonValueProcessor("yyyy-MM-dd"));
 			jsonConfig.registerJsonValueProcessor(Date.class,
-					new DateJsonValueProcessor("yyyy-MM-dd"));
-			JSONArray jsonobject = JSONArray.fromObject(resultList, jsonConfig);
-
+					new DateJsonValueProcessor("yyyy-MM-dd"));*/
+			//JSONArray jsonobject = JSONArray.fromObject(resultList, jsonConfig);
+			String json = JSON.toJSONString(resultList);
 			ServletActionContext.getResponse().setContentType("text/html");
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 			if (log.isDebugEnabled()) {
-				log.debug(jsonobject.get(0).toString());
+				log.debug(json);
 			}
 			ServletActionContext.getResponse().getWriter()
-					.write(jsonobject.get(0).toString());
-			log.info(jsonobject.get(0).toString());
+					.write(json);
+			log.info(json);
 			ServletActionContext.getResponse().getWriter().flush();
 			ServletActionContext.getResponse().getWriter().close();
 		} catch (IOException e) {
@@ -106,19 +107,21 @@ public class BaseAction extends ActionSupport {
 	public void json_encode(List<?> resultList) throws IOException {
 
 		try {
-			JsonConfig jsonConfig = new JsonConfig();
+			/*JsonConfig jsonConfig = new JsonConfig();
 			jsonConfig.registerJsonValueProcessor(java.sql.Date.class,
 					new DateJsonValueProcessor("yyyy-MM-dd"));
 			jsonConfig.registerJsonValueProcessor(Date.class,
 					new DateJsonValueProcessor("yyyy-MM-dd"));
-			JSONArray jsonobject = JSONArray.fromObject(resultList, jsonConfig);
+			JSONArray jsonobject = JSONArray.fromObject(resultList, jsonConfig);*/
+			String json = JSON.toJSONString(resultList);
 			ServletActionContext.getResponse().setContentType("text/html");
 			ServletActionContext.getResponse().setCharacterEncoding("utf-8");
 			if (log.isDebugEnabled()) {
-				log.debug(jsonobject.toString());
+				log.debug(json);
 			}
 			ServletActionContext.getResponse().getWriter()
-					.write(jsonobject.toString());
+					.write(json);
+			log.info(json);
 			ServletActionContext.getResponse().getWriter().flush();
 			ServletActionContext.getResponse().getWriter().close();
 		} catch (IOException e) {
