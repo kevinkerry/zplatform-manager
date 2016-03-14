@@ -5,9 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -20,6 +18,7 @@ import com.zlebank.zplatform.manager.action.merch.CertType;
 import com.zlebank.zplatform.manager.bean.Enterprise;
 import com.zlebank.zplatform.manager.bean.MerchDeta;
 import com.zlebank.zplatform.manager.service.iface.IMerchDetaService;
+import com.zlebank.zplatform.manger.util.RandomArugment;
 
 public class MerchDetaServiceTest {
 
@@ -130,7 +129,7 @@ public class MerchDetaServiceTest {
 		Enterprise enterprise = new Enterprise();
 		
 		enterprise.setCoopInstiId(25L);
-		enterprise.setEnterpriseName(randomMerchName());
+		enterprise.setEnterpriseName(RandomArugment.randomName("商户",15));
 		enterprise.setEnterpriseInsti(0L);
 		enterprise.setProvince(Long.valueOf("430000"));
 		enterprise.setCity(Long.valueOf("430100"));
@@ -144,7 +143,7 @@ public class MerchDetaServiceTest {
 
 		enterprise.setCorpNo("213212");
 		enterprise.setContact("13123");
-		enterprise.setPhone(randomNumber(11));
+		enterprise.setPhone(RandomArugment.randomNumber(11));
 		enterprise.setContTitle("");
 		enterprise.setContEmail("");
 
@@ -154,7 +153,7 @@ public class MerchDetaServiceTest {
 		enterprise.setSignatory("李四");
 		
 		enterprise.setPostCode("");
-		enterprise.setEmail(randomEmail());
+		enterprise.setEmail(RandomArugment.randomEmail());
 		enterprise.setInUser(2L);
 		enterprise.setContAddress("fsdfsdfsdfdsfsd");
         
@@ -184,37 +183,4 @@ public class MerchDetaServiceTest {
 		merch.setMember(enterprise);
 		return merch;
 	}
-
-	private String randomNumber(int length) {
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < length; i++) {
-			sb.append(random.nextInt(10));
-		}
-		return sb.toString();
-	}
-	
-	private String randomEmail(){
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		int preLength = random.nextInt(10);
-		String pre = RandomStringUtils.randomAlphabetic(preLength);
-		int suffixOperateLength = random.nextInt(5);
-		String suffixOperate = RandomStringUtils.randomAlphabetic(suffixOperateLength);
-		
-		sb.append(pre);
-		sb.append("@");
-		sb.append(suffixOperate);
-		sb.append(".");
-		sb.append("com");
-		return sb.toString();
-	}
-	
-	private String randomMerchName(){
-		Random random = new Random();
-		int length = random.nextInt(15);
-		String name = RandomStringUtils.random(length);
-		 
-		return "商户"+name;
-	} 
 }

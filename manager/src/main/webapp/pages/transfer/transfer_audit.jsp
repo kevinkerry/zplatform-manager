@@ -292,7 +292,6 @@ table tr td select {
  */	});
 
 	function search() {
-		alert($("#beginDate").datebox("getValue"));
 		var data = {
 				"queryTransferBean.batchNo" : $('#batchno').val(),
 				"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),

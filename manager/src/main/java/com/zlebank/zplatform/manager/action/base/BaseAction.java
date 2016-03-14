@@ -9,9 +9,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JsonConfig;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
@@ -20,7 +17,6 @@ import com.alibaba.fastjson.JSON;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
-import com.zlebank.zplatform.manager.util.DateJsonValueProcessor;
 
 public class BaseAction extends ActionSupport {
 	private static final Log log = LogFactory.getLog(BaseAction.class);

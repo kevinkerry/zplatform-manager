@@ -10,12 +10,12 @@
  */
 package com.zlebank.zplatform.manager.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,6 +25,8 @@ import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.bean.TransferData;
 import com.zlebank.zplatform.commons.bean.TransferDataQuery;
+import com.zlebank.zplatform.manager.bean.BankTranBatch;
+import com.zlebank.zplatform.manager.bean.enmu.BankTranBatchOpenStatus;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.enums.TransferTrialEnum;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
@@ -35,6 +37,7 @@ import com.zlebank.zplatform.trade.dao.BankTransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.BankTransferDataDAO;
 import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
+import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoTranBatch;
 import com.zlebank.zplatform.trade.model.PojoTranData;
 
@@ -97,14 +100,8 @@ public class TransferServiceImpl
         
     }
 	
-	/**
-	 * 划拨批次审核
-	 * @param batchNo
-	 * @param flag
-	 * @return
-	 */
 	@Override
-	public boolean transferBatchTrial (String batchNo, boolean flag) {
+	public boolean transferBatchTrial (long batchId, boolean flag) {
 		try {
 			TransferTrialEnum transferTrialEnum = null;
 			if(flag){
@@ -113,13 +110,13 @@ public class TransferServiceImpl
 				transferTrialEnum = TransferTrialEnum.REFUSED;
 			}
 			//获取等待审核的划拨数据，其他状态的不做处理
-			List<PojoTranData> transferDataList = transferBatchDAO.queryWaitTrialTranData(batchNo);
+			List<PojoTranData> transferDataList = transferBatchDAO.queryWaitTrialTranData(batchId);
 	    	//统计审核通过和不同过的数据，笔数和金额
 			long approveCount = 0L;
 			long approveAmount = 0L;
 			long unApproveCount = 0L;
 			long unApproveAmount = 0L;
-			PojoTranBatch transferBatch = transferBatchDAO.getByBatchNo(batchNo);
+			PojoTranBatch transferBatch = transferBatchDAO.getByBatchId(batchId);
 			switch (transferTrialEnum) {
 				case SUCCESSFUL:
 					PojoTranData[] pojoTransferDatas = new PojoTranData[transferDataList.size()];
@@ -139,9 +136,9 @@ public class TransferServiceImpl
 		    				unApproveAmount+=transferData.getTranAmt().longValue();
 		    			}
 		    		}
-		    		transferBatch.setApproveAmt(new BigDecimal(transferBatch.getApproveAmt().longValue()+approveAmount));
+		    		transferBatch.setApproveAmt(transferBatch.getApproveAmt()+approveAmount);
 		    		transferBatch.setApproveCount(approveCount+transferBatch.getApproveCount());
-		    		transferBatch.setRefuseAmt(new BigDecimal(transferBatch.getRefuseAmt().longValue()+unApproveAmount));
+		    		transferBatch.setRefuseAmt(transferBatch.getRefuseAmt()+unApproveAmount);
 		    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
 		    		transferBatch.setApproveFinishTime(new Date());
 		    		if(transferBatch.getRefuseCount()>0){
@@ -161,7 +158,7 @@ public class TransferServiceImpl
 		    		}
 		    		//业务退款
 		    		businessRefund(transferDataList);
-		    		transferBatch.setRefuseAmt(new BigDecimal(transferBatch.getRefuseAmt().longValue()+unApproveAmount));
+		    		transferBatch.setRefuseAmt(transferBatch.getRefuseAmt()+unApproveAmount);
 		    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
 		    		if(transferBatch.getRefuseCount()>0){
 		    			transferBatch.setStatus("02");
@@ -183,13 +180,7 @@ public class TransferServiceImpl
 		return true;
 	}
 	
-	/**
-	 * 单笔审核
-	 *
-	 * @param tranDataSeqNo
-	 * @param flag
-	 * @return
-	 */
+	 
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
 	public boolean transferDataTrial(Long tid,boolean flag){
 		try {
@@ -226,9 +217,9 @@ public class TransferServiceImpl
 						unApproveAmount+=transferData.getTranAmt().longValue();
 					}
 					//更新审核结果笔数和金额
-		    		transferBatch.setApproveAmt(new BigDecimal(transferBatch.getApproveAmt().longValue()+approveAmount));
+		    		transferBatch.setApproveAmt(transferBatch.getApproveAmt()+approveAmount);
 		    		transferBatch.setApproveCount(approveCount+transferBatch.getApproveCount());
-		    		transferBatch.setRefuseAmt(new BigDecimal(transferBatch.getRefuseAmt().longValue()+unApproveAmount));
+		    		transferBatch.setRefuseAmt(transferBatch.getRefuseAmt()+unApproveAmount);
 		    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
 					break;
 				case REFUSED:
@@ -240,7 +231,7 @@ public class TransferServiceImpl
 					List<PojoTranData> tranDataList =  new ArrayList<PojoTranData>();
 					tranDataList.add(transferData);
 		    		businessRefund(tranDataList);
-		    		transferBatch.setRefuseAmt(new BigDecimal(transferBatch.getRefuseAmt().longValue()+unApproveAmount));
+		    		transferBatch.setRefuseAmt(transferBatch.getRefuseAmt()+unApproveAmount);
 		    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
 					break;
 				default:
@@ -277,4 +268,18 @@ public class TransferServiceImpl
 			transferBatchDAO.update(pojoTranBatch);
 		}
 	}
+	@Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
+    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTranBatchOpenStatus openStatus) {
+        PojoTranBatch tranBatch = transferBatchDAO.getByBatchId(tranBatchId);
+        List<PojoBankTransferBatch> bankTransferBatchs = tranBatch.getBankTransferBatchs();
+        
+        List<BankTranBatch> bankTransferBatchCoper = new ArrayList<BankTranBatch>();
+        for(PojoBankTransferBatch copySource:bankTransferBatchs){
+            BankTranBatch copyTarget = new BankTranBatch();
+            BeanUtils.copyProperties(copySource, copyTarget, "tranBatchs","bankTranDatas");
+            bankTransferBatchCoper.add(copyTarget);
+        }
+        return bankTransferBatchCoper;
+    }
 }

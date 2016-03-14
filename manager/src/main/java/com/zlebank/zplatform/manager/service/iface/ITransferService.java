@@ -16,14 +16,17 @@ import java.util.Map;
 import com.zlebank.zplatform.commons.bean.TransferData;
 import com.zlebank.zplatform.commons.bean.TransferDataQuery;
 import com.zlebank.zplatform.commons.service.IBasePageService;
+import com.zlebank.zplatform.manager.bean.BankTranBatch;
+import com.zlebank.zplatform.manager.bean.enmu.BankTranBatchOpenStatus;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.model.PojoTranData;
 
 /**
  * A service interface represent transfer
+ * 
  * @author yangpeng
  * @author guojia
- * @author  yangying
+ * @author yangying
  * @version 1.3.0
  * @date 2015年12月8日 下午3:57:33
  * @since 1.1.0
@@ -33,6 +36,7 @@ public interface ITransferService
             IBasePageService<TransferDataQuery, TransferData> {
 
     /**
+     * Query a list of transfer batch by paged
      * 
      * @param queryTransferBean
      * @param page
@@ -45,6 +49,7 @@ public interface ITransferService
             int pageSize);
 
     /**
+     * Query a list of transfer data by paged
      * 
      * @param queryTransferBean
      * @param page
@@ -57,20 +62,26 @@ public interface ITransferService
             int pageSize);
 
     /**
+     * Transfer batch trial
      * 
-     * @param batchNo
-     * @param transferTrialEnum
+     * @param batchId
+     *            the batch id will be approved
+     * @param flag
+     *            true represent pass,else represent refuse
      * @since 1.3.0
-     * @return
+     * @return false if there is exception
      */
-    public boolean transferBatchTrial(String batchNo, boolean flag);
+    public boolean transferBatchTrial(long batchId, boolean flag);
 
     /**
+     * Transfer data trial
      * 
      * @param tid
-     * @param transferTrialEnum
+     *            the transfer data will be approved
+     * @param flag
+     *            true represent pass,else represent refuse
      * @since 1.3.0
-     * @return
+     * @return false if there is exception
      */
     public boolean transferDataTrial(Long tid, boolean flag);
 
@@ -91,5 +102,12 @@ public interface ITransferService
      * @since 1.3.0
      */
     public void updateTransferDataToFinish(Long tid, String status);
-
+    /**
+     * Query a list of bank transfer batch by transfer batch
+     * @param tranBatchId
+     * @param openStatus
+     * @return
+     * @since 1.3.0
+     */
+    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTranBatchOpenStatus openStatus);
 }
