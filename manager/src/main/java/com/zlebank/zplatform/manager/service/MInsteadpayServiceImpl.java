@@ -115,13 +115,13 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
             NumberFormatException {
         pojoinstead.setStatus(status);
         TradeInfo tradeInfo = new TradeInfo();
-        tradeInfo.setAmount(pojoinstead.getAmt());
+        tradeInfo.setAmount(new BigDecimal(pojoinstead.getAmt()));
         tradeInfo.setBusiCode(REFUSE);
         tradeInfo.setPayMemberId(pojoinstead.getMerId());
         tradeInfo.setTxnseqno(pojoinstead.getTxnseqno());
         //tradeInfo.setTxnseqno(pojoinstead.getOrderId());
         tradeInfo.setCommission(new BigDecimal(0));
-        tradeInfo.setCharge(pojoinstead.getTxnfee());
+        tradeInfo.setCharge(new BigDecimal(pojoinstead.getTxnfee()));
         accEntyr.accEntryProcess(tradeInfo);
 
     }

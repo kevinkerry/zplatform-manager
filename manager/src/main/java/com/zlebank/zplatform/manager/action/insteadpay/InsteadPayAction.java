@@ -14,15 +14,24 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import jxl.read.biff.BiffException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.commons.bean.AuditBean;
@@ -30,14 +39,21 @@ import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.commons.utils.HibernateValidatorUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
+import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.action.merch.MerchDetaAction;
 import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.enums.InsteadEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IInsteadPayService;
 import com.zlebank.zplatform.manager.util.ReadExcle;
+import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
+import com.zlebank.zplatform.trade.bean.InsteadPayBatchBean;
+import com.zlebank.zplatform.trade.bean.InsteadPayBatchQuery;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailQuery;
+import com.zlebank.zplatform.trade.bean.enums.InsteadPayImportTypeEnum;
+import com.zlebank.zplatform.trade.bean.page.AuditDataBean;
 import com.zlebank.zplatform.trade.exception.BalanceNotEnoughException;
 import com.zlebank.zplatform.trade.exception.DuplicateOrderIdException;
 import com.zlebank.zplatform.trade.exception.FailToGetAccountInfoException;
@@ -46,8 +62,10 @@ import com.zlebank.zplatform.trade.exception.FailToInsertFeeException;
 import com.zlebank.zplatform.trade.exception.InvalidCardException;
 import com.zlebank.zplatform.trade.exception.MerchWhiteListCheckFailException;
 import com.zlebank.zplatform.trade.exception.NotInsteadPayWorkTimeException;
+import com.zlebank.zplatform.trade.exception.RecordsAlreadyExistsException;
 import com.zlebank.zplatform.trade.insteadPay.message.InsteadPayFile;
 import com.zlebank.zplatform.trade.insteadPay.message.InsteadPay_Request;
+import com.zlebank.zplatform.trade.service.InsteadBatchService;
 import com.zlebank.zplatform.trade.service.InsteadPayService;
 
 /**
@@ -60,20 +78,38 @@ import com.zlebank.zplatform.trade.service.InsteadPayService;
  */
 public class InsteadPayAction extends BaseAction {
 
+    private static final Log log = LogFactory.getLog(InsteadPayAction.class);
+    
     private static final String BIZTYPE = "000401";
     private static final String CHANNELTYPE = "00";
     private static final String ACCESSTYPE = "0";
     private static final String TXNTYPE = "21";
     private static final String TXNSUBTYPE = "03";
+    
+    private final String INSTEAD_PATH = "/instead";
+
     /**
      * serialVersionUID
      */
     private static final long serialVersionUID = 1L;
     @Autowired
+    private InsteadBatchService insteadBatchService;
+    @Autowired
     private InsteadPayService instea;
     @Autowired
     private IInsteadPayService iInstea;
+    private FTPClientFactory ftpClientFactory;
+    
+    /** 代付明细查询条件 **/
     private InsteadPayDetailQuery instead;
+    
+    /** 代付批次查询条件 **/
+    InsteadPayBatchQuery insteadPayBatchQuery;
+    
+    /** 审核数据 **/
+    AuditDataBean auditDataBean;
+    
+     
 
     private File file;
 
@@ -123,6 +159,9 @@ public class InsteadPayAction extends BaseAction {
         this.file = file;
     }
 
+    /**
+     * 批量导入代付数据
+     */
     public void file() {
         Long userID = getCurrentUser().getUserId();
         String messg = "";
@@ -155,10 +194,24 @@ public class InsteadPayAction extends BaseAction {
                     messg="总金额或者总笔数不正确";
 
                 } else {
+                    ActionContext ctx = ActionContext.getContext();
+                    HttpServletRequest request = (HttpServletRequest)ctx.get(ServletActionContext.HTTP_REQUEST);
+                    WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+                    ftpClientFactory = (FTPClientFactory) wac.getBean("ftpClientFactory");
+                    AbstractFTPClient ftpClient = ftpClientFactory.getFtpClient();
+                    String filePath= INSTEAD_PATH+"/"+batchList.get(0).getMerId()+"/"+DateUtil.getCurrentDate();
+                    String fileName=batchList.get(0).getBatchNo()+".xls";
+                    try {
+                        ftpClient.upload(filePath, fileName, file);
+                    } catch (IOException e) {
+                        log.error(e.getMessage(), e);
+                        log.warn("upload to ftp get a exception.caused by:" + e.getMessage());
+                        messg = "FTP 上传失败";
+                    }
                     if (batchList != null && !batchList.isEmpty()) {
                         InsteadPay_Request insteadRequest = batchList.get(0);
                         insteadRequest.setFileContent(ins);
-                        instea.insteadPay(insteadRequest, userID);
+                        instea.insteadPay(insteadRequest, userID,InsteadPayImportTypeEnum.FILE, filePath + "/" + fileName);
                         messg = "操作成功";
                     } else {
                         messg = "读取excle失败";
@@ -261,13 +314,39 @@ public class InsteadPayAction extends BaseAction {
         return this.SUCCESS;
     }
 
+    
+    /**
+     * 代付批次审核查询
+     */
+    public void queryInsteadBatch() {
+        if (insteadPayBatchQuery != null && StringUtil.isNotEmpty(insteadPayBatchQuery.getStatus())) {
+            // 用逗号分隔开的状态
+            insteadPayBatchQuery.setStatusList(Arrays.asList(insteadPayBatchQuery.getStatus().split(",")));
+            insteadPayBatchQuery.setStatus("");
+        }
+        int page = this.getPage();
+        int pageSize = this.getRows();
+        Map<String, Object> map = new HashMap<String, Object>();
+        PagedResult<InsteadPayBatchBean> result = insteadBatchService.queryPaged(page, pageSize, insteadPayBatchQuery);
+        try {
+            List<InsteadPayBatchBean> li = result.getPagedResult();
+            Long total = result.getTotal();
+            map.put("total", total);
+            map.put("rows", li);
+            json_encode(map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 代付明细审核查询
+     */
     public void queryInstead() {
-        if ("first".equals(falg)) {
-            if (instead == null) {
-                instead = new InsteadPayDetailQuery();
-            }
-            instead.setStatus(ChargeEnum.FIRSTTRIAL.getCode());
-
+        if (instead != null && StringUtil.isNotEmpty(instead.getStatus())) {
+            // 用逗号分隔开的状态
+            instead.setStatusList(Arrays.asList(instead.getStatus().split(",")));
+            instead.setStatus("");
         }
         int page = this.getPage();
         int pageSize = this.getRows();
@@ -283,6 +362,85 @@ public class InsteadPayAction extends BaseAction {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * 代付批次审核
+     * @return
+     */
+    public void batchAudit() {
+        String batchId = auditDataBean.getBatchId();
+        List<String> ids = Arrays.asList(batchId.split("\\|"));
+        List<Long> batchIds = new ArrayList<Long>();
+        for (String id : ids) {
+            if (StringUtil.isNotEmpty(id))
+                batchIds.add(Long.parseLong(id));
+        }
+            
+        Map<String, Object> map = new HashMap<String, Object>();
+        String messg = "操作成功！";
+        boolean isok = false;
+        
+        if (batchIds.size() == 0) {
+            map.put("messg", "没有找到需要处理的数据");
+            map.put("falg", isok);
+            json_encode(map);
+            return;
+        }
+        
+        // 调用后台
+        try {
+            insteadBatchService.batchAudit(batchIds, auditDataBean.getPass());
+        } catch (RecordsAlreadyExistsException e) {
+            messg = "操作失败："+e.getMessage();
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            messg = "操作失败："+e.getMessage();
+            e.printStackTrace();
+        } catch (Exception e) {
+            messg = "操作失败："+e.getMessage();
+            e.printStackTrace();
+        }
+        map.put("message", messg);
+        map.put("flag", isok);
+        json_encode(map);
+    }
+    
+    /**
+     * 代付明细审核
+     * @return
+     */
+    public void detailsAudit() {
+        // 初始化返回数据
+        Map<String, Object> map = new HashMap<String, Object>();
+        String messg = "操作成功！";
+        boolean isok = false;
+        // 取参数
+        String pageIds = auditDataBean.getDetailId();
+        List<String> ids = Arrays.asList(pageIds.split("\\|"));
+        List<Long> detailIds = new ArrayList<Long>();
+        for (String id : ids) {
+            if (StringUtil.isNotEmpty(id))
+                detailIds.add(Long.parseLong(id));
+        }
+
+        // 如果没有需要处理的数据则返回
+        if (detailIds.size() == 0) {
+            map.put("messg", "没有找到需要处理的数据");
+            map.put("falg", isok);
+            json_encode(map);
+            return;
+        }
+        // 调用后台
+        try {
+            insteadBatchService.detailsAudit(detailIds, auditDataBean.getPass());
+        } catch (Exception e) {
+            messg = "操作失败："+e.getMessage();
+            e.printStackTrace();
+        }
+        map.put("message", messg);
+        map.put("flag", isok);
+        json_encode(map);
     }
 
     public String getFirstInstead() {
@@ -340,7 +498,6 @@ public class InsteadPayAction extends BaseAction {
                 instead = new InsteadPayDetailQuery();
             }
             instead.setStatus(ChargeEnum.FIRSTTRIAL.getCode());
-
         }
         try {
             iInstea.batchFirst(trial, instead);
@@ -356,11 +513,21 @@ public class InsteadPayAction extends BaseAction {
         }
         json_encode(messg);
 
-    }   
-    
-    
-    
-    
-    
-    
+    }
+
+    public InsteadPayBatchQuery getInsteadPayBatchQuery() {
+        return insteadPayBatchQuery;
+    }
+
+    public void setInsteadPayBatchQuery(InsteadPayBatchQuery insteadPayBatchQuery) {
+        this.insteadPayBatchQuery = insteadPayBatchQuery;
+    }
+
+    public AuditDataBean getAuditDataBean() {
+        return auditDataBean;
+    }
+
+    public void setAuditDataBean(AuditDataBean auditDataBean) {
+        this.auditDataBean = auditDataBean;
+    }
 }
