@@ -17,7 +17,7 @@ import com.zlebank.zplatform.commons.bean.TransferData;
 import com.zlebank.zplatform.commons.bean.TransferDataQuery;
 import com.zlebank.zplatform.commons.service.IBasePageService;
 import com.zlebank.zplatform.manager.bean.BankTranBatch;
-import com.zlebank.zplatform.manager.bean.enmu.BankTranBatchOpenStatus;
+import com.zlebank.zplatform.trade.bean.enums.BankTransferBatchOpenStatusEnum;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.model.PojoTranData;
 
@@ -109,5 +109,5 @@ public interface ITransferService
      * @return
      * @since 1.3.0
      */
-    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTranBatchOpenStatus openStatus);
+    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTransferBatchOpenStatusEnum openStatus);
 }

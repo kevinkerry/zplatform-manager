@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,7 +26,7 @@ import com.zlebank.zplatform.trade.model.PojoTranData;
 import com.zlebank.zplatform.trade.service.SeqNoService;
 /**
  * 
- * Transfer pojos mapping test
+ * Transfer test
  *
  * @author yangying
  * @version
@@ -37,6 +39,8 @@ public class TrasferTest {
     private long tranBatchId;
     private ApplicationContext context;
     private ITransferService transferServiceImpl;
+    
+    private static final Log log = LogFactory.getLog(TrasferTest.class);
     @Before
     public void init() {
         context = new ClassPathXmlApplicationContext("/spring/*");
@@ -67,15 +71,6 @@ public class TrasferTest {
                     Assert.assertEquals(10, tranDatas.size());
                 }
             }
-            /*
-             * criteria = session.createCriteria(PojoTranBatch.class); criteria
-             * = criteria.setFetchMode("tranDatas",
-             * FetchMode.JOIN).setFetchMode("bankTranData", FetchMode.SELECT);
-             * Assert.assertEquals(27, transBatchs.size()); for (PojoTranBatch
-             * transBatch : transBatchs) { if (transBatch.getTid() == 258) {
-             * List<PojoTranData> tranDatas = transBatch.getTranDatas();
-             * Assert.assertEquals(10, tranDatas.size()); } }
-             */
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,8 +127,15 @@ public class TrasferTest {
         tranBatch.setStatus("01");
         tranBatch.setTranBatchNo(seqNoServiceImpl
                 .getBatchNo(SeqNoEnum.TRAN_BATCH_NO));
+        tranBatch.setApproveCount(0L);
+        tranBatch.setApproveAmt(0L);
+        tranBatch.setRefuseCount(0L);
+        tranBatch.setRefuseAmt(0L);
+        tranBatch.setWaitApproveAmt(totalAmt);
+        tranBatch.setWaitApproveCount(totalCount);
         tranBatch.addTranDatas(pojoTranDatas);
-
+        tranBatch.setApplyTime(new Date());
+        
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.persist(tranBatch);
@@ -155,25 +157,31 @@ public class TrasferTest {
                     PojoTranBatch.class, tranBatchId);
             tranDatas = pojoTranBatch.getTranDatas();
             session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().rollback();
-            session.close();
-        }
+          
 
-        if (tranDatas == null || tranDatas.isEmpty()) {
-            Assert.fail("transfer data not exist fail");
-        }
-        try {
+            if (tranDatas == null || tranDatas.isEmpty()) {
+                Assert.fail("transfer data not exist fail");
+            }
             for (PojoTranData tranData : tranDatas) {
                 boolean isApproved = RandomArugment.randomBoolean();
-                transferServiceImpl.transferDataTrial(tranData.getTid(),
+                boolean isSuccess = transferServiceImpl.transferDataTrial(tranData.getTid(),
                         isApproved);
+                if(!isSuccess){
+                    log.info("fail tranData"+tranData.getTid());
+                }else{
+                    log.info("success tranData"+tranData.getTid());
+                }
+            }
+            if(session.getTransaction().isActive()){
+                session.getTransaction().commit();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Assert.fail("transferDataTrial exception fail");
+            if(session.getTransaction().isActive()){
+                session.getTransaction().rollback();
+            }
+        }finally{
+            session.close();
         }
     }
 }

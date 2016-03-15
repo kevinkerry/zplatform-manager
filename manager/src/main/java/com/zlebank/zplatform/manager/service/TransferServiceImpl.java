@@ -26,12 +26,12 @@ import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.bean.TransferData;
 import com.zlebank.zplatform.commons.bean.TransferDataQuery;
 import com.zlebank.zplatform.manager.bean.BankTranBatch;
-import com.zlebank.zplatform.manager.bean.enmu.BankTranBatchOpenStatus;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.enums.TransferTrialEnum;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.ITransferService;
 import com.zlebank.zplatform.trade.batch.spliter.BatchSpliter;
+import com.zlebank.zplatform.trade.bean.enums.BankTransferBatchOpenStatusEnum;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.dao.BankTransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.BankTransferDataDAO;
@@ -203,7 +203,6 @@ public class TransferServiceImpl
 	    	PojoTranBatch transferBatch = transferData.getTranBatch();
 	    	switch (transferTrialEnum) {
 				case SUCCESSFUL:
-					PojoTranData[] pojoTransferDatas = new PojoTranData[]{transferData};
 		    		//调用分批算法
 		    		//batchSpliter.split(pojoTransferDatas);
 					if("00".equals(transferData.getStatus())){
@@ -270,9 +269,8 @@ public class TransferServiceImpl
 	}
 	@Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
-    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTranBatchOpenStatus openStatus) {
-        PojoTranBatch tranBatch = transferBatchDAO.getByBatchId(tranBatchId);
-        List<PojoBankTransferBatch> bankTransferBatchs = tranBatch.getBankTransferBatchs();
+    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTransferBatchOpenStatusEnum openStatus) {
+        List<PojoBankTransferBatch> bankTransferBatchs = bankTransferBatchDAO.getByTranBatchAndOpenStatus(tranBatchId, openStatus);
         
         List<BankTranBatch> bankTransferBatchCoper = new ArrayList<BankTranBatch>();
         for(PojoBankTransferBatch copySource:bankTransferBatchs){
