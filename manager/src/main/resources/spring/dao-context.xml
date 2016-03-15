@@ -87,6 +87,9 @@
 	<bean id="mccListDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.MccListDAOImpl">
 	</bean>
+	<bean id="enterpriseDetaDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.EnterpriseDetaDAOImpl">
+	</bean>
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
 
@@ -163,6 +166,8 @@
 		</property>
 		<property name="mccListDAO">
 			<ref bean="mccListDAO" />
+		</property><property name="enterpriseDetaDAO">
+			<ref bean="enterpriseDetaDAO" />
 		</property>
 	</bean>
 </beans>

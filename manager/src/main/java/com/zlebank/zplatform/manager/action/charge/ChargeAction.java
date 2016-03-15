@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
-import com.zlebank.zplatform.commons.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.ChargeBean;

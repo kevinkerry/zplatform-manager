@@ -1,26 +1,27 @@
 package com.zlebank.zplatform.manager.dao.iface;
 
-import com.zlebank.zplatform.manager.dao.object.MerchDetaModel;
+import com.zlebank.zplatform.manager.dao.object.PojoMerchDetaApply;
 
-
-public interface IMerchDetaDAO extends IBaseDAO<MerchDetaModel, Long>{ 
+public interface IMerchDetaDAO extends IBaseDAO<PojoMerchDetaApply, Long>{ 
 	/**
-	 * check if email or cellphoneno is repeat in merchInsti
+	 * check if email or cellphoneno is repeat in coopInsti
 	 * @param email
 	 * @param cellphone
 	 * @param merchInsti
+	 * @param coopInstiId
 	 * @return true if repeat
 	 */
-	public boolean isRepeat(String email,String cellphone,String merchInsti);
+	public boolean isRepeat(String email, String cellphone,String coopInstiId);
 	
 	/**
-     * check if there is other member has the same email or cellphoneno 
+     * check if there is other member has the same email or cell phone No in a coopInsti
      * @param email
      * @param cellphone
      * @param merchInsti
+     * @param coopInstiId
      * @return true if has
      */
-    public boolean hasSame(String memberId,String email,String cellphone);
+    public boolean hasSame(String memberId,String email,String cellPhoneNo,long coopInstiId);
 	
 	/**
 	 * 

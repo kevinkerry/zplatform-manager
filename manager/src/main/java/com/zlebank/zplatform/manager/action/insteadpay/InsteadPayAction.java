@@ -34,7 +34,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
-import com.zlebank.zplatform.commons.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.commons.utils.HibernateValidatorUtil;

@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
-<jsp:include page="../../top.jsp"></jsp:include>
+<jsp:include page="../../../top.jsp"></jsp:include>
 <body>
 	<style type="text/css">
 table tr td {
@@ -23,7 +23,11 @@ table tr td select {
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						
+
+						<td align="right" width="10%">批次号:</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							name="transQuery.batchno" id="batchno" maxlength="32" />
+						</td>
 							<td align="right" width="10%">划拨流水号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="transQuery.tranId" id="tranId" maxlength="32" />
@@ -33,14 +37,18 @@ table tr td select {
 						<td align="right" width="10%">关联订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="transQuery.relatedorderno" id="relatedorderno" maxlength="32" /></td>
+
 					</tr>
+
 					<tr>
+					
 					<td align="right" width="10%">业务类型:</td>
 						<td colspan="1"><select name="transQuery.busicode"
 							class="easyui-validatebox validatebox-text" id="busicode">
 								<option value="">请选择</option>
 								<option value="30000001">提现</option>
 								<option value="70000001">代付</option>
+
 						</select></td>
 						<td align="right" width="10%">账户类型:</td>
 							<td colspan="1"><select name="transQuery.acctType"
@@ -63,6 +71,7 @@ table tr td select {
 		</div>
 
 	</div>
+
 <div id="wss" class="easyui-window" closed="true" title="My Window"
 		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
@@ -97,24 +106,16 @@ table tr td select {
 <tr><td width="25%"   align="center" >业务名称</td><td align="center" whdth="25%" id="tbusicode"></td>
 <td width="25%"   align="center" >业务类型</td><td align="center" whdth="25%" id="tbusitype"></td> 
  </tr>
-<tr>
-<td width="25%"   align="center" >初审人</td><td align="center" whdth="25%" id="tstexauser"></td>
-<td width="25%"   align="center" >初审时间</td><td align="center" whdth="25%" id="tstexatime"></td> 
- </tr>
-<tr>
-<td width="25%"   align="center" >初审意见</td><td align="center" whdth="25%" id="tstexaopt"></td>
-<td width="25%"   align="center" >划拨手续费</td><td align="center" whdth="25%" id="ttxnfee"></td> </tr>
+<tr><td width="25%"   align="center" >划拨手续费</td><td align="center" whdth="25%" id="ttxnfee"></td> </tr>
+
 		
 					</table>
-			</div>
-				<br>
-				<form id="secondTrials" method="post"
+				</div>
+					<br>
+				<form id="firstTrial" method="post"
 					action="pages/withdraw/queryTrialWithdraTriaAction.action">
-					<input id="withdraworderno1" type="hidden"
-						name="ftb.orderNo">
-						<input id="tranIds" type="hidden"
-						name="transQuery.tranId">
-						 <input id="falg" type="hidden"
+					<input id="withdraworderno" type="hidden"
+						name="ftb.orderNo"> <input id="falg" type="hidden"
 						name="ftb.falg">
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">
@@ -125,45 +126,19 @@ table tr td select {
 						</tr>
 					</table>
 				</form>
-			</div>
+
+		</div>
 			<div region="south" border="false"
 				style="text-align: center; padding: 5px 0;">
 				<a class="easyui-linkbutton" iconCls="icon-ok"
-					href="javascript:secondTrials(true)" id="btn_submit" onclick="">通过</a>
+					href="javascript:firstTrial(true)" id="btn_submit" onclick="">通过</a>
 				<a class="easyui-linkbutton" iconCls="icon-cancel"
 					href="javascript:void(0)" id="icon-cancel"
-					onclick="secondTrials(false)">拒绝</a>
+					onclick="firstTrial(false)">拒绝</a>
 			</div>
 		</div>
 	</div>
-
-
-	<div id="w" class="easyui-window" closed="true" title="My Window"
-		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false"
-				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
-				<form id="firstTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="withdraworderno2" type="hidden" name="ftb.orderNo">
-				<input id="falgss" type="hidden" name="ftb.falg">
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-				<tr>
-				<td align="center">复审意见:</td>
-				<td>
-				<textarea rows="5" cols="80" name="ftb.stexaopt">
-				</textarea>
-				
-				</td>
-				</tr>
-				</table>
-			</form>
-			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:firstTrial(true)" id="btn_submit" onclick="">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)"  id="icon-cancel" onclick="firstTrial(false)">拒绝</a>
-			</div>
-		</div>
-	</div>
+	
 	
 	
 		<div id="ws" class="easyui-window" closed="true" title="My Window"
@@ -218,8 +193,33 @@ table tr td select {
 			</div>
 		</div>
 	</div>
-	
-	
+
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="firstTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
+				<input id="withdraworderno" type="hidden" name="ftb.orderNo">
+				<input id="falg" type="hidden" name="ftb.falg">
+				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
+				<tr>
+				<td align="center">初审意见:</td>
+				<td>
+				<textarea rows="5" cols="80" name="ftb.stexaopt">
+				</textarea>
+				
+				</td>
+				</tr>
+				</table>
+			</form>
+			</div>
+			<div region="south" border="false" style="text-align:center;padding:5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:firstTrial(true)" id="btn_submit" onclick="">通过</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)"  id="icon-cancel" onclick="firstTrial(false)">拒绝</a>
+			</div>
+		</div>
+	</div>
 </body>
 
 <script>
@@ -229,13 +229,13 @@ table tr td select {
 		$('#test')
 				.datagrid(
 						{
-							title : '划拨复审',
+							title : '划拨初审',
 							iconCls : 'icon-save',
 							height : 400,
 							singleSelect : true,
 							nowrap : false,
 							striped : true,
-							url :'pages/transfer/queryTrinsferTransferAction.action?falg=second', 
+							url :'pages/transfer/queryTrinsferTransferAction.action?falg=first', 
 							remoteSort : false,
 							idField : 'ORGAN_ID',
 							columns : [ [
@@ -263,6 +263,9 @@ table tr td select {
 												return '对私账户';
 											} 
 										} 
+										
+										
+										
 									},
 									{
 										field : 'accno',
@@ -309,16 +312,17 @@ table tr td select {
 										width : 120,
 										align : 'center',
 
-											formatter : function(value, rec) {
-												if (value == '7000') {
-													return '代付';
-												} else if (value == '3000') {
-													return '提现';
-												}else  {
-													return '';
-												}
-												}
-									},
+										formatter : function(value, rec) {
+											if (value == '7000') {
+												return '代付';
+											} else if (value == '3000') {
+												return '提现';
+											}else  {
+												return '';
+											}
+											}
+								},
+								
 									{
 										field : 'createtime',
 										title : '创建时间',
@@ -351,7 +355,7 @@ table tr td select {
 												return '';
 											}
 										} 
-									},
+									} ,
 									
 									{
 										field : 'status-',
@@ -368,10 +372,6 @@ table tr td select {
 									}
 									}
 									}
-									
-									
-									
-									
 									] ],
 							singleSelect : false,
 							selectOnCheck : true,
@@ -392,15 +392,18 @@ table tr td select {
 									$("#firstTrial")[0].reset();
 									$("#btn_submit").linkbutton('enable');
 									$("#icon-cancel").linkbutton('enable');
-									$("#withdraworderno2").val(myArray);
+									
+									$("#withdraworderno").val(myArray);
 									showAdd();
 								}else{
 									$.messager.alert('提示',"请选择数据"); 
 									
 								}
 								}
-							} ,
-							{
+							
+							
+							}
+							,{
 								id : 'btnadds',
 								text : '按条件审核',
 								iconCls : 'icon-add',
@@ -410,7 +413,7 @@ table tr td select {
 									$("#secondTrial")[0].reset();
 									showAdds();
 								}
-								}
+							}
 							
 							
 							
@@ -425,14 +428,13 @@ table tr td select {
 				"transQuery.tranId" : $('#tranId').val(),
 				"transQuery.relatedorderno" : $('#relatedorderno').val(),
 				"transQuery.busicode" : $('#busicode').val(),
-				"transQuery.acctType" : $('#acctType').val()
+					"transQuery.acctType" : $('#acctType').val()
 			   }
 			$('#test').datagrid('load', data);
 	}
 
 	function showAdd() {
-		$("#btn_submit").linkbutton('enable');
-		$("#icon-cancel").linkbutton('enable');
+	
 		$('#w').window({
 			title : '批量审核',
 			top : 100,
@@ -445,13 +447,43 @@ table tr td select {
 			closed : false,
 			height : 240
 		});
+	}
 
+	function showAdds() {
+	
+		$('#ws').window({
+			title : '按条件审核',
+			top : 100,
+			width : 800,
+			collapsible : false,
+			minimizable : false,
+			maximizable : false,
+			modal : true,
+			shadow : false,
+			closed : false,
+			height : 240
+		});
+	}
+	
+	function showAddss() {
+		
+		$('#wss').window({
+			title : '审核',
+			top : 100,
+			width : 800,
+			collapsible : false,
+			minimizable : false,
+			maximizable : false,
+			modal : true,
+			shadow : false,
+			closed : false,
+			height :700
+		});
 	}
 	function closeAdd() {
-
-		$('#w').window('close');
 		$('#ws').window('close');
 		$('#wss').window('close');
+		$('#w').window('close');
 	}
 	
 	/* function a(falg){
@@ -470,24 +502,19 @@ table tr td select {
 	function firstTrial(falg){
 	if(falg==true){
 			$("#firstTrial").attr("action",
-					"pages/transfer/secondAuditTransferAction.action");
+					"pages/transfer/firstAuditTransferAction.action");
 			$("#falg").val("true");
-			$("#falgs").val("true");
-			$("#falgss").val("true");
-			
 		}else{
 				$("#firstTrial").attr("action",
-						"pages/transfer/secondAuditTransferAction.action");
+						"pages/transfer/firstAuditTransferAction.action");
 				$("#falg").val("false");
-				$("#falgs").val("false");
-				$("#falgss").val("false");
 	
 		}
 		$('#firstTrial').form('submit', {  
 		    onSubmit: function(){  
 			    if($('#firstTrial').form('validate')){
 			    	$('#btn_submit').linkbutton('disable');
-					$("#icon-cancel").linkbutton('disable');
+					$("#icon-cancel").linkbutton('disable');		
 			    	return 	true;
 				}
 		        return false;   
@@ -500,121 +527,6 @@ table tr td select {
 		        
 		    }  
 		});   
-	}
-	
-	
-	
-	function secondTrial(falg){
-	alert(falg);
-		if(falg==true){
-
-				$("#secondTrial").attr("action",
-						"pages/transfer/secondAuditByConditionsTransferAction.action?falg=second");
-				$("#falgs").val("true");
-				$("#falg").val("true");
-				$("#falgss").val("true");
-			}else{
-
-					$("#secondTrial").attr("action",
-							"pages/transfer/secondAuditByConditionsTransferAction.action?falg=second");
-					$("#falgs").val("false");
-					$("#falg").val("false");
-					$("#falgss").val("false");
-		
-			}
-			$('#secondTrial').form('submit', {  
-			    onSubmit: function(){  
-				    if($('#secondTrial').form('validate')){
-				    	$('#btn_submit').linkbutton('disable');
-						$("#icon-cancel").linkbutton('disable');
-				    	return 	true;
-					}
-			        return false;   
-			    },   
-			    success:function(data){  
-			    	$.messager.alert('提示',data); 
-	    			search();
-		    		closeAdd();
-			 
-			        
-			    }  
-			});   
-		}
-	
-	
-	
-	function secondTrials(falg){
-		if(falg==true){
-	
-			$("#secondTrials").attr("action",
-					"pages/transfer/secondAuditByConditionsTransferAction.action?falg=second");
-			$("#falgs").val("true");
-			$("#falg").val("true");
-			$("#falgss").val("true");
-		
-		}else{
-				$("#secondTrials").attr("action",
-						"pages/transfer/secondAuditByConditionsTransferAction.action?falg=second");
-				$("#falgs").val("false");
-				$("#falg").val("false");
-				$("#falgss").val("false");
-		}
-		$('#secondTrials').form('submit', {  
-		    onSubmit: function(){  
-			    if($('#secondTrial').form('validate')){
-			    	$('#btn_submit').linkbutton('disable');
-					$("#icon-cancel").linkbutton('disable');	
-			    	return 	true;
-				}
-		        return false;   
-		    },   
-		    success:function(data){  
-		    	$.messager.alert('提示',data); 
-    			search();
-	    		closeAdd();
-		 
-		        
-		    }  
-		});   
-	}
-		
-		
-
-	
-
-	function showAdds() {
-		$("#btn_submit").linkbutton('enable');
-		$("#icon-cancel").linkbutton('enable');
-		$('#ws').window({
-			title : '按条件审核',
-			top : 100,
-			width : 800,
-			collapsible : false,
-			minimizable : false,
-			maximizable : false,
-			modal : true,
-			shadow : false,
-			closed : false,
-			height : 240
-		});
-	}	
-	
-	
-	function showAddss() {
-		$("#btn_submit").linkbutton('enable');
-		$("#icon-cancel").linkbutton('enable');
-		$('#wss').window({
-			title : '审核',
-			top : 100,
-			width : 800,
-			collapsible : false,
-			minimizable : false,
-			maximizable : false,
-			modal : true,
-			shadow : false,
-			closed : false,
-			height :700
-		});
 	}
 	
 	
@@ -623,7 +535,7 @@ table tr td select {
 		$.ajax( { 
 				type: "POST",
 	             url: "pages/transfer/queryTrinsferTransferAction.action",
-	             data: {"transQuery.tranId":tranid,"falg":"second"},
+	             data: {"transQuery.tranId":tranid,"falg":"first"},
 	             dataType: "json",
 	             async:false,
 	             success: function(data){
@@ -680,6 +592,8 @@ table tr td select {
 	            	}else if(json.busitype=="7000"){
 	            		$("#tbusicode").html("代付");
 	            	}
+	            	
+	            	
 	            	$("#tsplitflag").html(json.splitflag);
 	            	$("#taccstatus").html(json.accstatus);
 	            	$("#taccinfo").html(json.accinfo);
@@ -695,39 +609,55 @@ table tr td select {
 	            	$("#tcvlexaopt").html(json.cvlexaopt);
 	            	$("#ttxnseqno").html(json.txnseqno);
 	            	$("#ttxnfee").html(json.fee);
-	            	$("#withdraworderno1").val(json.tranid);
-	             	$("#tranIds").val(json.tranid);
-	            	
+	            	$("#withdraworderno").val(json.tranid);
 	           isok=true;
 	            }
 	             }
 		})
 		if(isok==true){
-		
+			$("#btn_submit").linkbutton('enable');
+			$("#icon-cancel").linkbutton('enable');
 		showAddss();
+	
 		}
 		}
 	
 	
-	
-	function showAdds() {
+	function secondTrial(falg){
+		
+		if(falg==true){
 
-		$('#ws').window({
-			title : '单笔审核',
-			top : 100,
-			width : 800,
-			collapsible : false,
-			minimizable : false,
-			maximizable : false,
-			modal : true,
-			shadow : false,
-			closed : false,
-			height : 500
-		});
+				$("#secondTrial").attr("action",
+						"pages/transfer/secondAuditByConditionsTransferAction.action?falg=first");
+				$("#falgs").val("true");
+				$("#falg").val("true");
+				$("#falgss").val("true");
+			}else{
+
+					$("#secondTrial").attr("action",
+							"pages/transfer/secondAuditByConditionsTransferAction.action?falg=first");
+					$("#falgs").val("false");
+					$("#falg").val("false");
+					$("#falgss").val("false");
 		
-		
-		
-	}
-	
+			}
+			$('#secondTrial').form('submit', {  
+			    onSubmit: function(){  
+				    if($('#secondTrial').form('validate')){
+				    	$('#btn_submit').linkbutton('disable');
+						$("#icon-cancel").linkbutton('disable');
+				    	return 	true;
+					}
+			        return false;   
+			    },   
+			    success:function(data){  
+			    	$.messager.alert('提示',data); 
+	    			search();
+		    		closeAdd();
+			 
+			        
+			    }  
+			});   
+		}
 </script>
 </html>

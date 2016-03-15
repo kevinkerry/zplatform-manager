@@ -31,7 +31,7 @@ import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.BusinessServiec;
-import com.zlebank.zplatform.commons.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.CardBin;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.dao.CardBinDao;

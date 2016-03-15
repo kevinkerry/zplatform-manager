@@ -18,7 +18,7 @@ import java.util.Map;
 import com.zlebank.zplatform.acc.bean.QueryAccount;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
-import com.zlebank.zplatform.commons.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.service.IBasePageService;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawBean;

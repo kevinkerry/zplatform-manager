@@ -23,7 +23,7 @@ table tr td select {
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						<td align="right" width="10%">划拨批次号:</td>
+						<td align="right" width="10%">转账批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="transQuery.batchno" id="batchno" maxlength="32" />
 						</td>
@@ -94,52 +94,25 @@ table tr td select {
 		$('#endDate').datebox();
 		//$("#withdraworcheckbox").unbind();
 		$('#test').datagrid({
-			title : '划拨批次审核',
+			title : '转账批次审核',
 			iconCls : 'icon-save',
 			height : 300,
 			singleSelect : true,
 			nowrap : false,
 			striped : true,
-			url :'pages/transfer/queryBatchTransferAction.action', 
+			url :'pages/transfer/queryBankBatchTransferAction.action', 
 			remoteSort : false,
 			idField : 'ORGAN_ID',
 			collapsible:true,
 			columns : [ [
 					{field : 'ck',checkbox : true},
-					{field : 'tranBatchNo',title : '划拨批次号',width : 90,align : 'center'},
+					{field : 'bankTranBatchNo',title : '转账批次号',width : 90,align : 'center'},
 					{field : 'totalCount',title : '总笔数',width : 90,align : 'center'},
-					{field : 'totalAmt',title : '总金额',width : 90,align : 'center',
-						formatter:function(value,rec){
-									return value/100.00;
-						}},
-					{field : 'approveCount',title : '通过笔数',width : 90,align : 'center'},
-					{field : 'approveAmt',title : '通过金额',width : 90,align : 'center',
-						formatter:function(value,rec){
-							return value/100.00;
-					}},
-					{field : 'refuseCount',title : '拒绝笔数',width : 90,align : 'center'},
-					{field : 'refuseAmt',title : '拒绝金额',width : 90,align : 'center',
-						formatter:function(value,rec){
-							return value/100.00;
-					}},
-					{field : 'waitApproveCount',title : '待审笔数',width : 90,align : 'center'},
-					{field : 'waitApproveAmt',title : '待审金额',width : 90,align : 'center',
-						formatter:function(value,rec){
-									return value/100.00;
-					}},
-					{field : 'busiType',title : '业务名称',width : 90,align : 'center',
-						formatter : function(value, rec) {
-										if (value == '00') {
-											return '代付';
-										} else if (value == '01') {
-											return '提现';
-										}else if (value == '02') {
-											return '退款';
-										}else  {
-											return '';
-										}
-									}
-					},
+					{field : 'totalAmt',title : '总金额',width : 90,align : 'center'},
+					{field : 'successCount',title : '通过笔数',width : 90,align : 'center'},
+					{field : 'successAmt',title : '通过金额',width : 90,align : 'center'},
+					{field : 'failCount',title : '拒绝笔数',width : 90,align : 'center'},
+					{field : 'failAmt',title : '拒绝金额',width : 90,align : 'center'},
 					{field : 'applyTime',title : '申请时间',width : 90,align : 'center'},
 					{field : 'approveFinishTime',title : '审核完成时间',width : 90,align : 'center'},
 					{field : 'finishTime',title : '转账完成时间',width : 90,align : 'center'},
@@ -204,24 +177,24 @@ table tr td select {
 		$('#test2')
 		.datagrid(
 				{
-					title : '划拨明细审核',
+					title : '转账明细审核',
 					iconCls : 'icon-save',
 					height : 300,
 					collapsible:true,
 					singleSelect : true,
 					nowrap : false,
 					striped : true,
-					url :'pages/transfer/queryDetailTransferAction.action', 
+					url :'pages/transfer/queryBankDataTransferAction.action', 
 					remoteSort : false,
 					idField : 'ORGAN_ID',
 					columns : [ [
 							{field : 'ck',checkbox : true},
-							{field : 'tranDataSeqNo',title : '划拨流水号',width : 190,align : 'center'},
+							{field : 'bankTranDataSeqNo',title : '转账流水号',width : 190,align : 'center'},
 							{field : 'accType',title : '账户类型',width : 90,align : 'center',
 								formatter : function(value, rec) {
-												if (value == '01') {
+												if (value == '1') {
 													return '对公账户';
-												} else if (value == '00') {
+												} else if (value == '0') {
 													return '对私账户';
 												} 
 											} 
@@ -230,11 +203,8 @@ table tr td select {
 							{field : 'accName',title : '户名',width : 120,align : 'center'},
 							{field : 'bankNo',title : '支付行号',width : 120,align : 'center',},
 							{field : 'bankName',title : '开户行名称',width : 120,align : 'center'},
-							{field : 'busiDataId',title : '业务订单号',width : 120,align : 'center'},
-							{field : 'tranAmt',title : '金额(元)',width : 90,align : 'center',
-								formatter:function(value,rec){
-										return value/100.00;
-							}},
+							{field : 'insteadDataId',title : '关联订单号',width : 120,align : 'center'},
+							{field : 'tranAmt',title : '金额(元)',width : 90,align : 'center'},
 							{field : 'tranFee',title : '手续费(元)',width : 90,align : 'center'},
 							{field : 'applyTime',title : '创建时间',width : 120,align : 'center'},
 							{field : 'approveTime',title : '通过时间',width : 120,align : 'center'},
@@ -242,10 +212,12 @@ table tr td select {
 								formatter : function(value, rec) {
 												if (value == '01') {
 													return '未审核';
-												} else if (value == '09') {
-													return '审核拒绝';
+												} else if (value == '02') {
+													return '等待转账';
+												} else if (value == '03') {
+													return '正在转账';
 												} else if (value == '00') {
-													return '审核通过';
+													return '转账成功';
 												} else {
 													return '';
 												}
@@ -262,13 +234,13 @@ table tr td select {
 					toolbar : [ {
 						id : 'btnadd',
 						text : '审核',
-						iconCls : 'icon-add',
+						iconCls : 'icon-ok',
 						handler : function() {
 							var check= $('#test2' ).datagrid( 'getChecked');
 							if(check.length!=0){
 							var myArray="";
                                for (var i=0;i<check.length;i++){
-                            	   myArray+=check[i].tid+"|";
+                            	   myArray+=check[i].tranDataSeqNo+"|";
                               } 
 							$("#firstTrial")[0].reset();
 							$("#btn_submit").linkbutton('enable');
@@ -292,6 +264,7 @@ table tr td select {
  */	});
 
 	function search() {
+		alert($("#beginDate").datebox("getValue"));
 		var data = {
 				"queryTransferBean.batchNo" : $('#batchno').val(),
 				"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
@@ -356,10 +329,10 @@ table tr td select {
 	
 	function batchTrial(falg){
 		if(falg==true){
-			$("#firstTrial").attr("action","pages/transfer/batchTrailTransferAction.action");
+			$("#firstTrial").attr("action","pages/transfer/batchBankTrialTransferAction.action");
 			$("#falg").val("true");
 		}else{
-			$("#firstTrial").attr("action","pages/transfer/batchTrailTransferAction.action");
+			$("#firstTrial").attr("action","pages/transfer/batchBankTrialTransferAction.action");
 			$("#falg").val("false");
 		}
 		$('#firstTrial').form('submit', {  
@@ -408,8 +381,7 @@ table tr td select {
 		var ison=false;
 		$.ajax( { 
 				type: "POST",
-	             url: "pages/transfer/queryTrinsferTransferAction.action",
-	             data: {"transQuery.tranId":tranid,"falg":"first"},
+	             url: "pages/transfer/queryBankBatchTransferAction.action",
 	             dataType: "json",
 	             async:false,
 	             success: function(data){
@@ -437,11 +409,11 @@ table tr td select {
 	            		if (json.status == '01') {
 	            			$("#tstatus").html("初始");
 						} else if (json.status == '02') {
-							$("#tstatus").html("划拨中");
+							$("#tstatus").html("转账中");
 						} else if (json.status == '00') {
-							$("#tstatus").html("划拨成功");
+							$("#tstatus").html("转账成功");
 						} else if (json.status == '03') {
-							$("#tstatus").html("划拨失败");
+							$("#tstatus").html("转账失败");
 						} else if (json.status == '11') {
 							$("#tstatus").html("待初审");
 						} else if (json.status == '21') {
