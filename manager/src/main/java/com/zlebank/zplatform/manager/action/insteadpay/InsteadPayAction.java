@@ -52,6 +52,7 @@ import com.zlebank.zplatform.trade.bean.InsteadPayBatchBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayBatchQuery;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailQuery;
+import com.zlebank.zplatform.trade.bean.InsteadPayInterfaceParamBean;
 import com.zlebank.zplatform.trade.bean.enums.InsteadPayImportTypeEnum;
 import com.zlebank.zplatform.trade.bean.page.AuditDataBean;
 import com.zlebank.zplatform.trade.exception.BalanceNotEnoughException;
@@ -194,25 +195,32 @@ public class InsteadPayAction extends BaseAction {
                     messg="总金额或者总笔数不正确";
 
                 } else {
-                    ActionContext ctx = ActionContext.getContext();
-                    HttpServletRequest request = (HttpServletRequest)ctx.get(ServletActionContext.HTTP_REQUEST);
-                    WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
-                    ftpClientFactory = (FTPClientFactory) wac.getBean("ftpClientFactory");
-                    AbstractFTPClient ftpClient = ftpClientFactory.getFtpClient();
+                    // 取文件名
                     String filePath= INSTEAD_PATH+"/"+batchList.get(0).getMerId()+"/"+DateUtil.getCurrentDate();
                     String fileName=batchList.get(0).getBatchNo()+".xls";
-                    try {
-                        ftpClient.upload(filePath, fileName, file);
-                    } catch (IOException e) {
-                        log.error(e.getMessage(), e);
-                        log.warn("upload to ftp get a exception.caused by:" + e.getMessage());
-                        messg = "FTP 上传失败";
-                    }
+                    
                     if (batchList != null && !batchList.isEmpty()) {
                         InsteadPay_Request insteadRequest = batchList.get(0);
                         insteadRequest.setFileContent(ins);
-                        instea.insteadPay(insteadRequest, userID,InsteadPayImportTypeEnum.FILE, filePath + "/" + fileName);
+                        InsteadPayInterfaceParamBean param = new InsteadPayInterfaceParamBean();
+                        param.setUserId(userID);
+                        param.setFtpFileName(filePath + "/" + fileName);
+                        param.setOriginalFileName(file.getName());
+                        instea.insteadPay(insteadRequest, InsteadPayImportTypeEnum.FILE, param);
                         messg = "操作成功";
+                        // 上传FTP
+                        ActionContext ctx = ActionContext.getContext();
+                        HttpServletRequest request = (HttpServletRequest)ctx.get(ServletActionContext.HTTP_REQUEST);
+                        WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+                        ftpClientFactory = (FTPClientFactory) wac.getBean("ftpClientFactory");
+                        AbstractFTPClient ftpClient = ftpClientFactory.getFtpClient();
+                        try {
+                            ftpClient.upload(filePath, fileName, file);
+                        } catch (IOException e) {
+                            log.error(e.getMessage(), e);
+                            log.warn("upload to ftp get a exception.caused by:" + e.getMessage());
+                            messg = "FTP 上传失败";
+                        }
                     } else {
                         messg = "读取excle失败";
                     }
