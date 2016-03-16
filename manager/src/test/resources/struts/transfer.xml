@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+ 	<package name="trans" namespace="/pages/transfer" extends="global">
+ 		<default-action-ref name="index" />
+		<action name="*TransferAction" class="com.zlebank.zplatform.manager.action.transfer.TransferAction" method="{1}">
+            <result >/pages/transfer/query_transfer.jsp</result>
+			<result name="first">/pages/transfer/first_transfer.jsp</result>
+			<result name="second">/pages/transfer/second_transfer.jsp</result>
+			<!--  <result name="queryBatch">/pages/transfer/query_transfer_batch.jsp</result>-->
+			<result name="batch">/pages/transfer/transfer_batch.jsp</result>
+			<result name="audit">/pages/transfer/transfer_audit.jsp</result>
+			<result name="banktransfter">/pages/transfer/bank_trans_audit.jsp</result>
+			<result name="queryTranBatch">/pages/transfer/transfer_batch_query.jsp</result>
+		</action>
+    </package>	
+</struts>

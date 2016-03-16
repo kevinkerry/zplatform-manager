@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+ 	<package name="risk" namespace="/pages/risk" extends="global">
+ 		<default-action-ref name="index" />
+		<action name="*RiskAction" class="com.zlebank.zplatform.manager.action.risk.RiskAction" method="{1}">
+			<result name="success">/pages/risk/risk_manager.jsp</result> 
+			<result name="toMakeRiskCase">/pages/risk/risk_case_make.jsp</result>
+            <result name="black_pan_manager">/pages/risk/black_pan_manager.jsp</result>
+            <result name="white_pan_manager">/pages/risk/white_pan_manager.jsp</result>
+            <result name="black_mem_manager">/pages/risk/black_mem_manager.jsp</result>      
+            <result name="limit_credit_single_manager">/pages/risk/limit_card_single_manager.jsp</result>       
+		</action>
+		<action name="*LimitAction" class="com.zlebank.zplatform.manager.action.risk.LimitAction" method="{1}">
+			<result name="success">/pages/risk/limit_mem_credit_day_manager.jsp</result> 
+			<result name="toMakeRiskCase">/pages/risk/risk_case_make.jsp</result>
+            <result name="black_pan_manager">/pages/risk/black_pan_manager.jsp</result>
+            <result name="white_pan_manager">/pages/risk/white_pan_manager.jsp</result>
+            <result name="limit_mem_credit_month_manager">/pages/risk/limit_mem_credit_month_manager.jsp</result> 
+            <result name="limit_mem_month_manager">/pages/risk/limit_mem_month_manager.jsp</result> 
+            <result name="limit_mem_day_manager">/pages/risk/limit_mem_day_manager.jsp</result> 
+            <result name="limit_single_manager">/pages/risk/limit_single_manager.jsp</result> 
+            <result name="limit_perday">/pages/risk/limit_perday_manager.jsp</result>
+		</action>
+    </package>
+
+</struts>

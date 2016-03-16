@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+
+ 	<package name="withdraw" namespace="/pages/withdraw" extends="global">
+ 		<default-action-ref name="index" />
+		<action name="*WithdraAction" class="com.zlebank.zplatform.manager.action.txnswithdra.TxnsWithdraAciton" method="{1}">
+            <result >/pages/txnswithdra/txns_withdra.jsp</result>
+		</action>
+   
+  	 <action name="*TriaAction" class="com.zlebank.zplatform.manager.action.txnswithdra.TrialWithdraAction" method="{1}">
+            <result >/pages/txnswithdra/first_trial_withdra.jsp</result>
+			<result name="second">/pages/txnswithdra/second_trial_withdra.jsp</result>
+		</action>
+   
+   
+    </package>	
+
+
+</struts>
