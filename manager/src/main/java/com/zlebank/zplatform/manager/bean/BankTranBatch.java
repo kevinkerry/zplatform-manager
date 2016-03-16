@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.zlebank.zplatform.commons.bean.Bean;
-import com.zlebank.zplatform.manager.bean.enmu.BankTranBatchOpenStatus;
+import com.zlebank.zplatform.trade.bean.enums.BankTransferBatchOpenStatusEnum;
 
 public class BankTranBatch implements Bean{
     /** "表标识" **/
@@ -28,7 +28,7 @@ public class BankTranBatch implements Bean{
     /** """状态（01：未审核02：审核通过03：审核拒绝）""" **/
     private String status;
     /** "开放状态（0:开放1：关闭）" **/
-    private BankTranBatchOpenStatus openStatus;
+    private String openStatus;
     /** """转账状态(01:等待转账02：部分转账成功03：全部转账成功 04：全部失败 **/
     private String tranStatus;
     /** "申请时间 **/
@@ -102,10 +102,10 @@ public class BankTranBatch implements Bean{
     public void setStatus(String status) {
         this.status = status;
     }
-    public BankTranBatchOpenStatus getOpenStatus() {
+    public String getOpenStatus() {
         return openStatus;
     }
-    public void setOpenStatus(BankTranBatchOpenStatus openStatus) {
+    public void setOpenStatus(String openStatus) {
         this.openStatus = openStatus;
     }
     public String getTranStatus() {

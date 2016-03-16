@@ -26,12 +26,12 @@ import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.bean.TransferData;
 import com.zlebank.zplatform.commons.bean.TransferDataQuery;
 import com.zlebank.zplatform.manager.bean.BankTranBatch;
-import com.zlebank.zplatform.manager.bean.enmu.BankTranBatchOpenStatus;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.enums.TransferTrialEnum;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.ITransferService;
 import com.zlebank.zplatform.trade.batch.spliter.BatchSpliter;
+import com.zlebank.zplatform.trade.bean.enums.BankTransferBatchOpenStatusEnum;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.dao.BankTransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.BankTransferDataDAO;
@@ -55,50 +55,51 @@ public class TransferServiceImpl
         implements
             ITransferService {
     @Autowired
-	private TransferBatchDAO transferBatchDAO;
-	@Autowired
-	private TransferDataDAO transferDataDAO;
-	@Autowired
+    private TransferBatchDAO transferBatchDAO;
+    @Autowired
+    private TransferDataDAO transferDataDAO;
+    @Autowired
     private AccEntryService accEntryService;
-	@Autowired
-	private BatchSpliter batchSpliter;
-	@Autowired
-	private BankTransferBatchDAO bankTransferBatchDAO;
-	@Autowired
-	private BankTransferDataDAO bankTransferDataDAO;
-	
+    @Autowired
+    private BatchSpliter batchSpliter;
+    @Autowired
+    private BankTransferBatchDAO bankTransferBatchDAO;
+    @Autowired
+    private BankTransferDataDAO bankTransferDataDAO;
+    
 
-	@Override
-	public PagedResult<TransferData> queryPaged(int page, int pageSize,
-			TransferDataQuery example) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Map<String, Object> queryBatchTransfer(
-			QueryTransferBean queryTransferBean, int page, int pageSize) {
-		return transferBatchDAO.queryTransferBatchByPage(queryTransferBean, page, pageSize);
-	}
+    @Override
+    public PagedResult<TransferData> queryPaged(int page, int pageSize,
+            TransferDataQuery example) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public Map<String, Object> queryBatchTransfer(
+            QueryTransferBean queryTransferBean, int page, int pageSize) {
+        return transferBatchDAO.queryTransferBatchByPage(queryTransferBean, page, pageSize);
+    }
 
 
-	@Override
-	public IBaseDAO<PojoTranData, Long> getDao() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public IBaseDAO<PojoTranData, Long> getDao() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	
-	
-	/**
+    
+    
+    /**
      * 针对各个业务（代付/提现/退款）的业务退款方法，交易失败或审核拒绝时
      * @param transferData
      * @param businessEnum
      */
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
     public void businessRefund(List<PojoTranData> transferDataList) {
         
     }
+
 	
 	@Override
 	public boolean transferBatchTrial (long batchId, boolean flag) {
@@ -255,33 +256,35 @@ public class TransferServiceImpl
 		return true;
 	}
 
-	@Override
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
-	public Map<String, Object> queryDetaTransfer(
-			QueryTransferBean queryTransferBean, int page, int pageSize) {
-		// TODO Auto-generated method stub
-		return transferDataDAO.queryTranfersDetaByPage(queryTransferBean, page, pageSize);
-	}
+    
+    
 
-	@Override
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
-	public void updateTransferDataToFinish(Long tid, String status) {
-		//更新划拨结果状态
-		transferDataDAO.updateTransferDataStatus(tid, status);
-		//判断划拨批次是否全部完成,判断状态为02的数据的数量
-		PojoTranData pojoTranData= transferDataDAO.queryTransferData(tid);
-		Long count = transferDataDAO.queryWaritTransferCount(pojoTranData.getTranBatch().getTid());
-		if(count==0){//批次转账全部完成
-			PojoTranBatch pojoTranBatch = pojoTranData.getTranBatch();
-			pojoTranBatch.setStatus("00");
-			transferBatchDAO.update(pojoTranBatch);
-		}
-	}
-	@Override
+    @Override
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+    public Map<String, Object> queryDetaTransfer(
+            QueryTransferBean queryTransferBean, int page, int pageSize) {
+        // TODO Auto-generated method stub
+        return transferDataDAO.queryTranfersDetaByPage(queryTransferBean, page, pageSize);
+    }
+
+    @Override
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+    public void updateTransferDataToFinish(Long tid, String status) {
+        //更新划拨结果状态
+        transferDataDAO.updateTransferDataStatus(tid, status);
+        //判断划拨批次是否全部完成,判断状态为02的数据的数量
+        PojoTranData pojoTranData= transferDataDAO.queryTransferData(tid);
+        Long count = transferDataDAO.queryWaritTransferCount(pojoTranData.getTranBatch().getTid());
+        if(count==0){//批次转账全部完成
+            PojoTranBatch pojoTranBatch = pojoTranData.getTranBatch();
+            pojoTranBatch.setStatus("00");
+            transferBatchDAO.update(pojoTranBatch);
+        }
+    }
+    @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
-    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTranBatchOpenStatus openStatus) {
-        PojoTranBatch tranBatch = transferBatchDAO.getByBatchId(tranBatchId);
-        List<PojoBankTransferBatch> bankTransferBatchs = tranBatch.getBankTransferBatchs();
+    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTransferBatchOpenStatusEnum openStatus) {
+        List<PojoBankTransferBatch> bankTransferBatchs = bankTransferBatchDAO.getByTranBatchAndOpenStatus(tranBatchId, openStatus);
         
         List<BankTranBatch> bankTransferBatchCoper = new ArrayList<BankTranBatch>();
         for(PojoBankTransferBatch copySource:bankTransferBatchs){
