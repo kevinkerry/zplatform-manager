@@ -135,7 +135,7 @@ public class BankTransferTest {
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.persist(banktranBatch);
+        //session.persist(banktranBatch);
         //bankTranBatchId = banktranBatch.getTid();
         
         PojoTranBatch tranBatch = new PojoTranBatch();

@@ -209,15 +209,15 @@ public class TransferServiceImpl
 				case SUCCESSFUL:
 					PojoTranData[] pojoTransferDatas = new PojoTranData[]{transferData};
 		    		//调用分批算法
-		    		//batchSpliter.split(pojoTransferDatas);
-					//transferData.setStatus("00");
-					//transferData.setApproveTime(new Date());
+		    		batchSpliter.split(pojoTransferDatas);
+					transferData.setStatus("00");
+					transferData.setApproveTime(new Date());
 					if("00".equals(transferData.getStatus())){
 						approveCount++;
 						approveAmount+=transferData.getTranAmt().longValue();
 					}else if("01".equals(transferData.getStatus())){
-						//unApproveCount++;
-						//unApproveAmount+=transferData.getTranAmt().longValue();
+						unApproveCount++;
+						unApproveAmount+=transferData.getTranAmt().longValue();
 					}else{
 						unApproveCount++;
 						unApproveAmount+=transferData.getTranAmt().longValue();
@@ -230,8 +230,8 @@ public class TransferServiceImpl
 		    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
 					break;
 				case REFUSED:
-					//transferData.setStatus("09");
-					//transferData.setApproveTime(new Date());
+					transferData.setStatus("09");
+					transferData.setApproveTime(new Date());
 					unApproveCount++;
 					unApproveAmount+=transferData.getTranAmt().longValue();
 					transferData.setStatus(transferTrialEnum.getCode());
