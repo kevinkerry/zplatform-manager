@@ -71,7 +71,7 @@ public class BankTransferTest {
             tranData.setTranDataSeqNo(tranDataseqNo);
             tranData.setAccName("测试账户");
             tranData.setAccNo("6228480018543668976");
-            tranData.setAccType(RandomArugment.randomBoolean() ? "0" : "1");
+            tranData.setAccType(RandomArugment.randomBoolean() ? "00" : "01");
             tranData.setBankNo("103100024015");
             tranData.setBankName("农业银行");
             tranData.setBusiDataId(1L);
@@ -102,7 +102,7 @@ public class BankTransferTest {
             banktranData.setTranData(tranData);
             banktranData.setAccNo("6228480018543668976");
             banktranData.setAccName("测试账户");
-            banktranData.setAccType(RandomArugment.randomBoolean() ? "0" : "1");
+            banktranData.setAccType(RandomArugment.randomBoolean() ? "00" : "01");
             banktranData.setAccBankNo("103100024015");
             banktranData.setAccBankName("农业银行");
             //long tranAmt = Long.parseLong(RandomArugment.randomNumber(4));

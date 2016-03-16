@@ -31,6 +31,7 @@ import com.zlebank.zplatform.manager.enums.TransferTrialEnum;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.ITransferService;
 import com.zlebank.zplatform.trade.batch.spliter.BatchSpliter;
+import com.zlebank.zplatform.trade.bean.UpdateData;
 import com.zlebank.zplatform.trade.bean.enums.BankTransferBatchOpenStatusEnum;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.dao.BankTransferBatchDAO;
@@ -40,6 +41,7 @@ import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoTranBatch;
 import com.zlebank.zplatform.trade.model.PojoTranData;
+import com.zlebank.zplatform.trade.service.UpdateSubject;
 
 /**
  * 
@@ -66,7 +68,8 @@ public class TransferServiceImpl
     private BankTransferBatchDAO bankTransferBatchDAO;
     @Autowired
     private BankTransferDataDAO bankTransferDataDAO;
-    
+    @Autowired
+    private UpdateSubject updateSubject;
 
     @Override
     public PagedResult<TransferData> queryPaged(int page, int pageSize,
@@ -97,7 +100,14 @@ public class TransferServiceImpl
      */
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
     public void businessRefund(List<PojoTranData> transferDataList) {
-        
+    	for(PojoTranData transferData : transferDataList){
+    		UpdateData updateData = new UpdateData();
+            updateData.setTxnSeqNo(transferData.getTxnseqno());
+            updateData.setResultCode("09");
+            updateData.setResultMessage("审核拒绝");
+            updateData.setChannelCode("");
+            updateSubject.update(updateData);
+    	}
     }
 
 	
@@ -123,11 +133,11 @@ public class TransferServiceImpl
 					PojoTranData[] pojoTransferDatas = new PojoTranData[transferDataList.size()];
 		    		transferDataList.toArray(pojoTransferDatas);
 		    		//调用分批算法
-		    		//batchSpliter.split(pojoTransferDatas);
+		    		batchSpliter.split(pojoTransferDatas);
 		    		//更划拨新批次信息
 		    		for(PojoTranData transferData : transferDataList){
-		    			//transferData.setStatus("00");
-		    			//transferData.setApproveTime(new Date());
+		    			transferData.setStatus("00");
+		    			transferData.setApproveTime(new Date());
 		    			if("00".equals(transferData.getStatus())){
 		    				approveCount++;
 		    				approveAmount+=transferData.getTranAmt().longValue();
