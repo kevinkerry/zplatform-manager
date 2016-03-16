@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.opensymphony.xwork2.Action;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.manager.bean.AuditBean;
@@ -87,7 +88,7 @@ public class ChargeAction extends BaseAction {
 
     public String getCharge() {
 
-        return this.SUCCESS;
+        return Action.SUCCESS;
     }
 
     public void queryCharge() {

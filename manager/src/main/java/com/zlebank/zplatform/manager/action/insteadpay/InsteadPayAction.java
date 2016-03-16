@@ -31,17 +31,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
-import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.commons.utils.HibernateValidatorUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
-import com.zlebank.zplatform.manager.action.merch.MerchDetaAction;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.enums.InsteadEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
@@ -319,7 +319,7 @@ public class InsteadPayAction extends BaseAction {
     }
 
     public String getInsteadPayDeta() {
-        return this.SUCCESS;
+        return Action.SUCCESS;
     }
 
     
@@ -500,7 +500,7 @@ public class InsteadPayAction extends BaseAction {
      */
     public void batchFirst(){
         String messg = "";
-        Map<String, Object> map = new HashMap<String, Object>();
+//        Map<String, Object> map = new HashMap<String, Object>();
         if ("first".equals(falg)) {
             if (instead == null) {
                 instead = new InsteadPayDetailQuery();
