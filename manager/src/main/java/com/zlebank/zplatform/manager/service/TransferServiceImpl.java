@@ -125,6 +125,8 @@ public class TransferServiceImpl
 		    		//batchSpliter.split(pojoTransferDatas);
 		    		//更划拨新批次信息
 		    		for(PojoTranData transferData : transferDataList){
+		    			//transferData.setStatus("00");
+		    			//transferData.setApproveTime(new Date());
 		    			if("00".equals(transferData.getStatus())){
 		    				approveCount++;
 		    				approveAmount+=transferData.getTranAmt().longValue();
@@ -135,8 +137,9 @@ public class TransferServiceImpl
 		    				unApproveCount++;
 		    				unApproveAmount+=transferData.getTranAmt().longValue();
 		    			}
+		    			transferDataDAO.update(transferData);
 		    		}
-		    		transferBatch.setApproveAmt(transferBatch.getApproveAmt()+approveAmount);
+		    		transferBatch.setApproveAmt(transferBatch.getApproveAmt().longValue()+approveAmount);
 		    		transferBatch.setApproveCount(approveCount+transferBatch.getApproveCount());
 		    		transferBatch.setRefuseAmt(transferBatch.getRefuseAmt()+unApproveAmount);
 		    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
@@ -206,6 +209,8 @@ public class TransferServiceImpl
 					PojoTranData[] pojoTransferDatas = new PojoTranData[]{transferData};
 		    		//调用分批算法
 		    		//batchSpliter.split(pojoTransferDatas);
+					//transferData.setStatus("00");
+					//transferData.setApproveTime(new Date());
 					if("00".equals(transferData.getStatus())){
 						approveCount++;
 						approveAmount+=transferData.getTranAmt().longValue();
@@ -216,6 +221,7 @@ public class TransferServiceImpl
 						unApproveCount++;
 						unApproveAmount+=transferData.getTranAmt().longValue();
 					}
+					transferDataDAO.update(transferData);
 					//更新审核结果笔数和金额
 		    		transferBatch.setApproveAmt(transferBatch.getApproveAmt()+approveAmount);
 		    		transferBatch.setApproveCount(approveCount+transferBatch.getApproveCount());
@@ -223,14 +229,17 @@ public class TransferServiceImpl
 		    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
 					break;
 				case REFUSED:
+					//transferData.setStatus("09");
+					//transferData.setApproveTime(new Date());
 					unApproveCount++;
 					unApproveAmount+=transferData.getTranAmt().longValue();
 					transferData.setStatus(transferTrialEnum.getCode());
-					this.update(transferData);
+					transferDataDAO.update(transferData);
 					//业务退款
 					List<PojoTranData> tranDataList =  new ArrayList<PojoTranData>();
 					tranDataList.add(transferData);
 		    		businessRefund(tranDataList);
+		    		
 		    		transferBatch.setRefuseAmt(transferBatch.getRefuseAmt()+unApproveAmount);
 		    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
 					break;

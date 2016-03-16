@@ -48,7 +48,7 @@ public class TrasferTest {
     @Test
     public void test() {
         addTranBatch();
-        auditTranBatch();
+        //auditTranBatch();
     }
 
     public void testQueryTranBatch() {
@@ -105,7 +105,7 @@ public class TrasferTest {
             tranData.setAccName(RandomArugment.randomAccName());
             tranData.setAccType(RandomArugment.randomBoolean() ? "0" : "1");
             tranData.setBankNo("313653020010");
-            tranData.setBusiDataId("11111111");
+            tranData.setBusiDataId(1L);
             tranData.setBusiType("00");
             tranData.setMemberId("200000000000593");
             long tranAmt = Long.parseLong(RandomArugment.randomNumber(4));
@@ -125,7 +125,7 @@ public class TrasferTest {
         }
 
         PojoTranBatch tranBatch = new PojoTranBatch();
-        tranBatch.setBusiBatchId("222");
+        tranBatch.setBusiBatchId(1L);
         tranBatch.setBusiType("00");
         tranBatch.setTotalAmt(totalAmt);
         tranBatch.setTotalCount(totalCount);
@@ -138,6 +138,7 @@ public class TrasferTest {
         session.beginTransaction();
         session.persist(tranBatch);
         tranBatchId = tranBatch.getTid();
+        session.clear();
         session.getTransaction().commit();
         session.close();
     }

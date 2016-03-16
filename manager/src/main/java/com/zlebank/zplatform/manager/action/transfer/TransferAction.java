@@ -90,7 +90,7 @@ public class TransferAction extends BaseAction {
      */
 	public void queryDetail(){
 		if(queryTransferBean!=null){
-			if(StringUtil.isNotEmpty(queryTransferBean.getBatchNo())){
+			if(queryTransferBean.getTid()!=0){
 				Map<String, Object> map = transferService.queryDetaTransfer(queryTransferBean,getPage(),getPage_size());
 				json_encode(map);
 			}
@@ -105,11 +105,24 @@ public class TransferAction extends BaseAction {
      * @since 1.3.0
      */
 	public void batchTrail(){
+		String batchNos = "";
 		String[] batchId_array = auditBean.getBatchno().split("\\|");
 		for(String batchno:batchId_array){
-			transferService.transferBatchTrial(Long.parseLong(batchno.trim()), auditBean.getFalg());
+			boolean flag = transferService.transferBatchTrial(Long.parseLong(batchno.trim()), auditBean.getFalg());
+			if(!flag){
+				batchNos+=batchno+",";
+			}
 		}
-		
+		if(StringUtil.isEmpty(batchNos)){
+			if(auditBean.getFalg()){
+				json_encode("审核成功");
+			}else{
+				json_encode("操作成功");
+			}
+			
+		}else{
+			json_encode("批次号："+batchNos+"转账失败");
+		}
 	}
 	
 	/**
@@ -119,9 +132,23 @@ public class TransferAction extends BaseAction {
      * @since 1.3.0
      */
 	public void trailTransferDeta(){
+		String batchNos = "";
 		String[] batchno_array = auditBean.getOrderNo().split("\\|");
 		for(String orderNo:batchno_array){
-			transferService.transferDataTrial(Long.valueOf(orderNo), auditBean.getFalg());
+			boolean flag = transferService.transferDataTrial(Long.valueOf(orderNo), auditBean.getFalg());
+			if(!flag){
+				batchNos+=orderNo+",";
+			}
+		}
+		if(StringUtil.isEmpty(batchNos)){
+			if(auditBean.getFalg()){
+				json_encode("审核成功");
+			}else{
+				json_encode("操作成功");
+			}
+			
+		}else{
+			json_encode("批次号："+batchNos+"转账失败");
 		}
 	}
 	
@@ -144,8 +171,9 @@ public class TransferAction extends BaseAction {
      */
 	public void queryBankData(){
 		if(queryTransferBean!=null){
-			if(StringUtil.isNotEmpty(queryTransferBean.getBatchNo())){
+			if(queryTransferBean.getTid()!=0){
 				Map<String, Object> map = bankTransferService.queryDataBankTransfer(queryTransferBean,getPage(),getPage_size());
+				
 				json_encode(map);
 			}
 		}
@@ -158,9 +186,23 @@ public class TransferAction extends BaseAction {
      * @since 1.3.0
      */
 	public void batchBankTrial(){
+		String batchNos = "";
 		String[] batchno_array = auditBean.getBatchno().split("\\|");
 		for(String batchno:batchno_array){
-			bankTransferService.bankTransferBatchTrial(batchno.trim(), auditBean.getFalg());
+			boolean flag = bankTransferService.bankTransferBatchTrial(batchno.trim(), auditBean.getFalg());
+			if(!flag){
+				batchNos+=batchno+",";
+			}
+		}
+		if(StringUtil.isEmpty(batchNos)){
+			if(auditBean.getFalg()){
+				json_encode("转账成功");
+			}else{
+				json_encode("操作成功");
+			}
+			
+		}else{
+			json_encode("批次号："+batchNos+"转账失败");
 		}
 	}
 	
@@ -174,7 +216,7 @@ public class TransferAction extends BaseAction {
        if(queryTransferBean==null){
            return null;
        }
-       List<BankTranBatch> bankTranBatchs= transferService.queryBankTranBatchByTranBatch(queryTransferBean.getTid(),bankTranBatch.getOpenStatus());
+       List<BankTranBatch> bankTranBatchs = transferService.queryBankTranBatchByTranBatch(Long.valueOf(queryTransferBean.getTid()),bankTranBatch.getOpenStatus());
         
        try {
            json_encode(bankTranBatchs);

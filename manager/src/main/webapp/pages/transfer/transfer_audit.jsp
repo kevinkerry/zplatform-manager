@@ -148,11 +148,11 @@ table tr td select {
 										if (value == '01') {
 											return '未审核';
 										} else if (value == '02') {
-											return '部分审核通过';
+											return '部分审核完成';
 										} else if (value == '00') {
 											return '转账成功';
 										} else if (value == '03') {
-											return '全部审核通过';
+											return '全部审核完成';
 										} else {
 											return '';
 										}
@@ -169,7 +169,7 @@ table tr td select {
 				//alert(row.tranBatchId);
 				
 				var data = {
-						"queryTransferBean.batchNo" : row.tid
+						"queryTransferBean.tid" : row.tid
 					   }
 					$('#test2').datagrid('load', data);
 				$($('#test2').datagrid('getPanel')).panel('expand',true);
@@ -183,7 +183,7 @@ table tr td select {
 					if(check.length!=0){
 						var myArray="";
 	                    for (var i=0;i<check.length;i++){
-	                  	   myArray+=check[i].tid+"|"
+	                  	   myArray+=check[i].tid+"|";
 	                    } 
 						$("#firstTrial")[0].reset();
 						$("#btn_submit").linkbutton('enable');
@@ -240,13 +240,16 @@ table tr td select {
 							{field : 'approveTime',title : '通过时间',width : 120,align : 'center'},
 							{field : 'status',title : '状态',width : 120,align : 'center',
 								formatter : function(value, rec) {
+									//(01:未审核 00：审核通过 02：转账成功 03：转账失败 09：审核拒绝)
 												if (value == '01') {
 													return '未审核';
 												} else if (value == '09') {
 													return '审核拒绝';
-												} else if (value == '00') {
-													return '审核通过';
-												} else {
+												} else if (value == '02') {
+													return '转账成功 ';
+												} else if (value == '03') {
+													return '转账失败 ';
+												}else {
 													return '';
 												}
 											} 
@@ -271,8 +274,8 @@ table tr td select {
                             	   myArray+=check[i].tid+"|";
                               } 
 							$("#firstTrial")[0].reset();
-							$("#btn_submit").linkbutton('enable');
-							$("#icon-cancel").linkbutton('enable');
+							$("#btn_submit_").linkbutton('enable');
+							$("#icon-cancel_").linkbutton('enable');
 							
 							$("#withdraworderno_").val(myArray);
 							showAdds();
@@ -392,7 +395,7 @@ table tr td select {
 			    if($('#singleTrial').form('validate')){
 			    	$('#btn_submit_').linkbutton('disable');
 					$("#icon-cancel_").linkbutton('disable');		
-			    	return 	true;
+			    	return true;
 				}
 		        return false;   
 		    },   
@@ -400,6 +403,7 @@ table tr td select {
 		    	$.messager.alert('提示',data); 
     			search();
 	    		closeAdd();
+	    		$('#test2').datagrid('reload');
 		    }  
 		});   
 	}

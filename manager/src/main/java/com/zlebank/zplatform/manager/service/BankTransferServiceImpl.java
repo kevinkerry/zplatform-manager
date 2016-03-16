@@ -23,9 +23,11 @@ import com.zlebank.zplatform.manager.enums.TransferTrialEnum;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.IBankTransferService;
 import com.zlebank.zplatform.manager.service.iface.ITransferService;
+import com.zlebank.zplatform.trade.adapter.insteadpay.IInsteadPayTrade;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.dao.BankTransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.BankTransferDataDAO;
+import com.zlebank.zplatform.trade.factory.TradeAdapterFactory;
 import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoBankTransferData;
 
@@ -45,7 +47,8 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	private BankTransferDataDAO bankTransferDataDAO;
     @Autowired
     private ITransferService transferService;
-
+    
+    
 	@Override
 	public IBaseDAO<PojoBankTransferData, Long> getDao() {
 		
@@ -73,21 +76,27 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	    	if("00".equals(transferTrialEnum.getCode())){
 	    		//更新全部转账数据状态，等待转账
 	    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "02");
+	    		transferBatch.setStatus("02");//审核完成状态
+		    	transferBatch.setTranStatus("01");//等待转账状态
+		    	//更新批次状态
+		    	bankTransferBatchDAO.updateTransferBatch(transferBatch);
+		    	//开始划拨
+		    	IInsteadPayTrade insteadPayTrade = TradeAdapterFactory.getInstance().getInsteadPayTrade(transferBatch.getChannel().getBankChannelCode());
+		    	insteadPayTrade.batchPay(batchNo);
 	    	}else{
 	    		//更新全部转账数据状态，拒绝转账
 	    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "04");
 	    		//处理划拨流程中的数据
 	    		//获取全部为审核的转账数据
-				List<PojoBankTransferData> bankTransferDataList = bankTransferDataDAO.findTransDataByBatchNo(batchNo);
+				List<PojoBankTransferData> bankTransferDataList = bankTransferDataDAO.findTransDataByBatchNo(Long.valueOf(batchNo));
 	    		for(PojoBankTransferData bankTransferData : bankTransferDataList){
 	    			transferService.updateTransferDataToFinish(Long.valueOf(bankTransferData.getTranData().getTid()),"09");
 	    		}
+	    		transferBatch.setStatus("03");
+		    	transferBatch.setTranStatus("04");
+		    	//更新批次状态
+		    	bankTransferBatchDAO.update(transferBatch);
 	    	}
-	    	transferBatch.setStatus("02");
-	    	transferBatch.setTranStatus("01");
-	    	//更新批次状态
-	    	bankTransferBatchDAO.update(transferBatch);
-	    	//开始划拨
 	    	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

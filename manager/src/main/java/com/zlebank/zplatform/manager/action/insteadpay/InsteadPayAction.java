@@ -158,14 +158,14 @@ public class InsteadPayAction extends BaseAction {
                     if (batchList != null && !batchList.isEmpty()) {
                         InsteadPay_Request insteadRequest = batchList.get(0);
                         insteadRequest.setFileContent(ins);
-                        instea.insteadPay(insteadRequest, userID);
+                        //instea.insteadPay(insteadRequest, userID);
                         messg = "操作成功";
                     } else {
                         messg = "读取excle失败";
                     }
                 }
             }
-        } catch (NotInsteadPayWorkTimeException e) {
+            /*} catch (NotInsteadPayWorkTimeException e) {
             messg = e.getMessage();
         } catch (FailToGetAccountInfoException e) {
             messg = e.getMessage();
@@ -187,7 +187,7 @@ public class InsteadPayAction extends BaseAction {
             // TODO Auto-generated catch block
             messg = e.getMessage();
         } catch (FailToInsertFeeException e) {
-            messg = e.getMessage();
+            messg = e.getMessage();*/
         } catch (Exception e) {
             messg = "商户订单号重复";
         }
