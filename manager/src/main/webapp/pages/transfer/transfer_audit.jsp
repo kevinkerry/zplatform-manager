@@ -453,6 +453,11 @@ table tr td select {
 		    	$.messager.alert('提示',data); 
     			search();
 	    		closeAdd();
+	    		var data = {
+						"queryTransferBean.tid" : $("#detail_tid").val(),
+						"queryTransferBean.status":"01"
+					   }
+					$('#test2').datagrid('load', data);
 		    }  
 		});   
 	}
@@ -478,7 +483,12 @@ table tr td select {
 		    	$.messager.alert('提示',data); 
     			search();
 	    		closeAdd();
-	    		$('#test2').datagrid('reload');
+	    		var data = {
+						"queryTransferBean.tid" : $("#detail_tid").val(),
+						"queryTransferBean.status":"01"
+					   }
+					$('#test2').datagrid('load', data);
+	    		//$($('#test2').datagrid('getPanel')).panel('collapse',false);
 		    }  
 		});   
 	}

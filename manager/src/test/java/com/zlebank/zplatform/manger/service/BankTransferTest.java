@@ -49,10 +49,7 @@ public class BankTransferTest {
 	public void testTrail(){
 		
 		addBankTranBatch();
-		addBankTranBatch();
-		addBankTranBatch();
-		addBankTranBatch();
-		addBankTranBatch();
+		
 		//auditTranBatch();
 	}
 	
@@ -163,7 +160,7 @@ public class BankTransferTest {
         session.close();
     }
 	public void auditTranBatch() {
-		boolean flag = bankTransferService.bankTransferBatchTrial(bankTranBatchId+"", true);
+		boolean flag = bankTransferService.bankTransferBatchTrial(bankTranBatchId+"", true,1L);
 		System.out.println(flag);
     }
 }

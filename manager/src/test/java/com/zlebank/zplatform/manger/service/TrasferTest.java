@@ -173,7 +173,7 @@ public class TrasferTest {
             for (PojoTranData tranData : tranDatas) {
                 boolean isApproved = RandomArugment.randomBoolean();
                 boolean isSuccess = transferServiceImpl.transferDataTrial(tranData.getTid(),
-                        isApproved);
+                        isApproved,1L);
                 if(!isSuccess){
                     log.info("fail tranData"+tranData.getTid());
                 }else{

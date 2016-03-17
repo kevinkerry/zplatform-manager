@@ -30,6 +30,6 @@ public interface IBankTransferService extends IBaseService<PojoBankTransferData,
      * @param transferTrialEnum
      * @return
      */
-    public boolean bankTransferBatchTrial(String batchNo,boolean flag);
+    public boolean bankTransferBatchTrial(String batchNo,boolean flag,Long userId);
 
 }

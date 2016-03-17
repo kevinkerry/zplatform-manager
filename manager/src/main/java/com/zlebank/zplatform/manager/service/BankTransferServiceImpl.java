@@ -68,7 +68,7 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
-	public boolean bankTransferBatchTrial(String batchNo,boolean flag){
+	public boolean bankTransferBatchTrial(String batchNo,boolean flag,Long userId){
 		try {
 			TransferTrialEnum transferTrialEnum = null;
 			if(flag){
@@ -78,6 +78,7 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 			}
 	    	
 			PojoBankTransferBatch transferBatch = bankTransferBatchDAO.getByBankTranBatchNo(Long.valueOf(batchNo));
+			transferBatch.setTranUser(userId);
 	    	if("00".equals(transferTrialEnum.getCode())){
 	    		//更新全部转账数据状态，等待转账
 	    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "02");

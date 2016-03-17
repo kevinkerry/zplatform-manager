@@ -121,7 +121,7 @@ public class TransferAction extends BaseAction {
 		String batchNos = "";
 		String[] batchId_array = auditBean.getBatchno().split("\\|");
 		for(String batchno:batchId_array){
-			boolean flag = transferService.transferBatchTrial(Long.parseLong(batchno.trim()), auditBean.getFalg());
+			boolean flag = transferService.transferBatchTrial(Long.parseLong(batchno.trim()), auditBean.getFalg(),getCurrentUser().getUserId());
 			if(!flag){
 				batchNos+=batchno+",";
 			}
@@ -150,7 +150,7 @@ public class TransferAction extends BaseAction {
 		String batchNos = "";
 		String[] batchno_array = auditBean.getOrderNo().split("\\|");
 		for(String orderNo:batchno_array){
-			boolean flag = transferService.transferDataTrial(Long.valueOf(orderNo), auditBean.getFalg());
+			boolean flag = transferService.transferDataTrial(Long.valueOf(orderNo), auditBean.getFalg(),getCurrentUser().getUserId());
 			if(!flag){
 				batchNos+=orderNo+",";
 			}
@@ -206,7 +206,7 @@ public class TransferAction extends BaseAction {
 		String batchNos = "";
 		String[] batchno_array = auditBean.getBatchno().split("\\|");
 		for(String batchno:batchno_array){
-			boolean flag = bankTransferService.bankTransferBatchTrial(batchno.trim(), auditBean.getFalg());
+			boolean flag = bankTransferService.bankTransferBatchTrial(batchno.trim(), auditBean.getFalg(),getCurrentUser().getUserId());
 			if(!flag){
 				batchNos+=batchno+",";
 			}

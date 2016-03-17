@@ -71,7 +71,7 @@ public interface ITransferService
      * @since 1.3.0
      * @return false if there is exception
      */
-    public boolean transferBatchTrial(long batchId, boolean flag);
+    public boolean transferBatchTrial (long batchId, boolean flag,Long userId);
 
     /**
      * Transfer data trial
@@ -83,7 +83,7 @@ public interface ITransferService
      * @since 1.3.0
      * @return false if there is exception
      */
-    public boolean transferDataTrial(Long tid, boolean flag);
+    public boolean transferDataTrial(Long tid, boolean flag,Long userId);
 
     /**
      * 针对各个业务（代付/提现/退款）的业务退款方法，交易失败或审核拒绝时

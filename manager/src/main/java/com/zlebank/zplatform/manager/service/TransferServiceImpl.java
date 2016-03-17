@@ -119,7 +119,7 @@ public class TransferServiceImpl
 
 	
 	@Override
-	public boolean transferBatchTrial (long batchId, boolean flag) {
+	public boolean transferBatchTrial (long batchId, boolean flag,Long userId) {
 		try {
 			TransferTrialEnum transferTrialEnum = null;
 			if(flag){
@@ -145,6 +145,7 @@ public class TransferServiceImpl
 		    		for(PojoTranData transferData : transferDataList){
 		    			transferData.setStatus("00");
 		    			transferData.setApproveTime(new Date());
+		    			transferData.setApproveUser(userId);
 		    			if("00".equals(transferData.getStatus())){
 		    				approveCount++;
 		    				approveAmount+=transferData.getTranAmt().longValue();
@@ -175,6 +176,7 @@ public class TransferServiceImpl
 		    			unApproveCount++;
 						unApproveAmount+=transferData.getTranAmt().longValue();
 						transferData.setStatus(transferTrialEnum.getCode());
+						transferData.setApproveUser(userId);
 						transferDataDAO.update(transferData);
 		    		}
 		    		//业务退款
@@ -203,7 +205,7 @@ public class TransferServiceImpl
 	
 	 
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
-	public boolean transferDataTrial(Long tid,boolean flag){
+	public boolean transferDataTrial(Long tid,boolean flag,Long userId){
 		try {
 			TransferTrialEnum transferTrialEnum = null;
 			if(flag){
