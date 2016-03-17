@@ -196,7 +196,6 @@ $(function() {
 });
 
 function search() {
-	alert($("#beginDate").datebox("getValue"));
 	var data = {
 		"queryTransferBean.batchNo": $('#batchno').val(),
 		"queryTransferBean.beginDate": $("#beginDate").datebox("getValue"),
@@ -214,14 +213,14 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 	var toolbar = [{
 		id: 'btnadd',
 		text: '未关闭',
-		iconCls: openStatus==statusOpen?'icon-ok':'icon-blank',
+		iconCls: openStatus==statusOpen?'icon-icon-search':'icon-blank',
 		handler: function() {
 			queryBankTranBatch(tranBatchId, seqNo, statusOpen);
 		}},
 		{
 			id: 'btnadd',
 			text: '已关闭',
-			iconCls: openStatus==statusClose?'icon-ok':'icon-blank',
+			iconCls: openStatus==statusClose?'icon-search':'icon-blank',
 			handler: function() {
 				queryBankTranBatch(tranBatchId, seqNo, statusClose);
 			}

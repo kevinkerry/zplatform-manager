@@ -160,13 +160,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">委托人姓名<font color="red">*</font></td>
 						<td>${merchMap.SIGNATORY}</td>
 						<td align="center">委托人身份证号<font color="red">*</font></td>
-						<td>${merchMap.SIG_NCERT_NO}
+						<td>${merchMap.SIGN_CERT_NO}
 					</tr>
 					<tr>
 						<td align="center">客户经理</td>
-						<td>${merchMap.CUSTMGR}</td>
+						<td>${merchMap.CUST_MGR}</td>
 						<td align="center">客户经理部门</td>
-						<td>${merchMap.CUSTMGRDEPT}
+						<td>${merchMap.CUST_MGR_DEPT}
 						    </td>
 					</tr>
 					<tr>
@@ -191,17 +191,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">联系人姓名</td>
 						<td>${merchMap.CONTACT}</td>
 						<td align="center">联系人地址</td>
-						<td>${merchMap.CONTADDRESS}</td>    
+						<td>${merchMap.CONT_ADDRESS}</td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td>${merchMap.CONTPHONE}</td>
+						<td>${merchMap.CONT_PHONE}</td>
 						<td align="center">联系人职位</td>
-						<td>${merchMap.CONTTITLE}</td>
+						<td>${merchMap.CONT_TITLE}</td>
 					</tr>
 					<tr>
 						<td align="center">联系人邮箱</td>
-						<td>${merchMap.CONTEMAIL}</td>
+						<td>${merchMap.CONT_EMAIL}</td>
 						<td colspan="2"></td>
 					</tr>
 					<tr>
