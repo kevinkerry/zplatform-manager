@@ -35,7 +35,7 @@ table tr td select {
 
 						<td align="right" width="10%">批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.batchFileNo" id="batchFileNo" maxlength="32" /></td>
+							name="instead.batchNo" id="batchNo" maxlength="32" /></td>
 
 
 						<td align="right" width="10%">代付状态:</td>
@@ -201,7 +201,7 @@ table tr td select {
 		var data = {
 			"instead.merId" : $('#merId').val(),
 			"instead.orderId" : $('#orderId').val(),
-			"instead.batchFileNo":$('#batchFileNo').val(),
+			"instead.batchNo":$('#batchNo').val(),
 			"instead.status" : $('#status').val()
 		}
 		$('#test').datagrid('load', data);
