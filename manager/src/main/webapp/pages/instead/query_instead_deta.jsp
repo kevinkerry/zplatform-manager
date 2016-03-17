@@ -33,9 +33,9 @@ table tr td select {
 
 
 
-						<td align="right" width="10%">批次号:</td>
-						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.batchFileNo" id="batchFileNo" maxlength="32" /></td>
+<!-- 						<td align="right" width="10%">批次号:</td> -->
+<!-- 						<td align="left" style="padding-left: 5px" width="15%"><input -->
+<!-- 							name="instead.batchNo" id="batchFileNo" maxlength="32" /></td> -->
 
 
 						<td align="right" width="10%">代付状态:</td>
@@ -170,12 +170,14 @@ table tr td select {
 						return '';
 					}
 				}
-			}, {
-				field : 'batchId',
-				title : '批次号',
-				width : 180,
-				align : 'center'
-			} ] ],
+			}
+// 			, {
+// 				field : 'insteadPayDataSeqNo',
+// 				title : '批次号',
+// 				width : 180,
+// 				align : 'center'
+// 			} 
+			] ],
 			/* singleSelect : false,
 			selectOnCheck : true,
 			checkOnSelect : false, */
