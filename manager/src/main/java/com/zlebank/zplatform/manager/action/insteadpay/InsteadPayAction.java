@@ -46,6 +46,7 @@ import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.enums.InsteadEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IInsteadPayService;
+import com.zlebank.zplatform.manager.service.iface.InsteadPayDetailService;
 import com.zlebank.zplatform.manager.util.ReadExcle;
 import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
 import com.zlebank.zplatform.trade.bean.InsteadPayBatchBean;
@@ -73,9 +74,11 @@ import com.zlebank.zplatform.trade.service.InsteadPayService;
  * 批量导入代付
  *
  * @author yangpeng
- * @version
+ * @author luxs
+ * @author yangying
+ * @version 1.3.0
  * @date 2015年12月21日 下午4:43:04
- * @since
+ * @since 1.1.0
  */
 public class InsteadPayAction extends BaseAction {
 
@@ -109,6 +112,9 @@ public class InsteadPayAction extends BaseAction {
 
 	/** 审核数据 **/
 	AuditDataBean auditDataBean;
+	
+	@Autowired
+    private InsteadPayDetailService insteadPayDetailService;
 
 	private File file;
 
@@ -541,7 +547,26 @@ public class InsteadPayAction extends BaseAction {
 		json_encode(messg);
 
 	}
-
+	
+	/**
+     * 代付流水查询
+     */
+    public void queryInsteadDetail() {
+        int page = this.getPage();
+        int pageSize = this.getRows();
+        Map<String, Object> map = new HashMap<String, Object>();
+        PagedResult<InsteadPayDetailBean> result = insteadPayDetailService.queryPaged(page, pageSize, instead);
+        try {
+            List<InsteadPayDetailBean> li = result.getPagedResult();
+            Long total = result.getTotal();
+            map.put("total", total);
+            map.put("rows", li);
+            json_encode(map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+	
 	public InsteadPayBatchQuery getInsteadPayBatchQuery() {
 		return insteadPayBatchQuery;
 	}

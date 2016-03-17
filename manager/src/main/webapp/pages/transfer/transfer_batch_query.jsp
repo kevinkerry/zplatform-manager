@@ -80,7 +80,10 @@ $(function() {
 			field: 'totalAmt',
 			title: '总金额',
 			width: 90,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
 		},
 		{
 			field: 'approveCount',
@@ -92,7 +95,10 @@ $(function() {
 			field: 'approveAmt',
 			title: '通过金额',
 			width: 90,
-			align: 'center'
+			align: 'center',
+				formatter : function(value, rec) {
+					return value==null?'':value/100.00;
+				}
 		},
 		{
 			field: 'unapproveCount',
@@ -104,7 +110,10 @@ $(function() {
 			field: 'unapproveAmt',
 			title: '拒绝金额',
 			width: 90,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value==null?'':value/100.00;
+			}
 		},
 		{
 			field: 'waitApproveCount',
@@ -116,10 +125,13 @@ $(function() {
 			field: 'waitApproveAmt',
 			title: '待审金额',
 			width: 90,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value==null?'':value/100.00;
+			}
 		},
 		{
-			field: 'busitype',
+			field: 'busiType',
 			title: '业务名称',
 			width: 90,
 			align: 'center',
@@ -237,30 +249,73 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 			field: 'totalAmt',
 			title: '总金额',
 			width: 120,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
 		},{
-			field: 'totalCount',
+			field: 'successCount',
 			title: '成功笔数',
 			width: 120,
 			align: 'center'
 		},
 		{
-			field: 'totalAmt',
+			field: 'successAmt',
 			title: '成功金额',
 			width: 120,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
 		},{
-			field: 'totalCount',
+			field: 'failCount',
 			title: '失败笔数',
 			width: 120,
 			align: 'center'
 		},
 		{
-			field: 'totalAmt',
+			field: 'failAmt',
 			title: '失败金额',
 			width: 120,
-			align: 'center'
-		},
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
+		},{
+			field: 'status',
+			title: '审核状态',
+			width: 120,
+			align: 'center',
+			formatter: function(value, rec) {
+				if (value == '01') {
+					return '未审核';
+				} else if (value == '02') {
+					return '审核通过'; 
+				} else if (value == '03') {
+					return '审核通过';
+				} else {
+					return '未知';
+				}
+			}
+		},{
+			field: 'tranStatus',
+			title: '转账状态',
+			width: 120,
+			align: 'center',
+			formatter: function(value, rec) {
+				if (value == '01') {
+					return '等待转账';
+				} else if (value == '02') {
+					return '部分转账成功';
+				} else if (value == '00') {
+					return '全部转账成功';
+				} else if (value == '03') {
+					return '全部失败';
+				} else {
+					return '未知';
+				}
+			}
+		}/*,
 		{
 			field: 'status',
 			title: '操作',
@@ -269,7 +324,7 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 			formatter: function(value, rec) {
 				return '<a>转账明细</a>';
 			}
-		}]];
+		}*/]];
 		break;
 	case '0':
 		//未关闭
@@ -288,7 +343,10 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 			field: 'totalAmt',
 			title: '总金额',
 			width: 120,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
 		},
 		{
 			field: 'defaultCloseTime',

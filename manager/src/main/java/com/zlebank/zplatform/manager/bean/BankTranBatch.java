@@ -3,8 +3,8 @@ package com.zlebank.zplatform.manager.bean;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.zlebank.zplatform.commons.bean.Bean;
-import com.zlebank.zplatform.trade.bean.enums.BankTransferBatchOpenStatusEnum;
 
 public class BankTranBatch implements Bean{
     /** "表标识" **/
@@ -32,10 +32,13 @@ public class BankTranBatch implements Bean{
     /** """转账状态(01:等待转账02：部分转账成功03：全部转账成功 04：全部失败 **/
     private String tranStatus;
     /** "申请时间 **/
+    @JSONField (format="yyyy-MM-dd HH:mm:ss") 
     private Date applyTime;
     /** "默认关闭时间" **/
+    @JSONField (format="yyyy-MM-dd HH:mm:ss") 
     private Date defaultCloseTime;
     /** "最后关闭时间（每日）" **/
+    @JSONField (format="yyyy-MM-dd HH:mm:ss") 
     private Date latestCloseTime;
     /** "关闭时间" **/
     private Date closeTime;
