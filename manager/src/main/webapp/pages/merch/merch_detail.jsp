@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${merchMap.ADDRESS}
 						</td>
 						<td align="center">邮编编码</td>
-						<td>${merchMap.POSTCODE}
+						<td>${merchMap.POST_CODE}
 						</td>
 					</tr>
 					<tr>
@@ -94,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${merchMap.CORPORATION}
 						</td>
 						<td align="center">法人身份证号<font color="red">*</font></td>
-						<td>${merchMap.CORPNO}
+						<td>${merchMap.CORP_NO}
 						 </td>
 					</tr> 
 					
