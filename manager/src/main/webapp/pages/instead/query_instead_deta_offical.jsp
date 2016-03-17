@@ -99,7 +99,7 @@ table tr td select {
 				width: 120,
 				align: 'center',
 				formatter : function(value, rec) {
-					return value/100.00;
+					return value;
 				}
 			},
 			{
