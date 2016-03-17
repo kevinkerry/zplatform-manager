@@ -38,6 +38,7 @@ table tr td select {
 <!-- 							name="instead.batchNo" id="batchFileNo" maxlength="32" /></td> -->
 
 
+
 						<td align="right" width="10%">代付状态:</td>
 						<td colspan="1"><select name="instead.status"
 							class="easyui-validatebox validatebox-text" id="status">
@@ -203,7 +204,7 @@ table tr td select {
 		var data = {
 			"instead.merId" : $('#merId').val(),
 			"instead.orderId" : $('#orderId').val(),
-			"instead.batchFileNo":$('#batchFileNo').val(),
+			"instead.batchNo":$('#batchNo').val(),
 			"instead.status" : $('#status').val()
 		}
 		$('#test').datagrid('load', data);
