@@ -97,13 +97,27 @@ table tr td select {
 				field: 'amt',
 				title: '转账金额',
 				width: 120,
-				align: 'center'
+				align: 'center',
+				formatter : function(value, rec) {
+					return value/100.00;
+				}
 			},
 			{
 				field: 'status',
 				title: '状态',
 				width: 120,
-				align: 'center'
+				align: 'center',
+				formatter : function(value, rec) {
+					switch(value){
+						case '01':return '等待审核';
+						case '09':return '审核拒绝';
+						case '00':return '成功';
+						case '39':return '划拨失败';
+						case '29':return '审核拒绝';
+						case '19':return '审核拒绝';
+						default:return '划拨中';
+					}
+				}
 			}]],
 			singleSelect: false,
 			selectOnCheck: true,

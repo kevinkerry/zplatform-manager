@@ -118,7 +118,6 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	@Override
 	public Map<String, Object> queryDataBankTransfer(
 			QueryTransferBean queryTransferBean, int page, int pageSize) {
-		// TODO Auto-generated method stub
 		return bankTransferDataDAO.queryBankTransferDataByPage(queryTransferBean, page, pageSize);
 	}
 

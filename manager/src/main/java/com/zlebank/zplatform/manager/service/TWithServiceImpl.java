@@ -61,6 +61,7 @@ import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.exception.TradeException;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
+import com.zlebank.zplatform.trade.utils.OrderNumber;
 
 /**
  * Class Description
@@ -348,8 +349,8 @@ public class TWithServiceImpl
                 // 银行主行号
                 txnsWinth.setTotalBankCode(card.getBankCode());
                 TxnsLogModel txnsLog = new TxnsLogModel();
-                String withdraworderno = risk.generateWithdrawOrderNo();
-                String txnseqNo = risk.generateWithdrawOrderNo();
+                String withdraworderno = OrderNumber.getInstance().generateWithdrawOrderNo();;
+                String txnseqNo = OrderNumber.getInstance().generateWithdrawOrderNo();;
                 txnsWinth.setTxnseqNo(txnseqNo);
                 txnsWinth.setWithdraworderno(withdraworderno);
                 txnsLog.setTxnseqno(txnseqNo);

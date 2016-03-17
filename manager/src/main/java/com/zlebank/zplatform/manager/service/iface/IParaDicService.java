@@ -33,7 +33,4 @@ public interface IParaDicService extends IBaseService<ParaDicModel, Long>{
     public List<?>  out_yeji_sel(String year,String month,String type,String totalType,String deminNo,String deminName,int page,int rows);
 	public List<?>  out_yeji_sel_export(String year,String month,String type,String totalType,String deminNo,String deminName);
 	public Long  out_yeji_sel_num(String startDate,String endDate,String type,String totalType,String deminNo,String deminName);
-		
-		
-			
 }
