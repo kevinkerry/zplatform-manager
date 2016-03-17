@@ -42,7 +42,9 @@ table tr td select {
 		<div style="margin-top: 1px">
 			<table id="test"></table>
 		</div>
+		
 		<div style="margin-top: 1px">
+			<input type="hidden" id="detail_tid"/>
 			<table id="test2"></table>
 		</div>
 	</div>
@@ -106,7 +108,7 @@ table tr td select {
 			collapsible:true,
 			columns : [ [
 					{field : 'ck',checkbox : true},
-					{field : 'tranBatchNo',title : '划拨批次号',width : 90,align : 'center'},
+					{field : 'tranBatchNo',title : '划拨批次号',width : 160,align : 'center'},
 					{field : 'totalCount',title : '总笔数',width : 90,align : 'center'},
 					{field : 'totalAmt',title : '总金额',width : 90,align : 'center',
 						formatter:function(value,rec){
@@ -167,7 +169,7 @@ table tr td select {
 			rownumbers : true,
 			onClickRow : function(index,row){
 				//alert(row.tranBatchId);
-				
+				$("#detail_tid").val(row.tid);
 				var data = {
 						"queryTransferBean.tid" : row.tid
 					   }
@@ -195,9 +197,53 @@ table tr td select {
 						
 					}
 				}
+			}, {
+				id : 'btn_search',
+				text : '代付',
+				iconCls : 'icon-search',
+				handler : function() {
+					var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.busiType":"00"
+						   }
+						$('#test').datagrid('load', data);
+				}
 			
 			
-			}]
+			}, {
+				id : 'btn_search',
+				text : '提现',
+				iconCls : 'icon-search',
+				handler : function() {
+					var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.busiType":"01"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			
+			
+			},{
+				id : 'btn_search',
+				text : '退款',
+				iconCls : 'icon-search',
+				handler : function() {
+					var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.busiType":"02"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			
+			
+			}
+			]
 						});
 		 
 		
@@ -247,6 +293,8 @@ table tr td select {
 													return '审核拒绝';
 												} else if (value == '02') {
 													return '转账成功 ';
+												}else if (value == '00') {
+													return '审核成功';
 												} else if (value == '03') {
 													return '转账失败 ';
 												}else {
@@ -286,6 +334,33 @@ table tr td select {
 						}
 					
 					
+					},
+					{
+						id : 'btnadd',
+						text : '未审核',
+						iconCls : 'icon-search',
+						handler : function() {
+							var data = {
+									"queryTransferBean.tid" : $("#detail_tid").val(),
+									"queryTransferBean.status":"01"
+								   }
+								$('#test2').datagrid('load', data);
+							
+						}
+					},
+					{
+						id : 'btnadd',
+						text : '已审核',
+						iconCls : 'icon-search',
+						handler : function() {
+							var data = {
+									"queryTransferBean.tid" : $("#detail_tid").val(),
+									"queryTransferBean.status":"02"
+								   }
+								$('#test2').datagrid('load', data);
+						}
+					
+					
 					}]
 				});
 		$($('#test2').datagrid('getPanel')).panel('collapse',false);
@@ -297,8 +372,8 @@ table tr td select {
 	function search() {
 		var data = {
 				"queryTransferBean.batchNo" : $('#batchno').val(),
-				"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
-				"queryTransferBean.endDate":$("#endDate").datebox("getValue")
+				"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),//.replace("-","").replace("-",""),
+				"queryTransferBean.endDate":$("#endDate").datebox("getValue")//.replace("-","").replace("-","")
 			   }
 			$('#test').datagrid('load', data);
 	}

@@ -10,6 +10,7 @@
  */
 package com.zlebank.zplatform.manager.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,7 +82,13 @@ public class TransferServiceImpl
     @Override
     public Map<String, Object> queryBatchTransfer(
             QueryTransferBean queryTransferBean, int page, int pageSize) {
-        return transferBatchDAO.queryTransferBatchByPage(queryTransferBean, page, pageSize);
+        try {
+			return transferBatchDAO.queryTransferBatchByPage(queryTransferBean, page, pageSize);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
     }
 
 
