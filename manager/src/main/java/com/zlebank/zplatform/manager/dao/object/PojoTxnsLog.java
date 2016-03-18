@@ -30,7 +30,12 @@ import com.zlebank.zplatform.acc.pojo.Money;
  */
 @Entity
 @Table(name = "T_TXNS_LOG")
-public class PojoTxnsLog {
+
+public class PojoTxnsLog implements java.io.Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9014309744836697423L;
     /**交易序列号[证联金融所用：关联各子流水表]**/
     private String txnseqno;
     /**交易日期**/
@@ -145,6 +150,7 @@ public class PojoTxnsLog {
     private String apporderstatus;
     /**应用订单应答信息**/
     private String apporderinfo;
+  
     @Id
     @Column(name = "TXNSEQNO")
     public String getTxnseqno() {
