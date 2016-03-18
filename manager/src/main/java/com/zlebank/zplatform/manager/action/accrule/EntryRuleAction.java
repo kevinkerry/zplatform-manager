@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.opensymphony.xwork2.Action;
 import com.zlebank.zplatform.acc.bean.Business;
 import com.zlebank.zplatform.acc.bean.SubjectAccountRule;
 import com.zlebank.zplatform.acc.bean.SubjectQuery;
@@ -129,7 +130,7 @@ public class EntryRuleAction extends BaseAction{
     }
     
     public String getQueryRule(){
-      return   this.SUCCESS;
+      return   Action.SUCCESS;
         
     }
     /**

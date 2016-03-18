@@ -108,11 +108,20 @@ table tr td select {
 					{field : 'ck',checkbox : true},
 					{field : 'bankTranBatchNo',title : '转账批次号',width : 90,align : 'center'},
 					{field : 'totalCount',title : '总笔数',width : 90,align : 'center'},
-					{field : 'totalAmt',title : '总金额',width : 90,align : 'center'},
+					{field : 'totalAmt',title : '总金额',width : 90,align : 'center',
+						formatter:function(value,rec){
+							return value/100.00;
+					}},
 					{field : 'successCount',title : '通过笔数',width : 90,align : 'center'},
-					{field : 'successAmt',title : '通过金额',width : 90,align : 'center'},
+					{field : 'successAmt',title : '通过金额',width : 90,align : 'center',
+						formatter:function(value,rec){
+							return value/100.00;
+					}},
 					{field : 'failCount',title : '拒绝笔数',width : 90,align : 'center'},
-					{field : 'failAmt',title : '拒绝金额',width : 90,align : 'center'},
+					{field : 'failAmt',title : '拒绝金额',width : 90,align : 'center',
+						formatter:function(value,rec){
+							return value/100.00;
+					}},
 					{field : 'applyTime',title : '申请时间',width : 90,align : 'center'},
 					{field : 'approveFinishTime',title : '审核完成时间',width : 90,align : 'center'},
 					{field : 'finishTime',title : '转账完成时间',width : 90,align : 'center'},
@@ -121,11 +130,11 @@ table tr td select {
 										if (value == '01') {
 											return '未审核';
 										} else if (value == '02') {
-											return '部分审核通过';
+											return '审核通过';
 										} else if (value == '00') {
 											return '转账成功';
 										} else if (value == '03') {
-											return '全部审核通过';
+											return '审核拒绝';
 										} else {
 											return '';
 										}
@@ -140,9 +149,8 @@ table tr td select {
 			rownumbers : true,
 			onClickRow : function(index,row){
 				//alert(row.tranBatchId);
-				
 				var data = {
-						"queryTransferBean.batchNo" : row.tid
+						"queryTransferBean.tid" : row.tid
 					   }
 					$('#test2').datagrid('load', data);
 				$($('#test2').datagrid('getPanel')).panel('expand',true);
@@ -188,7 +196,6 @@ table tr td select {
 					remoteSort : false,
 					idField : 'ORGAN_ID',
 					columns : [ [
-							{field : 'ck',checkbox : true},
 							{field : 'bankTranDataSeqNo',title : '转账流水号',width : 190,align : 'center'},
 							{field : 'accType',title : '账户类型',width : 90,align : 'center',
 								formatter : function(value, rec) {
@@ -201,11 +208,14 @@ table tr td select {
 							},
 							{field : 'accNo',title : '账号',width : 120,align : 'center'},
 							{field : 'accName',title : '户名',width : 120,align : 'center'},
-							{field : 'bankNo',title : '支付行号',width : 120,align : 'center',},
-							{field : 'bankName',title : '开户行名称',width : 120,align : 'center'},
-							{field : 'insteadDataId',title : '关联订单号',width : 120,align : 'center'},
-							{field : 'tranAmt',title : '金额(元)',width : 90,align : 'center'},
-							{field : 'tranFee',title : '手续费(元)',width : 90,align : 'center'},
+							{field : 'accBankNo',title : '支付行号',width : 120,align : 'center',},
+							{field : 'accBankName',title : '开户行名称',width : 120,align : 'center'},
+							
+							{field : 'tranAmt',title : '金额(元)',width : 90,align : 'center',
+								formatter:function(value,rec){
+								return value/100.00;
+							}},
+							
 							{field : 'applyTime',title : '创建时间',width : 120,align : 'center'},
 							{field : 'approveTime',title : '通过时间',width : 120,align : 'center'},
 							{field : 'status',title : '状态',width : 120,align : 'center',
@@ -230,32 +240,8 @@ table tr td select {
 					selectOnCheck : true,
 					checkOnSelect : false,
 					pagination : true,
-					rownumbers : true,
-					toolbar : [ {
-						id : 'btnadd',
-						text : '审核',
-						iconCls : 'icon-ok',
-						handler : function() {
-							var check= $('#test2' ).datagrid( 'getChecked');
-							if(check.length!=0){
-							var myArray="";
-                               for (var i=0;i<check.length;i++){
-                            	   myArray+=check[i].tranDataSeqNo+"|";
-                              } 
-							$("#firstTrial")[0].reset();
-							$("#btn_submit").linkbutton('enable');
-							$("#icon-cancel").linkbutton('enable');
-							
-							$("#withdraworderno_").val(myArray);
-							showAdds();
-						}else{
-							$.messager.alert('提示',"请选择数据"); 
-							
-						}
-						}
+					rownumbers : true
 					
-					
-					}]
 				});
 		$($('#test2').datagrid('getPanel')).panel('collapse',false);
 	/* 	$('#test').datagrid('onClickRow', function(index,row){
@@ -264,7 +250,7 @@ table tr td select {
  */	});
 
 	function search() {
-		alert($("#beginDate").datebox("getValue"));
+		//alert($("#beginDate").datebox("getValue"));
 		var data = {
 				"queryTransferBean.batchNo" : $('#batchno').val(),
 				"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
@@ -314,17 +300,6 @@ table tr td select {
 		$('#w').window('close');
 	}
 	
-	/* function a(falg){
-		if(falg==true){
-			
-			$("#firstTrial").attr("action",
-					"pages/withdraw/queryTrialWithdraTriaAction.action");
-			}else{
-				$("#firstTrial").attr("action",
-				"pages/withdraw/queryTrialWithdraTriaAction.action");
-			}
-		
-	} */
 	
 	
 	function batchTrial(falg){
@@ -348,162 +323,11 @@ table tr td select {
 		    	$.messager.alert('提示',data); 
     			search();
 	    		closeAdd();
-		    }  
-		});   
-	}
-	function singleTrial(falg){
-		if(falg==true){
-			$("#singleTrial").attr("action","pages/transfer/trailTransferDetaTransferAction.action");
-			$("#falg_").val("true");
-		}else{
-			$("#singleTrial").attr("action","pages/transfer/trailTransferDetaTransferAction.action");
-			$("#falg_").val("false");
-	
-		}
-		$('#singleTrial').form('submit', {  
-		    onSubmit: function(){  
-			    if($('#singleTrial').form('validate')){
-			    	$('#btn_submit_').linkbutton('disable');
-					$("#icon-cancel_").linkbutton('disable');		
-			    	return 	true;
-				}
-		        return false;   
-		    },   
-		    success:function(data){  
-		    	$.messager.alert('提示',data); 
-    			search();
-	    		closeAdd();
+	    		$($('#test2').datagrid('getPanel')).panel('collapse',false);
 		    }  
 		});   
 	}
 	
-	function getTransfer(tranid){
-		var ison=false;
-		$.ajax( { 
-				type: "POST",
-	             url: "pages/transfer/queryBankBatchTransferAction.action",
-	             dataType: "json",
-	             async:false,
-	             success: function(data){
-	            var	json=data.rows[0];
-	            if(json==null){
-	            	$.messager.alert('提示',"数据不正确，请刷新后重试");	
-	            }else{
-	            	$("#ttranid").html(json.tranid);
-	            	if(json.acctype=="00"){
-	                	$("#tacctype").html("对私");
-	            	}else if(json.acctype=="01"){
-	            		$("#tacctype").html("对公");
-	            	}else {
-	            		$("#tacctype").html("");
-	            	}
-	        
-	            	$("#taccno").html(json.accno);
-	            	$("#taccname").html(json.accname);
-	            	$("#tbanktype").html(json.banktype);
-	            	$("#tbankname").html(json.bankname);
-	            	$("#ttransamt").html(json.money+"元");
-	            	$("#tremark").html(json.remark);
-	            	$("#tresv").html(json.resv);
-	            	
-	            		if (json.status == '01') {
-	            			$("#tstatus").html("初始");
-						} else if (json.status == '02') {
-							$("#tstatus").html("转账中");
-						} else if (json.status == '00') {
-							$("#tstatus").html("转账成功");
-						} else if (json.status == '03') {
-							$("#tstatus").html("转账失败");
-						} else if (json.status == '11') {
-							$("#tstatus").html("待初审");
-						} else if (json.status == '21') {
-							$("#tstatus").html("待复审");
-						} else if (json.status == '19') {
-							$("#tstatus").html("初审未过");
-						} else if (json.status == '29') {
-							$("#tstatus").html("复审未过");
-						} else {
-							return '';
-						}
-	            	
-	            	$("#tbanktranid").html(json.banktranid);
-	            	$("#tresptype").html(json.resptype);
-	            	$("#trespcode").html(json.respcode);
-	            	$("#trespmsg").html(json.respmsg);
-	            	$("#ttrandate").html(json.trandate);
-	            	$("#ttrantime").html(json.trantime);
-	            	$("#trelatedorderno").html(json.relatedorderno);
-	            	if(json.busitype=="3000"){
-	            		$("#tbusicode").html("提现");
-	            	}else if(json.busitype=="7000"){
-	            		$("#tbusicode").html("代付");
-	            	}
-	            	
-	            	
-	            	$("#tsplitflag").html(json.splitflag);
-	            	$("#taccstatus").html(json.accstatus);
-	            	$("#taccinfo").html(json.accinfo);
-	            	$("#ttransfertype").html(json.transfertype);
-	            	$("#tcreatetime").html(json.createtime);
-	            	$("#tmemberid").html(json.memberid);
-	            	$("#tbusitype").html(json.busitype);
-	            	$("#tstexauser").html(json.stexauser);
-	            	$("#tstexatime").html(json.stexatime);
-	            	$("#tstexaopt").html(json.stexaopt);
-	            	$("#tcvlexauser").html(json.cvlexauser);
-	            	$("#tcvlexatime").html(json.cvlexatime);
-	            	$("#tcvlexaopt").html(json.cvlexaopt);
-	            	$("#ttxnseqno").html(json.txnseqno);
-	            	$("#ttxnfee").html(json.fee);
-	            	$("#withdraworderno").val(json.tranid);
-	           isok=true;
-	            }
-	             }
-		})
-		if(isok==true){
-			$("#btn_submit").linkbutton('enable');
-			$("#icon-cancel").linkbutton('enable');
-		showAddss();
 	
-		}
-		}
-	
-	
-	function secondTrial(falg){
-		
-		if(falg==true){
-
-				$("#secondTrial").attr("action",
-						"pages/transfer/secondAuditByConditionsTransferAction.action?falg=first");
-				$("#falgs").val("true");
-				$("#falg").val("true");
-				$("#falgss").val("true");
-			}else{
-
-					$("#secondTrial").attr("action",
-							"pages/transfer/secondAuditByConditionsTransferAction.action?falg=first");
-					$("#falgs").val("false");
-					$("#falg").val("false");
-					$("#falgss").val("false");
-		
-			}
-			$('#secondTrial').form('submit', {  
-			    onSubmit: function(){  
-				    if($('#secondTrial').form('validate')){
-				    	$('#btn_submit').linkbutton('disable');
-						$("#icon-cancel").linkbutton('disable');
-				    	return 	true;
-					}
-			        return false;   
-			    },   
-			    success:function(data){  
-			    	$.messager.alert('提示',data); 
-	    			search();
-		    		closeAdd();
-			 
-			        
-			    }  
-			});   
-		}
 </script>
 </html>

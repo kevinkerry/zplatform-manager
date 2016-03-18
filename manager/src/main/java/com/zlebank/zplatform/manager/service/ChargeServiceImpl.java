@@ -37,6 +37,7 @@ import com.zlebank.zplatform.manager.dao.object.ChargeModel;
 import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IChargeService;
+import com.zlebank.zplatform.manager.service.iface.IParaDicService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.member.bean.enums.MemberType;
 import com.zlebank.zplatform.member.dao.ParaDicDAO;
@@ -44,6 +45,7 @@ import com.zlebank.zplatform.member.exception.MemberBussinessException;
 import com.zlebank.zplatform.member.pojo.PojoMember;
 import com.zlebank.zplatform.member.pojo.PojoParaDic;
 import com.zlebank.zplatform.member.service.MemberService;
+import com.zlebank.zplatform.trade.utils.OrderNumber;
 
 /**
  * Class Description
@@ -69,9 +71,7 @@ public class ChargeServiceImpl
     @Autowired
     private IChargeDAO charge;
     @Autowired
-    private MemberService ms;
-    @Autowired
-    private IRiskService risk;
+    private MemberService ms; 
     @Autowired
     private ParaDicDAO paradic;
     @Autowired
@@ -141,7 +141,7 @@ public class ChargeServiceImpl
             throw new ManagerWithdrawException("G100010"); 
          }
         
-         String chargeNo = risk.generateWithdrawOrderNo();
+         String chargeNo = OrderNumber.getInstance().generateWithdrawOrderNo();
          cm.setChargeno(chargeNo);
          cm.setIntime(new Date());
          cm.setInuser(userId);

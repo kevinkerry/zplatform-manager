@@ -129,7 +129,7 @@
 		class="com.zlebank.zplatform.manager.service.base.BaseServiceImpl">
 	</bean>
 	 <bean id="springContext" class="com.zlebank.zplatform.trade.utils.SpringContext"></bean>
-<!--  
+ <!-- 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="oracle.jdbc.OracleDriver" />

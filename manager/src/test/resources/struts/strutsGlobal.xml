@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+   
+    
+    <!-- 全局 -->
+ 	<package name="global" namespace="/" extends="struts-default">
+	 	 <interceptors>
+	 	 
+
+	 	 <interceptor name="Authority" class="com.zlebank.zplatform.manager.util.interceptor.AuthorityInterceptor"/>	 
+			<interceptor name="Customer_Annotation" class="com.opensymphony.xwork2.interceptor.annotations.AnnotationWorkflowInterceptor"/>
+			<!-- delay time = 1500 milliseconds -->
+			
+			<interceptor-stack name="myDefault">
+				<interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="Authority"/>
+                <!-- max size = 20MB -->
+                <interceptor-ref name="fileUpload">   
+                	<param name="maximumSize">20971520</param>             
+                </interceptor-ref>
+            </interceptor-stack>
+			
+	 	 </interceptors>
+	 	 <!-- The default interceptor stack name -->
+        <default-interceptor-ref name="myDefault"/> 
+        
+        <global-results>
+			<result name="AuthorityError" type="dispatcher">/common/authorityerror.jsp</result>
+			<result name="index" type="dispatcher">/login.jsp</result>
+        </global-results>
+    </package>  
+</struts>

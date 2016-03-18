@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 全局 -->
+	<include file="struts/strutsGlobal.xml"></include>
+	<!-- 前台访问 -->
+	<include file="struts/system-struts.xml"></include>
+	<include file="struts/login-struts.xml"></include>
+	<include file="struts/merch-struts.xml"></include>
+	<include file="struts/product-struts.xml"></include>
+	<include file="struts/fee-struts.xml"></include>
+	<include file="struts/txns-withdraw.xml"></include>
+	<include file="struts/risk-struts.xml"></include>
+	<include file="struts/acc-entry.xml"></include>
+	<include file="struts/entry-rule.xml"></include>
+	<include file="struts/txns-log.xml"></include>
+    <include file="struts/transfer.xml"></include>
+	<include file="struts/txns-charge.xml"></include>
+	<include file="struts/instead-pay.xml"></include>
+	<include file="struts/stat-struts.xml"></include>
+	<include file="struts/txns-charge-file.xml"></include>
+	<include file="struts/revision.xml"></include>
+	<include file="struts/coop-insti.xml"></include>
+</struts>

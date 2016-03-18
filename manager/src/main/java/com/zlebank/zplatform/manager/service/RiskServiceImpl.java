@@ -1,8 +1,5 @@
 package com.zlebank.zplatform.manager.service;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -532,24 +529,6 @@ public class RiskServiceImpl extends BaseServiceImpl<RiskModel, Long>
 
     }
     
-    
-    private String generateSerialNumber(String sequences){
-        @SuppressWarnings("unchecked")
-        List<Map<String,Object>> resultList = (List<Map<String, Object>>)queryBySQL("select "+sequences+".NEXTVAL seq from dual", new Object[]{});
-        DecimalFormat df = new DecimalFormat("00000000");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-        String seqNo = df.format( resultList.get(0).get("SEQ"));
-        return sdf.format(new Date())+seqNo;
-        }
-    
-    
-      public String generateWithdrawOrderNo(){
-        String seqNo=generateSerialNumber("SEQ_WITHDRAW_NO");
-        return seqNo.substring(0,6)+"93"+seqNo.substring(6);
-        }
-      
-      
-      
       /**
       *
       * @param txnsLog

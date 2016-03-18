@@ -18,12 +18,12 @@ table tr td select {
 </style>
 	<div style="margin: 5px; border:" id="continer">
 		<div id="p" class="easyui-panel" title="查询条件"
-			style="height: 140px; padding: 10px; background: #fafafa;"
+			style="height: 90px; padding: 10px; background: #fafafa;"
 			iconCls="icon-save" collapsible="true">
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						<td align="right" width="10%">一级商户号:</td>
+						<td align="right" width="10%">商户编号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="instead.merId" id="merId" maxlength="32" /></td>
 
@@ -33,25 +33,23 @@ table tr td select {
 
 
 
-						<td align="right" width="10%">批次号:</td>
-						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.batchFileNo" id="batchFileNo" maxlength="32" /></td>
+<!-- 						<td align="right" width="10%">批次号:</td> -->
+<!-- 						<td align="left" style="padding-left: 5px" width="15%"><input -->
+<!-- 							name="instead.batchNo" id="batchFileNo" maxlength="32" /></td> -->
 
 
-						<td align="right" width="10%">代付状态:</td>
-						<td colspan="1"><select name="instead.status"
-							class="easyui-validatebox validatebox-text" id="status">
-								<option value="">请选择</option>
-								<option value="01">待初审</option>
-								<option value="09">初审未过</option>
-								<option value="00">充值成功</option>
-						</select></td>
-					</tr>
 
-					<tr>
-						<td align="right" rowspan="6"><a href="javascript:search()"	
+<!-- 						<td align="right" width="10%">代付状态:</td> -->
+<!-- 						<td colspan="1"><select name="instead.status" -->
+<!-- 							class="easyui-validatebox validatebox-text" id="status"> -->
+<!-- 								<option value="">请选择</option> -->
+<!-- 								<option value="01">未审核</option> -->
+<!-- 								<option value="09">审核拒绝</option> -->
+<!-- 								<option value="00">审核通过</option> -->
+<!-- 						</select></td> -->
+						
+						<td align="left" rowspan="6"><a href="javascript:search()"	
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
-
 					</tr>
 
 				</table>
@@ -149,33 +147,22 @@ table tr td select {
 				width : 180,
 				align : 'center',
 				formatter : function(value, rec) {
-
 					if (value == '01') {
-						return '待初审';
+						return '未审核';
 					} else if (value == '09') {
-						return '初审未过';
-					} else if (value == '11') {
-						return '待复审';
-					} else if (value == '19') {
-						return '复审未过';
-					} else if (value == '21') {
-						return '等待批处理';
-					} else if (value == '29') {
-						return '批处理失败';
-					} else if (value == '00') {
-						return '提现成功';
-					} else if (value == '39') {
-						return '自行终止';
+						return '审核拒绝';
 					} else {
-						return '';
+						return '审核通过';
 					}
 				}
-			}, {
-				field : 'batchId',
-				title : '批次号',
-				width : 180,
-				align : 'center'
-			} ] ],
+			}
+// 			, {
+// 				field : 'insteadPayDataSeqNo',
+// 				title : '批次号',
+// 				width : 180,
+// 				align : 'center'
+// 			} 
+			] ],
 			/* singleSelect : false,
 			selectOnCheck : true,
 			checkOnSelect : false, */
@@ -183,7 +170,7 @@ table tr td select {
 			rownumbers : true,
 			toolbar : [ {
 				id : 'btnadd',
-				text : '导入划拨数据',
+				text : '导入代付文件',
 				iconCls : 'icon-add',
 				handler : function() {
 					$("#btn_submit").linkbutton('enable');
@@ -201,7 +188,7 @@ table tr td select {
 		var data = {
 			"instead.merId" : $('#merId').val(),
 			"instead.orderId" : $('#orderId').val(),
-			"instead.batchFileNo":$('#batchFileNo').val(),
+			"instead.batchNo":$('#batchNo').val(),
 			"instead.status" : $('#status').val()
 		}
 		$('#test').datagrid('load', data);

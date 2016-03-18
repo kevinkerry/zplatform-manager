@@ -61,6 +61,7 @@ import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.exception.TradeException;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
+import com.zlebank.zplatform.trade.utils.OrderNumber;
 
 /**
  * Class Description
@@ -299,11 +300,11 @@ public class TWithServiceImpl
                 map.put("messg", "会员不合法");
                 return map;
             }
-            if (merchPojo.getAccnum() == null) {
+            if (merchPojo.getAccNum() == null) {
                 map.put("messg", "该账户无卡号,无法提现");
                 return map;
             }
-            CardBin card = cardbin.getCard(merchPojo.getAccnum());
+            CardBin card = cardbin.getCard(merchPojo.getAccNum());
             if (card == null) {
                 map.put("messg", "账户银行卡信息错误,无法提现");
                 return map;
@@ -337,9 +338,9 @@ public class TWithServiceImpl
                         map.put("messg", "一级商户不存在");
                         return map;
                     }
-                    txnsWinth.setBankcode(pMerchPojo.getBanknode() == null
-                            ? pMerchPojo.getBankcode()
-                            : pMerchPojo.getBanknode());
+                    txnsWinth.setBankcode(pMerchPojo.getBankNode() == null
+                            ? pMerchPojo.getBankCode()
+                            : pMerchPojo.getBankNode());
                     txnsWinth.setMerchId(merchPojo.getParent());
                     txnsWinth
                             .setSubMerchId(String.valueOf(merchPojo.getMemId()));
@@ -348,15 +349,15 @@ public class TWithServiceImpl
                 // 银行主行号
                 txnsWinth.setTotalBankCode(card.getBankCode());
                 TxnsLogModel txnsLog = new TxnsLogModel();
-                String withdraworderno = risk.generateWithdrawOrderNo();
-                String txnseqNo = risk.generateWithdrawOrderNo();
+                String withdraworderno = OrderNumber.getInstance().generateWithdrawOrderNo();;
+                String txnseqNo = OrderNumber.getInstance().generateWithdrawOrderNo();;
                 txnsWinth.setTxnseqNo(txnseqNo);
                 txnsWinth.setWithdraworderno(withdraworderno);
                 txnsLog.setTxnseqno(txnseqNo);
                 // 交易序列号，扣率版本，业务类型，交易金额，会员号，原交易序列号，卡类型
-                txnsLog.setFeever(merchPojo.getFeever() == null
+                txnsLog.setFeever(merchPojo.getFeeVer() == null
                         ? ""
-                        : merchPojo.getFeever());
+                        : merchPojo.getFeeVer());
                 txnsLog.setBusicode(WithdrawalsBusCodeEnum.APPLY.getCode());
                 txnsLog.setAccfirmerno(merchPojo.getParent() == null
                         ? memberId
@@ -365,8 +366,8 @@ public class TWithServiceImpl
                 txnsWinth.setBankname(card.getBankName());
                 txnsWinth.setMemberid(memberId);
                 txnsWinth.setWithdrawtype(MERCH);
-                txnsWinth.setAcctno(merchPojo.getAccnum());
-                txnsWinth.setAcctname(merchPojo.getAccname());
+                txnsWinth.setAcctno(merchPojo.getAccNum());
+                txnsWinth.setAcctname(merchPojo.getAccName());
                 map.put("txns", txnsWinth);
                 // 手续费
                 map.put("txnsLog", txnsLog);

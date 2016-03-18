@@ -17,7 +17,7 @@ import com.zlebank.zplatform.commons.bean.TransferData;
 import com.zlebank.zplatform.commons.bean.TransferDataQuery;
 import com.zlebank.zplatform.commons.service.IBasePageService;
 import com.zlebank.zplatform.manager.bean.BankTranBatch;
-import com.zlebank.zplatform.manager.bean.enmu.BankTranBatchOpenStatus;
+import com.zlebank.zplatform.trade.bean.enums.BankTransferBatchOpenStatusEnum;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.model.PojoTranData;
 
@@ -71,7 +71,7 @@ public interface ITransferService
      * @since 1.3.0
      * @return false if there is exception
      */
-    public boolean transferBatchTrial(long batchId, boolean flag);
+    public boolean transferBatchTrial (long batchId, boolean flag,Long userId);
 
     /**
      * Transfer data trial
@@ -83,7 +83,7 @@ public interface ITransferService
      * @since 1.3.0
      * @return false if there is exception
      */
-    public boolean transferDataTrial(Long tid, boolean flag);
+    public boolean transferDataTrial(Long tid, boolean flag,Long userId);
 
     /**
      * 针对各个业务（代付/提现/退款）的业务退款方法，交易失败或审核拒绝时
@@ -109,5 +109,5 @@ public interface ITransferService
      * @return
      * @since 1.3.0
      */
-    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTranBatchOpenStatus openStatus);
+    public List<BankTranBatch> queryBankTranBatchByTranBatch(long tranBatchId,BankTransferBatchOpenStatusEnum openStatus);
 }

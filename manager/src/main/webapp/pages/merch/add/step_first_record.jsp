@@ -372,7 +372,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$.each(json,
 					function(key, value) {
 						//alert(value.roleName);
-						html += '<option value="' + value.PId + '">' + value.PName + '</option>';
+						html += '<option value="' + value.pId + '">' + value.pName + '</option>';
 					}) ;
 					$("#province_ins").html(html);
 					$("#bnkProvince_ins").html(html);
@@ -398,7 +398,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$.each(json,
 					function(key, value) {
 						//alert(value.roleName);
-						html += '<option value="' + value.CId + '">' + value.CName + '</option>';
+						html += '<option value="' + value.cId + '">' + value.cName + '</option>';
 					});
 					if (type == 'province_ins') {
 						$("#city_ins").html(html);

@@ -80,7 +80,10 @@ $(function() {
 			field: 'totalAmt',
 			title: '总金额',
 			width: 90,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
 		},
 		{
 			field: 'approveCount',
@@ -92,7 +95,10 @@ $(function() {
 			field: 'approveAmt',
 			title: '通过金额',
 			width: 90,
-			align: 'center'
+			align: 'center',
+				formatter : function(value, rec) {
+					return value==null?'':value/100.00;
+				}
 		},
 		{
 			field: 'unapproveCount',
@@ -104,7 +110,10 @@ $(function() {
 			field: 'unapproveAmt',
 			title: '拒绝金额',
 			width: 90,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value==null?'':value/100.00;
+			}
 		},
 		{
 			field: 'waitApproveCount',
@@ -116,10 +125,13 @@ $(function() {
 			field: 'waitApproveAmt',
 			title: '待审金额',
 			width: 90,
-			align: 'center'
+			align: 'center',
+			formatter : function(value, rec) {
+				return value==null?'':value/100.00;
+			}
 		},
 		{
-			field: 'busitype',
+			field: 'busiType',
 			title: '业务名称',
 			width: 90,
 			align: 'center',
@@ -184,7 +196,6 @@ $(function() {
 });
 
 function search() {
-	alert($("#beginDate").datebox("getValue"));
 	var data = {
 		"queryTransferBean.batchNo": $('#batchno').val(),
 		"queryTransferBean.beginDate": $("#beginDate").datebox("getValue"),
@@ -193,34 +204,37 @@ function search() {
 	$('#tranBatchPanel').datagrid('load', data);
 }
 
+var statusOpen = '0';
+var statusClose = '1';
+
 function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 	var columns;
 	var url = 'pages/transfer/queryBankTranBatchByTranBatchTransferAction.action';
 	var toolbar = [{
 		id: 'btnadd',
 		text: '未关闭',
-		iconCls: 'icon-search',
+		iconCls: openStatus==statusOpen?'icon-search':'icon-blank',
 		handler: function() {
-			queryBankTranBatch(tranBatchId, seqNo, openStatus);
+			queryBankTranBatch(tranBatchId, seqNo, statusOpen);
 		}},
 		{
 			id: 'btnadd',
 			text: '已关闭',
-			iconCls: 'icon-search',
+			iconCls: openStatus==statusClose?'icon-search':'icon-blank',
 			handler: function() {
-				queryBankTranBatch(tranBatchId, seqNo, openStatus);
+				queryBankTranBatch(tranBatchId, seqNo, statusClose);
 			}
 	}];
 	var param = {
-		"queryTransferBean.tid": tranBatchId,
+		"queryTransferBean.tid":tranBatchId,
 		"bankTranBatch.openStatus":openStatus, 
-	}
+	};
 	switch (openStatus) {
 	case '1':
 		//已关闭
 		columns = [[{
 			field: 'bankTranBatchNo',
-			title: '转账流水号',
+			title: '转账批次号',
 			width: 190,
 			align: 'center'
 		},
@@ -234,45 +248,121 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 			field: 'totalAmt',
 			title: '总金额',
 			width: 120,
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
+		},{
+			field: 'successCount',
+			title: '成功笔数',
+			width: 120,
 			align: 'center'
 		},
 		{
+			field: 'successAmt',
+			title: '成功金额',
+			width: 120,
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
+		},{
+			field: 'failCount',
+			title: '失败笔数',
+			width: 120,
+			align: 'center'
+		},
+		{
+			field: 'failAmt',
+			title: '失败金额',
+			width: 120,
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
+		},{
 			field: 'status',
-			title: '状态',
+			title: '审核状态',
 			width: 120,
 			align: 'center',
 			formatter: function(value, rec) {
 				if (value == '01') {
 					return '未审核';
-				} else if (value == '09') {
-					return '审核拒绝';
-				} else if (value == '00') {
+				} else if (value == '02') {
+					return '审核通过'; 
+				} else if (value == '03') {
 					return '审核通过';
 				} else {
-					return '';
+					return '未知';
 				}
 			}
-		}]];
+		},{
+			field: 'tranStatus',
+			title: '转账状态',
+			width: 120,
+			align: 'center',
+			formatter: function(value, rec) {
+				if (value == '01') {
+					return '等待转账';
+				} else if (value == '02') {
+					return '部分转账成功';
+				} else if (value == '00') {
+					return '全部转账成功';
+				} else if (value == '03') {
+					return '全部失败';
+				} else {
+					return '未知';
+				}
+			}
+		}/*,
+		{
+			field: 'status',
+			title: '操作',
+			width: 100,
+			align: 'center',
+			formatter: function(value, rec) {
+				return '<a>转账明细</a>';
+			}
+		}*/]];
 		break;
 	case '0':
 		//未关闭
 		columns = [[{
 			field: 'bankTranBatchNo',
-			title: '转账流水号',
+			title: '转账批次号',
 			width: 190,
+			align: 'center'
+		},{
+			field: 'totalCount',
+			title: '总笔数',
+			width: 120,
 			align: 'center'
 		},
 		{
+			field: 'totalAmt',
+			title: '总金额',
+			width: 120,
+			align: 'center',
+			formatter : function(value, rec) {
+				return value/100.00;
+			}
+		},
+		{
 			field: 'defaultCloseTime',
-			title: '默认关时间',
+			title: '默认关闭时间',
+			width: 120,
+			align: 'center'
+		},{
+			field: 'defaultCloseTime',
+			title: '最晚关闭时间',
 			width: 120,
 			align: 'center'
 		}]];
 		break;
 	};
 	$('#bankTranBatchPanel').datagrid({
-		title: '转账批次列表('+seqNo+')',
-		iconCls: 'icon-query',
+		title: '关联转账批次列表<font color="red">[划拨批次号:'+seqNo+']</font>',
+		iconCls: 'icon-blank',
 		height: 300,
 		collapsible: true,
 		singleSelect: true,
@@ -282,13 +372,10 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 		remoteSort: false,
 		idField: 'tid',
 		columns: columns,
-		singleSelect: true,
-		selectOnCheck: true,
-		checkOnSelect: false,
 		pagination: false,
 		rownumbers: true,
 		toolbar: toolbar,
-		data:param
+		queryParams:param
 	});
 }
 </script>
