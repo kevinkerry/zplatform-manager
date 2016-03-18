@@ -252,7 +252,7 @@ table tr td select {
 				{
 					title : '划拨明细审核',
 					iconCls : 'icon-save',
-					height : 300,
+					height : 500,
 					collapsible:true,
 					singleSelect : true,
 					nowrap : false,
