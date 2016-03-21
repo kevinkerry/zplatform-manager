@@ -213,7 +213,7 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 	var toolbar = [{
 		id: 'btnadd',
 		text: '未关闭',
-		iconCls: openStatus==statusOpen?'icon-icon-search':'icon-blank',
+		iconCls: openStatus==statusOpen?'icon-search':'icon-blank',
 		handler: function() {
 			queryBankTranBatch(tranBatchId, seqNo, statusOpen);
 		}},

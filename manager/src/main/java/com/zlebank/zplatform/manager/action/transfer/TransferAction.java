@@ -223,7 +223,24 @@ public class TransferAction extends BaseAction {
 		}
 	}
 	
-	
+	/**
+	 * 转账的关闭事件为关闭
+	 */
+	public void closeBankBatch(){
+		String batchNos = "";
+		String[] batchno_array = auditBean.getBatchno().split("\\|");
+		for(String batchno:batchno_array){
+			boolean flag = bankTransferService.colseBankTransferBatch(Long.valueOf(batchno));
+			if(!flag){
+				batchNos+=batchno+",";
+			}
+		}
+		if(StringUtil.isEmpty(batchNos)){
+			json_encode("操作成功");
+		}else{
+			json_encode("批次号："+batchNos+"转账失败");
+		}
+	}
 
     
 
