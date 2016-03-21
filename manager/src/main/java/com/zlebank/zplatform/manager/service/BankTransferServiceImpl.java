@@ -70,45 +70,54 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
 	public boolean bankTransferBatchTrial(String batchNo,boolean flag,Long userId){
 		try {
-			TransferTrialEnum transferTrialEnum = null;
-			if(flag){
-				transferTrialEnum = TransferTrialEnum.SUCCESSFUL;
-			}else {
-				transferTrialEnum = TransferTrialEnum.REFUSED;
-			}
-	    	
+			//判断转账批次状态
 			PojoBankTransferBatch transferBatch = bankTransferBatchDAO.getByBankTranBatchNo(Long.valueOf(batchNo));
-			transferBatch.setTranUser(userId);
-	    	if("00".equals(transferTrialEnum.getCode())){
-	    		//更新全部转账数据状态，等待转账
-	    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "02");
-	    		transferBatch.setStatus("02");//审核完成状态
-		    	transferBatch.setTranStatus("01");//等待转账状态
-		    	//更新批次状态
-		    	bankTransferBatchDAO.updateTransferBatch(transferBatch);
-		    	//开始划拨
-		    	IInsteadPayTrade insteadPayTrade = TradeAdapterFactory.getInstance().getInsteadPayTrade(transferBatch.getChannel().getBankChannelCode());
-		    	insteadPayTrade.batchPay(batchNo);
-	    	}else{
-	    		//更新全部转账数据状态，拒绝转账
-	    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "04");
-	    		//处理划拨流程中的数据
-	    		//获取全部为审核的转账数据
-				List<PojoBankTransferData> bankTransferDataList = bankTransferDataDAO.findTransDataByBatchNo(Long.valueOf(batchNo));
-	    		for(PojoBankTransferData bankTransferData : bankTransferDataList){
-	    			transferService.updateTransferDataToFinish(Long.valueOf(bankTransferData.getTranData().getTid()),"09");
-	    			UpdateData updateData = new UpdateData();
-	                updateData.setTxnSeqNo(bankTransferData.getTranData().getTxnseqno());
-	                updateData.setResultCode("09");
-	                updateData.setResultMessage("审核拒绝");
-	                updateSubject.update(updateData);
-	    		}
-	    		transferBatch.setStatus("03");
-		    	transferBatch.setTranStatus("04");
-		    	//更新批次状态
-		    	bankTransferBatchDAO.update(transferBatch);
-	    	}
-	    	
+			//只有审核通过和待审核的数据可以进行转账操作
+			if(transferBatch.getStatus().equals("02")&&transferBatch.getTranStatus().equals("01")){
+				TransferTrialEnum transferTrialEnum = null;
+				if(flag){
+					transferTrialEnum = TransferTrialEnum.SUCCESSFUL;
+				}else {
+					transferTrialEnum = TransferTrialEnum.REFUSED;
+				}
+		    	
+				
+				transferBatch.setTranUser(userId);
+		    	if("00".equals(transferTrialEnum.getCode())){
+		    		//更新全部转账数据状态，等待转账
+		    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "02");
+		    		transferBatch.setStatus("02");//审核完成状态
+			    	transferBatch.setTranStatus("01");//等待转账状态
+			    	//更新批次状态
+			    	bankTransferBatchDAO.updateTransferBatch(transferBatch);
+			    	//开始划拨
+			    	IInsteadPayTrade insteadPayTrade = TradeAdapterFactory.getInstance().getInsteadPayTrade(transferBatch.getChannel().getBankChannelCode());
+			    	insteadPayTrade.batchPay(batchNo);
+		    	}else{
+		    		//更新全部转账数据状态，拒绝转账
+		    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "04");
+		    		//处理划拨流程中的数据
+		    		//获取全部为审核的转账数据
+					List<PojoBankTransferData> bankTransferDataList = bankTransferDataDAO.findTransDataByBatchNo(Long.valueOf(batchNo));
+		    		for(PojoBankTransferData bankTransferData : bankTransferDataList){
+		    			transferService.updateTransferDataToFinish(Long.valueOf(bankTransferData.getTranData().getTid()),"09");
+		    			UpdateData updateData = new UpdateData();
+		                updateData.setTxnSeqNo(bankTransferData.getTranData().getTxnseqno());
+		                updateData.setResultCode("09");
+		                updateData.setResultMessage("审核拒绝");
+		                updateSubject.update(updateData);
+		    		}
+		    		transferBatch.setStatus("03");
+			    	transferBatch.setTranStatus("04");
+			    	//更新批次状态
+			    	bankTransferBatchDAO.update(transferBatch);
+		    	}
+		    	
+			}else{
+				return false;
+			}
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,6 +145,11 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	public Map<String, Object> queryDataBankTransfer(
 			QueryTransferBean queryTransferBean, int page, int pageSize) {
 		return bankTransferDataDAO.queryBankTransferDataByPage(queryTransferBean, page, pageSize);
+	}
+
+	@Override
+	public boolean colseBankTransferBatch(Long tid) {
+		return bankTransferBatchDAO.closeBankTransferBatch(tid);
 	}
 
 

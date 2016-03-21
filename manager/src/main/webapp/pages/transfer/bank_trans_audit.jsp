@@ -92,7 +92,6 @@ table tr td select {
 	$(function() {
 		$('#beginDate').datebox();
 		$('#endDate').datebox();
-		//$("#withdraworcheckbox").unbind();
 		$('#test').datagrid({
 			title : '转账批次审核',
 			iconCls : 'icon-save',
@@ -123,9 +122,7 @@ table tr td select {
 							return value/100.00;
 					}},
 					{field : 'applyTime',title : '申请时间',width : 90,align : 'center'},
-					{field : 'approveFinishTime',title : '审核完成时间',width : 90,align : 'center'},
-					{field : 'finishTime',title : '转账完成时间',width : 90,align : 'center'},
-					{field : 'status',title : '状态',width : 100,align : 'center',
+					{field : 'status',title : '审核状态',width : 100,align : 'center',
 						formatter : function(value, rec) {
 										if (value == '01') {
 											return '未审核';
@@ -139,7 +136,27 @@ table tr td select {
 											return '';
 										}
 									} 
+					},
+					{field : 'tranStatus',title : '转账状态',width : 100,align : 'center',
+						formatter : function(value, rec) {
+							//01:等待转账;02:部分转账成功;03:全部转账成功;04:全部失败
+							// 05:正在转账
+										if (value == '01') {
+											return '等待转账';
+										} else if (value == '02') {
+											return '部分转账成功';
+										} else if (value == '04') {
+											return '全部失败';
+										} else if (value == '03') {
+											return '全部转账成功';
+										} else if (value == '05') {
+											return '正在转账';
+										} else {
+											return '';
+										}
+									} 
 					}
+					
 					
 					] ],
 			singleSelect : false,
@@ -148,7 +165,6 @@ table tr td select {
 			pagination : true,
 			rownumbers : true,
 			onClickRow : function(index,row){
-				//alert(row.tranBatchId);
 				var data = {
 						"queryTransferBean.tid" : row.tid
 					   }
@@ -160,7 +176,9 @@ table tr td select {
 				text : '批次审核',
 				iconCls : 'icon-ok',
 				handler : function() {
-					var check= $('#test' ).datagrid( 'getChecked');
+					
+					
+					var check= $('#test' ).datagrid('getChecked');
 					if(check.length!=0){
 						var myArray="";
 	                    for (var i=0;i<check.length;i++){
@@ -176,14 +194,132 @@ table tr td select {
 						
 					}
 				}
-			
-			
-			}]
+			},{
+				id : 'btnadd',
+				text : '关闭批次',
+				iconCls : 'icon-ok',
+				handler : function() {
+					
+					
+					$.messager.confirm('提示', '是否关闭所选批次', function(r){
+		                if (r){
+		                	var check= $('#test' ).datagrid( 'getChecked');
+							if(check.length!=0){
+								var myArray="";
+			                    for (var i=0;i<check.length;i++){
+			                  	   myArray+=check[i].tid+"|";
+			                    }
+								closeTransferBatch(myArray);
+							}else{
+								$.messager.alert('提示',"请选择数据"); 
+								
+							}
+		                }
+		            });
+				}
+			},{
+				id : 'btnadd',
+				text : '关闭状态',
+				iconCls : 'icon-search',
+				handler : function() {
+					var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.openStatus":"1"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			},{
+				id : 'btnadd',
+				text : '开放状态',
+				iconCls : 'icon-search',
+				handler : function() {
+					var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.openStatus":"0"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			},{
+				id : 'btnadd',
+				text : '待审核',
+				iconCls : 'icon-search',
+				handler : function() {
+						var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.openStatus":"1",
+						    "queryTransferBean.status":"01"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			}
+			,{
+				id : 'btnadd',
+				text : '正在转账',
+				iconCls : 'icon-search',
+				handler : function() {
+						var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.openStatus":"1",
+						    "queryTransferBean.tranStatus":"05"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			},{
+				id : 'btnadd',
+				text : '转账成功',
+				iconCls : 'icon-search',
+				handler : function() {
+						var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.openStatus":"1",
+						    "queryTransferBean.tranStatus":"03"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			},{
+				id : 'btnadd',
+				text : '转账失败',
+				iconCls : 'icon-search',
+				handler : function() {
+						var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.openStatus":"1",
+						    "queryTransferBean.tranStatus":"04"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			},{
+				id : 'btnadd',
+				text : '转账部分成功',
+				iconCls : 'icon-search',
+				handler : function() {
+						var data = {
+							"queryTransferBean.batchNo" : $('#batchno').val(),
+							"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+							"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+							"queryTransferBean.openStatus":"1",
+						    "queryTransferBean.tranStatus":"02"
+						   }
+						$('#test').datagrid('load', data);
+				}
+			}
+			]
 						});
 		 
 		
-		$('#test2')
-		.datagrid(
+		$('#test2').datagrid(
 				{
 					title : '转账明细审核',
 					iconCls : 'icon-save',
@@ -258,6 +394,25 @@ table tr td select {
 			   }
 			$('#test').datagrid('load', data);
 	}
+	
+	function closeTransferBatch(tid){
+		$.ajax({
+			type: "POST",
+			url: "pages/transfer/closeBankBatchTransferAction.action",
+			data:"auditBean.batchno="+tid,
+			dataType: "text",
+			success: function(json) {
+				$.messager.alert('提示',json); 
+				var data = {
+						"queryTransferBean.batchNo" : $('#batchno').val(),
+						"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+						"queryTransferBean.endDate":$("#endDate").datebox("getValue"),
+						"queryTransferBean.openStatus":"0"
+					   }
+					$('#test').datagrid('load', data);
+			}
+		});
+	}
 
 	function showAdd() {
 	
@@ -277,7 +432,6 @@ table tr td select {
 	}
 
 	function showAdds() {
-	
 		$('#ws').window({
 			title : '明细审核',
 			top : 200,

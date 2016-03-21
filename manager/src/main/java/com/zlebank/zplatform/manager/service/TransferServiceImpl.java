@@ -42,6 +42,7 @@ import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoTranBatch;
 import com.zlebank.zplatform.trade.model.PojoTranData;
+import com.zlebank.zplatform.trade.service.ObserverListService;
 import com.zlebank.zplatform.trade.service.UpdateSubject;
 
 /**
@@ -113,7 +114,8 @@ public class TransferServiceImpl
             updateData.setResultCode("09");
             updateData.setResultMessage("审核拒绝");
             updateData.setChannelCode("");
-            updateSubject.update(updateData);
+            ObserverListService service  = ObserverListService.getInstance();
+            service.notify(updateData, transferData.getBusiType());
     	}
     }
 
@@ -121,6 +123,8 @@ public class TransferServiceImpl
 	@Override
 	public boolean transferBatchTrial (long batchId, boolean flag,Long userId) {
 		try {
+			
+			
 			TransferTrialEnum transferTrialEnum = null;
 			if(flag){
 				transferTrialEnum = TransferTrialEnum.SUCCESSFUL;
@@ -168,7 +172,6 @@ public class TransferServiceImpl
 		    		}else{
 		    			transferBatch.setStatus("03");
 		    		}
-		    		
 		    		transferDataDAO.updateBatchTransferSingle(transferBatch);
 					break;
 				case REFUSED:
@@ -216,6 +219,10 @@ public class TransferServiceImpl
 			PojoTranData transferData = transferDataDAO.queryTransferData(tid);
 			if(transferData==null){
 				return false;
+			}else{
+				if(!"01".equals(transferData.getStatus())){
+					return false;
+				}
 			}
 	    	//统计审核通过和不同过的数据，笔数和金额
 			long approveCount = 0L;
