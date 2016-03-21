@@ -23,7 +23,7 @@ table tr td select {
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						<td align="right" width="10%">一级商户号:</td>
+						<td align="right" width="10%">商户编号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="instead.merId" id="merId" maxlength="32" /></td>
 
@@ -170,7 +170,7 @@ table tr td select {
 			rownumbers : true,
 			toolbar : [ {
 				id : 'btnadd',
-				text : '导入划拨数据',
+				text : '导入代付文件',
 				iconCls : 'icon-add',
 				handler : function() {
 					$("#btn_submit").linkbutton('enable');

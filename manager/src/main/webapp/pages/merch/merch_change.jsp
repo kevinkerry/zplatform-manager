@@ -382,10 +382,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					var html = "<option value=''>--请选择所属省--</option>";
 					$.each(json,
 					function(key, value) {
-						if(value.PId==province){
-							html += '<option value="' + value.PId + '" selected="selected">' + value.PName + '</option>';
+						if(value.pId==province){
+							html += '<option value="' + value.pId + '" selected="selected">' + value.pName + '</option>';
 						}else{
-							html += '<option value="' + value.PId + '">' + value.PName + '</option>';
+							html += '<option value="' + value.pId + '">' + value.pName + '</option>';
 						}
 					}) ;
 					$("#province_ins").html(html);
@@ -412,10 +412,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					var html = "<option value=''>--请选择所属市--</option>";
 					$.each(json,
 					function(key, value) {
-						if(value.CId==city){
-							html += '<option value="' + value.CId + '" selected="selected">' + value.CName + '</option>';
+						if(value.cId==city){
+							html += '<option value="' + value.cId + '" selected="selected">' + value.cName + '</option>';
 						}else{
-							html += '<option value="' + value.CId + '">' + value.CName + '</option>';
+							html += '<option value="' + value.cId + '">' + value.cName + '</option>';
 						}
 					});
 					if (type == 'province_ins') {

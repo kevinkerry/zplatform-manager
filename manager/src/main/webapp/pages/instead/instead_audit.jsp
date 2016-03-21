@@ -115,13 +115,25 @@ table tr td select {
 						} 
 					},
 					{field : 'totalQty',title : '总笔数',width : 50,align : 'center'},
-					{field : 'totalAmt',title : '总金额',width : 50,align : 'center'},
+					{field : 'totalAmt',title : '总金额',width : 50,align : 'center',
+						formatter : function(value, rec) {
+						return value/100.00;
+					}},
 					{field : 'approveCount',title : '审核通过<br/>笔数',width : 60,align : 'center'},
-					{field : 'approveAmt',title : '审核通过<br/>金额',width : 60,align : 'center'},
+					{field : 'approveAmt',title : '审核通过<br/>金额',width : 60,align : 'center',
+						formatter : function(value, rec) {
+							return value/100.00;
+						}},
 					{field : 'refuseCount',title : '审核拒绝<br/>笔数',width : 60,align : 'center'},
-					{field : 'refuseAmt',title : '审核拒绝<br/>金额',width : 60,align : 'center'},
+					{field : 'refuseAmt',title : '审核拒绝<br/>金额',width : 60,align : 'center',
+						formatter : function(value, rec) {
+							return value/100.00;
+						}},
 					{field : 'unapproveCount',title : '未审核<br/>笔数',width : 60,align : 'center'},
-					{field : 'unapproveAmt',title : '未审核<br/>金额',width : 60,align : 'center'},
+					{field : 'unapproveAmt',title : '未审核<br/>金额',width : 60,align : 'center',
+						formatter : function(value, rec) {
+							return value/100.00;
+						}},
 					{field : 'status',title : '状态',width : 120,align : 'center',
 						formatter : function(value, rec) {
 										if (value == '01') {
@@ -279,15 +291,17 @@ table tr td select {
 								width : 120,
 								align : 'center',
 								formatter : function(value, rec) {
-									if (value == '01') {
-										return '未审核';
-									} else if (value == '09') {
-										return '审核拒绝';
-									} else {
-										return '审核通过';
+									switch(value){
+										case '01':return '等待审核';
+										case '09':return '审核拒绝';
+										case '00':return '成功';
+										case '39':return '划拨失败';
+										case '29':return '审核拒绝';
+										case '19':return '审核拒绝';
+										default:return '划拨中';
 									}
-								} 
-							} 
+								}
+							}
 							] ],
 					singleSelect : false,
 					selectOnCheck : true,
