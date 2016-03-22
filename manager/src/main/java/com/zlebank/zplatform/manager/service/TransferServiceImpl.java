@@ -42,6 +42,7 @@ import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoTranBatch;
 import com.zlebank.zplatform.trade.model.PojoTranData;
+import com.zlebank.zplatform.trade.service.ObserverListService;
 import com.zlebank.zplatform.trade.service.UpdateSubject;
 
 /**
@@ -113,7 +114,8 @@ public class TransferServiceImpl
             updateData.setResultCode("09");
             updateData.setResultMessage("审核拒绝");
             updateData.setChannelCode("");
-            updateSubject.update(updateData);
+            ObserverListService.getInstance().notify(updateData, transferData.getBusiType());
+//            updateSubject.update(updateData);
     	}
     }
 
