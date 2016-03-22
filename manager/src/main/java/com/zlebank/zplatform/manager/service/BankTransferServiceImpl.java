@@ -32,7 +32,6 @@ import com.zlebank.zplatform.trade.dao.BankTransferDataDAO;
 import com.zlebank.zplatform.trade.factory.TradeAdapterFactory;
 import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoBankTransferData;
-import com.zlebank.zplatform.trade.model.PojoTranData;
 import com.zlebank.zplatform.trade.service.UpdateSubject;
 
 /**
@@ -73,7 +72,7 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 			//判断转账批次状态
 			PojoBankTransferBatch transferBatch = bankTransferBatchDAO.getByBankTranBatchNo(Long.valueOf(batchNo));
 			//只有审核通过和待审核的数据可以进行转账操作
-			if(transferBatch.getStatus().equals("02")&&transferBatch.getTranStatus().equals("01")){
+			if(transferBatch.getStatus().equals("01")&&transferBatch.getTranStatus().equals("01")){
 				TransferTrialEnum transferTrialEnum = null;
 				if(flag){
 					transferTrialEnum = TransferTrialEnum.SUCCESSFUL;
