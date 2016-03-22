@@ -217,7 +217,7 @@ function resize() {
 							checkOnSelect : false,
 							pagination : true,
 							rownumbers : true,
-							toolbar : [ {
+							/**toolbar : [ {
 								id : 'btnadd',
 								text : '批量审核',
 								iconCls : 'icon-add',
@@ -241,7 +241,7 @@ function resize() {
 
 									}
 								}
-							} ]
+							} ]*/
 						});
 	});
 
