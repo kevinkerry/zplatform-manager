@@ -31,6 +31,7 @@ public class LoginFilter implements Filter {
 			
 		if (null == request.getSession().getAttribute("LOGIN_USER")) {
 			((HttpServletResponse) response).sendRedirect(request.getContextPath() + "?overtime");
+			return;
 		} else {
 			chain.doFilter(request, response);
 		}

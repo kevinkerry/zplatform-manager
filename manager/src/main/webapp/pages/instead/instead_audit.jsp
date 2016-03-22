@@ -439,7 +439,7 @@ table tr td select {
 		    success:function(data){  
 		    	$.each(JSON.parse(data), function(key, value) {
 		    		if (key=="message") 
-		    	        alert(value);
+		    			$.messager.alert('提示',value); 
 		    	});
     			search();
 	    		closeAdd();
@@ -469,7 +469,7 @@ table tr td select {
 		    success:function(data){
 		    	$.each(JSON.parse(data), function(key, value) {
 		    		if (key=="message") 
-		    	        alert(value);
+		    			$.messager.alert('提示',value); 
 		    	});
     			search();
 	    		closeAdd();
