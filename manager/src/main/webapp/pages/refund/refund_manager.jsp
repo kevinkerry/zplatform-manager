@@ -17,10 +17,9 @@
 			<form action="pages/paradic/queryGroupGrouAction.action" id="searchForm">
 				<table width="100%">
 					<tr>
-						<td align="right">产品代码</td>
-						<td align="left" style="padding-left:5px"><input id="code_ins" maxlength="8" /></td>
-						<td align="right" >产品名称</td>
-						<td align="left" style="padding-left: 5px" width="15%"><input id="name_ins"  maxlength="32"/></td>
+						<td align="right">交易流水号</td>
+						<td align="left" style="padding-left:5px"><input id="code_ins" maxlength="16" /></td>
+						
 					</tr>				
 					<tr>
 					</tr>	
@@ -70,6 +69,9 @@
 </body>
 
 <script>
+function resize() {
+	$(':input').val("");
+}
 	$(function() {
 		$('#beginDate').datebox();
 		$('#endDate').datebox();
@@ -87,56 +89,30 @@
 			columns : [ [
 					{field : 'ck',checkbox : true},
 					{field : 'TXNSEQNO',title : '交易流水号',width : 130,align : 'center'},
-					{field : 'totalCount',title : '总笔数',width : 90,align : 'center'},
-					{field : 'totalAmt',title : '总金额',width : 90,align : 'center',
-						formatter:function(value,rec){
-									return value/100.00;
-						}},
-					{field : 'approveCount',title : '通过笔数',width : 90,align : 'center'},
-					{field : 'approveAmt',title : '通过金额',width : 90,align : 'center',
-						formatter:function(value,rec){
-							return value/100.00;
-					}},
-					{field : 'refuseCount',title : '拒绝笔数',width : 90,align : 'center'},
-					{field : 'refuseAmt',title : '拒绝金额',width : 90,align : 'center',
-						formatter:function(value,rec){
-							return value/100.00;
-					}},
-					{field : 'waitApproveCount',title : '待审笔数',width : 90,align : 'center'},
-					{field : 'waitApproveAmt',title : '待审金额',width : 90,align : 'center',
-						formatter:function(value,rec){
-									return value/100.00;
-					}},
-					{field : 'busiType',title : '业务名称',width : 90,align : 'center',
+					{field : 'AMOUNT',title : '交易金额',width : 90,align : 'center'},
+					{field : 'BUSITYPE',title : '业务名称',width : 90,align : 'center',
 						formatter : function(value, rec) {
-										if (value == '00') {
-											return '代付';
-										} else if (value == '01') {
+							 //(消费类：1000；充值类：2000；提现类：3000；退款类：4000；转账类：5000；保障金：6000;代付类:7000)
+										if (value == '1000') {
+											return '消费';
+										} else if (value == '2000') {
+											return '充值';
+										}else if (value == '3000') {
 											return '提现';
-										}else if (value == '02') {
+										}else if (value == '3000') {
+											return '提现';
+										} else if (value == '4000') {
 											return '退款';
-										}else  {
-											return '';
+										}else if (value == '5000') {
+											return '转账';
+										}else  if (value == '6000') {
+											return '保障金';
+										}else if (value == '7000') {
+											return '代付';
+										}else {
+											return value;
 										}
 									}
-					},
-					{field : 'applyTime',title : '申请时间',width : 90,align : 'center'},
-					{field : 'approveFinishTime',title : '审核完成时间',width : 90,align : 'center'},
-					{field : 'finishTime',title : '转账完成时间',width : 90,align : 'center'},
-					{field : 'status',title : '状态',width : 100,align : 'center',
-						formatter : function(value, rec) {
-										if (value == '01') {
-											return '未审核';
-										} else if (value == '02') {
-											return '部分审核通过';
-										} else if (value == '00') {
-											return '转账成功';
-										} else if (value == '03') {
-											return '全部审核通过';
-										} else {
-											return '';
-										}
-									} 
 					}
 					
 					] ],
@@ -182,9 +158,9 @@
 
 	function search() {
 		var data = {
-				"queryTransferBean.batchNo" : $('#batchno').val(),
-				"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
-				"queryTransferBean.endDate":$("#endDate").datebox("getValue")
+				"pojoTxnsLog.txnseqno" : $('#code_ins').val(),
+				//"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
+				//"queryTransferBean.endDate":$("#endDate").datebox("getValue")
 			   }
 			$('#test').datagrid('load', data);
 	}
@@ -234,8 +210,9 @@
 				}
 		        return false;   
 		    },   
-		    success:function(data){  
-		    	$.messager.alert('提示',data); 
+		    success:function(data){
+		    	var json = eval('(' + data + ')')
+		    	$.messager.alert('提示',json.messg); 
     			//search();
 	    		closeAdd();
 		    }  

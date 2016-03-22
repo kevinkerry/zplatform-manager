@@ -23,30 +23,22 @@ table tr td select {
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						<td align="right" width="10%">提现订单号:</td>
+						<td align="right" >退款订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="twq.withdraworderno" id="withdrawordernos" maxlength="32" />
+							name="txnxRefund.refundorderno" id="refundorderno" maxlength="32" />
 						</td>
-
-						<td align="right" width="10%">提现类型:</td>
-						<td colspan="1"><select name="twq.withdrawtype"
-							class="easyui-validatebox validatebox-text" id="withdrawtypes">
-								<option value="">请选择</option>
-								<option value="0">个人</option>
-								<option value="1">商户</option>
-
-						</select></td>
-
 						<td align="right" width="10%">会员号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="twq.memberid" id="memberids" maxlength="32" /></td>
-
+							name="txnxRefund.memberid" id="memberid" maxlength="32" /></td>
 
 					</tr>
 
 					<tr>
-						<td align="right" rowspan="6"><a href="javascript:search()"
-							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+						<td align="right" ><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a>
+								<a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
+							</td>
+							
 
 					</tr>
 
@@ -116,6 +108,10 @@ table tr td select {
 </body>
 
 <script>
+
+function resize() {
+	$(':input').val("");
+}
 	var width = $("#continer").width();
 	$(function() {
 		$("#withdraworcheckbox").unbind();
@@ -135,6 +131,12 @@ table tr td select {
 									{
 										field : 'REFUNDORDERNO',
 										title : '退款编号',
+										width : 120,
+										align : 'center'
+									},
+									{
+										field : 'OLDTXNSEQNO',
+										title : '原交易序列号',
 										width : 120,
 										align : 'center'
 									},
@@ -199,14 +201,14 @@ table tr td select {
 										width : 100,
 										align : 'center',
 										formatter : function(value, rec) {
-											if (rec.REFUNDORDERNO != null) {
+											if (rec.STATUS == '01') {
 												return '<a href="javascript:getWithdraw(\''
 														+ rec.REFUNDORDERNO+","+rec.MEMBERID+","+
 														+ rec.OLDAMOUNT+","+rec.AMOUNT+","+
 														+ rec.REFUNDDESC
 														+ '\')" style="color:blue;margin-left:10px">审核</a>';
 											} else {  
-												return '';
+												return '正在处理中';
 											}
 										}
 									} ] ],
@@ -246,14 +248,14 @@ table tr td select {
 	function search() {
 
 		var data = {
-			"twq.withdraworderno" : $('#withdrawordernos').val(),
-			"twq.withdrawtype" : $('#withdrawtypes').val(),
-			"twq.memberid" : $('#memberids').val()
+			"txnxRefund.refundorderno" : $('#refundorderno').val(),
+			"txnxRefund.memberid" : $('#memberid').val(),
+			//"twq.memberid" : $('#memberids').val()
 		}
 		$('#test').datagrid('load', data);
 	}
 
-	function showAdd() {
+	/**function showAdd() {
 
 		$('#w').window({
 			title : '批量审核',
@@ -267,7 +269,7 @@ table tr td select {
 			closed : false,
 			height : 240
 		});
-	}
+	}*/
 	function closeAdd() {
 		$('#w').window('close');
 		$('#ws').window('close');
@@ -298,17 +300,18 @@ table tr td select {
 		$('#firstTrial').form('submit', {
 			onSubmit : function() {
 				if ($('#firstTrial').form('validate')) {
-					$('#btn_submit').linkbutton('disable');
-					$("#icon-cancel").linkbutton('disable');
-					
+					//$('#btn_submit').linkbutton('disable');
+					//$("#icon-cancel").linkbutton('disable');
+					$("#ws").hide();
 					return true;
 				}
 				return false;
 			},
 			success : function(data) {
-				$.messager.alert('提示', data);
-				//search();
-				//closeAdd();
+				var json = eval('(' + data + ')')
+		    	$.messager.alert('提示',json.messg); 
+				search();
+				closeAdd();
 
 			}
 		});
@@ -337,7 +340,6 @@ table tr td select {
 	function getWithdraw(list){
 		var ison=false;
 		var c=list.split(",")
-		
 		 $("#REFUNDORDERNO").html(c[0]);
 		 $("#MEMBERID").html(c[1]);
 		 $("#OLDAMOUNT").html(c[2]);

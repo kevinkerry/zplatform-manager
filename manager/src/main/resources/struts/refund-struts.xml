@@ -14,8 +14,6 @@
 			<result name="showRefund">/pages/refund/refund_detail.jsp</result>
 		</action>
 
-
-
 	</package>
 
 
