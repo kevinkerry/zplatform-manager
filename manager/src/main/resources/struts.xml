@@ -23,4 +23,5 @@
 	<include file="struts/txns-charge-file.xml"></include>
 	<include file="struts/revision.xml"></include>
 	<include file="struts/coop-insti.xml"></include>
+	<include file="struts/refund-struts.xml"></include>
 </struts>

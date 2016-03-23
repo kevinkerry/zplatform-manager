@@ -353,7 +353,6 @@ table tr td select {
 							}},
 							
 							{field : 'applyTime',title : '创建时间',width : 120,align : 'center'},
-							{field : 'approveTime',title : '通过时间',width : 120,align : 'center'},
 							{field : 'status',title : '状态',width : 120,align : 'center',
 								formatter : function(value, rec) {
 												if (value == '01') {
