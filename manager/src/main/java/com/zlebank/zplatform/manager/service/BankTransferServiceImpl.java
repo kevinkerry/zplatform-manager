@@ -32,7 +32,6 @@ import com.zlebank.zplatform.trade.dao.BankTransferDataDAO;
 import com.zlebank.zplatform.trade.factory.TradeAdapterFactory;
 import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoBankTransferData;
-import com.zlebank.zplatform.trade.model.PojoTranData;
 import com.zlebank.zplatform.trade.service.UpdateSubject;
 
 /**
