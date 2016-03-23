@@ -3,6 +3,7 @@ package com.zlebank.zplatform.manager.bean;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.zlebank.zplatform.commons.bean.Bean;
 
 public class TranBatch implements Bean{
@@ -25,14 +26,17 @@ public class TranBatch implements Bean{
     /**"""状态（01：未审核02：部分审核通过03：全部审核通过**/
     private String status;
     /**"申请时间"**/
+    @JSONField (format="yyyy-MM-dd HH:mm:ss") 
     private Date applyTime;
     /**"全部通过完成时间"**/
+    @JSONField (format="yyyy-MM-dd HH:mm:ss") 
     private Date approveFinishTime;
     /**"业务类型（00：代付01：提现02：退款）"**/
     private String busiType;
     /**"业务批次ID"**/
     private String busiBatchId;
     /**"银行转账完成时间"**/
+    @JSONField (format="yyyy-MM-dd HH:mm:ss") 
     private Date finishTime; 
     /**待审核笔数**/
     private Long waitApproveCount;
