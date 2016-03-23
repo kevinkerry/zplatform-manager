@@ -10,6 +10,7 @@
 		<action name="*InsteadAction" class="com.zlebank.zplatform.manager.action.insteadpay.InsteadPayAction" method="{1}">
             <result >/pages/instead/query_instead_deta.jsp</result>
 			<result name="first">/pages/instead/instead_audit.jsp</result>
+			<result name="showInsteadPayBatchQuery">/pages/instead/instead_batch_query.jsp</result>
 		</action>
     </package>	
 

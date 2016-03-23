@@ -11,8 +11,10 @@
 package com.zlebank.zplatform.manager.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -27,15 +29,20 @@ import com.zlebank.zplatform.commons.dao.CardBinDao;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.TranBatch;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IInsteadPayService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailQuery;
 import com.zlebank.zplatform.trade.bean.enums.InsteadEnum;
+import com.zlebank.zplatform.trade.bean.enums.TransferBatchStatusEnum;
 import com.zlebank.zplatform.trade.dao.InsteadPayDetailDAO;
+import com.zlebank.zplatform.trade.dao.TranBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.model.PojoInsteadPayDetail;
+import com.zlebank.zplatform.trade.model.PojoTranBatch;
+import com.zlebank.zplatform.trade.utils.DateUtil;
 
 /**
  * Class Description
@@ -59,6 +66,8 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
     private TransferDataDAO transdata;
     @Autowired
     private AccEntryService accEntyr;
+    @Autowired
+    private TranBatchDAO tranBatchDao;
     /** 民生 **/
     private final static String CMBC = "01";
     /** 其他 **/
@@ -221,5 +230,18 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
    
     
     }
+
+	@Override
+	public List<TranBatch> getByInsteadPayBatchandStaus(long id,
+			List<String> statusList) {
+		List<PojoTranBatch> tranBatchs = tranBatchDao.getByInsteadPayBatchandStaus(id, statusList);
+		List<TranBatch> tranBatchCopier = new ArrayList<TranBatch>();
+		for(PojoTranBatch copySource : tranBatchs){
+			TranBatch copyTarget = new TranBatch();
+			BeanUtils.copyProperties(copySource, copyTarget, "insteadPayBatchs","tranBatchs");
+			tranBatchCopier.add(copyTarget);
+		}
+		return tranBatchCopier;
+	}
 
 }

@@ -42,6 +42,7 @@ import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.TranBatch;
 import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.enums.InsteadEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
@@ -55,6 +56,7 @@ import com.zlebank.zplatform.trade.bean.InsteadPayDetailBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailQuery;
 import com.zlebank.zplatform.trade.bean.InsteadPayInterfaceParamBean;
 import com.zlebank.zplatform.trade.bean.enums.InsteadPayImportTypeEnum;
+import com.zlebank.zplatform.trade.bean.enums.TransferBatchStatusEnum;
 import com.zlebank.zplatform.trade.bean.page.AuditDataBean;
 import com.zlebank.zplatform.trade.exception.BalanceNotEnoughException;
 import com.zlebank.zplatform.trade.exception.DuplicateOrderIdException;
@@ -565,6 +567,31 @@ public class InsteadPayAction extends BaseAction {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+    
+    public String showInsteadPayBatchQuery(){
+        return "showInsteadPayBatchQuery";
+    }
+    /**
+     * 根据代付批次查询划拨批次
+     * @return
+     */
+    public String queryTranBatchByInsteadPayBatch(){
+    	if (insteadPayBatchQuery != null
+				&& StringUtil.isNotEmpty(insteadPayBatchQuery.getStatus())) {
+			// 用逗号分隔开的状态
+			insteadPayBatchQuery.setStatusList(Arrays
+					.asList(insteadPayBatchQuery.getStatus().split(",")));
+			insteadPayBatchQuery.setStatus("");
+		}
+    	List<TranBatch> tranBatchs = iInstea.getByInsteadPayBatchandStaus(
+    			insteadPayBatchQuery.getId(), insteadPayBatchQuery.getStatusList());
+    	try{
+    		json_encode(tranBatchs);
+    	}catch(IOException e){
+    		log.error(e, e);
+    	}
+    	return null;
     }
 	
 	public InsteadPayBatchQuery getInsteadPayBatchQuery() {
