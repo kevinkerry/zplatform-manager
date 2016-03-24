@@ -32,7 +32,7 @@ import com.zlebank.zplatform.trade.dao.BankTransferDataDAO;
 import com.zlebank.zplatform.trade.factory.TradeAdapterFactory;
 import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoBankTransferData;
-import com.zlebank.zplatform.trade.service.UpdateSubject;
+import com.zlebank.zplatform.trade.service.ObserverListService;
 
 /**
  * Class Description
@@ -50,8 +50,6 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	private BankTransferDataDAO bankTransferDataDAO;
     @Autowired
     private ITransferService transferService;
-    @Autowired
-    private UpdateSubject updateSubject;
     
 	@Override
 	public IBaseDAO<PojoBankTransferData, Long> getDao() {
@@ -104,7 +102,7 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 		                updateData.setTxnSeqNo(bankTransferData.getTranData().getTxnseqno());
 		                updateData.setResultCode("09");
 		                updateData.setResultMessage("审核拒绝");
-		                updateSubject.update(updateData);
+		                ObserverListService.getInstance().notify(updateData, bankTransferData.getTranData().getBusiType());
 		    		}
 		    		transferBatch.setStatus("03");
 			    	transferBatch.setTranStatus("04");
