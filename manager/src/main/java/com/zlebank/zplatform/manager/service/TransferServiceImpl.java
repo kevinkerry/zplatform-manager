@@ -43,7 +43,6 @@ import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoTranBatch;
 import com.zlebank.zplatform.trade.model.PojoTranData;
 import com.zlebank.zplatform.trade.service.ObserverListService;
-import com.zlebank.zplatform.trade.service.UpdateSubject;
 
 /**
  * 
@@ -70,8 +69,6 @@ public class TransferServiceImpl
     private BankTransferBatchDAO bankTransferBatchDAO;
     @Autowired
     private BankTransferDataDAO bankTransferDataDAO;
-    @Autowired
-    private UpdateSubject updateSubject;
 
     @Override
     public PagedResult<TransferData> queryPaged(int page, int pageSize,
