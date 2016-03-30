@@ -94,7 +94,6 @@ public class RevisionServiceImpl
         revision.setTxnslog(txns);
         accEntyr.accEntryProcess(trad);
         
-        
         UserModel user=new UserModel();
         
         user.setUserId(userId);

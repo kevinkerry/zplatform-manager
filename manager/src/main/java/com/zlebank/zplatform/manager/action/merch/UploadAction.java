@@ -1,9 +1,7 @@
 package com.zlebank.zplatform.manager.action.merch;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -20,12 +18,19 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.action.cmbc.CMBCFileContent;
+import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
+import com.zlebank.zplatform.manager.action.zleblank.ZLFileContent;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
+import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
+import com.zlebank.zplatform.trade.model.ChannelFileMode;
 
 public class UploadAction extends BaseAction {
 
@@ -46,8 +51,8 @@ public class UploadAction extends BaseAction {
     private ServiceContainer serviceContainer;
     private String falg;
     
-    
-    
+    @Autowired
+    private IChannelFileService iChannelFileService;
     
   
     public String getFalg() {
@@ -136,21 +141,24 @@ public class UploadAction extends BaseAction {
         json_encode(processList);
         return null;
     }
-
-    // 上传对账文件
-    public String upload() throws IOException {
+    
+    public void queryChannel()  {
         Map<String, Object> result = new HashMap<String, Object>();
-        BufferedReader brfile = new BufferedReader(new FileReader(upload[0]));
-        String newline = "";// 读取一行
-        Object[] fileNameob;// 文件名称按照_拆分
+        List<ChannelFileMode> list=iChannelFileService.getAllStatusChannel();
+        result.put("list", list);
+        json_encode(result);
+
+    }
+    // 上传对账文件
+    public String upload() throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+        Map<String, Object> result = new HashMap<String, Object>();
         List<Map<String, Object>> resultMark = null;// 保存对账数据后，返回的标记
-        try {
             // 判断文件的类型（证联or中信）
             if (uploadFileName[0] != null) {
-
-                // 判断机构与对账文件是否一致，（98000001：证联）（ 97000001：中信）（96000001：融宝）
-                if (uploadFileName[0].contains("Reconciliation")&& instiid.equals("98000001")
-                		|| uploadFileName[0].contains("MTTXN")&& instiid.equals("97000001")||uploadFileName[0].contains("Excel")&& instiid.equals("96000001")) {
+                // 判断机构与对账文件是否一致，（98000001：证联）（ 97000001：中信）（96000001：融宝）（93000003 民生本行代扣）
+                //文件名类似，渠道代码前6位相同
+               Boolean flag= iChannelFileService.booChanCodeAndFileName(uploadFileName[0],instiid);
+                if (flag) {
                 } else {
                     result.put("info", "上传文件类型与机构不符！");
                     json_encode(result);
@@ -161,12 +169,11 @@ public class UploadAction extends BaseAction {
                 json_encode(result);
                 return null;
             }
-
+            AbstractFileContentHandler contentHandler=null;
             // 判断是否重复上传文件
-            List<?> bnktxnlist = serviceContainer.getBnktxnService()
-                    .queryByHQL("from UploadLogModel where filename=? and recode='00' ",
-                            new Object[]{uploadFileName[0]});
-            if (bnktxnlist.size() > 0) {
+           Boolean boo = serviceContainer.getBnktxnService()
+                    .upLoad(uploadFileName[0]);
+            if (boo) {
                 result.put("info", "此对账文件已经上传过！");
                 json_encode(result);
                 return null;
@@ -179,77 +186,33 @@ public class UploadAction extends BaseAction {
                 serviceContainer.getUploadlogService().save(ulm); //保存任务
             }
             // 解析对账文件内容
-            if (instiid.equals("98000001")) {
-                int i = 0;
-                BnkTxnModel bnk_zl = new BnkTxnModel();
-                while ((newline = brfile.readLine()) != null
-                        && !newline.equals("")) {
-                    if (i == 0) {
-                        i = i + 1;
-                        continue;
-                    } else {
-                        fileNameob = uploadFileName[0].split("_");
-                        bnk_zl = MackBnkTxn_zhenglian(newline,
-                                fileNameob[1].toString());
-                        resultMark = serviceContainer.getBnktxnService()
-                                .saveBnkTxn(bnk_zl);
-                    }
-                }
-                // 等对账数据保存成功后，更新UPload表的上传数据状态
-                serviceContainer.getBnktxnService().updateByHQL(
-                        "update UploadLogModel set recode='00' where filename=? ", new Object[]{uploadFileName[0]});
-                result.put("info", "对账文件上传成功！");
-                json_encode(result);
-            } else if((instiid.equals("97000001"))) {
-                int y = 0;
-                BnkTxnModel bnk_zx = new BnkTxnModel();
-                while ((newline = brfile.readLine()) != null
-                        && !newline.equals("")) {
-                    if (y <= 6) {
-                        y = y + 1;
-                        continue;
-                    } else {
-                        bnk_zx = MackBnkTxn_zhongxin(newline);
-                        resultMark = serviceContainer.getBnktxnService()
-                                .saveBnkTxn(bnk_zx);
-                    }
-                }
-                // 等对账数据保存成功后，更新UPload表的上传数据状态
-                serviceContainer.getBnktxnService().updateByHQL(
-                        "update UploadLogModel set recode='00' where filename=? ",new Object[]{uploadFileName[0]});
-                result.put("info", "对账文件上传成功！");
-                json_encode(result);
-            }else if((instiid.equals("96000001"))) {//融宝
-            	String infoRuslt=batchUpload();
-            	result.put("info", infoRuslt);
-                json_encode(result);
-                if(infoRuslt.equals("")){
-                	serviceContainer.getBnktxnService().updateByHQL(
-                            "update UploadLogModel set recode='00' where filename=? ",new Object[]{uploadFileName[0]});
-                }
-                
+            List<BnkTxnModel> list=null;
+           String sonInstiid="";
+            ChannelFileMode channelFileMode= iChannelFileService.getLikeInstiid(uploadFileName[0].split("_")[2]);
+         
+           if(channelFileMode!=null){
+               sonInstiid=channelFileMode.getChnlCode();
+               Class c = Class.forName(channelFileMode.getClassPath());
+               contentHandler = (AbstractFileContentHandler) c.newInstance();
+               //contentHandler= channelFileMode.getClassPath();
+//            switch(sonInstiid) {
+//                case "93000003":
+//                     contentHandler=new CMBCFileContent();break; 
+//                case "98000001": 
+//                      contentHandler =new ZLFileContent();break; 
+//            }
+            list=contentHandler.readFile(upload, sonInstiid,uploadFileName);
+            for(BnkTxnModel bnk:list){
+                resultMark=serviceContainer.getBnktxnService().saveBnkTxn(bnk);
             }
-        } finally {
-            if (brfile != null) {
-                brfile.close();
-            }
-        }
+        // 等对账数据保存成功后，更新UPload表的上传数据状态
+        serviceContainer.getBnktxnService().updateUploadLog(uploadFileName[0]);
+            result.put("info", "对账文件上传成功！");
+            json_encode(result);
+           }
         return null;
     }
-    // 证联对账文件：读取一行对账文件数据
-    public BnkTxnModel MackBnkTxn_zhenglian(String newline, String merchNo) {
-        BnkTxnModel bnk = new BnkTxnModel();
-        Object[] obzl = newline.replace(" ", "").split("\\|");
-        bnk.setPayordno(obzl[0].toString());
-        bnk.setSystrcno(obzl[1].toString());
-        bnk.setPan(obzl[7].toString());
-        bnk.setAcqsettledate(obzl[9].toString());
-        bnk.setMerchno(merchNo);
-        bnk.setAmount(Long.valueOf(obzl[8].toString()));
-        bnk.setRetcode("00");
-        bnk.setInstiid(instiid);
-        return bnk;
-    }
+ 
     // 中信对账文件：读取一行对账文件数据
     public BnkTxnModel MackBnkTxn_zhongxin(String newline) {
         BnkTxnModel bnk = new BnkTxnModel();
