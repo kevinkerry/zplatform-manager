@@ -21,16 +21,14 @@ import jxl.read.biff.BiffException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.manager.action.base.BaseAction;
-import com.zlebank.zplatform.manager.action.cmbc.CMBCFileContent;
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
-import com.zlebank.zplatform.manager.action.zleblank.ZLFileContent;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
+import com.zlebank.zplatform.manager.dao.object.ChannelFileMode;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
-import com.zlebank.zplatform.trade.model.ChannelFileMode;
 
 public class UploadAction extends BaseAction {
 

@@ -2,7 +2,7 @@ package com.zlebank.zplatform.manager.service.iface;
 
 import java.util.List;
 
-import com.zlebank.zplatform.trade.model.ChannelFileMode;
+import com.zlebank.zplatform.manager.dao.object.ChannelFileMode;
 
 public interface IChannelFileService {
     public ChannelFileMode getLikeInstiid(String fileName);

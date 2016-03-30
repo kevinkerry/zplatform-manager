@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zlebank.zplatform.manager.dao.iface.IChannelFileDao;
+import com.zlebank.zplatform.manager.dao.object.ChannelFileMode;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
-import com.zlebank.zplatform.trade.model.ChannelFileMode;
 @Service
 public class ChannelFileService implements IChannelFileService {
 
