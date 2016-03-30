@@ -88,7 +88,7 @@
 		<property name="packagesToScan">
 			<list>
 				<value>com.zlebank.zplatform.trade.model</value>
-				<value>com.zlebank.zplatform.manager.dao.object</value>
+				<value>com.zlebank.zplatform.manager.dao.object.scan</value>
 			</list>
 		</property>
 		<property name="mappingResources">

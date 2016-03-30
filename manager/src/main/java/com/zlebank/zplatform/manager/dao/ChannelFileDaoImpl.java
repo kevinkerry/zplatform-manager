@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.zlebank.zplatform.commons.dao.impl.HibernateBaseDAOImpl;
 import com.zlebank.zplatform.manager.dao.iface.IChannelFileDao;
-import com.zlebank.zplatform.manager.dao.object.ChannelFileMode;
+import com.zlebank.zplatform.manager.dao.object.scan.ChannelFileMode;
 @Repository
 public class ChannelFileDaoImpl extends HibernateBaseDAOImpl<ChannelFileMode> implements IChannelFileDao{
     public List<ChannelFileMode> queryBySQL(String queryString) {
