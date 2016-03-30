@@ -1,3 +1,4 @@
+
 /* 
  * TransferServiceImpl.java  
  * 
@@ -35,6 +36,7 @@ import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
 import com.zlebank.zplatform.trade.model.PojoBankTransferData;
 import com.zlebank.zplatform.trade.service.ObserverListService;
 
+
 /**
  * Class Description
  *
@@ -51,6 +53,7 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	private BankTransferDataDAO bankTransferDataDAO;
     @Autowired
     private ITransferService transferService;
+    
 	@Override
 	public IBaseDAO<PojoBankTransferData, Long> getDao() {
 		
