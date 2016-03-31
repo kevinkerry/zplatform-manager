@@ -186,8 +186,13 @@ public class UploadAction extends BaseAction {
             // 解析对账文件内容
             List<BnkTxnModel> list=null;
            String sonInstiid="";
-            ChannelFileMode channelFileMode= iChannelFileService.getLikeInstiid(uploadFileName[0].split("_")[2]);
-         
+           ChannelFileMode channelFileMode=null;
+           if(uploadFileName[0].split("_").length>2){
+             channelFileMode= iChannelFileService.getLikeInstiid(uploadFileName[0].split("_")[2]);
+           }else{
+               //excel
+             channelFileMode= iChannelFileService.getLikeInstiid(uploadFileName[0].split("-")[0]);
+           }
            if(channelFileMode!=null){
                sonInstiid=channelFileMode.getChnlCode();
                Class c = Class.forName(channelFileMode.getClassPath());
@@ -202,9 +207,10 @@ public class UploadAction extends BaseAction {
             list=contentHandler.readFile(upload, sonInstiid,uploadFileName);
             for(BnkTxnModel bnk:list){
                 resultMark=serviceContainer.getBnktxnService().saveBnkTxn(bnk);
+                System.out.println(bnk.getPayordno());
             }
         // 等对账数据保存成功后，更新UPload表的上传数据状态
-        serviceContainer.getBnktxnService().updateUploadLog(uploadFileName[0]);
+       // serviceContainer.getBnktxnService().updateUploadLog(uploadFileName[0]);
             result.put("info", "对账文件上传成功！");
             json_encode(result);
            }
@@ -225,121 +231,7 @@ public class UploadAction extends BaseAction {
         bnk.setInstiid(instiid);
         return bnk;
     }
-//--------------------------------------------融宝对账文件excel---------------------------------
-	/*private File headImage; // 上传的文件
-	private String headImageFileName; // 文件名称
-	private String headImageContentType; // 文件类型
-*/    /**
-	 * 解析融宝对账文件，并保存交易数据
-	 * @return
-	 */
-	public String batchUpload(){
-		String errorString="";
-		List<Map<String, Object>> returnList = new ArrayList<Map<String, Object>>();
-		try {
-			//String realpath = ServletActionContext.getServletContext().getRealPath("/merchant");
-			if (upload[0] != null) {
-				//String fileNameString = generateFileName(headImageFileName);
-				InputStream is = new FileInputStream(upload[0]);
-	    		Workbook wbk = Workbook.getWorkbook(is);
-	    		System.out.println(wbk);
-	    		List<Map<String, Object>> tempList=null;
-	    		for (int k = 0; k < wbk.getNumberOfSheets(); k++) {
-	    				Sheet rs = wbk.getSheet(k);
-	    				 errorString = this.saveExcelToElement(rs);
-	    		}
-	    		if(returnList.size()==0){
-	    			Map<String, Object> valueMap= new HashMap<String, Object>();
-	    			valueMap.put("RET", "succ");
-	    			valueMap.put("INFO", "操作成功");
-	    			returnList.add(valueMap);
-	    		}else{
-	    			json_encode(returnList);
-	    		}
-	    		
-			}
-		} catch (IOException e) {
-			Map<String, Object> valueMap= new HashMap<String, Object>();
-			valueMap.put("RET", "error");
-			valueMap.put("INFO", "上传文件发生错误，请重新上传！");
-			returnList.add(valueMap);
-			e.printStackTrace();
-		} catch (BiffException e) {
-			Map<String, Object> valueMap= new HashMap<String, Object>();
-			valueMap.put("RET", "error");
-			valueMap.put("INFO", "导入失败！");
-			returnList.add(valueMap);
-			e.printStackTrace();
-		}
 
-		return errorString;
-	}
-    /**
-	 * 保存表格中的元素
-	 * @param rs
-	 * @return
-	 */
-	public String saveExcelToElement(Sheet rs) {
-    	int mark=0;
-		String errorinfo = "";
-		String acqsettledate="";
-		int row = rs.getRows();
-		Cell c0 = null,c1 = null,c2 = null,c3 = null,c4 = null,c5 = null,c6 = null,
-		c7 = null,c8 = null,c9 = null,c10 = null;
-		List<Map<String, Object>> returnInfo = new ArrayList<Map<String, Object>>(); 
-		if(row==0){
-			return null;
-		}
-		for (int k = 1; k < row; k++) {
-		 if(k==2){
-			 c2 = rs.getCell(1, k);// 商户订单号
-			 acqsettledate=c2.getContents().trim();
-		 }	
-		 if(k>=7){
-			int rownum = k + 1;
-			Cell[] cells = rs.getRow(k);
-			int len = cells.length;
-			c0 = rs.getCell(0, k);// 序列
-			c1 = rs.getCell(1, k);// 流水号
-			c2 = rs.getCell(2, k);// 商户订单号
-			c3 = rs.getCell(3, k);// 支付时间
-			c4 = rs.getCell(4, k);// 交易类型			
-			c5 = rs.getCell(5, k);// 交易金额
-			c6 = rs.getCell(6, k);// 手续费
-			UserModel user = getCurrentUser();
-		    BnkTxnModel bnk = new BnkTxnModel();
-		    bnk.setAcqsettledate(c1.getContents().trim());
-		    bnk.setPaytrcno(c1.getContents().trim());
-		    bnk.setPayordno(c2.getContents().trim());
-		    bnk.setInstiid(instiid);
-		    String txndatetime=c3.getContents().trim().toString();
-		    bnk.setTxndatetime(txndatetime.replace(".", "").replace(":", "").replace(" ", ""));
-		    bnk.setBusicode(c4.getContents().trim());
-		    bnk.setAcqsettledate(acqsettledate.replace("-", ""));
-		    if(c5.getContents()!=null&&!c5.getContents().trim().equals("")){
-		    	 bnk.setAmount(new BigDecimal(c5.getContents()).multiply(new BigDecimal(100)).longValue());
-		    } 
-		    bnk.setRetcode("00");
-		    bnk.setSystrcno(c1.getContents().trim());
-			if(isNull(bnk)){
-				Map<String, Object> errorMap = new HashMap<String, Object>();
-				errorMap.put("RET", "error");
-				errorMap.put("INFO", "信息错误");
-				returnInfo.add(errorMap);
-			}else {
-				List<Map<String, Object>> returnList = (List<Map<String, Object>>) serviceContainer.getBnktxnService()
-                        .saveBnkTxn(bnk);
-				System.out.println(returnList);
-				if("succ".equals(returnList.get(0).get("ERR"))){
-					//returnInfo.addAll(returnList);
-				}else{
-					errorinfo=errorinfo+"订单号"+bnk.getPayordno()+"保存失败; ";
-				}
-			}
-		 }
-		}
-		return errorinfo;     
-    }
 	public String generateFileName(String fileName) {
 		String formatDate = new SimpleDateFormat("yyMMddHHmmss")
 				.format(new Date(1));

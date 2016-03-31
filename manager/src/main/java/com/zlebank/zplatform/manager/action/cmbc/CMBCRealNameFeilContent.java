@@ -9,8 +9,12 @@ import java.util.List;
 
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
-
-public class CMBCFileContent extends AbstractFileContentHandler{
+/**
+ * *民生实名认证
+ * @author eason
+ *
+ */
+public class CMBCRealNameFeilContent extends AbstractFileContentHandler{
     
     private List<BnkTxnModel> bnkTxnList; 
     
@@ -25,22 +29,22 @@ public class CMBCFileContent extends AbstractFileContentHandler{
         try {
         while ((newline = brfile.readLine()) != null
                 && !newline.equals("########")) {
-           
                 BnkTxnModel bnk = new BnkTxnModel();
                 fileNameob = uploadFileName[0].split("_");
                 Object[] obzl = newline.replace(" ", "").split("\\|");
                 bnk.setPayordno(obzl[1].toString());
-                bnk.setSystrcno(obzl[2].toString());
-                bnk.setPan(obzl[3].toString());
-                bnk.setAcqsettledate(obzl[11].toString());
                // bnk.setMerchno(fileNameob[1].toString());
-                bnk.setAmount(Long.valueOf(obzl[5].toString()));
-                bnk.setRetcode("00");
-                bnk.setAcqsettledate(fileNameob[3].toString().substring(0,8));
+                bnk.setBusicode("80000001");
+                bnk.setPan(obzl[2].toString());
+                bnk.setDfee(Long.parseLong(obzl[5].toString()) );
+                bnk.setRetcode(obzl[4].toString());
                 bnk.setInstiid(instiid);
+                bnk.setAcqsettledate(fileNameob[3].toString().substring(0,8));
+                //bnk.setSystrcno("11");
+                //bnk.setAcqsettledate("11");
                 bnkTxnList.add(bnk);
-        }
-        }finally {
+        } 
+        }finally{
             if (brfile != null) {
                 brfile.close();
             }
