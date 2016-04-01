@@ -26,6 +26,7 @@ import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
 import com.zlebank.zplatform.manager.enums.ReviewEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.ITWithService;
+import com.zlebank.zplatform.trade.exception.RecordsAlreadyExistsException;
 
 /**
  * 提现审核
@@ -122,6 +123,8 @@ public class TrialWithdraAction extends BaseAction {
 
         } catch (ManagerWithdrawException e) {
             messg = e.getMessage();
+        } catch (RecordsAlreadyExistsException e) {
+           messg=e.getMessage();
         }
         json_encode(messg);
         }
