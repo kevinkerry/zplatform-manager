@@ -39,6 +39,7 @@ public class CMBCRealNameFeilContent extends AbstractFileContentHandler{
                 bnk.setDfee(Long.parseLong(obzl[5].toString()) );
                 bnk.setRetcode(obzl[4].toString());
                 bnk.setInstiid(instiid);
+                bnk.setStatus("01");
                 bnk.setAcqsettledate(fileNameob[3].toString().substring(0,8));
                 //bnk.setSystrcno("11");
                 //bnk.setAcqsettledate("11");
