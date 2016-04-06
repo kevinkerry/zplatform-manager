@@ -44,7 +44,7 @@ public class SaveMemberQueueJob {
             JSONObject job = jsonArray.getJSONObject(i);
             String memberId = job.get("MEMBER_ID").toString();
             String urlA = "http://192.168.13.126:8080/merportal/merchant/querySyncMerchanet";
-            String parameterDataA = "memberId=" + memberId;
+            String parameterDataA = "memberId=" + memberId+"&expirationTime="+job.get("EXPIRATION_TIME").toString();
             String res = this.doPost(urlA, parameterDataA);
             JSONObject json = JSONObject.fromObject(res);
             MemberQueueMode member = iMemberQueueDAO.get(Long.parseLong(job
@@ -55,7 +55,8 @@ public class SaveMemberQueueJob {
             if (json.get("respCode").equals("00")) {
                 String randNum = json.get("randNum").toString();
                 String idCard = job.get("IDCARD").toString();
-                String url = "http://localhost:8080/mail-proxy/email/addEmail.action";
+                //String url = "http://localhost:8080/mail-proxy/email/addEmail.action";
+               String url = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
                 // 生成激活链接
                 // String Md5Url = EncoderByMd5(idCard + memberId + randNum);
                 String Md5Url = Md5.getInstance().md5s(
