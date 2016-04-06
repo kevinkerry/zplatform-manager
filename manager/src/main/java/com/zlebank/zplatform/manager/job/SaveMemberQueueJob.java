@@ -16,13 +16,15 @@ import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thoughtworks.xstream.core.util.Base64Encoder;
 import com.zlebank.zplatform.manager.dao.iface.IMemberQueueDAO;
 import com.zlebank.zplatform.manager.dao.object.scan.MemberQueueMode;
 import com.zlebank.zplatform.member.dao.EnterpriseDAO;
-import com.zlebank.zplatform.member.pojo.PojoEnterpriseDeta;
+import com.zlebank.zplatform.trade.service.base.BaseServiceImpl;
 
 /**
  * 
@@ -33,7 +35,7 @@ public class SaveMemberQueueJob {
     private IMemberQueueDAO iMemberQueueDAO;
     @Autowired
     private EnterpriseDAO EnterpriseDAO;
-
+    private static final Log log = LogFactory.getLog(SaveMemberQueueJob.class);
     public void execute() throws Exception {
 
         List<?> li = iMemberQueueDAO.getAllMemberQueueMode();
@@ -55,33 +57,34 @@ public class SaveMemberQueueJob {
                 String idCard = job.get("IDCARD").toString();
                 String url = "http://localhost:8080/mail-proxy/email/addEmail.action";
                 // 生成激活链接
-                String Md5Url = EncoderByMd5(idCard + memberId + randNum);
-                String content="http://192.168.13.126:8080/merportal/merchant/activation.html?memberId="+memberId+"&signature="+Md5Url;
-                System.out.println(content);
-                String parameterData = "subject=商户开通激活&consignee_address=" +job.get("EMAIL").toString() +"&content='"+content+"'";
+                // String Md5Url = EncoderByMd5(idCard + memberId + randNum);
+                String Md5Url = Md5.getInstance().md5s(
+                        idCard + memberId + randNum);
+                String content = "http://192.168.13.126:8080/merportal/merchant/activation.html?memberId="
+                        + memberId + "&signature=" + Md5Url;
+                System.out.println(1111 + content);
+                content = java.net.URLEncoder.encode(content);
+                System.out.println(2222 + content);
+                String parameterData = "subject=商户开通激活&consignee_address="
+                        + job.get("EMAIL").toString() + "&&content='" + content
+                        + "'";
                 String flag = this.doPost(url, parameterData);
                 JSONObject jsonA = JSONObject.fromObject(flag);
+                System.out.println(jsonA);
                 if (jsonA.get("flag").equals(true)) {
                     member.setFlag("00");
                 }
             } else {
-
+                log.info(" querySyncMerchanet is status " + json);
             }
             iMemberQueueDAO.update(member);
             // {"SEND_TIMES":0,"ID":1,"MAX_SEND_TIMES":3,"EMAIL":"252261695@qq.com","STATUS":null,"FLAG":"01","MEMBER_ID":"111"}
-
         }
 
     }
 
     public String doPost(String url, String parameterData) throws Exception {
-        // String parameterData =
-        // "subject=2211&consignee_address=22252261695@qq.com&content=221111";
-
-        // URL localURL = new
-        // URL("http://localhost:8080/mail-proxy/email/addEmail.action");
         URL localURL = new URL(url);
-        // URL localURL = new URL("http://baidu.com");
         URLConnection connection = localURL.openConnection();
         HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
 
@@ -148,13 +151,5 @@ public class SaveMemberQueueJob {
 
         return resultBuffer.toString();
     }
-    public String EncoderByMd5(String str) throws NoSuchAlgorithmException,
-            UnsupportedEncodingException {
-        // 确定计算方法
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        Base64Encoder base64en = new Base64Encoder();
-        // 加密后的字符串
-        String newstr = base64en.encode(md5.digest(str.getBytes("utf-8")));
-        return newstr;
-    }
+
 }
