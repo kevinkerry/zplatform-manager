@@ -34,9 +34,8 @@ public class CMBCFileContent extends AbstractFileContentHandler{
                 bnk.setPan(obzl[3].toString());
                 bnk.setAcqsettledate(obzl[11].toString());
                // bnk.setMerchno(fileNameob[1].toString());
-                bnk.setAmount(Long.valueOf(obzl[6].toString()));
-                System.out.println(Long.parseLong(obzl[5].toString()));
-                if(Long.parseLong(obzl[5].toString())>=0){
+                bnk.setAmount(Long.valueOf(obzl[5].toString()));
+                if(Long.parseLong(obzl[6].toString())<0){
                     bnk.setDfee(Long.parseLong(obzl[6].toString()) );
                 }else{
                     bnk.setCfee(Long.parseLong(obzl[6].toString()));
