@@ -3,12 +3,14 @@ package com.zlebank.zplatform.manager.service;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.object.ParaDicModel;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.IParaDicService;
-
+@Service
 public class ParaDicServiceImpl extends BaseServiceImpl<ParaDicModel, Long>
         implements
             IParaDicService {

@@ -2,8 +2,12 @@ package com.zlebank.zplatform.manager.dao.object.scan;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 /**
  * 
@@ -34,7 +38,19 @@ public class MemberQueueMode implements java.io.Serializable{
     private String flag;
     //邮箱
     private String email;
+    //过期时间 单位秒
+    private String expirationTime;
+    //激活状态00激活成功01激活失败
+    private String acriveStatus;
+    @GenericGenerator(name = "id_gen", strategy = "enhanced-table", parameters = {
+            @Parameter(name = "table_name", value = "T_C_PRIMAY_KEY"),
+            @Parameter(name = "value_column_name", value = "NEXT_ID"),
+            @Parameter(name = "segment_column_name", value = "KEY_NAME"),
+            @Parameter(name = "segment_value", value = "T_TXNS_REFUSE_ID"),
+            @Parameter(name = "increment_size", value = "1"),
+            @Parameter(name = "optimizer", value = "pooled-lo") })
     @Id
+    @GeneratedValue(generator = "id_gen")
     @Column(name = "ID")
     public Long getId() {
         return id;
@@ -90,6 +106,20 @@ public class MemberQueueMode implements java.io.Serializable{
     }
     public void setIdCard(String idCard) {
         this.idCard = idCard;
+    }
+    @Column(name = "EXPIRATION_TIME")
+    public String getExpirationTime() {
+        return expirationTime;
+    }
+    public void setExpirationTime(String expirationTime) {
+        this.expirationTime = expirationTime;
+    }
+    @Column(name = "ACTIVE_STATUS")
+    public String getAcriveStatus() {
+        return acriveStatus;
+    }
+    public void setAcriveStatus(String acriveStatus) {
+        this.acriveStatus = acriveStatus;
     }
     
     

@@ -1,5 +1,7 @@
 package com.zlebank.zplatform.manager.dao;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -20,6 +22,15 @@ public class EnterpriseDetaDAOImpl extends HibernateDAOImpl<PojoEnterpriseDetaAp
         crite.add(Restrictions.eq("memberId", memberId));
         PojoEnterpriseDeta member = (PojoEnterpriseDeta) crite.uniqueResult();
         return member;
+    }
+    
+    @Override
+    public List<?>  getIdCardByMemberId(String memberId) {
+        String sql="select t.CORP_NO ,t.EMAIL from T_ENTERPRISE_DETA t where t.MEMBER_ID=?";
+       List<?> list= this.executeBySQL(sql,  new Object[]{memberId});
+      
+        return list;
+        
     }
 
 }

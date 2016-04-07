@@ -105,6 +105,12 @@
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
+	<bean id="paraDicService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.ParaDicServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
+	</bean>
 	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
 		<property name="operLogService">
 			<ref bean="operLogService" />
@@ -163,6 +169,10 @@
 		<property name="mccListService">
 			<ref bean="mccListService" />
 		</property>
+		<property name="paraDicService">
+			<ref bean="paraDicService" />
+		</property>
+		
 	</bean>
 	<bean id="ftpClientFactory" class="com.zlebank.zplatform.manager.util.net.FTPClientFactory">
 	</bean>
