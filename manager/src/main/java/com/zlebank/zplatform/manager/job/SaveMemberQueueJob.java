@@ -5,12 +5,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -20,11 +17,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.thoughtworks.xstream.core.util.Base64Encoder;
 import com.zlebank.zplatform.manager.dao.iface.IMemberQueueDAO;
 import com.zlebank.zplatform.manager.dao.object.scan.MemberQueueMode;
-import com.zlebank.zplatform.member.dao.EnterpriseDAO;
-import com.zlebank.zplatform.trade.service.base.BaseServiceImpl;
 
 /**
  * 
@@ -33,8 +27,7 @@ import com.zlebank.zplatform.trade.service.base.BaseServiceImpl;
 public class SaveMemberQueueJob {
     @Autowired
     private IMemberQueueDAO iMemberQueueDAO;
-    @Autowired
-    private EnterpriseDAO EnterpriseDAO;
+ 
     private static final Log log = LogFactory.getLog(SaveMemberQueueJob.class);
     public void execute() throws Exception {
 
@@ -63,15 +56,12 @@ public class SaveMemberQueueJob {
                         idCard + memberId + randNum);
                 String content = "http://192.168.13.126:8080/merportal/merchant/activation.html?memberId="
                         + memberId + "&signature=" + Md5Url;
-                System.out.println(1111 + content);
                 content = java.net.URLEncoder.encode(content);
-                System.out.println(2222 + content);
                 String parameterData = "subject=商户开通激活&consignee_address="
                         + job.get("EMAIL").toString() + "&&content='" + content
                         + "'";
                 String flag = this.doPost(url, parameterData);
                 JSONObject jsonA = JSONObject.fromObject(flag);
-                System.out.println(jsonA);
                 if (jsonA.get("flag").equals(true)) {
                     member.setFlag("00");
                 }

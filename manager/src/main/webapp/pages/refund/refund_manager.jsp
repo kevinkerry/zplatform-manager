@@ -32,106 +32,102 @@
 	width: 90px
 }
 </style>
-	
 
 
-<div style="margin: 5px; border:" id="continer">
-<div id="p" class="easyui-panel" title="查询条件"
-			style="height: 140px; padding: 10px; background: #fafafa;"
+
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
 			iconCls="icon-save" collapsible="true">
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						<td align="right" >退款订单号:</td>
+						<td align="right">退款订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="txnxRefund.refundorderno" id="refundorderno" maxlength="32" />
 						</td>
 						<td align="right" width="10%">会员号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="txnxRefund.memberid" id="memberid" maxlength="32" /></td>
-
-					</tr>
-
-					<tr>
-						<td align="right" ><a href="javascript:search()"
-							class="easyui-linkbutton" iconCls="icon-search">查询</a>
-								<a href="javascript:resizeAdd()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
-							</td>
-							
-
-					</tr>
-
-				</table>
-			</form>
-		</div>
-
-<div style="margin-top: 5px">
-			<table id="test">
-			</table>
-		</div>
-		</div>
-	
-	<div id="idAdd" class="easyui-window" closed="true">
-	
-	<div style="margin: 5px; border:" id="continer" >
-		<div id="p" class="easyui-panel" title="查询条件"
-			style="height: 100px; padding: 10px; background: #fafafa;"
-			iconCls="icon-save" collapsible="true">
-			<form action="pages/paradic/queryGroupGrouAction.action"
-				id="searchForm">
-				<table width="80%">
-					<tr>
-						<td align="right">交易流水号</td>
-						<td align="left" style="padding-left: 5px"><input
-							id="code_ins" maxlength="16" /></td>
-
-					</tr>
-					<tr>
-					</tr>
-					<tr>
-						<td align="right"></td>
-						<td style="padding-left:500px"></td>
-						<td align="center"><a href="javascript:searchAdd()"
+						<td align="right"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
 							href="javascript:resizeAdd()" class="easyui-linkbutton"
 							iconCls="icon-redo">清空</a></td>
+
+
 					</tr>
+
 				</table>
 			</form>
 		</div>
-		
+
+		<div style="margin-top: 5px">
+			<table id="test">
+			</table>
+		</div>
 	</div>
-	
-	
-	<div style="margin-top: 5px">
+
+	<div id="idAdd" class="easyui-window" closed="true">
+
+		<div style="margin: 5px; border:" id="continer">
+			<div id="p" class="easyui-panel" title="查询条件"
+				style="height: 100px; padding: 10px; background: #fafafa;"
+				iconCls="icon-save" collapsible="true">
+				<form action="pages/paradic/queryGroupGrouAction.action"
+					id="searchForm">
+					<table width="80%">
+						<tr>
+							<td align="right">交易流水号</td>
+							<td align="left" style="padding-left: 5px"><input
+								id="code_ins" maxlength="16" /></td>
+
+						</tr>
+						<tr>
+						</tr>
+						<tr>
+							<td align="right"></td>
+							<td style="padding-left: 500px"></td>
+							<td align="center"><a href="javascript:searchAdd()"
+								class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
+								href="javascript:resizeAdd()" class="easyui-linkbutton"
+								iconCls="icon-redo">清空</a></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+
+		</div>
+
+
+		<div style="margin-top: 5px">
 			<table id="testAdd">
 			</table>
 		</div>
-	
-	
-	<div id="w" class="easyui-window" closed="true" title="My Window"
-		iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false"
-				style="padding: 10px; background: #fff; text-align: center">
-				<form id="firstTrial" method="post"
-					action="pages/refund/batchAuditRefundAuditAction.action">
-					<input id="withdraworderno" type="hidden"
-						name="pojoTxnsLog.txnseqno">
-					<!--  <input id="falg" type="hidden" name="pojoTxnsLog.flag">-->
 
-				</form>
-			</div>
-			<div region="south" border="false"
-				style="text-align: center; padding: 5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok"
-					href="javascript:batchTrial(true)" id="btn_submit">通过</a> <a
-					class="easyui-linkbutton" iconCls="icon-cancel"
-					href="javascript:batchTrial(false)" id="icon-cancel">拒绝</a>
+
+		<div id="w" class="easyui-window" closed="true" title="My Window"
+			iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
+			<div class="easyui-layout" fit="true">
+				<div region="center" border="false"
+					style="padding: 10px; background: #fff; text-align: center">
+					<form id="firstTrial" method="post"
+						action="pages/refund/batchAuditRefundAuditAction.action">
+						<input id="withdraworderno" type="hidden"
+							name="pojoTxnsLog.txnseqno">
+						<!--  <input id="falg" type="hidden" name="pojoTxnsLog.flag">-->
+
+					</form>
+				</div>
+				<div region="south" border="false"
+					style="text-align: center; padding: 5px 0;">
+					<a class="easyui-linkbutton" iconCls="icon-ok"
+						href="javascript:batchTrial(true)" id="btn_submit">通过</a> <a
+						class="easyui-linkbutton" iconCls="icon-cancel"
+						href="javascript:batchTrial(false)" id="icon-cancel">拒绝</a>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 </body>
 
@@ -174,19 +170,26 @@
 				field : 'OLDAMOUNT',
 				title : '原订单金额',
 				width : 120,
-				align : 'center'
+				align : 'center',
+				formatter : function(value, rec) {
+					return value/100+'元'
+				}
 
 			}, {
 				field : 'AMOUNT',
 				title : '退款金额',
 				width : 120,
-				align : 'center'
-			}, {
-				field : 'REFUNDDESC',
-				title : '退款原因',
-				width : 120,
-				align : 'center'
-			}, {
+				align : 'center',
+				formatter : function(value, rec) {
+					return value/100+'元'
+				}
+			}, //{
+				//field : 'REFUNDDESC',
+			///	title : '退款原因',
+				//width : 120,
+			//	align : 'center'
+			// },
+			{
 				field : 'STATUS',
 				title : '状态',
 				width : 120,
@@ -229,8 +232,7 @@
 					showIdAdd();
 					//加载数据
 					testAdd();
-					
-					
+
 				}
 
 			} ]
@@ -250,14 +252,13 @@
 		}
 		$('#testAdd').datagrid('load', data);
 	}
-	
-	
+
 	function search() {
 
 		var data = {
 			"txnxRefund.refundorderno" : $('#refundorderno').val(),
 			"txnxRefund.memberid" : $('#memberid').val(),
-			//"twq.memberid" : $('#memberids').val()
+		//"twq.memberid" : $('#memberids').val()
 		}
 		$('#test').datagrid('load', data);
 	}
@@ -265,9 +266,9 @@
 	function showAdd() {
 
 		$('#w').window({
-			title : '批量审核',
+			title : '退款申请',
 			top : 200,
-			width : 300,
+			width : 400,
 			collapsible : false,
 			minimizable : false,
 			maximizable : false,
@@ -278,100 +279,115 @@
 			left : 400
 		});
 	}
-	
-	
-	function testAdd(){
-		
-		$('#testAdd').datagrid({
-			title : '划拨批次审核',
-			iconCls : 'icon-save',
-			height : 500,
-			singleSelect : true,
-			nowrap : false,
-			striped : true,
-			url :'pages/refund/queryTxnsRefundAuditAction.action', 
-			remoteSort : false,
-			idField : 'ORGAN_ID',
-			collapsible:true,
-			columns : [ [
-					//{field : 'ck',checkbox : true},
-					{field : 'TXNSEQNO',title : '交易流水号',width : 130,align : 'center'},
-					{field : 'AMOUNT',title : '交易金额',width : 90,align : 'center'},
-					{field : 'BUSITYPE',title : '业务名称',width : 90,align : 'center',
-						formatter : function(value, rec) {
-							 //(消费类：1000；充值类：2000；提现类：3000；退款类：4000；转账类：5000；保障金：6000;代付类:7000)
-										if (value == '1000') {
-											return '消费';
-										} else if (value == '2000') {
-											return '充值';
-										}else if (value == '3000') {
-											return '提现';
-										}else if (value == '3000') {
-											return '提现';
-										} else if (value == '4000') {
-											return '退款';
-										}else if (value == '5000') {
-											return '转账';
-										}else  if (value == '6000') {
-											return '保障金';
-										}else if (value == '7000') {
-											return '代付';
-										}else {
-											return value;
+
+	function testAdd() {
+
+		$('#testAdd')
+				.datagrid(
+						{
+							title : '划拨批次审核',
+							iconCls : 'icon-save',
+							height : 500,
+							singleSelect : true,
+							nowrap : false,
+							striped : true,
+							url : 'pages/refund/queryTxnsRefundAuditAction.action',
+							remoteSort : false,
+							idField : 'ORGAN_ID',
+							collapsible : true,
+							columns : [ [
+									//{field : 'ck',checkbox : true},
+									{
+										field : 'TXNSEQNO',
+										title : '交易流水号',
+										width : 130,
+										align : 'center'
+									},
+									{
+										field : 'AMOUNT',
+										title : '交易金额',
+										width : 90,
+										align : 'center'
+									},
+									{
+										field : 'BUSITYPE',
+										title : '业务名称',
+										width : 90,
+										align : 'center',
+										formatter : function(value, rec) {
+											//(消费类：1000；充值类：2000；提现类：3000；退款类：4000；转账类：5000；保障金：6000;代付类:7000)
+											if (value == '1000') {
+												return '消费';
+											} else if (value == '2000') {
+												return '充值';
+											} else if (value == '3000') {
+												return '提现';
+											} else if (value == '3000') {
+												return '提现';
+											} else if (value == '4000') {
+												return '退款';
+											} else if (value == '5000') {
+												return '转账';
+											} else if (value == '6000') {
+												return '保障金';
+											} else if (value == '7000') {
+												return '代付';
+											} else {
+												return value;
+											}
+										}
+									},
+									{
+										field : 'txnseqno-',
+										title : '操作',
+										width : 100,
+										align : 'center',
+										formatter : function(value, rec) {
+											return '<a href="javascript:getWithdraw(\''
+													+ rec.TXNSEQNO
+													+ '\')" style="color:blue;margin-left:10px">申请退款</a>';
 										}
 									}
-					},
-					{
-						field : 'txnseqno-',
-						title : '操作',
-						width : 100,
-						align : 'center',
-						formatter : function(value, rec) {
-								return '<a href="javascript:getWithdraw(\''+rec.TXNSEQNO+'\')" style="color:blue;margin-left:10px">审核</a>';
+
+							] ],
+							//singleSelect : false,
+							//selectOnCheck : true,
+							//checkOnSelect : false,
+							pagination : true,
+							rownumbers : true
+						/**toolbar : [ {
+							id : 'btnadd',
+							text : '批次审核',
+							iconCls : 'icon-ok',
+							handler : function() {
+								var check= $('#test' ).datagrid( 'getChecked');
+								if(check.length!=0){
+									var myArray="";
+						            for (var i=0;i<check.length;i++){
+						          	   myArray+=check[i].TXNSEQNO+"|"
+						            } 
+						            alert(myArray)
+									$("#firstTrial")[0].reset();
+									$("#btn_submit").linkbutton('enable');
+									$("#icon-cancel").linkbutton('enable');
+									$("#withdraworderno").val(myArray);
+									showAdd();
+								}else{
+									$.messager.alert('提示',"请选择数据"); 
+									
+								}
 							}
-						}
-					
-					
-					] ],
-			//singleSelect : false,
-			//selectOnCheck : true,
-			//checkOnSelect : false,
-			pagination : true,
-			rownumbers : true
-			/**toolbar : [ {
-				id : 'btnadd',
-				text : '批次审核',
-				iconCls : 'icon-ok',
-				handler : function() {
-					var check= $('#test' ).datagrid( 'getChecked');
-					if(check.length!=0){
-						var myArray="";
-	                    for (var i=0;i<check.length;i++){
-	                  	   myArray+=check[i].TXNSEQNO+"|"
-	                    } 
-	                    alert(myArray)
-						$("#firstTrial")[0].reset();
-						$("#btn_submit").linkbutton('enable');
-						$("#icon-cancel").linkbutton('enable');
-						$("#withdraworderno").val(myArray);
-						showAdd();
-					}else{
-						$.messager.alert('提示',"请选择数据"); 
 						
-					}
-				}
-			
-			
-			}]*/
+						
+						}]*/
 						});
-		
+
 	}
-	
-	
-	function getWithdraw(TXNSEQNO){
+
+	function getWithdraw(TXNSEQNO) {
 		showAdd();
 		$("#withdraworderno").val(TXNSEQNO);
-		
+
 	}
 	function showIdAdd() {
 
