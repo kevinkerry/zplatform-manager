@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.object.MccListModel;
 import com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDetaApply;
 import com.zlebank.zplatform.manager.dao.object.PojoMerchDetaApply;
+import com.zlebank.zplatform.manager.dao.object.scan.MemberQueueMode;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.certhandler.BusiLicePicHandler;
 import com.zlebank.zplatform.manager.service.certhandler.CertPicHandler;
@@ -37,6 +39,7 @@ import com.zlebank.zplatform.manager.service.iface.IMerchDetaService;
 import com.zlebank.zplatform.manager.util.CommonUtil;
 import com.zlebank.zplatform.manager.util.RSAUtils;
 import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
+import com.zlebank.zplatform.member.pojo.PojoEnterpriseDeta;
 import com.zlebank.zplatform.member.service.MemberService;
 
 public class MerchDetaServiceImpl
@@ -51,7 +54,7 @@ public class MerchDetaServiceImpl
     private ServiceContainer serviceContainer;
     private FTPClientFactory ftpClientFactory;
     private final String merchCertRootPath = "/merchant";
-    MemberService memberServiceImpl;
+    private MemberService memberServiceImpl;
 
     @Override
     public IBaseDAO<PojoMerchDetaApply, Long> getDao() {
@@ -593,14 +596,23 @@ public class MerchDetaServiceImpl
             variables.put("memberprikey", merch_privateKey);
             variables.put("localpubkey", plath_publicKey);
             variables.put("localprikey", plath_privateKey);
-
             @SuppressWarnings("unused")
             List<?> MKlist = saveMerchMk(variables);
             // 生成商户账户
             memberServiceImpl.openBusiAcct(pojoMerchDetaApply.getMemberApply()
                     .getMemberName(), pojoMerchDetaApply.getMemberId(),
                     pojoMerchDetaApply.getCvlexaUser());
-
+            //保存商户激活的信息
+            MemberQueueMode memberQueue=new MemberQueueMode();
+            memberQueue.setMemberId(pojoMerchDetaApply.getMemberId());
+            memberQueue.setEmail(pojoMerchDetaApply.getMemberApply().getEmail());
+            memberQueue.setSendTimes(0);
+            memberQueue.setFlag("01");
+            memberQueue.setMaxSendTimes(3);
+            PojoEnterpriseDeta ent= daoContainer.getEnterpriseDetaDAO().getEnterpriseByMemberId(pojoMerchDetaApply.getMemberId());
+            
+            //memberQueue.setIdCard(pojoMerchDetaApply.);
+            getDaoContainer().getMemberQueueDAO().save(memberQueue);
         }
         return resultlist;
 

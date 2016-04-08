@@ -28,8 +28,9 @@ public class LoginFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request =((HttpServletRequest) arg0);
 		HttpServletResponse response =((HttpServletResponse) arg1);
-			
-		if (null == request.getSession().getAttribute("LOGIN_USER")) {
+			String path ="/zplatform-manager/pages/active/saveActiveStatusActiveStatusAction.action";
+			String pathA=request.getRequestURI();
+		if (null == request.getSession().getAttribute("LOGIN_USER")&&!path.equals(pathA)) {
 			((HttpServletResponse) response).sendRedirect(request.getContextPath() + "?overtime");
 			return;
 		} else {

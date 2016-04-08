@@ -48,11 +48,10 @@ public class UploadAction extends BaseAction {
     private String accNo;
     private ServiceContainer serviceContainer;
     private String falg;
-    
+
     @Autowired
     private IChannelFileService iChannelFileService;
-    
-  
+
     public String getFalg() {
         return falg;
     }
@@ -77,10 +76,10 @@ public class UploadAction extends BaseAction {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("memberId", memberId);
         variables.put("memberName", memberName);
-        if("person".equals(falg)){
-        //个人会员查询
-        variables.put("membertype", BusinessActorType.INDIVIDUAL.getCode());
-        }else  if("merch".equals(falg)){
+        if ("person".equals(falg)) {
+            // 个人会员查询
+            variables.put("membertype", BusinessActorType.INDIVIDUAL.getCode());
+        } else if ("merch".equals(falg)) {
             variables.put("membertype", BusinessActorType.ENTERPRISE.getCode());
         }
         Map<String, Object> memberList = serviceContainer.getUploadlogService()
@@ -88,7 +87,7 @@ public class UploadAction extends BaseAction {
         json_encode(memberList);
         return null;
     }
-    //会员账户查询
+    // 会员账户查询
     public String queryACCByPage() {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("memberId", memberId);
@@ -98,7 +97,7 @@ public class UploadAction extends BaseAction {
         json_encode(memberList);
         return null;
     }
- //---------------------------------------------------------------对账-----------------------------------------------------------------------------   
+    // ---------------------------------------------------------------对账-----------------------------------------------------------------------------
     // 开始对账
     public String StartCheckFile() {
         List<?> list = serviceContainer.getUploadlogService().StartCheckFile(
@@ -115,7 +114,7 @@ public class UploadAction extends BaseAction {
     public String saveProcess() {
         List<?> list = serviceContainer.getUploadlogService().saveProcess(
                 instiid);
-            json_encode(list.get(0));
+        json_encode(list.get(0));
 
         return null;
     }
@@ -139,84 +138,84 @@ public class UploadAction extends BaseAction {
         json_encode(processList);
         return null;
     }
-    
-    public void queryChannel()  {
+
+    public void queryChannel() {
         Map<String, Object> result = new HashMap<String, Object>();
-        List<ChannelFileMode> list=iChannelFileService.getAllStatusChannel();
+        List<ChannelFileMode> list = iChannelFileService.getAllStatusChannel();
         result.put("list", list);
         json_encode(result);
 
     }
     // 上传对账文件
-    public String upload() throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    public String upload() throws IOException, InstantiationException,
+            IllegalAccessException, ClassNotFoundException {
         Map<String, Object> result = new HashMap<String, Object>();
         List<Map<String, Object>> resultMark = null;// 保存对账数据后，返回的标记
-            // 判断文件的类型（证联or中信）
-            if (uploadFileName[0] != null) {
-                // 判断机构与对账文件是否一致，（98000001：证联）（ 97000001：中信）（96000001：融宝）（93000003 民生本行代扣）
-                //文件名类似，渠道代码前6位相同
-               Boolean flag= iChannelFileService.booChanCodeAndFileName(uploadFileName[0],instiid);
-                if (flag) {
-                } else {
-                    result.put("info", "上传文件类型与机构不符！");
-                    json_encode(result);
-                    return null;
-                }
+        // 判断文件的类型（证联or中信）
+        if (uploadFileName[0] != null) {
+            // 判断机构与对账文件是否一致，（98000001：证联）（ 97000001：中信）（96000001：融宝）（93000003
+            // 民生本行代扣）
+            // 文件名类似，渠道代码前6位相同
+            Boolean flag = iChannelFileService.booChanCodeAndFileName(
+                    uploadFileName[0], instiid);
+            if (flag) {
             } else {
-                result.put("info", "请上传对账文件！");
+                result.put("info", "上传文件类型与机构不符！");
                 json_encode(result);
                 return null;
             }
-            AbstractFileContentHandler contentHandler=null;
-            // 判断是否重复上传文件
-           Boolean boo = serviceContainer.getBnktxnService()
-                    .upLoad(uploadFileName[0]);
-            if (boo) {
-                result.put("info", "此对账文件已经上传过！");
-                json_encode(result);
-                return null;
-            } else {
-                UploadLogModel ulm = new UploadLogModel();
-                ulm.setLogid(1l);
-                ulm.setFilename(uploadFileName[0]);
-                ulm.setUploaderid(getCurrentUser().getUserId());
-                ulm.setUploadername(getCurrentUser().getUserName());
-                serviceContainer.getUploadlogService().save(ulm); //保存任务
+        } else {
+            result.put("info", "请上传对账文件！");
+            json_encode(result);
+            return null;
+        }
+        AbstractFileContentHandler contentHandler = null;
+        // 判断是否重复上传文件
+        Boolean boo = serviceContainer.getBnktxnService().upLoad(
+                uploadFileName[0]);
+        if (boo) {
+            result.put("info", "此对账文件已经上传过！");
+            json_encode(result);
+            return null;
+        } else {
+            UploadLogModel ulm = new UploadLogModel();
+            ulm.setLogid(1l);
+            ulm.setFilename(uploadFileName[0]);
+            ulm.setUploaderid(getCurrentUser().getUserId());
+            ulm.setUploadername(getCurrentUser().getUserName());
+            serviceContainer.getUploadlogService().save(ulm); // 保存任务
+        }
+        // 解析对账文件内容
+        List<BnkTxnModel> list = null;
+        String sonInstiid = "";
+        ChannelFileMode channelFileMode = null;
+        if (uploadFileName[0].split("_").length > 2) {
+            channelFileMode = iChannelFileService
+                    .getLikeInstiid(uploadFileName[0].split("_")[2]);
+        } else {
+            // excel
+            channelFileMode = iChannelFileService
+                    .getLikeInstiid(uploadFileName[0].split("-")[0]);
+        }
+        if (channelFileMode != null) {
+            sonInstiid = channelFileMode.getChnlCode();
+            Class c = Class.forName(channelFileMode.getClassPath());
+            contentHandler = (AbstractFileContentHandler) c.newInstance();
+
+            list = contentHandler.readFile(upload, sonInstiid, uploadFileName);
+            for (BnkTxnModel bnk : list) {
+                resultMark = serviceContainer.getBnktxnService()
+                        .saveBnkTxn(bnk);
             }
-            // 解析对账文件内容
-            List<BnkTxnModel> list=null;
-           String sonInstiid="";
-           ChannelFileMode channelFileMode=null;
-           if(uploadFileName[0].split("_").length>2){
-             channelFileMode= iChannelFileService.getLikeInstiid(uploadFileName[0].split("_")[2]);
-           }else{
-               //excel
-             channelFileMode= iChannelFileService.getLikeInstiid(uploadFileName[0].split("-")[0]);
-           }
-           if(channelFileMode!=null){
-               sonInstiid=channelFileMode.getChnlCode();
-               Class c = Class.forName(channelFileMode.getClassPath());
-               contentHandler = (AbstractFileContentHandler) c.newInstance();
-               //contentHandler= channelFileMode.getClassPath();
-//            switch(sonInstiid) {
-//                case "93000003":
-//                     contentHandler=new CMBCFileContent();break; 
-//                case "98000001": 
-//                      contentHandler =new ZLFileContent();break; 
-//            }
-            list=contentHandler.readFile(upload, sonInstiid,uploadFileName);
-            for(BnkTxnModel bnk:list){
-                resultMark=serviceContainer.getBnktxnService().saveBnkTxn(bnk);
-                System.out.println(bnk.getPayordno());
-            }
-        // 等对账数据保存成功后，更新UPload表的上传数据状态
-       // serviceContainer.getBnktxnService().updateUploadLog(uploadFileName[0]);
+            // 等对账数据保存成功后，更新UPload表的上传数据状态
+            serviceContainer.getBnktxnService().updateUploadLog(
+                    uploadFileName[0]);
             result.put("info", "对账文件上传成功！");
             json_encode(result);
-           }
+        }
         return null;
     }
- 
+
     // 中信对账文件：读取一行对账文件数据
     public BnkTxnModel MackBnkTxn_zhongxin(String newline) {
         BnkTxnModel bnk = new BnkTxnModel();
@@ -232,14 +231,14 @@ public class UploadAction extends BaseAction {
         return bnk;
     }
 
-	public String generateFileName(String fileName) {
-		String formatDate = new SimpleDateFormat("yyMMddHHmmss")
-				.format(new Date(1));
-		int random = new Random().nextInt(10000);
-		int position = fileName.lastIndexOf(".");
-		String extension = fileName.substring(position);
-		return formatDate + random + extension;
-	}
+    public String generateFileName(String fileName) {
+        String formatDate = new SimpleDateFormat("yyMMddHHmmss")
+                .format(new Date(1));
+        int random = new Random().nextInt(10000);
+        int position = fileName.lastIndexOf(".");
+        String extension = fileName.substring(position);
+        return formatDate + random + extension;
+    }
     public File[] getUpload() {
         return upload;
     }
@@ -295,28 +294,27 @@ public class UploadAction extends BaseAction {
     public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
-	public String getAccNo() {
-		return accNo;
-	}
-	public void setAccNo(String accNo) {
-		this.accNo = accNo;
-	}
-	public String getMemberName() {
-		return memberName;
-	}
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
-	}
-	public String getAcctCode() {
-		return acctCode;
-	}
-	public void setAcctCode(String acctCode) {
-		this.acctCode = acctCode;
-	}
-	
-	
-	public String getMerch(){
-	    return "merch";
-	}
+    public String getAccNo() {
+        return accNo;
+    }
+    public void setAccNo(String accNo) {
+        this.accNo = accNo;
+    }
+    public String getMemberName() {
+        return memberName;
+    }
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+    public String getAcctCode() {
+        return acctCode;
+    }
+    public void setAcctCode(String acctCode) {
+        this.acctCode = acctCode;
+    }
+
+    public String getMerch() {
+        return "merch";
+    }
 
 }

@@ -25,52 +25,58 @@ import com.zlebank.zplatform.trade.service.ObserverListService;
 import com.zlebank.zplatform.trade.service.UpdateSubject;
 import com.zlebank.zplatform.trade.service.impl.UpdateInsteadServiceImpl;
 
-public class RefundUpdate implements UpdateSubject, ApplicationListener<ContextRefreshedEvent> {
-    private static final Log log = LogFactory.getLog(UpdateInsteadServiceImpl.class);
-    
+public class RefundUpdate
+        implements
+            UpdateSubject,
+            ApplicationListener<ContextRefreshedEvent> {
+    private static final Log log = LogFactory
+            .getLog(UpdateInsteadServiceImpl.class);
+
     @Autowired
     private InsteadPayBatchDAO insteadPayBatchDAO;
-    
+
     @Autowired
     private InsteadPayDetailDAO insteadPayDetailDAO;
-    
+
     @Autowired
     private AccEntryService accEntryService;
     @Autowired
     private ITxnsRefundService iTxnsRefundService;
-    
+
     @Override
     public void update(UpdateData data) {
-        String code=data.getTxnSeqNo();
-        String resultCode=data.getResultCode();
+        String code = data.getTxnSeqNo();
+        String resultCode = data.getResultCode();
         Map<String, Object> map = new HashMap<String, Object>();
-        List<UpdateSubject> observerList = ObserverListService.getInstance().getObserverList();
+        List<UpdateSubject> observerList = ObserverListService.getInstance()
+                .getObserverList();
         for (UpdateSubject subject : observerList) {
             System.out.println(subject.getBusiCode());
         }
-        PojoInsteadPayDetail detail = insteadPayDetailDAO.getDetailByTxnseqno(data.getTxnSeqNo());
+        PojoInsteadPayDetail detail = insteadPayDetailDAO
+                .getDetailByTxnseqno(data.getTxnSeqNo());
         if (detail == null) {
             log.error("没有找到需要记账的流水");
             return;
         }
-        //更新退款状态29 退款失败  00成功
+        // 更新退款状态29 退款失败 00成功
         TxnsRefundModel txnsRefundModel = iTxnsRefundService
                 .getRefundByRefundor(data.getTxnSeqNo());
         if ("00".equals(data.getResultCode())) {
             detail.setStatus(InsteadPayDetailStatusEnum.TRAN_FINISH.getCode());
             txnsRefundModel.setStatus("00");
-            
+
         } else {
             detail.setStatus(InsteadPayDetailStatusEnum.TRAN_FAILED.getCode());
             txnsRefundModel.setStatus("29");
-            
+
         }
         iTxnsRefundService.updateRefund(txnsRefundModel);
-        
+
         detail.setRespCode(data.getResultCode());
         detail.setRespMsg(data.getResultMessage());
         insteadPayDetailDAO.merge(detail);
-        
+
         TradeInfo tradeInfo = new TradeInfo();
         tradeInfo.setPayMemberId(detail.getMerId());
         tradeInfo.setAmount(new BigDecimal(detail.getAmt()));
@@ -83,26 +89,13 @@ public class RefundUpdate implements UpdateSubject, ApplicationListener<ContextR
             tradeInfo.setBusiCode("70000003");
         }
         try {
-            accEntryService.accEntryProcess(tradeInfo );
+            accEntryService.accEntryProcess(tradeInfo);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-    
-        
-        
+
         // 更新退款状态
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
     }
 
     @Override
@@ -111,11 +104,12 @@ public class RefundUpdate implements UpdateSubject, ApplicationListener<ContextR
     }
 
     /**
-    * 注册观察者
-    * @param event
-    */
-   @Override
-   public void onApplicationEvent(ContextRefreshedEvent event) {
-       ObserverListService.getInstance().add(this);
-   }
+     * 注册观察者
+     * 
+     * @param event
+     */
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        ObserverListService.getInstance().add(this);
+    }
 }

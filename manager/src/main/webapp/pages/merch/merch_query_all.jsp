@@ -141,6 +141,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								return '<a href="javascript:toMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">复核</a>';
 							}
 							
+							
+						}
+					},
+					{field:'ACTIVATE_STATUS',title:'是否激活成功',width:120,align:'center',
+						formatter:function(value,rec){
+							if(rec.ACTIVATE_STATUS=='00'){
+								return "已经激活";
+							}else{
+							return '<a id="'+rec.MEMBER_ID+'"href="javascript:toActivateStatus('+rec.MEMBER_ID+')" style="color:blue;margin-left:10px" value="0">重发邮件</a>';
+							}
+							
 						}
 					}
 					]],
@@ -182,7 +193,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	window.event.returnValue = false;
             
 		}
-	
+		//function toActivateStatus(memberId){
+	    //	window.event.returnValue = false;
+            
+	//	}
+		function toActivateStatus(memberId) {
+			if(($("#"+memberId).attr("value"))!=0){
+				alert("您刚刚已经申请过发送邮件了");
+				return ;
+			}
+		
+			$.ajax({
+				type : "POST",
+				url : "<%=basePath%>" +"/pages/active/replayEmailActiveStatusAction.action?memberId="+memberId,
+				data : "",
+				dataType : "json",
+				success : function(json) {
+					var dataArray = eval(json);
+					alert(dataArray.messg)
+					$("#"+memberId).attr("value",01);
+
+				}
+			});
+			
+			setTimeout("remove("+memberId+")",5000);
+		}
+		
+	function remove(memberId){
+		$("#"+memberId).attr("value",120000);
+	}
 		
 	</script>
 </html>
