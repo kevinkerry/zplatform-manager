@@ -25,7 +25,8 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="simpleTrigger" /> 
+				<!--  <ref bean="simpleTrigger" /> 
+				 <ref bean="createFilesimpleTrigger" />-->
 			</list>
 		</property>
 	</bean>
@@ -47,7 +48,28 @@
 		<property name="concurrent" value="false" />
 	</bean>
 	 
-	<!-- 注册Job -->
+	<!-- 注册发送邮件Job -->
 	<bean id="sendEmailJob" class="com.zlebank.zplatform.manager.job.SaveMemberQueueJob" /> 
+	
+	
+	
+	<!-- 冻结时间任务触发器 -->
+	<bean id="createFilesimpleTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="cerateFilejobDetail" />
+		<!-- 启动延迟10秒 -->
+		<property name="startDelay" value="0" />
+		<!-- 每N秒执行一次任务,单位:毫秒 -->
+		<property name="repeatInterval" value="10000" />
+	</bean>
+	<bean id="cerateFilejobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="reateMemberFileJob" />
+		<property name="targetMethod" value="execute" />
+		<!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将会被推迟。 -->
+		<property name="concurrent" value="false" />
+	</bean>
+	<!-- 注册生成商户文件Job -->
+	<bean id="reateMemberFileJob" class="com.zlebank.zplatform.manager.job.CreateMemberFileJob" /> 
 
 </beans>

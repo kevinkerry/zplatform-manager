@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +25,7 @@ import com.zlebank.zplatform.manager.bean.MerchDeta;
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.object.MccListModel;
+import com.zlebank.zplatform.manager.dao.object.ParaDicModel;
 import com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDetaApply;
 import com.zlebank.zplatform.manager.dao.object.PojoMerchDetaApply;
 import com.zlebank.zplatform.manager.dao.object.scan.MemberQueueMode;
@@ -608,14 +612,20 @@ public class MerchDetaServiceImpl
             memberQueue.setEmail(pojoMerchDetaApply.getMemberApply().getEmail());
             memberQueue.setSendTimes(0);
             memberQueue.setFlag("01");
-            memberQueue.setMaxSendTimes(3);
-            PojoEnterpriseDeta ent= daoContainer.getEnterpriseDetaDAO().getEnterpriseByMemberId(pojoMerchDetaApply.getMemberId());
-            
-            //memberQueue.setIdCard(pojoMerchDetaApply.);
+            List<?> list  =daoContainer.getEnterpriseDetaDAO().getIdCardByMemberId(pojoMerchDetaApply.getMemberId());
+            if(list.size()>0){
+                JSONArray jsonArray = JSONArray.fromObject(list);
+                JSONObject job = jsonArray.getJSONObject(0);
+                ParaDicModel maxsend= serviceContainer.getParaDicService().get( 102L);
+                ParaDicModel expirationTime= serviceContainer.getParaDicService().get( 101L);
+                memberQueue.setEmail(job.get("EMAIL").toString());
+                memberQueue.setMaxSendTimes(Integer.parseInt(maxsend.getParaCode()));
+                memberQueue.setExpirationTime(expirationTime.getParaCode());
+                memberQueue.setIdCard(job.get("CORP_NO").toString());
+            }
             getDaoContainer().getMemberQueueDAO().save(memberQueue);
         }
         return resultlist;
-
     }
 
     public List<?> saveMerchMk(Map<String, Object> variables) {
