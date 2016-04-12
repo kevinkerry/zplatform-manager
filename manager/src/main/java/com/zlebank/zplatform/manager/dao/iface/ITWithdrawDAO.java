@@ -11,7 +11,7 @@
 package com.zlebank.zplatform.manager.dao.iface;
 import com.zlebank.zplatform.commons.dao.BasePagedQueryDAO;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
-import com.zlebank.zplatform.manager.dao.object.TxnsWithdrawModel;
+import com.zlebank.zplatform.trade.model.TxnsWithdrawModel;
 
 /**
  * 提现DAO
@@ -29,6 +29,12 @@ public interface ITWithdrawDAO extends BasePagedQueryDAO<TxnsWithdrawModel, Txns
      * @return
      */
     public TxnsWithdrawModel getTxnsWithdrawByorderNo(String txnseqNo,String status,String withdraworderno);
+
+    /**
+     * @param txns
+     * @return 
+     */
+    public TxnsWithdrawModel update(TxnsWithdrawModel txns);
 
     
 }

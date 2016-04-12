@@ -23,8 +23,9 @@ import com.zlebank.zplatform.commons.service.IBasePageService;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawBean;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
-import com.zlebank.zplatform.manager.dao.object.TxnsWithdrawModel;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
+import com.zlebank.zplatform.trade.exception.RecordsAlreadyExistsException;
+import com.zlebank.zplatform.trade.model.TxnsWithdrawModel;
 
 /**
  * 提现service
@@ -61,8 +62,9 @@ public interface ITWithService extends IBasePageService<TxnsWithdrawQuery ,TxnsW
      * 提现初审
      * @param firstTrial
      * @return
+     * @throws RecordsAlreadyExistsException 
      */
-    public void firstTrialWinth(AuditBean firstTrial) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException;
+    public void firstTrialWinth(AuditBean firstTrial) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, RecordsAlreadyExistsException;
     /**
      * 划拨审核
      * @param falg

@@ -115,8 +115,7 @@ public class TxnsWithdraAciton extends BaseAction{
            
         List<TxnsWithdrawBean> li=pr.getPagedResult();
         for(TxnsWithdrawBean txnsw:li){
-          
-            
+          txnsw.setAmount(String.valueOf(Long.parseLong(txnsw.getAmount())/100.0));
         }
         Long total = pr.getTotal();
         map.put("total", total);

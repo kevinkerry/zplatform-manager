@@ -26,6 +26,7 @@ import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
 import com.zlebank.zplatform.manager.enums.ReviewEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.ITWithService;
+import com.zlebank.zplatform.trade.exception.RecordsAlreadyExistsException;
 
 /**
  * 提现审核
@@ -87,7 +88,7 @@ public class TrialWithdraAction extends BaseAction {
 
             List<TxnsWithdrawBean> li = pr.getPagedResult();
             for (TxnsWithdrawBean txnsw : li) {
-
+                txnsw.setAmount(String.valueOf(Long.parseLong(txnsw.getAmount())/100.0));
             }
             Long total = pr.getTotal();
             map.put("total", total);
@@ -122,6 +123,8 @@ public class TrialWithdraAction extends BaseAction {
 
         } catch (ManagerWithdrawException e) {
             messg = e.getMessage();
+        } catch (RecordsAlreadyExistsException e) {
+           messg=e.getMessage();
         }
         json_encode(messg);
         }

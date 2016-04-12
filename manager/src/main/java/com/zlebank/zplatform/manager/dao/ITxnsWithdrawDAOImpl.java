@@ -20,7 +20,7 @@ import com.zlebank.zplatform.commons.dao.impl.AbstractPagedQueryDAOImpl;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
 import com.zlebank.zplatform.manager.dao.iface.ITWithdrawDAO;
-import com.zlebank.zplatform.manager.dao.object.TxnsWithdrawModel;
+import com.zlebank.zplatform.trade.model.TxnsWithdrawModel;
 
 /**
  * 提现dao
