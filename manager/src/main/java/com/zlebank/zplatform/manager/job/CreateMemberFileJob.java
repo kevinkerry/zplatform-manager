@@ -60,7 +60,7 @@ public class CreateMemberFileJob {
           String memberId=entry.getKey();
           memberId="200000000000587";
           fileBuffer.setLength(0);
-          fileBuffer.append("MemberId:"+memberId+"\u0020 Date:"+dateTime);
+          fileBuffer.append("MemberId:"+memberId+"|Date:"+dateTime);
           //消费和充值的汇总信息;账户资金增加
           List<?> countList=txnsLogService.getCountExpenseAndRecharge(memberId,dateTime);
           //提现,退款,代付账户资金减少
@@ -105,7 +105,7 @@ public class CreateMemberFileJob {
               
           }
           fileBuffer.append("\n");
-          fileBuffer.append("total:"+count+"\u0020 countClearMoney:"+countClearMoney+"\u0020 countfree:"+countfree);
+          fileBuffer.append("total:"+count+"|countClearMoney:"+countClearMoney+"|countfree:"+countfree);
           memberId="200000000000532";
           dateTime="20160105";
           List<?> memberDetailedList =txnsLogService.getAllMemberDetailedByDate(memberId,dateTime);
@@ -114,7 +114,8 @@ public class CreateMemberFileJob {
           for(int i=0;i<detailJsonArray.size();i++){
               job= detailJsonArray.getJSONObject(i);
               fileBuffer.append("\n");
-              fileBuffer.append(job.get("TXNDATE").toString()+"|"+job.get("ACCSETTLEDATE").toString()+"|"+job.get("BUSICODE").toString()+"|"+job.get("AMOUNT").toString()+"|"+job.get("TXNFEE").toString()+"|"+job.get("PAYORDNO").toString()+"|");
+              fileBuffer.append(job.get("ACCORDNO").toString()+"|"+job.get("BUSICODE").toString()+"|"+job.get("ACCORDCOMMITIME").toString()+
+                      "|"+job.get("TXNSEQNO").toString()+"|"+job.get("AMOUNT").toString()+"|"+job.get("TXNFEE").toString()+"|"+job.get("ACCSETTLEDATE").toString()+"|");
           }
           fileBuffer.append("\n");
           fileBuffer.append("######");
