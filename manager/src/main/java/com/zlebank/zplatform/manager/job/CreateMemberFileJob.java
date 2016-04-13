@@ -31,7 +31,7 @@ public class CreateMemberFileJob {
 
     private static final Log log = LogFactory.getLog(SaveMemberQueueJob.class);
     public void execute() throws Exception {
-        //取出网络时间
+        // 取出网络时间
         long time = TimeUtil.syncCurrentTime();
         Date date = new Date(time);
 
@@ -163,11 +163,31 @@ public class CreateMemberFileJob {
                 fileBuffer.append(job.get("ACCORDNO").toString() + "|"
                         + job.get("BUSICODE").toString() + "|"
                         + job.get("ACCORDCOMMITIME").toString() + "|"
-                        + job.get("TXNSEQNO").toString() + "|"
-                        + job.get("AMOUNT").toString() + "|"
-                        + job.get("TXNFEE").toString() + "|"
+                        + job.get("TXNSEQNO").toString() + "|");
+                if ("'30000001', '40000001', '70000001', '80000001'"
+                        .contains(job.get("BUSICODE").toString())) {
+                    fileBuffer.append("D" + "|");
+                } else if ("'10000001', '10000002', '90000001', '20000001'"
+                        .contains(job.get("BUSICODE").toString())) {
+                    fileBuffer.append("C" + "|");
+                } else {
+                    fileBuffer.append("N" + "|");
+                }
+
+                fileBuffer.append(job.get("AMOUNT").toString() + "|");
+
+                if (Long.parseLong(job.get("TXNFEE").toString()) > 0) {
+                    fileBuffer.append("D" + "|");
+                } else if (Long.parseLong(job.get("TXNFEE").toString()) < 0) {
+                    fileBuffer.append("C" + "|");
+                } else {
+                    fileBuffer.append("N" + "|");
+                }
+                fileBuffer.append(job.get("TXNFEE").toString() + "|"
                         + job.get("ACCSETTLEDATE").toString() + "|");
+
             }
+
             fileBuffer.append("\n");
             fileBuffer.append("######");
             doPrint(fileBuffer.toString(), "D:\\AAA\\" + memberId + "\\",
