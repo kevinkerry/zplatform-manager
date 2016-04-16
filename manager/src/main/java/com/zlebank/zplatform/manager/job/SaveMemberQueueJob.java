@@ -27,6 +27,12 @@ import com.zlebank.zplatform.manager.dao.object.scan.MemberQueueMode;
 public class SaveMemberQueueJob {
     @Autowired
     private IMemberQueueDAO iMemberQueueDAO;
+    
+    private final static String MER_PORTAL_URL = "http://192.168.101.248:8080/merportal/";
+    private final static String MAIL_PROXY_URL = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
+    
+    private final static String QUERY_SYNC_MER_REQUEST = "merchant/querySyncMerchanet";
+    private final static String QUERY_SYNC_MER_NOTIFY = "merchant/activation.html";
  
     private static final Log log = LogFactory.getLog(SaveMemberQueueJob.class);
     public void execute() throws Exception {
@@ -36,7 +42,7 @@ public class SaveMemberQueueJob {
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject job = jsonArray.getJSONObject(i);
             String memberId = job.get("MEMBER_ID").toString();
-            String urlA = "http://192.168.13.126:8080/merportal/merchant/querySyncMerchanet";
+            String urlA = MER_PORTAL_URL+QUERY_SYNC_MER_REQUEST;
             String parameterDataA = "memberId=" + memberId+"&expirationTime="+job.get("EXPIRATION_TIME").toString();
             String res = this.doPost(urlA, parameterDataA);
             JSONObject json = JSONObject.fromObject(res);
@@ -49,18 +55,17 @@ public class SaveMemberQueueJob {
                 String randNum = json.get("randNum").toString();
                 String idCard = job.get("IDCARD").toString();
                 //String url = "http://localhost:8080/mail-proxy/email/addEmail.action";
-               String url = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
                 // 生成激活链接
                 // String Md5Url = EncoderByMd5(idCard + memberId + randNum);
                 String Md5Url = Md5.getInstance().md5s(
                         idCard + memberId + randNum);
-                String content = "http://192.168.13.126:8080/merportal/merchant/activation.html?memberId="
+                String content = MER_PORTAL_URL+QUERY_SYNC_MER_NOTIFY+"?memberId="
                         + memberId + "&signature=" + Md5Url;
                 content = java.net.URLEncoder.encode(content);
                 String parameterData = "subject=商户开通激活&consignee_address="
                         + job.get("EMAIL").toString() + "&&content='" + content
                         + "'";
-                String flag = this.doPost(url, parameterData);
+                String flag = this.doPost(MAIL_PROXY_URL, parameterData);
                 JSONObject jsonA = JSONObject.fromObject(flag);
                 if (jsonA.get("flag").equals(true)) {
                     member.setFlag("00");
@@ -84,9 +89,10 @@ public class SaveMemberQueueJob {
         httpURLConnection.setRequestProperty("Accept-Charset", "utf-8");
         httpURLConnection.setRequestProperty("Content-Type",
                 "application/x-www-form-urlencoded");
+        System.out.println(httpURLConnection.getURL());
         httpURLConnection.setRequestProperty("Content-Length",
                 String.valueOf(parameterData.length()));
-
+        
         OutputStream outputStream = null;
         OutputStreamWriter outputStreamWriter = null;
         InputStream inputStream = null;
