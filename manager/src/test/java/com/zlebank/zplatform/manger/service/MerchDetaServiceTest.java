@@ -38,7 +38,7 @@ public class MerchDetaServiceTest {
 		Assert.assertTrue(setlcycleList.size() > 0);
 	}*/
 
-	
+	@Test
 	public void testSaveMerchDeta() {
 		IMerchDetaService merchDetaService = (IMerchDetaService) context
 				.getBean("merchDetaService");
@@ -114,7 +114,7 @@ public class MerchDetaServiceTest {
 	    MerchDeta _merchDeta = merchDetaService.getBean(merchDetaApplyId+1);
 	    Assert.assertEquals(merchDeta.getMember().getAddress(), _merchDeta.getMember().getAddress());
 	}
-	@Test
+	
 	public void testLoadMerchMK(){
 	    IMerchDetaService merchDetaService = (IMerchDetaService) context
                 .getBean("merchDetaService");
@@ -123,8 +123,9 @@ public class MerchDetaServiceTest {
 	        Assert.fail();
 	    } 
 	}
+	 
 
-	public MerchDeta nextNewMerch() {
+	private MerchDeta nextNewMerch() {
 		MerchDeta merch = new MerchDeta();
 		Enterprise enterprise = new Enterprise();
 		

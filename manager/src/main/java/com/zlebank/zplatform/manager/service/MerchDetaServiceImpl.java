@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +37,10 @@ import com.zlebank.zplatform.manager.service.certhandler.OrgCertPicHandler;
 import com.zlebank.zplatform.manager.service.certhandler.SignFileFacePicHandler;
 import com.zlebank.zplatform.manager.service.certhandler.SignFileOppPicHandler;
 import com.zlebank.zplatform.manager.service.certhandler.TaxRegCertPicHandler;
-import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 import com.zlebank.zplatform.manager.service.iface.IMerchDetaService;
 import com.zlebank.zplatform.manager.util.CommonUtil;
 import com.zlebank.zplatform.manager.util.RSAUtils;
 import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
-import com.zlebank.zplatform.member.pojo.PojoEnterpriseDeta;
 import com.zlebank.zplatform.member.service.MemberService;
 
 public class MerchDetaServiceImpl
@@ -55,7 +52,6 @@ public class MerchDetaServiceImpl
     private final static Log log = LogFactory
             .getLog(MerchDetaServiceImpl.class);
     private DAOContainer daoContainer;
-    private ServiceContainer serviceContainer;
     private FTPClientFactory ftpClientFactory;
     private final String merchCertRootPath = "/merchant";
     private MemberService memberServiceImpl;
@@ -616,8 +612,8 @@ public class MerchDetaServiceImpl
             if(list.size()>0){
                 JSONArray jsonArray = JSONArray.fromObject(list);
                 JSONObject job = jsonArray.getJSONObject(0);
-                ParaDicModel maxsend= serviceContainer.getParaDicService().get( 102L);
-                ParaDicModel expirationTime= serviceContainer.getParaDicService().get( 101L);
+                ParaDicModel maxsend= daoContainer.getParadicDAO().get(102L);
+                ParaDicModel expirationTime= daoContainer.getParadicDAO().get(101L);
                 memberQueue.setEmail(job.get("EMAIL").toString());
                 memberQueue.setMaxSendTimes(Integer.parseInt(maxsend.getParaCode()));
                 memberQueue.setExpirationTime(expirationTime.getParaCode());
@@ -882,14 +878,6 @@ public class MerchDetaServiceImpl
             }
         }
         return false;
-    }
-
-    public ServiceContainer getServiceContainer() {
-        return serviceContainer;
-    }
-
-    public void setServiceContainer(ServiceContainer serviceContainer) {
-        this.serviceContainer = serviceContainer;
     }
 
     public MemberService getMemberServiceImpl() {
