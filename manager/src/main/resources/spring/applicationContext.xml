@@ -131,7 +131,7 @@
 	</bean>
 	 <bean id="springContext" class="com.zlebank.zplatform.trade.utils.SpringContext"></bean>
  
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+	<!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="oracle.jdbc.OracleDriver" />
 		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.101.178:1521:oradb" />
@@ -141,10 +141,10 @@
 		<property name="minPoolSize" value="1" />
 		<property name="initialPoolSize" value="1" />
 		<property name="maxIdleTime" value="20" />
-	</bean>
-	<!--  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	</bean>-->
+	  <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName">
 			<value>java:comp/env/jdbc/manager</value>
 		</property>
-	</bean>-->
+	</bean>
 </beans>
