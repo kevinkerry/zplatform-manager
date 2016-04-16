@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</td>
 						<td align="center">所属行业</td>
 						<td>
-							<select id="mcclist_ins" class="easyui-validatebox"  name="enterprise.mccList" /></select>
+							<select id="mcclist_ins" class="easyui-validatebox"  name="enterprise.mccList" required="true"/></select><font color="red">*</font>
 						</td>
 					</tr>
 					<tr>
