@@ -37,7 +37,6 @@ public class CreateMemberFileJob {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dateTime = sdf.format(date);
-        dateTime = "20160308";
 
         // 根据日期取出t_txns_log取出当天清算的所有商户号
         List<?> memberList = txnsLogService.getAllMemberByDate(dateTime);
@@ -61,7 +60,6 @@ public class CreateMemberFileJob {
         // 遍历当天所有的商户
         for (Map.Entry<String, String> entry : memIDmap.entrySet()) {
             String memberId = entry.getKey();
-            memberId = "200000000000587";
             fileBuffer.setLength(0);
             fileBuffer.append("MemberId:" + memberId + "|Date:" + dateTime);
             // 消费和充值的汇总信息;账户资金增加
@@ -73,7 +71,6 @@ public class CreateMemberFileJob {
             // 消费-账户 账户资金增加
             List<?> spendingList = txnsLogService.getCountSpendingAccount(
                     memberId, dateTime);
-            memberId = "200000000000593";
             // 手工充值 账户资金增加
             List<?> handPayList = txnsLogService.getCountHandPay(memberId,
                     dateTime);
@@ -136,27 +133,10 @@ public class CreateMemberFileJob {
             fileBuffer.append("\n");
             fileBuffer.append("total:" + count + "|countClearMoney:"
                     + countClearMoney + "|countfree:" + countfree);
-            memberId = "200000000000532";
-            dateTime = "20160105";
             List<?> memberDetailedList = txnsLogService
                     .getAllMemberDetailedByDate(memberId, dateTime);
             JSONArray detailJsonArray = JSONArray
                     .fromObject(memberDetailedList);
-            // [{TXNFEE=50, PAYORDNO=2016011200000088, AMOUNT=261,
-            // BUSICODE=10000001}, {TXNFEE=50, PAYORDNO=2016011200000090,
-            // AMOUNT=245, BUSICODE=10000001}, {TXNFEE=50,
-            // PAYORDNO=2016011200000087, AMOUNT=250, BUSICODE=10000001},
-            // {TXNFEE=50, PAYORDNO=2016011200000089, AMOUNT=247,
-            // BUSICODE=10000001}, {TXNFEE=50, PAYORDNO=2016011200000075,
-            // AMOUNT=251, BUSICODE=10000001}, {TXNFEE=50,
-            // PAYORDNO=2016011200000086, AMOUNT=251, BUSICODE=10000001},
-            // {TXNFEE=50, PAYORDNO=2016011200000083, AMOUNT=251,
-            // BUSICODE=10000001}, {TXNFEE=50, PAYORDNO=2016011200000079,
-            // AMOUNT=2501, BUSICODE=10000001}, {TXNFEE=50,
-            // PAYORDNO=2016011200000084, AMOUNT=251, BUSICODE=10000001},
-            // {TXNFEE=50, PAYORDNO=2016011200000085, AMOUNT=251,
-            // BUSICODE=10000001}, {TXNFEE=50, PAYORDNO=2016011200000082,
-            // AMOUNT=251, BUSICODE=10000001}]
             for (int i = 0; i < detailJsonArray.size(); i++) {
                 job = detailJsonArray.getJSONObject(i);
                 fileBuffer.append("\n");
