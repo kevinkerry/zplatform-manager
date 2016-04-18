@@ -89,7 +89,6 @@ public class SaveMemberQueueJob {
         httpURLConnection.setRequestProperty("Accept-Charset", "utf-8");
         httpURLConnection.setRequestProperty("Content-Type",
                 "application/x-www-form-urlencoded");
-        System.out.println(httpURLConnection.getURL());
         httpURLConnection.setRequestProperty("Content-Length",
                 String.valueOf(parameterData.length()));
         
