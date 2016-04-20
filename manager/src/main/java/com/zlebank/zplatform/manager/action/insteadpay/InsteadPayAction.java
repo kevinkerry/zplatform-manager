@@ -56,7 +56,6 @@ import com.zlebank.zplatform.trade.bean.InsteadPayDetailBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailQuery;
 import com.zlebank.zplatform.trade.bean.InsteadPayInterfaceParamBean;
 import com.zlebank.zplatform.trade.bean.enums.InsteadPayImportTypeEnum;
-import com.zlebank.zplatform.trade.bean.enums.TransferBatchStatusEnum;
 import com.zlebank.zplatform.trade.bean.page.AuditDataBean;
 import com.zlebank.zplatform.trade.exception.BalanceNotEnoughException;
 import com.zlebank.zplatform.trade.exception.DuplicateOrderIdException;
@@ -246,30 +245,45 @@ public class InsteadPayAction extends BaseAction {
 				}
 			}
 		} catch (NotInsteadPayWorkTimeException e) {
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (FailToGetAccountInfoException e) {
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (BalanceNotEnoughException e) {
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (DuplicateOrderIdException e) {
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (BiffException e) {
+		    log.error(e.getMessage(), e);
 			messg = "读取excle失败";
 		} catch (IOException e) {
+		    log.error(e.getMessage(), e);
 			messg = "读取excle失败";
 		} catch (InvalidCardException e) {
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (FailToInsertAccEntryException e) {
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (MerchWhiteListCheckFailException e) {
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (ManagerWithdrawException e) {
-			// TODO Auto-generated catch block
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (FailToInsertFeeException e) {
+		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
 		} catch (Exception e) {
-			messg = "商户订单号重复";
+		    log.error(e.getMessage(), e);
+		    if (e!= null && e.getMessage() != null) {
+		        messg = e.getMessage();
+		    } else {
+		        messg = "代付时发生错误";
+		    }
 		}
 		json_encode(messg);
 
@@ -373,14 +387,21 @@ public class InsteadPayAction extends BaseAction {
 	 * 代付明细审核查询
 	 */
 	public void queryInstead() {
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    if (instead == null || StringUtil.isEmpty(instead.getBatchId())){
+	        map.put("total", null);
+            map.put("rows", "0");
+            return;
+	    }
 		if (instead != null && StringUtil.isNotEmpty(instead.getStatus())) {
 			// 用逗号分隔开的状态
 			instead.setStatusList(Arrays.asList(instead.getStatus().split(",")));
 			instead.setStatus("");
 		}
+		
 		int page = this.getPage();
 		int pageSize = this.getRows();
-		Map<String, Object> map = new HashMap<String, Object>();
+		
 		PagedResult<InsteadPayDetailBean> pr = instea.queryPaged(page,
 				pageSize, instead);
 		try {

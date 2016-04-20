@@ -245,7 +245,7 @@ table tr td select {
 			   				} else if (value == '02') {
 			   					return '部分审核通过';
 			   				} else if (value == '00') {
-			   					return '转账成功';
+			   					return '处理完成';
 			   				} else if (value == '03') {
 			   					return '全部审核通过';
 			   				} else {
