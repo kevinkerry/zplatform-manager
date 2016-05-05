@@ -26,6 +26,7 @@ import com.zlebank.zplatform.trade.bean.enums.BankTransferBatchOpenStatusEnum;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
+import com.zlebank.zplatform.trade.utils.DateUtil;
 
 /**
  * 划拨 action
@@ -203,24 +204,31 @@ public class TransferAction extends BaseAction {
      * @since 1.3.0
      */
 	public void batchBankTrial(){
-		String batchNos = "";
-		String[] batchno_array = auditBean.getBatchno().split("\\|");
-		for(String batchno:batchno_array){
-			boolean flag = bankTransferService.bankTransferBatchTrial(batchno.trim(), auditBean.getFalg(),getCurrentUser().getUserId());
-			if(!flag){
-				batchNos+=batchno+",";
-			}
-		}
-		if(StringUtil.isEmpty(batchNos)){
-			if(auditBean.getFalg()){
-				json_encode("转账成功");
-			}else{
-				json_encode("操作成功");
-			}
-			
+		//转账审核时间判断 不得超过当日17:55:00
+		String endTime = DateUtil.getCurrentDate()+"175500";
+		if(Long.valueOf(DateUtil.getCurrentDateTime())>Long.valueOf(endTime)){
+			json_encode("代付业务截止时间已到，请明天再进行转账审核");
 		}else{
-			json_encode("批次号："+batchNos+"转账失败");
+			String batchNos = "";
+			String[] batchno_array = auditBean.getBatchno().split("\\|");
+			for(String batchno:batchno_array){
+				boolean flag = bankTransferService.bankTransferBatchTrial(batchno.trim(), auditBean.getFalg(),getCurrentUser().getUserId());
+				if(!flag){
+					batchNos+=batchno+",";
+				}
+			}
+			if(StringUtil.isEmpty(batchNos)){
+				if(auditBean.getFalg()){
+					json_encode("转账成功");
+				}else{
+					json_encode("操作成功");
+				}
+				
+			}else{
+				json_encode("批次号："+batchNos+"转账失败");
+			}
 		}
+		
 	}
 	
 	/**
@@ -287,4 +295,5 @@ public class TransferAction extends BaseAction {
     public void setBankTranBatch(BankTranBatch bankTranBatch) {
         this.bankTranBatch = bankTranBatch;
     }
+  
 }

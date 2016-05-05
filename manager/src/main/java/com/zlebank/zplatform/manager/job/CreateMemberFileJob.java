@@ -63,10 +63,10 @@ public class CreateMemberFileJob {
             fileBuffer.setLength(0);
             fileBuffer.append("MemberId:" + memberId + "|Date:" + dateTime);
             // 消费和充值的汇总信息;账户资金增加
-            List<?> countList = txnsLogService.getCountExpenseAndRecharge(
+            List<?> countList = txnsLogService.getSumExpense(
                     memberId, dateTime);
             // 提现,退款,代付账户资金减少
-            List<?> countReList = txnsLogService.getCountRefundAndPay(memberId,
+            List<?> countReList = txnsLogService.getSumRefund(memberId,
                     dateTime);
             // 消费-账户 账户资金增加
             List<?> spendingList = txnsLogService.getCountSpendingAccount(
