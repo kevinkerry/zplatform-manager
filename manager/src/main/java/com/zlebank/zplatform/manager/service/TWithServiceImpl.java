@@ -217,7 +217,9 @@ public class TWithServiceImpl
                 //txnsWinth.setAcctno(merchPojo.getAccNum());
                 //txnsWinth.setAcctname(merchPojo.getAccNum());
                 //txnsw.setTxnseqNo(txnslog.getTxnseqno());
-                // 调用分录规则
+                /*
+                 * 调用分录规则
+                 */
                 TxnsLogModel txnsLogModel= txnsLogService.getTxnsLogByTxnseqno(twb.getTxnseqNo());
                 txnsLogModel.setAmount(Long.parseLong(twb.getAmount()));
                 txnsLogModel.setTxnfee(Long.parseLong(twb.getFee()));

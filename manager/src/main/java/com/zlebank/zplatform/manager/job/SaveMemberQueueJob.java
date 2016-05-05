@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -30,6 +31,7 @@ public class SaveMemberQueueJob {
     
     private final static String MER_PORTAL_URL = "http://192.168.101.248:8080/merportal/";
     private final static String MAIL_PROXY_URL = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
+    //private final static String MAIL_PROXY_URL = "http://127.0.0.1:8080/mailproxy/email/addEmail.action";
     
     private final static String QUERY_SYNC_MER_REQUEST = "merchant/querySyncMerchanet";
     private final static String QUERY_SYNC_MER_NOTIFY = "merchant/activation.html";
@@ -61,13 +63,13 @@ public class SaveMemberQueueJob {
                         idCard + memberId + randNum);
                 String content = MER_PORTAL_URL+QUERY_SYNC_MER_NOTIFY+"?memberId="
                         + memberId + "&signature=" + Md5Url;
-                content = java.net.URLEncoder.encode(content);
+                content = java.net.URLEncoder.encode(content,"utf-8");
                 String parameterData = "subject=商户开通激活&consignee_address="
                         + job.get("EMAIL").toString() + "&&content='" + content
                         + "'";
                 String flag = this.doPost(MAIL_PROXY_URL, parameterData);
-                JSONObject jsonA = JSONObject.fromObject(flag);
-                if (jsonA.get("flag").equals(true)) {
+                flag = URLDecoder.decode(flag,"utf-8");
+                if (flag.contains("00")) {
                     member.setFlag("00");
                 }
             } else {
@@ -106,8 +108,13 @@ public class SaveMemberQueueJob {
 
             outputStreamWriter.write(parameterData.toString());
             outputStreamWriter.flush();
-
+            
+            if(log.isDebugEnabled()){
+                log.info(" httpURLConnection " + httpURLConnection.getURL()+parameterData.toString());
+            }
+            
             if (httpURLConnection.getResponseCode() >= 300) {
+                
                 throw new Exception(
                         "HTTP Request is not success, Response code is "
                                 + httpURLConnection.getResponseCode());

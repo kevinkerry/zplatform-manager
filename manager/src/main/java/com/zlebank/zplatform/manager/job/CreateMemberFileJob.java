@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +29,8 @@ public class CreateMemberFileJob {
     private ITxnsLogService txnsLogService;
 
     private static final Log log = LogFactory.getLog(SaveMemberQueueJob.class);
+    
+    private static final String  FILE_PREX = "ZLMSD";
     public void execute() throws Exception {
         // 取出网络时间
         long time = TimeUtil.syncCurrentTime();
@@ -61,78 +62,48 @@ public class CreateMemberFileJob {
         for (Map.Entry<String, String> entry : memIDmap.entrySet()) {
             String memberId = entry.getKey();
             fileBuffer.setLength(0);
-            fileBuffer.append("MemberId:" + memberId + "|Date:" + dateTime);
-            // 消费和充值的汇总信息;账户资金增加
-            List<?> countList = txnsLogService.getSumExpense(
+            fileBuffer.append("memberId:" + memberId + "|date:" + dateTime);
+            // 消费(账户，快捷)汇总信息;账户资金增加
+            List<?> sumCoumList = txnsLogService.getSumExpense(
                     memberId, dateTime);
-            // 提现,退款,代付账户资金减少
-            List<?> countReList = txnsLogService.getSumRefund(memberId,
+            //退款资金减少
+            List<?> sumReList = txnsLogService.getSumRefund(memberId,
                     dateTime);
-            // 消费-账户 账户资金增加
-            List<?> spendingList = txnsLogService.getCountSpendingAccount(
-                    memberId, dateTime);
-            // 手工充值 账户资金增加
-            List<?> handPayList = txnsLogService.getCountHandPay(memberId,
-                    dateTime);
+             
             // 总交易笔数
             int count = 0;
             // 总清算金额
-            Long countClearMoney = 0L;
+            Long totalAmount = 0L;
             // 总手续费
-            Long countfree = 0L;
-            if (countList != null && countList.size() > 0) {
-                JSONArray json = JSONArray.fromObject(countList);
+            Long sumFee = 0L;
+            if (sumCoumList != null && sumCoumList.size() > 0) {
+                JSONArray json = JSONArray.fromObject(sumCoumList);
                 count += Integer.parseInt(json.getJSONObject(0).get("TOTAL")
                         .equals("null") ? "0" : json.getJSONObject(0)
                         .get("TOTAL").toString());
-                countClearMoney += Long.parseLong(json.getJSONObject(0)
-                        .get("CLEARING").equals("null") ? "0" : json
-                        .getJSONObject(0).get("CLEARING").toString());
-                countfree += Long.parseLong(json.getJSONObject(0)
+                totalAmount += Long.parseLong(json.getJSONObject(0)
+                        .get("TOTALAMOUNT").equals("null") ? "0" : json
+                        .getJSONObject(0).get("TOTALAMOUNT").toString());
+                sumFee += Long.parseLong(json.getJSONObject(0)
                         .get("TOTALFEE").equals("null") ? "0" : json
                         .getJSONObject(0).get("TOTALFEE").toString());
             }
-            if (countReList != null && countReList.size() > 0) {
-                JSONArray json = JSONArray.fromObject(countReList);
-                System.out.println(json.getJSONObject(0));
+            if (sumReList != null && sumReList.size() > 0) {
+                JSONArray json = JSONArray.fromObject(sumReList);
                 count += Integer.parseInt(json.getJSONObject(0).get("TOTAL")
                         .equals("null") ? "0" : json.getJSONObject(0)
                         .get("TOTAL").toString());
-                countClearMoney -= Long.parseLong(json.getJSONObject(0)
-                        .get("CLEARING").equals("null") ? "0" : json
-                        .getJSONObject(0).get("CLEARING").toString());
-                countfree += Long.parseLong(json.getJSONObject(0)
+                totalAmount -= Long.parseLong(json.getJSONObject(0)
+                        .get("TOTALAMOUNT").equals("null") ? "0" : json
+                        .getJSONObject(0).get("TOTALAMOUNT").toString());
+                sumFee += Long.parseLong(json.getJSONObject(0)
                         .get("TOTALFEE").equals("null") ? "0" : json
                         .getJSONObject(0).get("TOTALFEE").toString());
-
-            }
-            if (spendingList != null && spendingList.size() > 0) {
-                JSONArray json = JSONArray.fromObject(spendingList);
-                count += Integer.parseInt(json.getJSONObject(0).get("TOTAL")
-                        .equals("null") ? "0" : json.getJSONObject(0)
-                        .get("TOTAL").toString());
-                countClearMoney += Long.parseLong(json.getJSONObject(0)
-                        .get("CLEARING").equals("null") ? "0" : json
-                        .getJSONObject(0).get("CLEARING").toString());
-                countfree += Long.parseLong(json.getJSONObject(0)
-                        .get("TOTALFEE").equals("null") ? "0" : json
-                        .getJSONObject(0).get("TOTALFEE").toString());
-
-            }
-            if (handPayList != null && handPayList.size() > 0) {
-                JSONArray json = JSONArray.fromObject(handPayList);
-                count += Integer.parseInt(json.getJSONObject(0).get("TOTAL")
-                        .equals("null") ? "0" : json.getJSONObject(0)
-                        .get("TOTAL").toString());
-                countClearMoney += Long.parseLong(json.getJSONObject(0)
-                        .get("CLEARING").equals("null") ? "0" : json
-                        .getJSONObject(0).get("CLEARING").toString());
-                // countfree+=Long.parseLong(json.getJSONObject(0).get("TOTALFEE").equals("null")?"0":json.getJSONObject(0).get("TOTALFEE").toString());
 
             }
             fileBuffer.append("\n");
-            fileBuffer.append("total:" + count + "|countClearMoney:"
-                    + countClearMoney + "|countfree:" + countfree);
+            fileBuffer.append("totalCount:" + count + "|totalAmount:"
+                    + totalAmount + "|totalFee:" + sumFee);
             List<?> memberDetailedList = txnsLogService
                     .getAllMemberDetailedByDate(memberId, dateTime);
             JSONArray detailJsonArray = JSONArray
@@ -170,8 +141,8 @@ public class CreateMemberFileJob {
 
             fileBuffer.append("\n");
             fileBuffer.append("######");
-            doPrint(fileBuffer.toString(), "D:\\AAA\\" + memberId + "\\",
-                    memberId + "_" + dateTime + ".txt", memberId);
+            doPrint(fileBuffer.toString(), "/" + memberId + "/",
+                    FILE_PREX+"_"+memberId + "_" + dateTime + ".txt", memberId);
         }
     }
 
@@ -182,6 +153,7 @@ public class CreateMemberFileJob {
         string2File(fileString, path + fileName);
         File file = new File(path + fileName);
         // String uploadPath, String fileName, File file
+        @SuppressWarnings("resource")
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
                 "/spring/*");
         FTPClientFactory ftpClientFactory = context

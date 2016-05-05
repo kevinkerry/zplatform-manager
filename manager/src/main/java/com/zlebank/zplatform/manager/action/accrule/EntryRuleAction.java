@@ -113,7 +113,7 @@ public class EntryRuleAction extends BaseAction{
       Map<String, Object> m=new HashMap<String, Object>();
         try {
             int page= this.getPage();
-            int pageSize= this.getPage_size();
+            int pageSize=getRows();
               Long count=  srs.getcount(sar);
               List<Map<String, Object>> li= srs.getRuleBySar(sar, page, pageSize);
               if(li==null){
