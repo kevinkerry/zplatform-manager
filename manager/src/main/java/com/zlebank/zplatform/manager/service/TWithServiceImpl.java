@@ -61,12 +61,14 @@ import com.zlebank.zplatform.member.service.MerchService;
 import com.zlebank.zplatform.member.service.PersonService;
 import com.zlebank.zplatform.trade.bean.enums.TransferBusiTypeEnum;
 import com.zlebank.zplatform.trade.dao.ITxnsLogDAO;
+import com.zlebank.zplatform.trade.dao.ITxnsOrderinfoDAO;
 import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.exception.RecordsAlreadyExistsException;
 import com.zlebank.zplatform.trade.exception.TradeException;
 import com.zlebank.zplatform.trade.model.PojoTranData;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
+import com.zlebank.zplatform.trade.model.TxnsOrderinfoModel;
 import com.zlebank.zplatform.trade.model.TxnsWithdrawModel;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 import com.zlebank.zplatform.trade.service.TransferDataService;
@@ -141,7 +143,8 @@ public class TWithServiceImpl
     private ITxnsLogService txnsLogService;
     @Autowired
     private ITWithdrawDAO tWithdrawDao;
-    
+    @Autowired
+    private ITxnsOrderinfoDAO orderinfoDAO;
     /**
      * 提现申请
      * 
@@ -532,6 +535,10 @@ public class TWithServiceImpl
             } else {
                 // 初审拒绝
                 txns.setStatus(ReviewEnum.FIRSTREFUSED.getCode());
+                TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(txns.getTexnseqno());
+                TxnsOrderinfoModel orderinfo = orderinfoDAO.getOrderinfoByOrderNo(txns.getGatewayorderno(), txnsLog.getAccfirmerno());
+                orderinfo.setStatus("03");
+                orderinfoDAO.update(orderinfo);
                 Fused(txns);
             }
             tw.update(txns);
@@ -570,6 +577,7 @@ public class TWithServiceImpl
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
      */
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
     private void Fused(TxnsWithdrawModel txns) throws AccBussinessException,
             AbstractBusiAcctException, NumberFormatException {
         // 调用分录规则
@@ -583,7 +591,8 @@ public class TWithServiceImpl
         tradeInfo.setCommission(new BigDecimal(0));
         tradeInfo.setCharge(new BigDecimal(txns.getFee()));
         accEntyr.accEntryProcess(tradeInfo);
-
+        
+        
     }
 
     /**
@@ -638,6 +647,10 @@ public class TWithServiceImpl
             } else {
                 // 复审拒绝
                 txns.setStatus(ReviewEnum.SECONREFUSED.getCode());
+                TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(txns.getTexnseqno());
+                TxnsOrderinfoModel orderinfo = orderinfoDAO.getOrderinfoByOrderNo(txns.getGatewayorderno(), txnsLog.getAccfirmerno());
+                orderinfo.setStatus("03");
+                orderinfoDAO.update(orderinfo);
                 Fused(txns);
             }
 
