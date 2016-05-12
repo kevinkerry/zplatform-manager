@@ -29,9 +29,11 @@ public class SaveMemberQueueJob {
     @Autowired
     private IMemberQueueDAO iMemberQueueDAO;
     
-    private final static String MER_PORTAL_URL = "http://192.168.101.248:8080/merportal/";
-    private final static String MAIL_PROXY_URL = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
-    //private final static String MAIL_PROXY_URL = "http://127.0.0.1:8080/mailproxy/email/addEmail.action";
+   // private final static String MER_PORTAL_URL = "http://192.168.101.248:8080/merportal/";
+   // private final static String MAIL_PROXY_URL = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
+    
+    private final static String MER_PORTAL_URL = "http://192.168.95.121:8080/merportal/";
+    private final static String MAIL_PROXY_URL = "http://192.168.95.70:8080/mailproxy/email/addEmail.action";
     
     private final static String QUERY_SYNC_MER_REQUEST = "merchant/querySyncMerchanet";
     private final static String QUERY_SYNC_MER_NOTIFY = "merchant/activation.html";
@@ -59,8 +61,7 @@ public class SaveMemberQueueJob {
                 //String url = "http://localhost:8080/mail-proxy/email/addEmail.action";
                 // 生成激活链接
                 // String Md5Url = EncoderByMd5(idCard + memberId + randNum);
-                String Md5Url = Md5.getInstance().md5s(
-                        idCard + memberId + randNum);
+                String Md5Url = Md5.getInstance().md5s(memberId+idCard + randNum);
                 String content = MER_PORTAL_URL+QUERY_SYNC_MER_NOTIFY+"?memberId="
                         + memberId + "&signature=" + Md5Url;
                 content = java.net.URLEncoder.encode(content,"utf-8");
