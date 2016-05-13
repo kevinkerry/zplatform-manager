@@ -33,6 +33,7 @@ public class SaveMemberQueueJob {
    // private final static String MAIL_PROXY_URL = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
     
     private final static String MER_PORTAL_URL = "http://192.168.95.121:8080/merportal/";
+    private final static String MER_PORTAL_WLAN_URL = "http://219.234.83.144:8080/merportal/";
     private final static String MAIL_PROXY_URL = "http://192.168.95.70:8080/mailproxy/email/addEmail.action";
     
     private final static String QUERY_SYNC_MER_REQUEST = "merchant/querySyncMerchanet";
@@ -62,7 +63,7 @@ public class SaveMemberQueueJob {
                 // 生成激活链接
                 // String Md5Url = EncoderByMd5(idCard + memberId + randNum);
                 String Md5Url = Md5.getInstance().md5s(memberId+idCard + randNum);
-                String content = MER_PORTAL_URL+QUERY_SYNC_MER_NOTIFY+"?memberId="
+                String content = MER_PORTAL_WLAN_URL+QUERY_SYNC_MER_NOTIFY+"?memberId="
                         + memberId + "&signature=" + Md5Url;
                 content = java.net.URLEncoder.encode(content,"utf-8");
                 String parameterData = "subject=商户开通激活&consignee_address="
