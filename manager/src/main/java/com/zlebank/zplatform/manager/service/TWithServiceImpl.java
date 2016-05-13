@@ -31,6 +31,7 @@ import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.BusinessServiec;
+import com.zlebank.zplatform.acc.service.entry.EntryEvent;
 import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.CardBin;
 import com.zlebank.zplatform.commons.bean.PagedResult;
@@ -237,7 +238,7 @@ public class TWithServiceImpl
                 tradeInfo.setCommission(new BigDecimal(0));
                 tradeInfo.setCharge(fee);
                 // 查看余额
-                accEntyr.accEntryProcess(tradeInfo);
+                accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_APPLY);
                 tw.saveA(txnsw);
                 falg = true;
                 messg.put("messg", "操作成功");
@@ -592,7 +593,7 @@ public class TWithServiceImpl
         tradeInfo.setPayordno(txns.getWithdraworderno());
         tradeInfo.setCommission(new BigDecimal(0));
         tradeInfo.setCharge(new BigDecimal(txns.getFee()));
-        accEntyr.accEntryProcess(tradeInfo);
+        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
         
         
     }

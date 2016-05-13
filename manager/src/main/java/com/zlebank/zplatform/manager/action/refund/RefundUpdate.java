@@ -1,9 +1,6 @@
 package com.zlebank.zplatform.manager.action.refund;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,6 +10,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.service.AccEntryService;
+import com.zlebank.zplatform.acc.service.entry.EntryEvent;
 import com.zlebank.zplatform.trade.bean.UpdateData;
 import com.zlebank.zplatform.trade.bean.enums.InsteadPayDetailStatusEnum;
 import com.zlebank.zplatform.trade.bean.enums.TransferBusiTypeEnum;
@@ -45,14 +43,11 @@ public class RefundUpdate
 
     @Override
     public void update(UpdateData data) {
-        String code = data.getTxnSeqNo();
-        String resultCode = data.getResultCode();
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<UpdateSubject> observerList = ObserverListService.getInstance()
+        /*List<UpdateSubject> observerList = ObserverListService.getInstance()
                 .getObserverList();
         for (UpdateSubject subject : observerList) {
             System.out.println(subject.getBusiCode());
-        }
+        }*/
         PojoInsteadPayDetail detail = insteadPayDetailDAO
                 .getDetailByTxnseqno(data.getTxnSeqNo());
         if (detail == null) {
@@ -82,20 +77,20 @@ public class RefundUpdate
         tradeInfo.setAmount(new BigDecimal(detail.getAmt()));
         tradeInfo.setCharge(new BigDecimal(detail.getTxnfee()));
         tradeInfo.setTxnseqno(detail.getTxnseqno());
-        if ("00".equals(data.getResultCode())) {
-            tradeInfo.setBusiCode("70000002");
-            tradeInfo.setChannelId(data.getChannelCode());
-        } else {
-            tradeInfo.setBusiCode("70000003");
-        }
+        tradeInfo.setBusiCode("70000001");
+        tradeInfo.setChannelId(data.getChannelCode());
         try {
-            accEntryService.accEntryProcess(tradeInfo);
+            if ("00".equals(data.getResultCode())) {
+                accEntryService.accEntryProcess(tradeInfo,
+                        EntryEvent.AUDIT_PASS);
+            } else {
+                accEntryService.accEntryProcess(tradeInfo,
+                        EntryEvent.AUDIT_REJECT);
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-
         // 更新退款状态
-
     }
 
     @Override

@@ -92,7 +92,9 @@ public class RevisionServiceImpl
         revision.setBusitype(txns.getBusitype());
         trad=      this.base(txns);
         revision.setTxnslog(txns);
-        accEntyr.accEntryProcess(trad);
+        //TODO
+        //账户账务改造以后，暂时不支持此功能
+        //accEntyr.accEntryProcess(trad);
         
         UserModel user=new UserModel();
         

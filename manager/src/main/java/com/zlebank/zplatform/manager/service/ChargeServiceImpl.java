@@ -25,6 +25,7 @@ import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
+import com.zlebank.zplatform.acc.service.entry.EntryEvent;
 import com.zlebank.zplatform.commons.service.impl.AbstractBasePageService;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.DateUtil;
@@ -37,8 +38,6 @@ import com.zlebank.zplatform.manager.dao.object.ChargeModel;
 import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IChargeService;
-import com.zlebank.zplatform.manager.service.iface.IParaDicService;
-import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.member.bean.enums.MemberType;
 import com.zlebank.zplatform.member.dao.ParaDicDAO;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
@@ -215,9 +214,6 @@ public class ChargeServiceImpl
         tradeInfo.setTxnseqno(charge.getChargeno());
         tradeInfo.setCommission(new BigDecimal(0));
         tradeInfo.setCharge(new BigDecimal(0));
-        accEntyr.accEntryProcess(tradeInfo);
-
+        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_PASS);
     }
-    
-
 }

@@ -25,6 +25,7 @@ import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
+import com.zlebank.zplatform.acc.service.entry.EntryEvent;
 import com.zlebank.zplatform.commons.dao.CardBinDao;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
@@ -131,7 +132,7 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
         //tradeInfo.setTxnseqno(pojoinstead.getOrderId());
         tradeInfo.setCommission(new BigDecimal(0));
         tradeInfo.setCharge(new BigDecimal(pojoinstead.getTxnfee()));
-        accEntyr.accEntryProcess(tradeInfo);
+        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
 
     }
 

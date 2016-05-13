@@ -172,7 +172,7 @@ public class EntryRuleAction extends BaseAction{
             try {
                 sr.setCrdr(CRDRType.fromValue(sr.getCrdrType()));
                 sr.setStatus(RuleStatusType.fromValue(sr.getActionStatus()));
-                sr.setFlag(!sr.getFlag().equals("99")?sr.getFlag():sr.getFlags());
+                sr.setAcctCode(!sr.getAcctCode().equals("99")?sr.getAcctCode():sr.getAcctCode());
              Long ruleId=   srs.addSubjectRule(sr,getCurrentUser().getUserId());
              if(ruleId!=null){
                  messg="true";
