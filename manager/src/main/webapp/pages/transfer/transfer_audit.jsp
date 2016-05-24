@@ -281,7 +281,10 @@ table tr td select {
 								formatter:function(value,rec){
 										return value/100.00;
 							}},
-							{field : 'tranFee',title : '手续费(元)',width : 90,align : 'center'},
+							{field : 'tranFee',title : '手续费(元)',width : 90,align : 'center',
+								formatter:function(value,rec){
+									return value/100.00;
+							}},
 							{field : 'applyTime',title : '创建时间',width : 120,align : 'center'},
 							{field : 'approveTime',title : '通过时间',width : 120,align : 'center'},
 							{field : 'status',title : '状态',width : 120,align : 'center',

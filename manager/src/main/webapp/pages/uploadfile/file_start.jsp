@@ -20,10 +20,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</td>
 							<td colspan="1">
 								<select id="instiid_ins" class="easyui-validatebox"  name="instiid" >
-								  <option value=''>请选择</option>
+								  <!--  <option value=''>请选择</option>
 						          <option value='96000001'>融宝快捷支付</option>
 						          <option value='98000001'>证联支付</option>
-						          <option value='97000001'>中信网银</option>
+						          <option value='97000001'>中信网银</option>-->
 					        	</select>
 							</td>
 							<td align="center" colspan="2" id="uploadbutton">
@@ -58,7 +58,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$(function(){
 	  	  $('#startDate,#endDate').datebox({   
 	      }); 
+	  	queryChannel();
 	}); 	  
+	
+	
+	function queryChannel() {
+		$.ajax({
+			type : "POST",
+			url : "pages/merchant/queryChannelUploadAction.action",
+			data : "",
+			dataType : "json",
+			success : function(json) {
+				var dataArray = eval(json);
+				var html = "<option value=''>请选择</option>"
+				for ( var i in dataArray) {
+					//TODO
+					for (j = 0; j < dataArray[i].length; j++) {
+						html += "<option value='"+dataArray[i][j].chnlCode+"'>"
+								+ dataArray[i][j].chnlName + "</option>"
+						$("#instiid_ins").html(html)
+					}
+				}
+
+			}
+		});
+	}
+	
 	$(function(){
 		$('#test').datagrid({
 			title:'任务列表',

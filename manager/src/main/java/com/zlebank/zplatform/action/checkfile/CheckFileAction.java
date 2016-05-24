@@ -49,21 +49,20 @@ public class CheckFileAction extends BaseAction {
     public void setCfq(CheckFileQuery cfq) {
         this.cfq = cfq;
     }
-    
-    
-    public String getCheckFile(){
-        return this.SUCCESS;
+
+    public String getCheckFile() {
+        return SUCCESS;
     }
-    
-    public void getCheckFileByQuery(){
+
+    public void getCheckFileByQuery() {
         int page = this.getPage();
         int pageSize = this.getRows();
         Map<String, Object> map = new HashMap<String, Object>();
-        PagedResult<CheckFileBean> cfb=     cfs.queryPaged(page, pageSize, cfq);
-        
+        PagedResult<CheckFileBean> cfb = cfs.queryPaged(page, pageSize, cfq);
+
         try {
-            List<CheckFileBean> li=cfb.getPagedResult();
-            Long count=cfb.getTotal();
+            List<CheckFileBean> li = cfb.getPagedResult();
+            Long count = cfb.getTotal();
             map.put("total", count);
             map.put("rows", li);
             json_encode(map);
@@ -71,9 +70,5 @@ public class CheckFileAction extends BaseAction {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        
     }
-    
-
 }

@@ -32,6 +32,7 @@ public class StatDAOImpl implements IStatDAO {
     }
 
     @SuppressWarnings("unchecked")
+    @Transactional
     public List<TradeStatModel> queryTradeStat(String beginTime,
             String endTime,
             String payInstCode,

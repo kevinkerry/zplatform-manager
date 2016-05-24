@@ -431,8 +431,7 @@
 			    	var json = eval('(' + data + ')')
 			 	if(json.messg==null){
 			    	if(json.txns.withdrawtype==0){
-			    		
-			    	
+									    	
 			    	}else{
 			
 			    	$("#member").toggle();//隐藏  
@@ -511,7 +510,6 @@
 	    	$("#"+idb).toggle();//显示
 			}else{
 				$.messager.alert("提示","请输入合法金额")
-				
 			}
 		}
 		function money(){

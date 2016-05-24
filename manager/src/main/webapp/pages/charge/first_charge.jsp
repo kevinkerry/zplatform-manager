@@ -260,6 +260,9 @@ table tr td select {
 
 		$('#firstTrial').form('submit', {
 			onSubmit : function() {
+				if($('#tamount').val().length>10){
+					$.messager.alert('提示', '超过最大金额');
+				}
 				if ($('#firstTrial').form('validate')) {
 					$('#btn_submit').linkbutton('disable');
 					return true;
@@ -276,7 +279,6 @@ table tr td select {
 					$.messager.alert('提示', json.messg);
 					$("#btn_submit").linkbutton('enable');
 				}
-
 			}
 		});
 	}

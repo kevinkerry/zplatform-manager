@@ -104,7 +104,8 @@ table tr td select {
 			columns : [ [
 					{field : 'ck',checkbox : true},
 					{field : 'id',hidden:true},
-					{field : 'insteadPayBatchSeqNo',title : '代付批次号',width : 120,align : 'center'},
+					{field : 'insteadPayBatchSeqNo',title : '代付批次号',width : 150,align : 'center'},
+					{field : 'batchNo',title : '商户批次号',width : 120,align : 'center'},
 					{field : 'type',title : '代付类型',width : 70,align : 'center',
 						formatter : function(value, rec) {
 										if (value == '01') {
@@ -184,8 +185,6 @@ table tr td select {
 						
 					}
 				}
-			
-			
 			}, 
 			{
 				id : 'unapproved',
@@ -231,6 +230,7 @@ table tr td select {
 								checkbox : true
 							},
 							{field : 'id',hidden:true},
+							{field : 'orderId',title : '商户订单号',width : 150,align : 'center'},
 							{field : 'batchId',hidden:true},
 							{
 								field : 'insteadPayDataSeqNo',

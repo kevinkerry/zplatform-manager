@@ -16,31 +16,26 @@ public class ChannelFileService implements IChannelFileService {
 
     @Override
     public ChannelFileMode getLikeInstiid(String fileName) {
-        String queryString = "from ChannelFileMode c where c.fileName like '%"+ fileName+"%' and c.status=01";
-        List<ChannelFileMode> list = iChannelFileDao.queryBySQL(queryString);
+        String queryString = "from ChannelFileMode c where c.fileName like '%"
+                + fileName + "%' and c.status=01";
+        List<ChannelFileMode> list = iChannelFileDao.queryByHQL(queryString);
 
-        if(list.size()>0){
+        if (list.size() > 0) {
             return list.get(0);
         }
         return null;
     }
-    
+
     @Override
     public List<ChannelFileMode> getAllStatusChannel() {
         String queryString = "from ChannelFileMode c where  c.status=00";
-        List<ChannelFileMode> list = iChannelFileDao.queryBySQL(queryString);
+        List<ChannelFileMode> list = iChannelFileDao.queryByHQL(queryString);
         return list;
     }
 
     @Override
-    public Boolean booChanCodeAndFileName(String uploadFileName,String instiid) {
-        String queryString = "from ChannelFileMode c where c.fileName like '%"+ uploadFileName+"%' and c.chnlCode like '%"+instiid.substring(0,6)+"%'";
-        List<ChannelFileMode> list = iChannelFileDao.queryBySQL(queryString);
-        if(list.size()>0){
-            return true;
-        }
-        return false;
+    public Boolean booChanCodeAndFileName(String uploadFileName, String instiId) { 
+        return iChannelFileDao.isInsitFileHandlerExist(uploadFileName, instiId);
     }
-    
 
 }

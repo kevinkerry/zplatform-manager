@@ -102,7 +102,7 @@
 				<!-- <prop key="hibernate.hbm2ddl.auto">validate</prop> -->
 
 				<prop key="hibernate.autoReconnect">true</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<!-- <propery name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property> -->
 
@@ -135,7 +135,7 @@
 	 
 	 <!-- 数据源配置begin -->
 		<!-- 非jndi,单元测用 -->
-		<!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 			destroy-method="close">
 			<property name="driverClass" value="oracle.jdbc.OracleDriver" />
 			<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.101.178:1521:primary" />
@@ -145,13 +145,13 @@
 			<property name="minPoolSize" value="1" />
 			<property name="initialPoolSize" value="1" />
 			<property name="maxIdleTime" value="20" />
-		</bean>-->
+		</bean>
 		<!-- jndi,数据源配置与web容器耦合-->
-		   <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		  <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 			<property name="jndiName">
 				<value>java:comp/env/jdbc/manager</value>
 			</property>
-		</bean>
+		</bean>-->
 	<!-- 数据源配置end -->
 	
 	<!-- 定时任务配置begin -->
