@@ -102,7 +102,7 @@ public class TrialWithdraAction extends BaseAction {
     }
 
     public String getFirstTrial() {
-        return this.SUCCESS;
+        return SUCCESS;
     }
     /**
      * 提现初审

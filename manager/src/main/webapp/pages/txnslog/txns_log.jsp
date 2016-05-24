@@ -292,9 +292,9 @@
 					   $("#tapptype").html(json.APPTYPE);
 					   $("#tbusitype").html(json.BUSITYPE);
 					   $("#tbusicode").html(json.BUSINAME);
-					   $("#tamount").html(json.AMOUNT);
-					   $("#ttradcomm").html(json.TRADCOMM);
-					   $("#ttxnfee").html(json.TXNFEE);
+					   $("#tamount").html(fen2Yuan(json.AMOUNT));
+					   $("#ttradcomm").html(fen2Yuan(json.TRADCOMM));
+					   $("#ttxnfee").html(fen2Yuan(json.TXNFEE));
 					   $("#triskver").html(json.RISKNAME);
 					   $("#tsplitver").html(json.SPLITVER);
 					   $("#tfeever").html(json.FEENAME);
@@ -346,10 +346,11 @@
 					   }
 				 	}
 				});
-			
-			
-			
 		}
-					
+		
+		function fen2Yuan( num ) {
+		       if ( typeof num !== "number" || isNaN( num ) ) return null;
+		       return ( num / 100 ).toFixed( 2 );
+		  }
 	</script>
 </html>

@@ -93,7 +93,6 @@
 				<value>com.zlebank.zplatform.scan</value>
 			</list>
 		</property>
-
 		<property name="mappingResources">
 			<list><value>hbm/stat.hbm.xml</value></list>
 		</property>
@@ -136,7 +135,7 @@
 	 
 	 <!-- 数据源配置begin -->
 		<!-- 非jndi,单元测用 -->
-		<!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 			destroy-method="close">
 			<property name="driverClass" value="oracle.jdbc.OracleDriver" />
 			<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.101.178:1521:primary" />
@@ -146,13 +145,13 @@
 			<property name="minPoolSize" value="1" />
 			<property name="initialPoolSize" value="1" />
 			<property name="maxIdleTime" value="20" />
-		</bean>-->
+		</bean>
 		<!-- jndi,数据源配置与web容器耦合-->
-		   <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		  <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 			<property name="jndiName">
 				<value>java:comp/env/jdbc/manager</value>
 			</property>
-		</bean>
+		</bean>-->
 	<!-- 数据源配置end -->
 	
 	<!-- 定时任务配置begin -->
@@ -162,7 +161,6 @@
 			<list> 
 				 <ref bean="mailproxyTrigger" /> 
 				 <ref bean="createFilesimpleTrigger" />
-				 <ref bean="createIPFilesimpleTrigger" />
 			</list>
 		</property>
 	</bean>
@@ -192,9 +190,8 @@
 	
 	<!-- 邮件发送任务end -->
 	
+	<!-- 生成商户对账文件任务begin -->
 	
-	
-	<!-- 生成商清算明细户对账文件任务begin -->
 	<!-- 生成商户对账文件任务触发器,生产上每日凌晨2点 -->
 	<bean id="createFilesimpleTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
@@ -202,6 +199,8 @@
 		<!-- 启动延迟10秒 -->
 		<property name="startDelay" value="0" />
 		<property name="cronExpression" value="0 0 2 * * ?" />
+		
+		
 	</bean>
 	<!-- 生成商户对账文件任务触发器,测试环境每X秒 -->
 	<!-- 
@@ -214,30 +213,14 @@
 	 -->
 	<bean id="cerateFilejobDetail"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="createMemberFileJob" />
+		<property name="targetObject" ref="reateMemberFileJob" />
 		<property name="targetMethod" value="execute" />
+		<!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将会被推迟。 -->
 		<property name="concurrent" value="false" />
 	</bean>
-	<bean id="createMemberFileJob" class="com.zlebank.zplatform.manager.job.CreateMemberFileJob" /> 
-	<!-- 生成商户清算明细对账文件任务end-->
+	<!-- 注册生成商户文件Job -->
+	<bean id="reateMemberFileJob" class="com.zlebank.zplatform.manager.job.CreateMemberFileJob" /> 
+	<!-- 定时任务配置end -->
 	
-	
-	
-	<!-- 生成商户代付对账文件任务begin -->
-	<!-- 生成商户代付对账文件任务触发器,生产上每日凌晨2点零一分 -->
-	<bean id="createIPFilesimpleTrigger"
-		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="cerateMerIPFilejobDetail" />
-		<!-- 启动延迟10秒 -->
-		<property name="startDelay" value="0" />
-		<property name="cronExpression" value="0 1 2 * * ?" />
-	</bean>
-	<bean id="cerateMerIPFilejobDetail"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="createMerIPFileJob" />
-		<property name="targetMethod" value="execute" />
-		<property name="concurrent" value="false" />
-	</bean>
-	<bean id="createMerIPFileJob" class="com.zlebank.zplatform.manager.job.CreateMerchantInsteadSDFileJob" /> 
-	<!-- 生成商户代付对账文件任务end-->
+	<!-- 生成商户对账文件任务end-->
 </beans>

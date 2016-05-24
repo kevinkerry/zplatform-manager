@@ -10,7 +10,6 @@
  */
 package com.zlebank.zplatform.manager.exception;
 
-import java.util.ResourceBundle;
 
 /**
  * Class Description
@@ -48,15 +47,4 @@ public class ManagerWithdrawException extends AbstractManagerException{
     public String getCode() {
         return code;
     }
-
-	/**
-	 *
-	 * @return
-	 */
-	@Override
-	public ResourceBundle getResourceBundle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

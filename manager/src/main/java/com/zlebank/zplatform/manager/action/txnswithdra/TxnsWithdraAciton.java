@@ -34,26 +34,23 @@ import com.zlebank.zplatform.manager.service.iface.ITWithService;
  * @author yangpeng
  * @version
  * @date 2015年11月20日 上午11:43:36
- * @since 
+ * @since
  */
-public class TxnsWithdraAciton extends BaseAction{
-    
+public class TxnsWithdraAciton extends BaseAction {
+
     @Autowired
     private ITWithService itws;
-   
-    
+
     private TxnsWithdrawBean twb;
-    
+
     private TxnsWithdrawQuery twq;
-   
+
     private QueryAccount qa;
 
     private String usage;
-    
+
     private TxnsLog txns;
-    
-    
-    
+
     public TxnsLog getTxns() {
         return txns;
     }
@@ -69,8 +66,6 @@ public class TxnsWithdraAciton extends BaseAction{
     public void setQa(QueryAccount qa) {
         this.qa = qa;
     }
-
-   
 
     public String getUsage() {
         return usage;
@@ -100,80 +95,72 @@ public class TxnsWithdraAciton extends BaseAction{
      * serialVersionUID
      */
     private static final long serialVersionUID = 1L;
-    
-    
-   public String  getTxnsWinhdr(){
-       return this.SUCCESS;
-   } 
-    
-   public void queryTxnsWinhdr(){
-       int page=  this.getPage();
-       int pageSize= this.getRows();
-       Map<String, Object> map = new HashMap<String, Object>();
-       PagedResult<TxnsWithdrawBean>   pr= itws.queryPaged(page, pageSize, twq);
-       try {
-           
-        List<TxnsWithdrawBean> li=pr.getPagedResult();
-        for(TxnsWithdrawBean txnsw:li){
-          txnsw.setAmount(String.valueOf(Long.parseLong(txnsw.getAmount())/100.0));
+
+    public String getTxnsWinhdr() {
+        return SUCCESS;
+    }
+
+    public void queryTxnsWinhdr() {
+        int page = this.getPage();
+        int pageSize = this.getRows();
+        Map<String, Object> map = new HashMap<String, Object>();
+        PagedResult<TxnsWithdrawBean> pr = itws.queryPaged(page, pageSize, twq);
+        try {
+
+            List<TxnsWithdrawBean> li = pr.getPagedResult();
+            for (TxnsWithdrawBean txnsw : li) {
+                txnsw.setAmount(String.valueOf(Long.parseLong(txnsw.getAmount()) / 100.0));
+            }
+            Long total = pr.getTotal();
+            map.put("total", total);
+            map.put("rows", li);
+            json_encode(map);
+        } catch (IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        Long total = pr.getTotal();
-        map.put("total", total);
-        map.put("rows", li);
+    }
+
+    /**
+     * 通过member得到商户或者个人信息
+     */
+    public void queryMemberByMid() {
+        Map<String, Object> map;
+        if (qa == null || StringUtil.isEmpty(qa.getMemberId())
+                || StringUtil.isEmpty(qa.getUsage())) {
+            map = new HashMap<String, Object>();
+            map.put("messg", "请输入正确的参数");
+        } else {
+            map = itws.getTxnsWinth(qa);
+        }
         json_encode(map);
-       } catch (IllegalAccessException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
     }
-       
-   }
-   
-   /**
-    * 通过member得到商户或者个人信息
-    */
-   public void queryMemberByMid(){
-       Map<String, Object> map;
-      if(qa==null||StringUtil.isEmpty(qa.getMemberId())||StringUtil.isEmpty(qa.getUsage())){
-          map=new HashMap<String, Object>();
-          map.put("messg", "请输入正确的参数");
-       }else{
-         map=itws.getTxnsWinth(qa);
-       }
-      json_encode(map);
-      
-   }
-   
-   
-  public void saveTxnsWinhdr(){
-   Map<String, Object>   map=itws.saveTxnsWinhdraw(qa,twb,  getCurrentUser().getUserId());
-   json_encode(map);  
-  }
-   
-  /**
-   * 提现手续费
-   * @param txns
-   */
-  public void getTxnFee(){
-      Map<String, Object> map=new HashMap<String, Object>();
 
-    Long txnsfee;
-    try {
-        txnsfee = itws.getTxnFee(txns);
-     String money=  Money.valueOf(new BigDecimal(txnsfee)).toYuan();
-        map.put("fee", money);
-        json_encode(map); 
-    } catch (ManagerWithdrawException e) {
-      String messg=e.getMessage();
-      map.put("messg", messg);
-      json_encode(map); 
-              }
+    public void saveTxnsWinhdr() {
+        Map<String, Object> map = itws.saveTxnsWinhdraw(qa, twb,
+                getCurrentUser().getUserId());
+        json_encode(map);
+    }
+
+    /**
+     * 提现手续费
+     * 
+     * @param txns
+     */
+    public void getTxnFee() {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        Long txnsfee;
+        try {
+            txnsfee = itws.getTxnFee(txns);
+            String money = Money.valueOf(new BigDecimal(txnsfee)).toYuan();
+            map.put("fee", money);
+            json_encode(map);
+        } catch (ManagerWithdrawException e) {
+            String messg = e.getMessage();
+            map.put("messg", messg);
+            json_encode(map);
+        }
 
     }
-  
-  
-  
 }
-   
-     
-   
-

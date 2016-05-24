@@ -7,5 +7,6 @@ import com.zlebank.zplatform.manager.dao.object.scan.ChannelFileMode;
 
 public interface IChannelFileDao  extends BaseDAO<ChannelFileMode>{
 
-    public List<ChannelFileMode> queryBySQL(String queryString) ;
+    public List<ChannelFileMode> queryByHQL(String queryString) ;
+    public boolean isInsitFileHandlerExist(String uploadFileName, String instiId);
 }

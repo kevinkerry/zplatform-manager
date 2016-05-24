@@ -67,6 +67,7 @@ table tr td select {
 			collapsible:true,
 			columns : [ [
 					{field : 'id',hidden:true},
+					
 					{field : 'insteadPayBatchSeqNo',title : '代付批次号',width : 150,align : 'center'},
 					{field : 'type',title : '代付类型',width : 70,align : 'center',
 						formatter : function(value, rec) {
@@ -78,13 +79,25 @@ table tr td select {
 						} 
 					},
 					{field : 'totalQty',title : '总笔数',width : 70,align : 'center'},
-					{field : 'totalAmt',title : '总金额（元）',width : 70,align : 'center'},
+					{field : 'totalAmt',title : '总金额（元）',width : 70,align : 'center',
+						formatter : function(value, rec) {
+							return fen2Yuan(value);
+						}},
 					{field : 'approveCount',title : '审核通过<br/>笔数',width : 70,align : 'center'},
-					{field : 'approveAmt',title : '审核通过<br/>金额（元）',width : 60,align : 'center'},
+					{field : 'approveAmt',title : '审核通过<br/>金额（元）',width : 60,align : 'center',
+						formatter : function(value, rec) {
+							return fen2Yuan(value);
+						}},
 					{field : 'refuseCount',title : '审核拒绝<br/>笔数',width : 60,align : 'center'},
-					{field : 'refuseAmt',title : '审核拒绝<br/>金额（元）',width : 60,align : 'center'},
+					{field : 'refuseAmt',title : '审核拒绝<br/>金额（元）',width : 60,align : 'center',
+						formatter : function(value, rec) {
+							return fen2Yuan(value);
+						}},
 					{field : 'unapproveCount',title : '未审核<br/>笔数',width : 70,align : 'center'},
-					{field : 'unapproveAmt',title : '未审核<br/>金额（元）',width : 70,align : 'center'},
+					{field : 'unapproveAmt',title : '未审核<br/>金额（元）',width : 70,align : 'center',
+						formatter : function(value, rec) {
+							return fen2Yuan(value);
+						}},
 					{field : 'status',title : '状态',width : 120,align : 'center',
 						formatter : function(value, rec) {
 										if (value == '01') {
@@ -161,7 +174,10 @@ table tr td select {
 			   			field: 'totalAmt',
 			   			title: '总金额（元）',
 			   			width: 90,
-			   			align: 'center'
+			   			align: 'center',
+						formatter : function(value, rec) {
+							return fen2Yuan(value);
+						}
 			   		},
 			   		{
 			   			field: 'approveCount',
@@ -173,7 +189,10 @@ table tr td select {
 			   			field: 'approveAmt',
 			   			title: '通过金额（元）',
 			   			width: 90,
-			   			align: 'center'
+			   			align: 'center',
+						formatter : function(value, rec) {
+							return fen2Yuan(value);
+						}
 			   		},
 			   		{
 			   			field: 'unapproveCount',
@@ -185,7 +204,10 @@ table tr td select {
 			   			field: 'unapproveAmt',
 			   			title: '拒绝金额（元）',
 			   			width: 90,
-			   			align: 'center'
+			   			align: 'center',
+						formatter : function(value, rec) {
+							return fen2Yuan(value);
+						}
 			   		},
 			   		{
 			   			field: 'waitApproveCount',
@@ -197,7 +219,10 @@ table tr td select {
 			   			field: 'waitApproveAmt',
 			   			title: '待审金额（元）',
 			   			width: 90,
-			   			align: 'center'
+			   			align: 'center',
+						formatter : function(value, rec) {
+							return fen2Yuan(value);
+						}
 			   		},
 			   		{
 			   			field: 'busitype',
@@ -273,7 +298,6 @@ table tr td select {
 	}
 	
 	function search() {
-		alert($("#beginDate").datebox("getValue"));
 		var data = {
 			"insteadPayBatchQuery.batchNo": $('#batchno').val(),
 			"insteadPayBatchQuery.beginDate": $("#beginDate").datebox("getValue"),
@@ -281,5 +305,10 @@ table tr td select {
 		}
 		$('#insteadBatchPanel').datagrid('load', data);
 	}
+	
+	function fen2Yuan( num ) {
+	       if ( typeof num !== "number" || isNaN( num ) ) return null;
+	       return ( num / 100 ).toFixed( 2 );
+	  }
 </script>
 </html>

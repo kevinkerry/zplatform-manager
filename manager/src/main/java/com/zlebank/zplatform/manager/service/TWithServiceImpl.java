@@ -251,12 +251,12 @@ public class TWithServiceImpl
                 messg.put("messg", e.getMessage());
             } catch (NumberFormatException e) {
                 messg.put("messg", e.getMessage());
+            }catch (Exception e) {
+                messg.put("messg", e.getMessage());
             }
-
         }
         messg.put("falg", falg);
         return messg;
-
     }
 
     /**
@@ -327,7 +327,7 @@ public class TWithServiceImpl
         }
         // 个人账户+银行卡信息
         if (MemberType.INDIVIDUAL == pm.getMemberType()) {
-
+            map.put("messg", "个人会员不允许后台提现");
         }
         // 商户账户+银行卡信息
         else if (MemberType.ENTERPRISE == pm.getMemberType()) {
@@ -586,16 +586,17 @@ public class TWithServiceImpl
         // 调用分录规则
         TradeInfo tradeInfo = new TradeInfo();
         tradeInfo.setAmount(txns.getAmount() == null ? new BigDecimal(0) : new BigDecimal(txns.getAmount()));
-        tradeInfo.setBusiCode(WithdrawalsBusCodeEnum.REFUSE.getCode());
+        tradeInfo.setBusiCode(WithdrawalsBusCodeEnum.APPLY.getCode());
         tradeInfo.setPayMemberId(txns.getMemberid());
-        tradeInfo.setPayToMemberId(PAYTOMEMBERID);
         tradeInfo.setTxnseqno(txns.getTexnseqno());
         tradeInfo.setPayordno(txns.getWithdraworderno());
         tradeInfo.setCommission(new BigDecimal(0));
         tradeInfo.setCharge(new BigDecimal(txns.getFee()));
+        PojoMember memebr =members.getMbmberByMemberId(txns.getMemberid(), null);
+        PojoCoopInsti coopInsti = coopInstiDao.get(memebr.getInstiId());
+        
+        tradeInfo.setCoopInstCode(coopInsti.getInstiCode());
         accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
-        
-        
     }
 
     /**

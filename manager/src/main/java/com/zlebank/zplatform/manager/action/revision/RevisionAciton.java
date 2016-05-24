@@ -49,39 +49,21 @@ public class RevisionAciton extends BaseAction{
         return txnsLogNo;
     }
 
-
-
-
-
     public void setTxnsLogNo(String txnsLogNo) {
         this.txnsLogNo = txnsLogNo;
     }
-
-
-
-
 
     public RevisionQuery getRq() {
         return rq;
     }
 
-
-
-
-
     public void setRq(RevisionQuery rq) {
         this.rq = rq;
     }
 
-
-
-
-
     public String getRevision(){
-       return this.SUCCESS;
+       return SUCCESS;
     }
-    
-    
     
     public void queryRevision(){
         int page = this.getPage();
@@ -100,7 +82,6 @@ public class RevisionAciton extends BaseAction{
         }
         
     }
-    
     
     public void saveRevision(){
         String messg="";
@@ -124,14 +105,5 @@ public class RevisionAciton extends BaseAction{
         map.put("falg", isok);
         map.put("messg", messg);
         json_encode(map);
-        
     }
-    
-    
-    
-    
-    
-    
-    
-
 }
