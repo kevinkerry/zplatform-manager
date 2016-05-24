@@ -83,14 +83,17 @@
 				<value>com.zlebank.zplatform.manager.dao.object.PojoMerchDeta</value>
 				<value>com.zlebank.zplatform.manager.dao.object.PojoMember</value>
 				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDeta</value>
+				<value>com.zlebank.zplatform.acc.pojo.PojoTradeEntryEventMapping</value>
 				</list>
 		</property>
 		<property name="packagesToScan">
 			<list>
 				<value>com.zlebank.zplatform.trade.model</value>
 				<value>com.zlebank.zplatform.manager.dao.object.scan</value>
+				<value>com.zlebank.zplatform.scan</value>
 			</list>
 		</property>
+
 		<property name="mappingResources">
 			<list><value>hbm/stat.hbm.xml</value></list>
 		</property>

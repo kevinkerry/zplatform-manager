@@ -1,6 +1,5 @@
 package com.zlebank.zplatform.manager.action.refund;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,15 +11,20 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.alibaba.fastjson.JSON;
+import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.PojoTxnsLog;
 import com.zlebank.zplatform.manager.service.iface.ITxnsLoService;
-import com.zlebank.zplatform.trade.bean.enums.InsteadPayDetailStatusEnum;
-import com.zlebank.zplatform.trade.bean.enums.TransferBusiTypeEnum;
-import com.zlebank.zplatform.trade.exception.RecordsAlreadyExistsException;
-import com.zlebank.zplatform.trade.model.PojoTranData;
+import com.zlebank.zplatform.trade.bean.ResultBean;
+import com.zlebank.zplatform.trade.bean.wap.WapRefundBean;
+import com.zlebank.zplatform.trade.exception.TradeException;
+import com.zlebank.zplatform.trade.model.TxnsLogModel;
 import com.zlebank.zplatform.trade.model.TxnsRefundModel;
+import com.zlebank.zplatform.trade.service.IGateWayService;
+import com.zlebank.zplatform.trade.service.ITxnsLogService;
 import com.zlebank.zplatform.trade.service.ITxnsRefundService;
+import com.zlebank.zplatform.trade.service.RefundService;
 import com.zlebank.zplatform.trade.service.TransferDataService;
 import com.zlebank.zplatform.trade.service.impl.UpdateInsteadServiceImpl;
 import com.zlebank.zplatform.trade.utils.OrderNumber;
@@ -46,6 +50,12 @@ public class RefundAuditAction extends BaseAction {
     private ITxnsRefundService iTxnsRefundService;
     @Autowired
     private TransferDataService transferDataService;
+    @Autowired
+    private RefundService refundService;
+    @Autowired 
+    private IGateWayService gateWayService;
+    @Autowired
+    private ITxnsLogService txnsLogService;
     // 退款申请界面
     public String show() {
         return SUCCESS;
@@ -78,15 +88,32 @@ public class RefundAuditAction extends BaseAction {
         String[] array = pojoTxnsLog.getTxnseqno().split("\\|");
         Map<String, Object> map = new HashMap<String, Object>();
         for (String itxnsCode : array) {
-            System.out.println(iTxnsRefundService.getRefundByRefundorderNo(
-                    itxnsCode, getCurrentUser().getUserId().toString()));
-            if (iTxnsRefundService.getRefundByOldTxnSeqno(itxnsCode,
-                    getCurrentUser().getUserId().toString()) != null) {
+        	TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(itxnsCode);
+        	TxnsRefundModel refund = iTxnsRefundService.getRefundByOldTxnSeqno(itxnsCode,null);
+            if (refund != null) {
                 map.put("messg", "该流水号已经申请退款了");
                 json_encode(map);
                 return null;
             }
-            List<?> li = txnsService.getTxnsLogById(itxnsCode);
+            
+            WapRefundBean refundBean = new WapRefundBean();
+    		refundBean.setOrderId(DateUtil.getCurrentDateTime());
+    		refundBean.setOrigOrderId(txnsLog.getAccordno());
+    		refundBean.setTxnAmt(txnsLog.getAmount()+"");
+    		refundBean.setTxnType("14");
+    		refundBean.setTxnSubType("00");
+    		refundBean.setBizType("000202");
+    		refundBean.setCoopInstiId(txnsLog.getAccfirmerno());
+    		refundBean.setMerId(txnsLog.getAccsecmerno());
+    		refundBean.setMemberId(txnsLog.getAccmemberid());
+            try {
+				gateWayService.refund(JSON.toJSONString(refundBean));
+			} catch (TradeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				map.put("messg", "申请退款退款成功");
+			}
+            /*List<?> li = txnsService.getTxnsLogById(itxnsCode);
             JSONArray jsonArray = JSONArray.fromObject(li);
             JSONObject job = jsonArray.getJSONObject(0);
             TxnsRefundModel ixn = new TxnsRefundModel();
@@ -95,12 +122,13 @@ public class RefundAuditAction extends BaseAction {
             ixn.setMemberid(job.get("ACCMEMBERID").toString());
             ixn.setOldorderno(job.get("ACCORDNO").toString());
             ixn.setOldtxnseqno(job.get("TXNSEQNO").toString());
-            ixn.setMerchno(getCurrentUser().getUserId().toString());
+            ixn.setMerchno(job.get("ACCFIRMERNO").toString());
+            ixn.setSubmerchno(job.get("ACCSECMERNO").toString());
             ixn.setAmount(Long.parseLong(job.get("AMOUNT").toString()));
             ixn.setOldamount(Long.parseLong(job.get("AMOUNT").toString()));
             ixn.setStatus("01");
             ixn.setReltxnseqno(itxnsCode);
-            iTxnsRefundService.saveRefundOrder(ixn);
+            iTxnsRefundService.saveRefundOrder(ixn);*/
         }
         System.out.println(pojoTxnsLog.getTxnseqno());
         map.put("messg", "申请退款退款成功");
@@ -141,10 +169,29 @@ public class RefundAuditAction extends BaseAction {
         txnsRefundModel.setStatus(status);
         txnsRefundModel.setStexaopt(txnxRefund.getStexaopt());
         iTxnsRefundService.updateRefund(txnsRefundModel);
+        
+        if(txnxRefund.getFlag().equals("true")){
+        	//退款路由逻辑开始
+            ResultBean resultBean = refundService.execute(txnxRefund.getRefundorderno(), txnsRefundModel.getSubmerchno());
+            log.info(JSON.toJSONString(resultBean));
+            if(resultBean.isResultBool()){
+            	map.put("messg", "退款审核成功");
+                json_encode(map);
+            }else{
+            	txnsRefundModel.setStatus("01");
+            	iTxnsRefundService.updateRefund(txnsRefundModel);
+            	map.put("messg", "退款失败");
+                json_encode(map);
+            }
+           
+        }else{
+        	map.put("messg", "初审未过");
+            json_encode(map);
+        }
+        
 
         // 取到原交易信息
-
-        List<?> li = txnsService.getTxnsLogById(txnsRefundModel
+        /*List<?> li = txnsService.getTxnsLogById(txnsRefundModel
                 .getOldtxnseqno());
         JSONArray jsonArray = JSONArray.fromObject(li);
         JSONObject job = jsonArray.getJSONObject(0);
@@ -169,7 +216,7 @@ public class RefundAuditAction extends BaseAction {
             // PojoTranData tmp = BeanCopyUtil.copyBean(PojoTranData.class,
             // pojoTranData);
             // pojoTranData.setTranAmt(detail.getAmt());
-            // /** "业务流水号" **/
+            // / "业务流水号" /
             pojoTranData.setBusiDataId(Long.parseLong(txnsRefundModel
                     .getRefundorderno()));
             pojoTranData.setMemberId(txnsRefundModel.getMerchno());
@@ -193,7 +240,7 @@ public class RefundAuditAction extends BaseAction {
 
             map.put("messg", "初审未过");
             json_encode(map);
-        }
+        }*/
 
     }
 
