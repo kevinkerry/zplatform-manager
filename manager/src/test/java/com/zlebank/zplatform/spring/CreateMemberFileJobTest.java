@@ -1,6 +1,5 @@
 package com.zlebank.zplatform.spring;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -13,19 +12,16 @@ public class CreateMemberFileJobTest {
 private ApplicationContext context;
     
     @Test
-    @Ignore
     public void test(){
         context = new ClassPathXmlApplicationContext("/spring/*");
-        CreateMemberFileJob reateMemberFileJob =(CreateMemberFileJob) context.getBean("reateMemberFileJob");
+        CreateMemberFileJob createMemberFileJob =(CreateMemberFileJob) context.getBean("createMemberFileJob");
         try {
-            reateMemberFileJob.execute();
+            createMemberFileJob.execute();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     } 
     
-    @Test
     public void testSendEmail(){
         context = new ClassPathXmlApplicationContext("/spring/*");
         SaveMemberQueueJob saveMemberQueueJob =(SaveMemberQueueJob) context.getBean("sendEmailJob");
