@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +60,7 @@ public class TransferServiceImpl
            BaseServiceImpl<PojoTranData, Long>
         implements
             ITransferService {
+	private static final Log log = LogFactory.getLog(TransferServiceImpl.class);
     @Autowired
     private TransferBatchDAO transferBatchDAO;
     @Autowired
@@ -109,7 +112,7 @@ public class TransferServiceImpl
     	for(PojoTranData transferData : transferDataList){
     		UpdateData updateData = new UpdateData();
             updateData.setTxnSeqNo(transferData.getTxnseqno());
-            updateData.setResultCode("09");
+            updateData.setResultCode("02");
             updateData.setResultMessage("审核拒绝");
             updateData.setChannelCode("");
             ObserverListService service  = ObserverListService.getInstance();
@@ -119,6 +122,7 @@ public class TransferServiceImpl
 
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
 	public boolean transferBatchTrial (long batchId, boolean flag,Long userId) {
 		try {
 			
@@ -127,7 +131,7 @@ public class TransferServiceImpl
 			if(flag){
 				transferTrialEnum = TransferTrialEnum.SUCCESSFUL;
 			}else {
-				transferTrialEnum = TransferTrialEnum.REFUSED;
+				transferTrialEnum = TransferTrialEnum.REFUSE;
 			}
 			//获取等待审核的划拨数据，其他状态的不做处理
 			List<PojoTranData> transferDataList = transferBatchDAO.queryWaitTrialTranData(batchId);
@@ -137,8 +141,66 @@ public class TransferServiceImpl
 			long unApproveCount = 0L;
 			long unApproveAmount = 0L;
 			PojoTranBatch transferBatch = transferBatchDAO.getByBatchId(batchId);
-			switch (transferTrialEnum) {
+			
+			if(flag){
+				log.info("划拨审核通过开始");
+				PojoTranData[] pojoTransferDatas = new PojoTranData[transferDataList.size()];
+	    		transferDataList.toArray(pojoTransferDatas);
+	    		//调用分批算法
+	    		batchSpliter.split(pojoTransferDatas);
+	    		//更划拨新批次信息
+	    		for(PojoTranData transferData : transferDataList){
+	    			transferData.setStatus("00");
+	    			transferData.setApproveTime(new Date());
+	    			transferData.setApproveUser(userId);
+	    			if("00".equals(transferData.getStatus())){
+	    				approveCount++;
+	    				approveAmount+=transferData.getTranAmt().longValue();
+	    			}else if("01".equals(transferData.getStatus())){//为待审状态时不做处理
+	    				//unApproveCount++;
+	    				//unApproveAmount+=transferData.getTranAmt().longValue();
+	    			}else{
+	    				unApproveCount++;
+	    				unApproveAmount+=transferData.getTranAmt().longValue();
+	    			}
+	    			transferDataDAO.update(transferData);
+	    		}
+	    		transferBatch.setApproveAmt(transferBatch.getApproveAmt().longValue()+approveAmount);
+	    		transferBatch.setApproveCount(approveCount+transferBatch.getApproveCount());
+	    		transferBatch.setRefuseAmt(transferBatch.getRefuseAmt()+unApproveAmount);
+	    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
+	    		transferBatch.setApproveFinishTime(new Date());
+	    		if(transferBatch.getRefuseCount()>0){
+	    			transferBatch.setStatus("02");
+	    		}else{
+	    			transferBatch.setStatus("03");
+	    		}
+	    		transferDataDAO.updateBatchTransferSingle(transferBatch);
+	    		log.info("划拨审核通过结束");
+			}else{
+				log.info("划拨审核拒绝开始");
+				for(PojoTranData transferData : transferDataList){
+	    			unApproveCount++;
+					unApproveAmount+=transferData.getTranAmt().longValue();
+					transferData.setStatus(transferTrialEnum.getCode());
+					transferData.setApproveUser(userId);
+					transferDataDAO.update(transferData);
+	    		}
+	    		//业务退款
+	    		businessRefund(transferDataList);
+	    		transferBatch.setRefuseAmt(transferBatch.getRefuseAmt()+unApproveAmount);
+	    		transferBatch.setRefuseCount(unApproveCount+transferBatch.getRefuseCount());
+	    		if(transferBatch.getRefuseCount()>0){
+	    			transferBatch.setStatus("02");
+	    		}else{
+	    			transferBatch.setStatus("03");
+	    		}
+	    		transferDataDAO.updateBatchTransferSingle(transferBatch);
+	    		log.info("划拨审核拒绝结束");
+			}
+			/*switch (transferTrialEnum) {
 				case SUCCESSFUL:
+					log.info("划拨审核通过开始");
 					PojoTranData[] pojoTransferDatas = new PojoTranData[transferDataList.size()];
 		    		transferDataList.toArray(pojoTransferDatas);
 		    		//调用分批算法
@@ -171,8 +233,10 @@ public class TransferServiceImpl
 		    			transferBatch.setStatus("03");
 		    		}
 		    		transferDataDAO.updateBatchTransferSingle(transferBatch);
+		    		log.info("划拨审核通过结束");
 					break;
 				case REFUSED:
+					log.info("划拨审核拒绝开始");
 					for(PojoTranData transferData : transferDataList){
 		    			unApproveCount++;
 						unApproveAmount+=transferData.getTranAmt().longValue();
@@ -190,10 +254,11 @@ public class TransferServiceImpl
 		    			transferBatch.setStatus("03");
 		    		}
 		    		transferDataDAO.updateBatchTransferSingle(transferBatch);
+		    		log.info("划拨审核拒绝结束");
 					break;
 				default:
 					break;
-			}
+			}*/
 			
 	    	
 		} catch (Exception e) {

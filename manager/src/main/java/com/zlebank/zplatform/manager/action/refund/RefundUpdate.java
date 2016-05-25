@@ -24,9 +24,9 @@ import com.zlebank.zplatform.trade.service.UpdateSubject;
 import com.zlebank.zplatform.trade.service.impl.UpdateInsteadServiceImpl;
 
 public class RefundUpdate
-        implements
+        /*implements
             UpdateSubject,
-            ApplicationListener<ContextRefreshedEvent> {
+            ApplicationListener<ContextRefreshedEvent>*/ {
     private static final Log log = LogFactory
             .getLog(UpdateInsteadServiceImpl.class);
 
@@ -41,7 +41,7 @@ public class RefundUpdate
     @Autowired
     private ITxnsRefundService iTxnsRefundService;
 
-    @Override
+    /*@Override*/
     public void update(UpdateData data) {
         /*List<UpdateSubject> observerList = ObserverListService.getInstance()
                 .getObserverList();
@@ -93,7 +93,7 @@ public class RefundUpdate
         // 更新退款状态
     }
 
-    @Override
+    /*@Override*/
     public String getBusiCode() {
         return TransferBusiTypeEnum.REFUND.getCode();
     }
@@ -103,8 +103,8 @@ public class RefundUpdate
      * 
      * @param event
      */
-    @Override
+    /*@Override*/
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        ObserverListService.getInstance().add(this);
+        /*ObserverListService.getInstance().add(this);*/
     }
 }

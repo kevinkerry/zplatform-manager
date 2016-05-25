@@ -1,28 +1,13 @@
 package com.zlebank.zplatform.manger.service;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.zlebank.zplatform.manager.service.iface.IBankTransferService;
-import com.zlebank.zplatform.manger.util.RandomArugment;
-import com.zlebank.zplatform.trade.bean.enums.SeqNoEnum;
 import com.zlebank.zplatform.trade.dao.BankTransferChannelDAO;
-import com.zlebank.zplatform.trade.model.PojoBankTransferBatch;
-import com.zlebank.zplatform.trade.model.PojoBankTransferChannel;
-import com.zlebank.zplatform.trade.model.PojoBankTransferData;
-import com.zlebank.zplatform.trade.model.PojoTranBatch;
-import com.zlebank.zplatform.trade.model.PojoTranData;
 import com.zlebank.zplatform.trade.service.SeqNoService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -39,7 +24,7 @@ public class BankTransferTest {
 	private BankTransferChannelDAO bankTransferChannelDAO;
 	
 	
-	public void test(){
+	/*public void test(){
 		System.out.println(seqNoServiceImpl);
 	}
 	@Test
@@ -159,5 +144,5 @@ public class BankTransferTest {
 	public void auditTranBatch() {
 		boolean flag = bankTransferService.bankTransferBatchTrial(bankTranBatchId+"", true,1L);
 		System.out.println(flag);
-    }
+    }*/
 }

@@ -3,6 +3,8 @@ package com.zlebank.zplatform.manager.enums;
 public enum TransferTrialEnum {
 	/**划拨初始**/
     INITIAL("01"),
+    /*审核拒绝*/
+    REFUSE("02"),
     /**划拨中**/
     REFUSED("09"),
     /**成功**/ 

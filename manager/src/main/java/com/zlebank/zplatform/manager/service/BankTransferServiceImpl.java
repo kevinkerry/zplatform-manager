@@ -103,7 +103,7 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 		    			transferService.updateTransferDataToFinish(Long.valueOf(bankTransferData.getTranData().getTid()),"09");
 		    			UpdateData updateData = new UpdateData();
 		                updateData.setTxnSeqNo(bankTransferData.getTranData().getTxnseqno());
-		                updateData.setResultCode("09");
+		                updateData.setResultCode("02");
 		                updateData.setResultMessage("审核拒绝");
 		                ObserverListService.getInstance().notify(updateData, bankTransferData.getTranData().getBusiType());
 		    		}
