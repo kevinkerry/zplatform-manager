@@ -338,7 +338,7 @@ public class InsteadPayAction extends BaseAction {
 			instea.setTotalAmt(str[++y]);
 			instea.setBizType(BIZTYPE);
 			instea.setChannelType(CHANNELTYPE);
-			instea.setAccessType(ACCESSTYPE);
+			/*instea.setAccessType(ACCESSTYPE);*/
 			instea.setTxnType(TXNTYPE);
 			instea.setTxnSubType(TXNSUBTYPE);
 			String messg = HibernateValidatorUtil.validateBeans(instea);

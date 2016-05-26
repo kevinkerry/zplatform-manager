@@ -182,6 +182,10 @@ public class UploadAction extends BaseAction {
         if (uploadFileName[0].split("_").length > 2) {
             channelFileMode = iChannelFileService
                     .getLikeInstiid(uploadFileName[0].split("_")[2]);
+            if(channelFileMode==null){
+            	channelFileMode = iChannelFileService
+                        .getLikeInstiid(uploadFileName[0].split("_")[0]);
+            }
         } else {
             // excel
             channelFileMode = iChannelFileService
