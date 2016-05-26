@@ -87,7 +87,6 @@ public class InsteadPayAction extends BaseAction {
 
 	private static final String BIZTYPE = "000401";
 	private static final String CHANNELTYPE = "00";
-	private static final String ACCESSTYPE = "0";
 	private static final String TXNTYPE = "21";
 	private static final String TXNSUBTYPE = "03";
 
@@ -338,7 +337,6 @@ public class InsteadPayAction extends BaseAction {
 			instea.setTotalAmt(str[++y]);
 			instea.setBizType(BIZTYPE);
 			instea.setChannelType(CHANNELTYPE);
-			instea.setAccessType(ACCESSTYPE);
 			instea.setTxnType(TXNTYPE);
 			instea.setTxnSubType(TXNSUBTYPE);
 			String messg = HibernateValidatorUtil.validateBeans(instea);

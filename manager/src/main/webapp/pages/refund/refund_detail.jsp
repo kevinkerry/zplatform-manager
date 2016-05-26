@@ -42,15 +42,7 @@ table tr td select {
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-
 	</div>
-
-
-
-
-
-
-
 
 	<div id="ws" class="easyui-window" closed="true" title="My Window"
 		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
@@ -123,7 +115,7 @@ table tr td select {
 		$('#test')
 				.datagrid(
 						{
-							title : '会员提现信息表',
+							title : '会员退款信息表',
 							iconCls : 'icon-save',
 							height : 400,
 							singleSelect : true,

@@ -53,10 +53,7 @@
 							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
 							href="javascript:resizeAdd()" class="easyui-linkbutton"
 							iconCls="icon-redo">清空</a></td>
-
-
 					</tr>
-
 				</table>
 			</form>
 		</div>
@@ -68,7 +65,6 @@
 	</div>
 
 	<div id="idAdd" class="easyui-window" closed="true">
-
 		<div style="margin: 5px; border:" id="continer">
 			<div id="p" class="easyui-panel" title="查询条件"
 				style="height: 100px; padding: 10px; background: #fafafa;"
@@ -80,7 +76,6 @@
 							<td align="right">交易流水号</td>
 							<td align="left" style="padding-left: 5px"><input
 								id="code_ins" maxlength="16" /></td>
-
 						</tr>
 						<tr>
 						</tr>
@@ -121,14 +116,13 @@
 				<div region="south" border="false"
 					style="text-align: center; padding: 5px 0;">
 					<a class="easyui-linkbutton" iconCls="icon-ok"
-						href="javascript:batchTrial(true)" id="btn_submit">通过</a> <a
+						href="javascript:batchTrial(true)" id="btn_submit">确认</a> <a
 						class="easyui-linkbutton" iconCls="icon-cancel"
-						href="javascript:batchTrial(false)" id="icon-cancel">拒绝</a>
+						href="javascript:batchTrial(false)" id="icon-cancel">取消</a>
 				</div>
 			</div>
 		</div>
 	</div>
-
 </body>
 
 <script>
@@ -139,7 +133,7 @@
 		$('#beginDate').datebox();
 		$('#endDate').datebox();
 		$('#test').datagrid({
-			title : '划拨批次审核',
+			title : '退款列表',
 			iconCls : 'icon-save',
 			height : 500,
 			singleSelect : true,
@@ -151,7 +145,7 @@
 			collapsible : true,
 			columns : [ [ {
 				field : 'REFUNDORDERNO',
-				title : '退款编号',
+				title : '退款订单号',
 				width : 120,
 				align : 'center'
 			}, {
@@ -239,16 +233,11 @@
 		});
 
 		$($('#test2').datagrid('getPanel')).panel('collapse', false);
-		/* 	$('#test').datagrid('onClickRow', function(index,row){
-				alert(index);
-			});
-		 */});
+		 });
 
 	function searchAdd() {
 		var data = {
 			"pojoTxnsLog.txnseqno" : $('#code_ins').val(),
-		//"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),
-		//"queryTransferBean.endDate":$("#endDate").datebox("getValue")
 		}
 		$('#testAdd').datagrid('load', data);
 	}
@@ -257,14 +246,12 @@
 
 		var data = {
 			"txnxRefund.refundorderno" : $('#refundorderno').val(),
-			"txnxRefund.memberid" : $('#memberid').val(),
-		//"twq.memberid" : $('#memberids').val()
+			"txnxRefund.memberid" : $('#memberid').val()
 		}
 		$('#test').datagrid('load', data);
 	}
 
 	function showAdd() {
-
 		$('#w').window({
 			title : '退款申请',
 			top : 200,
@@ -281,11 +268,10 @@
 	}
 
 	function testAdd() {
-
 		$('#testAdd')
 				.datagrid(
 						{
-							title : '划拨批次审核',
+							title : '交易流水列表',
 							iconCls : 'icon-save',
 							height : 500,
 							singleSelect : true,
@@ -296,23 +282,25 @@
 							idField : 'ORGAN_ID',
 							collapsible : true,
 							columns : [ [
-									//{field : 'ck',checkbox : true},
 									{
 										field : 'TXNSEQNO',
 										title : '交易流水号',
-										width : 130,
+										width : 150,
 										align : 'center'
 									},
 									{
 										field : 'AMOUNT',
 										title : '交易金额',
-										width : 90,
-										align : 'center'
+										width : 120,
+										align : 'center',
+										formatter : function(value, rec) {
+											return fen2Yuan(value);
+										}
 									},
 									{
 										field : 'BUSITYPE',
 										title : '业务名称',
-										width : 90,
+										width : 120,
 										align : 'center',
 										formatter : function(value, rec) {
 											//(消费类：1000；充值类：2000；提现类：3000；退款类：4000；转账类：5000；保障金：6000;代付类:7000)
@@ -340,51 +328,23 @@
 									{
 										field : 'txnseqno-',
 										title : '操作',
-										width : 100,
+										width : 120,
 										align : 'center',
 										formatter : function(value, rec) {
-											return '<a href="javascript:getWithdraw(\''
+											return '<a href="javascript:getRefund(\''
 													+ rec.TXNSEQNO
 													+ '\')" style="color:blue;margin-left:10px">申请退款</a>';
 										}
 									}
 
 							] ],
-							//singleSelect : false,
-							//selectOnCheck : true,
-							//checkOnSelect : false,
 							pagination : true,
 							rownumbers : true
-						/**toolbar : [ {
-							id : 'btnadd',
-							text : '批次审核',
-							iconCls : 'icon-ok',
-							handler : function() {
-								var check= $('#test' ).datagrid( 'getChecked');
-								if(check.length!=0){
-									var myArray="";
-						            for (var i=0;i<check.length;i++){
-						          	   myArray+=check[i].TXNSEQNO+"|"
-						            } 
-						            alert(myArray)
-									$("#firstTrial")[0].reset();
-									$("#btn_submit").linkbutton('enable');
-									$("#icon-cancel").linkbutton('enable');
-									$("#withdraworderno").val(myArray);
-									showAdd();
-								}else{
-									$.messager.alert('提示',"请选择数据"); 
-									
-								}
-							}
-						
-						
-						}]*/
 						});
 
 	}
 
-	function getWithdraw(TXNSEQNO) {
+	function getRefund(TXNSEQNO) {
 		showAdd();
 		$("#withdraworderno").val(TXNSEQNO);
 
@@ -418,9 +378,8 @@
 					"pages/refund/batchAuditRefundAuditAction.action");
 			$("#falg").val("true");
 		} else {
-			$("#firstTrial").attr("action",
-					"pages/refund/batchAuditRefundAuditAction.action");
-			$("#falg").val("false");
+			closeAdd();
+			return;
 		}
 		$('#firstTrial').form('submit', {
 			onSubmit : function() {
@@ -601,5 +560,10 @@
 			}
 		});
 	}
+	
+	function fen2Yuan(num) {
+		if ( typeof num !== "number" || isNaN( num ) ) return null;
+			return ( num / 100 ).toFixed( 2 );
+		}
 </script>
 </html>

@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.Action;
 import com.zlebank.zplatform.acc.bean.Business;
 import com.zlebank.zplatform.acc.bean.SubjectAccountRule;
-import com.zlebank.zplatform.acc.bean.SubjectQuery;
 import com.zlebank.zplatform.acc.bean.SubjectRule;
 import com.zlebank.zplatform.acc.bean.enums.CRDRType;
 import com.zlebank.zplatform.acc.bean.enums.RuleStatusType;
@@ -152,8 +151,7 @@ public class EntryRuleAction extends BaseAction{
     public void getSubjectByCode(){
        String str="";
         try {
-            SubjectQuery sq=     subject.subjectByCode(accCode);
-        
+            subject.subjectByCode(accCode);
         } catch (AccBussinessException e) {
          str=e.getMessage();
         }
@@ -229,7 +227,7 @@ public class EntryRuleAction extends BaseAction{
      
              int page= this.getPage();
             int pageSize= this.getPage_size();
-              Long count=  srs.getcount(sar);
+              srs.getcount(sar);
               try {
                 List<Map<String, Object>> li= srs.getRuleBySar(sar, page, pageSize);
              if(!li.isEmpty()){
