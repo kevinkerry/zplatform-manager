@@ -2,11 +2,7 @@ package com.zlebank.zplatform.manager.action.refund;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +33,6 @@ import com.zlebank.zplatform.trade.service.ITxnsRefundService;
 import com.zlebank.zplatform.trade.service.RefundService;
 import com.zlebank.zplatform.trade.service.TransferDataService;
 import com.zlebank.zplatform.trade.service.impl.UpdateInsteadServiceImpl;
-import com.zlebank.zplatform.trade.utils.OrderNumber;
 /**
  * 退款申请
  *
@@ -124,29 +119,12 @@ public class RefundAuditAction extends BaseAction {
             	log.info("refund json:"+JSON.toJSONString(refundBean));
 				gateWayService.refund(JSON.toJSONString(refundBean));
 			} catch (TradeException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-				map.put("messg", "申请退款退款成功");
+				map.put("messg", "申请退款失败");
+				json_encode(map);
 			}
-            /*List<?> li = txnsService.getTxnsLogById(itxnsCode);
-            JSONArray jsonArray = JSONArray.fromObject(li);
-            JSONObject job = jsonArray.getJSONObject(0);
-            TxnsRefundModel ixn = new TxnsRefundModel();
-            ixn.setRefundorderno(OrderNumber.getInstance()
-                    .generateRefundOrderNo());
-            ixn.setMemberid(job.get("ACCMEMBERID").toString());
-            ixn.setOldorderno(job.get("ACCORDNO").toString());
-            ixn.setOldtxnseqno(job.get("TXNSEQNO").toString());
-            ixn.setMerchno(job.get("ACCFIRMERNO").toString());
-            ixn.setSubmerchno(job.get("ACCSECMERNO").toString());
-            ixn.setAmount(Long.parseLong(job.get("AMOUNT").toString()));
-            ixn.setOldamount(Long.parseLong(job.get("AMOUNT").toString()));
-            ixn.setStatus("01");
-            ixn.setReltxnseqno(itxnsCode);
-            iTxnsRefundService.saveRefundOrder(ixn);*/
         }
-        System.out.println(pojoTxnsLog.getTxnseqno());
-        map.put("messg", "申请退款退款成功");
+        map.put("messg", "申请退款成功");
         json_encode(map);
         return null;
     }

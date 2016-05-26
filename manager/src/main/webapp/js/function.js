@@ -342,4 +342,9 @@ function cleanFile(id){
 		_span = null;        
 		tf.parentNode.removeChild(tf);    
 	}
+	
+function fen2Yuan(num) {
+	if ( typeof num !== "number" || isNaN( num ) ) return null;
+		return ( num / 100 ).toFixed( 2 );
+	}
 }
