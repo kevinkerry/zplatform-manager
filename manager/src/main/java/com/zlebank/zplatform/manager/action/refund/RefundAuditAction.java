@@ -159,7 +159,7 @@ public class RefundAuditAction extends BaseAction {
             Long refund_amount = txnsRefundModel.getAmount();
             //部分退款时校验t_txns_refund表中的正在审核或者已经退款的交易的金额之和
             Long sumAmt = iTxnsRefundService.getSumAmtByOldTxnseqno(txnsRefundModel.getOldtxnseqno());
-            if((sumAmt)>refund_amount){
+            if((sumAmt+refund_amount)>txnsRefundModel.getOldamount()){
             	map.put("messg", "退款金额之和大于原始交易金额");
                 json_encode(map);
                 return;
