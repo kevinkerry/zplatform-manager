@@ -203,7 +203,7 @@
 					} else if (value == '29') {
 						return '批处理失败';
 					} else if (value == '00') {
-						return '提现成功';
+						return '退款成功';
 					} else if (value == '39') {
 						return '自行终止';
 					} else {

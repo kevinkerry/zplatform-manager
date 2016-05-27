@@ -191,7 +191,7 @@ public class RefundAuditAction extends BaseAction {
         	String txnseqno = txnsRefundModel.getReltxnseqno();
         	//审核账务处理 
         	txnsService.refuseRefundAccount(txnseqno);
-        	map.put("messg", "初审未过");
+        	map.put("messg", "初审拒绝");
             json_encode(map);
         }
         

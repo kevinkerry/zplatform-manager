@@ -179,7 +179,7 @@ table tr td select {
 											if (value == '01') {
 												return '待初审';
 											} else if (value == '09') {
-												return '初审未过';
+												return '初审拒绝';
 											} else if (value == '11') {
 												return '待复审';
 											} else if (value == '19') {
@@ -189,7 +189,7 @@ table tr td select {
 											} else if (value == '29') {
 												return '批处理失败';
 											} else if (value == '00') {
-												return '提现成功';
+												return '退款成功';
 											} else if (value == '39') {
 												return '自行终止';
 											} else {
@@ -216,7 +216,17 @@ table tr td select {
 														+ ","
 														+ +rec.REFUNDDESC
 														+ '\')" style="color:blue;margin-left:10px">审核</a>';
-											} else {
+											} else if (rec.STATUS == '09') {
+												return '审核完成';
+											} else if (rec.STATUS == '19') {
+												return '审核完成';
+											} else if (rec.STATUS == '21') {
+												return '等待批处理';
+											} else if (rec.STATUS == '29') {
+												return '审核完成';
+											} else if (rec.STATUS == '00') {
+												return '退款完成';
+											}  else {
 												return '正在处理中';
 											}
 										}
