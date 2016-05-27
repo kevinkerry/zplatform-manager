@@ -10,15 +10,28 @@
  */
 package com.zlebank.zplatform.manager.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
+import com.zlebank.zplatform.acc.bean.TradeInfo;
+import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
+import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.service.AccEntryService;
+import com.zlebank.zplatform.acc.service.entry.EntryEvent;
+import com.zlebank.zplatform.commons.dao.pojo.AccStatusEnum;
 import com.zlebank.zplatform.commons.service.impl.AbstractBasePageService;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
+import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsLogBean;
 import com.zlebank.zplatform.manager.dao.iface.ITxnsDAO;
@@ -26,6 +39,12 @@ import com.zlebank.zplatform.manager.dao.iface.ITxnsHibDao;
 import com.zlebank.zplatform.manager.dao.object.PojoTxnsLog;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.ITxnsLoService;
+import com.zlebank.zplatform.trade.bean.ResultBean;
+import com.zlebank.zplatform.trade.dao.ITxnsOrderinfoDAO;
+import com.zlebank.zplatform.trade.model.TxnsLogModel;
+import com.zlebank.zplatform.trade.model.TxnsOrderinfoModel;
+import com.zlebank.zplatform.trade.service.IGateWayService;
+import com.zlebank.zplatform.trade.service.ITxnsLogService;
 
 /**
  * 交易流水查询
@@ -41,7 +60,7 @@ public class TxnsServiceImpl
             AbstractBasePageService<TxnsLogBean, TxnsLog>
         implements
             ITxnsLoService {
-
+	private static final Log log = LogFactory.getLog(TxnsServiceImpl.class);
     @Autowired
     private ITxnsDAO itld;
 
@@ -50,7 +69,14 @@ public class TxnsServiceImpl
 
     @Autowired
     private IRiskService txnskService;
-
+    @Autowired 
+    private IGateWayService gateWayService;
+    @Autowired
+    private ITxnsOrderinfoDAO txnsOrderinfoDAO;
+    @Autowired
+    private AccEntryService accEntryService;
+    @Autowired
+    private ITxnsLogService txnsLogService;
     /**
      *
      * @param example
@@ -185,6 +211,66 @@ public class TxnsServiceImpl
                paramaters, "cursor0","v_total");
 
     }
-    
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+    public void refuseRefundAccount(String txnseqno){
+    	log.info("交易:"+txnseqno+"退款账务处理开始");
+    	TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(txnseqno);
+		TxnsOrderinfoModel order = txnsOrderinfoDAO.getOrderByTxnseqno(txnseqno);
+		
+		ResultBean resultBean = null;
+        /**交易类型**/
+        String busiCode = txnsLog.getBusicode();
+        /**付款方会员ID**/
+        String payMemberId =  txnsLog.getAccmemberid();
+        /**收款方会员ID**/
+        String payToMemberId = txnsLog.getAccsecmerno();
+        /**收款方父级会员ID**/
+        String payToParentMemberId="" ;
+        
+        /**产品id**/
+        String productId = "";
+        /**交易金额**/
+        BigDecimal amount = new BigDecimal(txnsLog.getAmount());
+        /**佣金**/
+        BigDecimal commission = new BigDecimal(StringUtil.isNotEmpty(txnsLog.getTradcomm()+"")?txnsLog.getTradcomm():0);
+        /**手续费**/
+        BigDecimal charge = new BigDecimal(StringUtil.isNotEmpty(txnsLog.getTxnfee()+"")?txnsLog.getTxnfee():0L);
+        /**金额D**/
+        BigDecimal amountD = new BigDecimal(0);
+        /**金额E**/
+        BigDecimal amountE = new BigDecimal(0);
+        
+        TradeInfo tradeInfo = new TradeInfo(txnsLog.getTxnseqno(), "", busiCode, payMemberId, payToMemberId, payToParentMemberId, "", productId, amount, commission, charge, amountD, amountE, false);
+        tradeInfo.setCoopInstCode(txnsLog.getAccfirmerno());
+        
+        log.info(JSON.toJSONString(tradeInfo));
+        try {
+			accEntryService.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
+			resultBean = new ResultBean("success");
+		}  catch (AccBussinessException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+            e.printStackTrace();
+        } catch (AbstractBusiAcctException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            resultBean = new ResultBean("T099", e.getMessage());
+            e.printStackTrace();
+        }
+        
+        if(resultBean.isResultBool()){
+            txnsLog.setApporderstatus(AccStatusEnum.Finish.getCode());
+            txnsLog.setApporderinfo("退款账务成功");
+            order.setStatus("03");
+        }else{
+        	
+            txnsLog.setApporderstatus(AccStatusEnum.AccountingFail.getCode());
+            txnsLog.setApporderinfo(resultBean.getErrMsg());
+            order.setStatus("03");
+        }
+        gateWayService.update(order);
+        txnsOrderinfoDAO.update(order);
+        log.info("交易:"+txnseqno+"退款账务处理成功");
+    }
     
 }

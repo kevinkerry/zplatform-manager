@@ -241,6 +241,7 @@ public class UploadAction extends BaseAction {
     
     public void dowanWeChatBill(){
     	Map<String, Object> result = new HashMap<String, Object>();
+    	billDate = billDate.replaceAll("-", "");
     	// 判断是否重复上传文件
         Boolean boo = serviceContainer.getBnktxnService().upLoad(billDate);
         if (boo) {
@@ -265,11 +266,13 @@ public class UploadAction extends BaseAction {
 			// 等对账数据保存成功后，更新UPload表的上传数据状态
             serviceContainer.getBnktxnService().updateUploadLog(billDate);
 			result.put("info", "微信对账文件处理成功！");
-			json_encode(result);
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			result.put("info", "微信对账文件处理失败！");
 		}
+    	json_encode(result);
     }
     
     

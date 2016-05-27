@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.zlebank.zplatform.acc.bean.TradeInfo;
@@ -156,10 +157,10 @@ public class RefundAuditAction extends BaseAction {
         System.out.println(txnxRefund.getFlag());
         if (txnxRefund.getFlag().equals("true")) {
         	
-            Long refund_amount = txnsRefundModel.getAmount();
+            //Long refund_amount = txnsRefundModel.getAmount();
             //部分退款时校验t_txns_refund表中的正在审核或者已经退款的交易的金额之和
             Long sumAmt = iTxnsRefundService.getSumAmtByOldTxnseqno(txnsRefundModel.getOldtxnseqno());
-            if((sumAmt+refund_amount)>txnsRefundModel.getOldamount()){
+            if(sumAmt>txnsRefundModel.getOldamount()){
             	map.put("messg", "退款金额之和大于原始交易金额");
                 json_encode(map);
                 return;
@@ -187,8 +188,9 @@ public class RefundAuditAction extends BaseAction {
             }
            
         }else{
+        	String txnseqno = txnsRefundModel.getReltxnseqno();
         	//审核账务处理 
-        	refuseRefundAccount(txnsRefundModel.getReltxnseqno());
+        	txnsService.refuseRefundAccount(txnseqno);
         	map.put("messg", "初审未过");
             json_encode(map);
         }
@@ -264,63 +266,6 @@ public class RefundAuditAction extends BaseAction {
     }
     
     
-    public void refuseRefundAccount(String txnseqno){
-    	log.info("交易:"+txnseqno+"退款账务处理开始");
-    	TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(txnseqno);
-		TxnsOrderinfoModel order = txnsOrderinfoDAO.getOrderByTxnseqno(txnseqno);
-		ResultBean resultBean = null;
-        /**交易类型**/
-        String busiCode = txnsLog.getBusicode();
-        /**付款方会员ID**/
-        String payMemberId =  txnsLog.getAccmemberid();
-        /**收款方会员ID**/
-        String payToMemberId = txnsLog.getAccsecmerno();
-        /**收款方父级会员ID**/
-        String payToParentMemberId="" ;
-        
-        /**产品id**/
-        String productId = "";
-        /**交易金额**/
-        BigDecimal amount = new BigDecimal(txnsLog.getAmount());
-        /**佣金**/
-        BigDecimal commission = new BigDecimal(StringUtil.isNotEmpty(txnsLog.getTradcomm()+"")?txnsLog.getTradcomm():0);
-        /**手续费**/
-        BigDecimal charge = new BigDecimal(StringUtil.isNotEmpty(txnsLog.getTxnfee()+"")?txnsLog.getTxnfee():0L);
-        /**金额D**/
-        BigDecimal amountD = new BigDecimal(0);
-        /**金额E**/
-        BigDecimal amountE = new BigDecimal(0);
-        
-        TradeInfo tradeInfo = new TradeInfo(txnsLog.getTxnseqno(), "", busiCode, payMemberId, payToMemberId, payToParentMemberId, "", productId, amount, commission, charge, amountD, amountE, false);
-        tradeInfo.setCoopInstCode(txnsLog.getAccfirmerno());
-        
-        log.info(JSON.toJSONString(tradeInfo));
-        try {
-			accEntryService.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
-			resultBean = new ResultBean("success");
-		}  catch (AccBussinessException e) {
-            resultBean = new ResultBean(e.getCode(), e.getMessage());
-            e.printStackTrace();
-        } catch (AbstractBusiAcctException e) {
-            resultBean = new ResultBean(e.getCode(), e.getMessage());
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            resultBean = new ResultBean("T099", e.getMessage());
-            e.printStackTrace();
-        }
-        
-        if(resultBean.isResultBool()){
-        	
-            txnsLog.setApporderstatus(AccStatusEnum.Finish.getCode());
-            txnsLog.setApporderinfo("退款账务成功");
-            order.setStatus("00");
-        }else{
-        	
-            txnsLog.setApporderstatus(AccStatusEnum.AccountingFail.getCode());
-            txnsLog.setApporderinfo(resultBean.getErrMsg());
-        }
-        txnsOrderinfoDAO.update(order);
-        log.info("交易:"+txnseqno+"退款账务处理成功");
-    }
+    
 
 }
