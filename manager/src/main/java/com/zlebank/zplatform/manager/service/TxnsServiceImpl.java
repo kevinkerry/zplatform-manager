@@ -128,7 +128,6 @@ public class TxnsServiceImpl
     public Map<String, Object> findTxnsLogByPage(Map<String, Object> variables,
             int page,
             int rows) {
-
         String[] columns = new String[]{"v_txnseqno", "v_busicode","v_busitype", "v_pan",
                 "v_accordno", "v_accsecmerno", "v_accfirmerno",
                 "v_accsettledate", "v_stime", "v_etime", "v_payrettsnseqno",
@@ -165,26 +164,10 @@ public class TxnsServiceImpl
                 variables.containsKey("userId")
                         ? variables.get("userId")
                         : null, page, rows};
-        //return null;
-       
         return itxnsHibDao.executePageOracleProcedure(
                "{CALL PCK_SEL_T_TXNS_LOG.sel_txns_log(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}", columns,
                paramaters, "cursor0","v_total");
-
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     public Map<String, Object> findQueryRefundByPage(Map<String, Object> variables,
             int page,

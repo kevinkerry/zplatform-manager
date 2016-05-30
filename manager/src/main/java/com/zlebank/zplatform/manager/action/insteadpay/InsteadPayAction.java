@@ -429,7 +429,7 @@ public class InsteadPayAction extends BaseAction {
 		}
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		String messg = "操作成功！";
+		String messg = "操作完成！";
 		boolean isok = false;
 
 		if (batchIds.size() == 0) {

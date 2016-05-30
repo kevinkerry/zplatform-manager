@@ -94,17 +94,16 @@ public class RefundAuditAction extends BaseAction {
     }
     // 申请退款处理
     public String batchAudit() {
-
         String[] array = pojoTxnsLog.getTxnseqno().split("\\|");
         Map<String, Object> map = new HashMap<String, Object>();
         for (String itxnsCode : array) {
         	TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(itxnsCode);
-        	/*TxnsRefundModel refund = iTxnsRefundService.getRefundByOldTxnSeqno(itxnsCode,null);
+        	TxnsRefundModel refund = iTxnsRefundService.getRefundByOldTxnSeqno(itxnsCode,null);
             if (refund != null) {
                 map.put("messg", "该流水号已经申请退款了");
                 json_encode(map);
                 return null;
-            }*/
+            }
             
             WapRefundBean refundBean = new WapRefundBean();
     		refundBean.setOrderId(DateUtil.getCurrentDateTime());
@@ -121,8 +120,9 @@ public class RefundAuditAction extends BaseAction {
 				gateWayService.refund(JSON.toJSONString(refundBean));
 			} catch (TradeException e) {
 				e.printStackTrace();
-				map.put("messg", "申请退款失败");
+				map.put("messg", "申请退款失败:"+e.getMessage());
 				json_encode(map);
+				return null;
 			}
         }
         map.put("messg", "申请退款成功");
@@ -139,7 +139,6 @@ public class RefundAuditAction extends BaseAction {
             variables.put("v_memberid", txnxRefund.getMemberid());
         }
         variables.put("userId", getCurrentUser().getUserId());
-        // variables.put("feever", PojoTxnsLog.getFeever());
         Map<String, Object> groupList = txnsService.findQueryRefundByPage(
                 variables, getPage(), getRows());
         json_encode(groupList);
@@ -154,7 +153,6 @@ public class RefundAuditAction extends BaseAction {
         TxnsRefundModel txnsRefundModel = iTxnsRefundService
                 .getRefundByRefundor(txnxRefund.getRefundorderno());
         String status = "";
-        System.out.println(txnxRefund.getFlag());
         if (txnxRefund.getFlag().equals("true")) {
         	
             //Long refund_amount = txnsRefundModel.getAmount();
