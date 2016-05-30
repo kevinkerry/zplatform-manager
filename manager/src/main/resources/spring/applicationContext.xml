@@ -240,12 +240,5 @@
 	</bean>
 	<bean id="createMerIPFileJob" class="com.zlebank.zplatform.manager.job.CreateMerchantInsteadSDFileJob" /> 
 	<!-- 生成商户代付对账文件任务end-->
-	<bean id="propertyFileConfig"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>zlrt.properties</value>
-			</list>
-		</property>
-	</bean>
+	
 </beans>
