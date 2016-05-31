@@ -37,7 +37,7 @@ public class SaveMemberQueueJob {
     private final static String MER_PORTAL_URL = "http://192.168.101.248:8080/merportal/";
     private final static String MER_PORTAL_WLAN_URL = "http://192.168.101.248:8080/merportal/";
     private final static String MAIL_PROXY_URL = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
- 
+    
     /*private final static String MER_PORTAL_URL = "http://192.168.95.121:8080/merportal/";
     private final static String MER_PORTAL_WLAN_URL = "http://219.234.83.144:8080/merportal/";
     private final static String MAIL_PROXY_URL = "http://192.168.95.70:8080/mailproxy/email/addEmail.action";*/
@@ -70,11 +70,17 @@ public class SaveMemberQueueJob {
                 // 生成激活链接
                 // String Md5Url = EncoderByMd5(idCard + memberId + randNum);
                 String Md5Url = Md5.getInstance().md5s(memberId+idCard + randNum);
-                String content = MER_PORTAL_WLAN_URL+QUERY_SYNC_MER_NOTIFY+"?memberId="
+                String contentUrl = MER_PORTAL_WLAN_URL+QUERY_SYNC_MER_NOTIFY+"?memberId="
                         + memberId + "&signature=" + Md5Url;
-                content = java.net.URLEncoder.encode(content,"utf-8");
+                contentUrl = java.net.URLEncoder.encode(contentUrl,"utf-8");
+                StringBuilder contentSb =new StringBuilder();
+                contentSb.append("尊敬的商户您好，欢迎加入证联金融，距注册成功还差一小步，您需要点击下方的链接，即可完成商家账户的激活。如无法点击，请复制下方网页地址到浏览器地址栏中打开。");
+                contentSb.append("\n");
+                contentSb.append(contentUrl);
+                contentSb.append("\n如上述操作遇到问题，可致电我们的客服电话：4001189522寻求帮助。 ");
                 String parameterData = "subject=商户开通激活&consignee_address="
-                        + job.get("EMAIL").toString() + "&&content=" + content ;
+                        + job.get("EMAIL").toString() + "&&content=" + contentSb.toString() ;
+                
                 String flag = this.doPost(MAIL_PROXY_URL, parameterData);
                 flag = URLDecoder.decode(flag,"utf-8");
                 if (flag.contains("00")) {
