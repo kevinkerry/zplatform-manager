@@ -28,14 +28,9 @@ table tr td select {
 						<td align="right" width="10%">会员号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="txnxRefund.memberid" id="memberid" maxlength="32" /></td>
-
-					
 						<td align="right"><a href="javascript:search()"class="easyui-linkbutton" iconCls="icon-search">查询</a>
 						 <a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a></td>
-
-
 					</tr>
-
 				</table>
 			</form>
 		</div>
@@ -44,51 +39,43 @@ table tr td select {
 		</div>
 	</div>
 
-	<div id="ws" class="easyui-window" closed="true" title="My Window"
-		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
+	<div id="ws" class="easyui-window" closed="true" title="My Window" iconCls="icon-save">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false"
-				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+			<div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<div>
-					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"
-						border="solid">
-						<tr>
-							<td whdth="40px" align="center">&nbsp;退款编号:</td>
-							<td align="center" whdth="40px" id="REFUNDORDERNO"></td>
-							<td whdth="40px" align="center">&nbsp;会员号:</td>
-							<td whdth="40px" align="center" id="MEMBERID"></td>
-						</tr>
-						<tr>
-							<td whdth="40px" align="center">&nbsp;原订单金额:</td>
-							<td align="center" whdth="20%" id="OLDAMOUNT"></td>
-							<td whdth="20%" align="center">&nbsp;退款金额:</td>
-							<td align="center" whdth="20%" id="AMOUNT"></td>
-						</tr>
-						<tr>
-							<td whdth="20%" align="center">&nbsp;退款原因:</td>
-							<td align="center" whdth="20%" id="REFUNDDESC"></td>
-						</tr>
-
-					</table>
-				</div>
-				<br>
 				<form id="firstTrial" method="post"
 					action="pages/withdraw/queryTrialWithdraTriaAction.action">
-					<input id="refundordernoA" type="hidden"
-						name="txnxRefund.refundorderno" /> <input id="flag" type="hidden"
-						name="txnxRefund.flag" />
-					<table width="100%" cellpadding="2" cellspacing="2"
-						style="text-align: left" id="inputForm">
+					<input id="refundordernoA" type="hidden" name="txnxRefund.refundorderno" /> 
+					<input id="flag" type="hidden" name="txnxRefund.flag" />
+					<table width="100%" cellpadding="2" cellspacing="2"  border="solid">
+						<tr>
+							<td width="20%" align="center">&nbsp;退款编号:</td>
+							<td align="center" width="30%" id="REFUNDORDERNO"></td>
+							<td  width="20%"  align="center">&nbsp;会员号:</td>
+							<td  width="30%" align="center" id="MEMBERID"></td>
+						</tr>
+						<tr>
+							<td  align="center">&nbsp;原订单金额:</td>
+							<td align="center"  id="OLDAMOUNT"></td>
+							<td  align="center">&nbsp;退款金额:</td>
+							<td align="center"  id="AMOUNT"></td>
+						</tr>
+						<tr>
+							<td width="20%" align="center">&nbsp;退款原因:</td>
+							<td align="center" id="REFUNDDESC" colspan="3"></td>
+						</tr>
 						<tr>
 							<td align="center">初审意见:</td>
-							<td><textarea id="stexaopt" rows="5" cols="80"
-									name="txnxRefund.stexaopt">
-				</textarea></td>
+							<td colspan="3">
+								<textarea id="stexaopt" rows="5" cols="80" name="txnxRefund.stexaopt">
+								</textarea>
+							</td>
 						</tr>
 					</table>
 				</form>
 			</div>
-			<div region="south" border="false"
+		</div>
+		<div region="south" border="false"
 				style="text-align: center; padding: 5px 0;">
 				<a class="easyui-linkbutton" iconCls="icon-ok"
 					href="javascript:firstTrial(true)" id="btn_submit" onclick="">通过</a>
@@ -98,11 +85,6 @@ table tr td select {
 			</div>
 		</div>
 	</div>
-
-
-
-
-
 </body>
 
 <script>
@@ -179,7 +161,7 @@ table tr td select {
 											if (value == '01') {
 												return '待初审';
 											} else if (value == '09') {
-												return '初审未过';
+												return '初审拒绝';
 											} else if (value == '11') {
 												return '待复审';
 											} else if (value == '19') {
@@ -189,7 +171,7 @@ table tr td select {
 											} else if (value == '29') {
 												return '批处理失败';
 											} else if (value == '00') {
-												return '提现成功';
+												return '退款成功';
 											} else if (value == '39') {
 												return '自行终止';
 											} else {
@@ -216,7 +198,17 @@ table tr td select {
 														+ ","
 														+ +rec.REFUNDDESC
 														+ '\')" style="color:blue;margin-left:10px">审核</a>';
-											} else {
+											} else if (rec.STATUS == '09') {
+												return '审核完成';
+											} else if (rec.STATUS == '19') {
+												return '审核完成';
+											} else if (rec.STATUS == '21') {
+												return '等待批处理';
+											} else if (rec.STATUS == '29') {
+												return '审核完成';
+											} else if (rec.STATUS == '00') {
+												return '退款完成';
+											}  else {
 												return '正在处理中';
 											}
 										}

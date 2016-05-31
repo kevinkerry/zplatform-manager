@@ -102,7 +102,7 @@ table tr td select {
 			idField : 'ORGAN_ID',
 			collapsible:true,
 			columns : [ [
-					{field : 'ck',checkbox : true},
+					{field : 'ck',checkbox :true},
 					{field : 'id',hidden:true},
 					{field : 'insteadPayBatchSeqNo',title : '代付批次号',width : 150,align : 'center'},
 					{field : 'batchNo',title : '商户批次号',width : 120,align : 'center'},
@@ -136,19 +136,19 @@ table tr td select {
 							return value/100.00;
 						}},
 					{field : 'status',title : '状态',width : 120,align : 'center',
-						formatter : function(value, rec) {
-										if (value == '01') {
-											return '未审核';
-										} else if (value == '02') {
-											return '部分审核完毕';
-										} else if (value == '03') {
-											return '全部审核完毕';
-										} else if (value == '00') {
-											return '全部处理完毕';
-										} else {
-											return '';
-										}
-									} 
+						formatter : function(value, rec,index) {
+							if (value == '01') {
+								return '未审核';
+							} else if (value == '02') {
+								return '部分审核完毕';
+							} else if (value == '03') {
+								return '全部审核完毕';
+							} else if (value == '00') {
+								return '全部处理完毕';
+							} else {
+								return '';
+							}
+						} 
 					}
 					] ],
 			singleSelect : false,
@@ -205,10 +205,8 @@ table tr td select {
 					$("#queryStatus").val("00,03");
 					search();
 				}
-			
-			
 			}]
-						});
+		});
 		 
 		
 		$('#test2')

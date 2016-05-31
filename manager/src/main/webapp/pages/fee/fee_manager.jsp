@@ -278,7 +278,6 @@
 			});
 			$("#theForm").attr("action", "pages/fee/updateFeeFeeAction.action");
 			$('#btn_submit').linkbutton('enable');
-			s
 		}
 		function toMakeFEECase(feever) {
 			var form = document.forms['theForm'];

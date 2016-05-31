@@ -93,12 +93,10 @@
 
 		</div>
 
-
 		<div style="margin-top: 5px">
 			<table id="testAdd">
 			</table>
 		</div>
-
 
 		<div id="w" class="easyui-window" closed="true" title="My Window"
 			iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
@@ -109,8 +107,6 @@
 						action="pages/refund/batchAuditRefundAuditAction.action">
 						<input id="withdraworderno" type="hidden"
 							name="pojoTxnsLog.txnseqno">
-						<!--  <input id="falg" type="hidden" name="pojoTxnsLog.flag">-->
-
 					</form>
 				</div>
 				<div region="south" border="false"
@@ -203,7 +199,7 @@
 					} else if (value == '29') {
 						return '批处理失败';
 					} else if (value == '00') {
-						return '提现成功';
+						return '退款成功';
 					} else if (value == '39') {
 						return '自行终止';
 					} else {

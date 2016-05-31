@@ -3,6 +3,7 @@ package com.zlebank.zplatform.manager.action.merch;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
 import com.zlebank.zplatform.manager.dao.object.scan.ChannelFileMode;
+import com.zlebank.zplatform.manager.service.WeChatReconFileService;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
@@ -38,10 +40,13 @@ public class UploadAction extends BaseAction {
     private String accNo;
     private ServiceContainer serviceContainer;
     private String falg;
-
+    private String billDate;
+    
     @Autowired
     private IChannelFileService iChannelFileService;
-
+    @Autowired
+    private WeChatReconFileService chatReconFileService;
+    
     public String getFalg() {
         return falg;
     }
@@ -233,6 +238,44 @@ public class UploadAction extends BaseAction {
         String extension = fileName.substring(position);
         return formatDate + random + extension;
     }
+    
+    public void dowanWeChatBill(){
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	billDate = billDate.replaceAll("-", "");
+    	// 判断是否重复上传文件
+        Boolean boo = serviceContainer.getBnktxnService().upLoad(billDate);
+        if (boo) {
+            result.put("info", "此日期对账文件已经保存！");
+            json_encode(result);
+            return;
+        } else {
+            UploadLogModel ulm = new UploadLogModel();
+            ulm.setLogid(1l);
+            ulm.setFilename(billDate);
+            ulm.setUploaderid(getCurrentUser().getUserId());
+            ulm.setUploadername(getCurrentUser().getUserName());
+            serviceContainer.getUploadlogService().save(ulm); // 保存任务
+        }
+    	
+    	
+    	try {
+			List<BnkTxnModel> saveWeChatBill = chatReconFileService.saveWeChatBill(billDate);
+			for (BnkTxnModel bnktxn : saveWeChatBill) {
+                serviceContainer.getBnktxnService().saveBnkTxn(bnktxn);
+            }
+			// 等对账数据保存成功后，更新UPload表的上传数据状态
+            serviceContainer.getBnktxnService().updateUploadLog(billDate);
+			result.put("info", "微信对账文件处理成功！");
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			result.put("info", "微信对账文件处理失败！");
+		}
+    	json_encode(result);
+    }
+    
+    
     public File[] getUpload() {
         return upload;
     }
@@ -310,5 +353,17 @@ public class UploadAction extends BaseAction {
     public String getMerch() {
         return "merch";
     }
+	/**
+	 * @return the billDate
+	 */
+	public String getBillDate() {
+		return billDate;
+	}
+	/**
+	 * @param billDate the billDate to set
+	 */
+	public void setBillDate(String billDate) {
+		this.billDate = billDate;
+	}
 
 }

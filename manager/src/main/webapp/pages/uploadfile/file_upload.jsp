@@ -106,6 +106,27 @@ input {
 			</form>
 		</div>
 	</div>
+	
+	<div style="padding-left: 5px; padding-right: 5px">
+			<table width="100%" border="1">
+				<tr>
+					<td colspan="4" align="center">下载并上传微信对账文件</td>
+				</tr>
+				<tr height="26" id="fileadd1">
+					<td align="center">对账文件</td>
+					<td colspan="3">
+						<input name="billdate" maxlength="12"   type="text"  id="startDate"/>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" colspan="4" id="uploadbutton"><a
+						class="easyui-linkbutton" iconCls="icon-ok"
+						href="javascript:billFileUpload()">开始</a> <a
+						class="easyui-linkbutton" iconCls="icon-back"
+						href="javascript:back()">返回</a></td>
+				</tr>
+			</table>
+	</div>
 
 
 </body>
@@ -149,7 +170,8 @@ input {
 		$("#addFileSelectButton").click(function() {
 			fileInputList.add("upload", "addFileSelectButton")
 		});
-
+		 $('#startDate').datebox({   
+	      }); 
 	});
 
 	function fileUpload() {
@@ -201,6 +223,21 @@ input {
 		var form = document.forms['fileuploadform'];
 		form.action = "pages/merchant/showUploadAction.action";
 		form.submit();
+	}
+	
+	function billFileUpload(){
+		if($('#startDate').datebox('getValue')==""||$('#startDate').datebox('getValue')==null){
+			$.messager.alert('提示', '请选择对账日期');
+		}
+		$.ajax({
+			type : "POST",
+			url : "pages/merchant/dowanWeChatBillUploadAction.action",
+			data : "billDate="+$('#startDate').datebox('getValue'),
+			dataType : "json",
+			success : function(json) {
+				$.messager.alert('提示', json.info);
+			}
+		});
 	}
 </script>
 </html>

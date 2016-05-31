@@ -89,6 +89,9 @@ public class TrialWithdraAction extends BaseAction {
             List<TxnsWithdrawBean> li = pr.getPagedResult();
             for (TxnsWithdrawBean txnsw : li) {
                 txnsw.setAmount(String.valueOf(Long.parseLong(txnsw.getAmount())/100.0));
+                String fee = txnsw.getFee();
+                fee = (fee==null||fee.equals(""))?"0":fee;
+                txnsw.setFee(String.valueOf(Long.parseLong(fee)/100.0));
             }
             Long total = pr.getTotal();
             map.put("total", total);
