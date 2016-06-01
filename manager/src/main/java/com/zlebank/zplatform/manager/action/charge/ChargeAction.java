@@ -28,6 +28,7 @@ import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IChargeService;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
+import com.zlebank.zplatform.trade.exception.TradeException;
 
 /**
  * Class Description
@@ -163,7 +164,10 @@ public class ChargeAction extends BaseAction {
             messg = e.getMessage();
         } catch (NumberFormatException e) {
             messg = e.getMessage();
-        }
+        } catch (TradeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         map.put("messg", messg);
         map.put("falg", isok);
