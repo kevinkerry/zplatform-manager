@@ -27,7 +27,7 @@
 		<repository>
 			<id>zplatform-Releases</id>
 			<name>zplatform-Releases</name>
-			<url>${project.nexus}/nexus/content/repositories/zlatform-Releases</url>
+			<url>${project.nexus}/nexus/content/repositories/zplatform-Releases</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -179,9 +179,9 @@
 		<dependency>
 			<groupId>com.zlebank.zplatform</groupId>
 			<artifactId>zplatform-trade-core</artifactId>
-			<version>1.3.1-SNAPSHOT</version>
+			<version>1.3.1-SNAPSHOT</version> 
 		</dependency>
-
+		 
 		<!-- <dependency> <groupId>com.zlebank.zplatform</groupId> <artifactId>zplatform-trade-common</artifactId> 
 			<version>0.0.1-SNAPSHOT</version> </dependency> -->
 		<dependency>

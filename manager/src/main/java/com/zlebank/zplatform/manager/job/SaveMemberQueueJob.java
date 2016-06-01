@@ -74,10 +74,16 @@ public class SaveMemberQueueJob {
                         + memberId + "&signature=" + Md5Url;
                 contentUrl = java.net.URLEncoder.encode(contentUrl,"utf-8");
                 StringBuilder contentSb =new StringBuilder();
-                contentSb.append("尊敬的商户您好，欢迎加入证联金融，距注册成功还差一小步，您需要点击下方的链接，即可完成商家账户的激活。如无法点击，请复制下方网页地址到浏览器地址栏中打开。");
+                contentSb.append("尊敬的商户您好，欢迎加入证联金融，距注册成功还差一小步，您需要点击下方的链接进行账户激活。账户激活完成后，请使用商户号及邮箱登录网站。详细信息如下：");
+                contentSb.append("\n");
+                contentSb.append("激活链接");
                 contentSb.append("\n");
                 contentSb.append(contentUrl);
-                contentSb.append("\n如上述操作遇到问题，可致电我们的客服电话：4001189522寻求帮助。 ");
+                contentSb.append("\n如无法点击，请复制网页地址到浏览器地址栏中打开");
+                contentSb.append("\n商户号:").append(member.getMemberId());
+                contentSb.append("\n邮箱:").append(member.getEmail());
+                contentSb.append("\n密码:您在激活时设置的登录密码，请妥善保管");
+                contentSb.append("\n如上述操作遇到问题，请联系我们，客服热线：4001189522 工作时间：周一至周五早9：00-晚6:00 联系邮箱:kefu@zlebank.com ");
                 String parameterData = "subject=商户开通激活&consignee_address="
                         + job.get("EMAIL").toString() + "&&content=" + contentSb.toString() ;
                 

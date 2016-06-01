@@ -52,8 +52,8 @@ AbstractPagedQueryDAOImpl<TxnsWithdrawModel, TxnsWithdrawQuery> implements ITWit
         if(StringUtil.isNotEmpty(e.getWithdrawtype())){
             crite.add(Restrictions.eq("withdrawtype", e.getWithdrawtype()));  
         }
-        if(StringUtil.isNotEmpty(e.getWithdraworderno())){
-            crite.add(Restrictions.eq("withdraworderno", e.getWithdraworderno()));  
+        if(StringUtil.isNotEmpty(e.getGatewayorderno())){
+            crite.add(Restrictions.eq("gatewayorderno", e.getGatewayorderno()));  
         }
         if(StringUtil.isNotEmpty(e.getStatus())){
             crite.add(Restrictions.eq("status", e.getStatus()));  

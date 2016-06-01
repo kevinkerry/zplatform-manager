@@ -27,7 +27,6 @@ public class OrganAction extends BaseAction{
 	
 
 	public String show(){
-		System.out.println();
 		return SUCCESS;
 	}
 	/**

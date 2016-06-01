@@ -19,7 +19,7 @@
 					<tr>
 						<td align="right" width="10%">提现订单号:</td>
 						<td align="left" style="padding-left:5px" width="15%">
-							<input name="twq.withdraworderno" id="withdrawordernos" maxlength="32"/>
+							<input name="twq.gatewayorderno" id="gatewayorderno" maxlength="32"/>
 						</td>
 					
 						<td align="right" width="10%">提现类型:</td>
@@ -244,7 +244,8 @@
 				idField:'ORGAN_ID',
 				columns:[
 				[
-					{field:'withdraworderno',title:'提现订单号',width:120,align:'center'},
+					{field:'withdraworderno',title:'提现流水号',width:150,align:'center'},
+					{field:'gatewayorderno',title:'订单号',width:150,align:'center'},
 					{field:'memberid',title:'会员号',width:120,align:'center'},
 					{field:'withdrawtype',title:'提现类型',width:120,align:'center',
 						formatter:function(value,rec){
@@ -314,7 +315,7 @@
 	    
 		function search(){
 			
-		 	var data={"twq.withdraworderno":$('#withdrawordernos').val(),
+		 	var data={"twq.gatewayorderno":$('#gatewayorderno').val(),
 			"twq.withdrawtype":$('#withdrawtypes').val(),
 			"twq.memberid":$('#memberids').val()
 		} 	

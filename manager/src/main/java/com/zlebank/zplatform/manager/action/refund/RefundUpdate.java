@@ -45,9 +45,7 @@ public class RefundUpdate
     public void update(UpdateData data) {
         /*List<UpdateSubject> observerList = ObserverListService.getInstance()
                 .getObserverList();
-        for (UpdateSubject subject : observerList) {
-            System.out.println(subject.getBusiCode());
-        }*/
+         */
         PojoInsteadPayDetail detail = insteadPayDetailDAO
                 .getDetailByTxnseqno(data.getTxnSeqNo());
         if (detail == null) {

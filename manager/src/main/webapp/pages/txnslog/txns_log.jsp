@@ -73,7 +73,7 @@
 							
 						</td>
 						
-						<td align="right" width="10%">受理定提交时间</td>
+						<td align="right" width="10%">受理定单提交时间</td>
 						<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
 							至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input></td>
 						
@@ -347,10 +347,5 @@
 				 	}
 				});
 		}
-		
-		function fen2Yuan( num ) {
-		       if ( typeof num !== "number" || isNaN( num ) ) return null;
-		       return ( num / 100 ).toFixed( 2 );
-		  }
 	</script>
 </html>

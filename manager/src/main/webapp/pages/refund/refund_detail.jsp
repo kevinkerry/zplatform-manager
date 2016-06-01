@@ -106,7 +106,6 @@ table tr td select {
 							url : 'pages/refund/queryRefundRefundAuditAction.action',
 							remoteSort : false,
 							columns : [ [
-
 									{
 										field : 'REFUNDORDERNO',
 										title : '退款编号',
@@ -150,8 +149,8 @@ table tr td select {
 									//	title : '退款原因',
 									//	width : 120,
 									//	align : 'center'
-									//},
-									{
+									//} ,
+									/*{
 										field : 'STATUS',
 										title : '状态',
 										width : 120,
@@ -178,7 +177,7 @@ table tr td select {
 												return '';
 											}
 										}
-									},
+									}, */
 
 									{
 										field : 'txnseqno-',
@@ -199,17 +198,21 @@ table tr td select {
 														+ +rec.REFUNDDESC
 														+ '\')" style="color:blue;margin-left:10px">审核</a>';
 											} else if (rec.STATUS == '09') {
-												return '审核完成';
+												return '初审拒绝';
+											} else if (rec.STATUS == '11') {
+												return '待复审';
 											} else if (rec.STATUS == '19') {
-												return '审核完成';
+												return '复审未过';
 											} else if (rec.STATUS == '21') {
 												return '等待批处理';
 											} else if (rec.STATUS == '29') {
-												return '审核完成';
+												return '批处理失败';
 											} else if (rec.STATUS == '00') {
-												return '退款完成';
-											}  else {
-												return '正在处理中';
+												return '退款成功';
+											} else if (rec.STATUS == '39') {
+												return '自行终止';
+											} else {
+												return rec.STATUS;
 											}
 										}
 									} ] ],
@@ -303,7 +306,7 @@ table tr td select {
 				if ($('#firstTrial').form('validate')) {
 					//$('#btn_submit').linkbutton('disable');
 					//$("#icon-cancel").linkbutton('disable');
-					$("#ws").hide();
+					//$("#ws").hide();
 					return true;
 				}
 				return false;
@@ -319,7 +322,6 @@ table tr td select {
 	}
 
 	function showAdds() {
-
 		$('#ws').window({
 			title : '单笔审核',
 			top : 100,
@@ -341,9 +343,9 @@ table tr td select {
 		var c = list.split(",")
 		$("#REFUNDORDERNO").html(c[0]);
 		$("#MEMBERID").html(c[1]);
-		$("#OLDAMOUNT").html(c[2]);
-		$("#AMOUNT").html(c[3]);
-		$("#REFUNDDESC").html(c[4]);
+		$("#OLDAMOUNT").html(fen2Yuan(Number(c[2])));
+		$("#AMOUNT").html(fen2Yuan(Number(c[3])));
+		$("#REFUNDDESC").html(c[4]=="NaN"?"":c[4]);
 		$("#stexaopt").val("");
 		$("#refundordernoA").val(c[0]);
 		/*$.ajax( { 

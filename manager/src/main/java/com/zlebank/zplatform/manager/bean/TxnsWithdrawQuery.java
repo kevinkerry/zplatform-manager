@@ -23,7 +23,7 @@ import com.zlebank.zplatform.commons.bean.Bean;
 public class TxnsWithdrawQuery implements Bean{
     /**标示**/
     private Long id;
-    /**提现订单号**/
+    /**提现流水号,不同于交易流水号**/
     private String withdraworderno;
     /**会员号**/
     private String memberid;
@@ -31,6 +31,7 @@ public class TxnsWithdrawQuery implements Bean{
     private String withdrawtype;
     /**提现状态**/
     private String status;
+    private String gatewayorderno;
     
     public String getStatus() {
         return status;
@@ -62,5 +63,10 @@ public class TxnsWithdrawQuery implements Bean{
     public void setWithdrawtype(String withdrawtype) {
         this.withdrawtype = withdrawtype;
     }
-    
+    public String getGatewayorderno() {
+        return gatewayorderno;
+    }
+    public void setGatewayorderno(String gatewayorderno) {
+        this.gatewayorderno = gatewayorderno;
+    }
 }

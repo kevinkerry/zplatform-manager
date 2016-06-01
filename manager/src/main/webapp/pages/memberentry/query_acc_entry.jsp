@@ -51,7 +51,7 @@
 						<td align="center">时间段从</td>
 						<td><input id="startTime" type="text" class="easyui-datebox" name="mq.startTime"></input>  
 							至<input id="endTime" type="text" class="easyui-datebox" name="mq.endTime"></input></td>
-							<td align="center">账号</td>
+							<td align="center">账户号</td>
 						<td><input name="mq.acctCode" maxlength="32"   type="text"  id="acctCode"/></td>
 							<td align="center">交易流水号</td>
 						<td><input name="mq.txnseqno" maxlength="32"   type="text"  id="txnseqno"/></td>
@@ -81,71 +81,104 @@
   </body>
   
   <script>
-	$(function(){
-	  	  $('#endTime,#startTime').datebox({   
-	      }); 
-	}); 	
-  	var width = $("#continer").width();
-		$(function(){
-			$('#test').datagrid({
-				title:'收支明细',
-				iconCls:'icon-save',
-				height:400,
-				singleSelect:true,
-				nowrap: false,
-				striped: true,
-				url:'pages/acc/queryTradeDetailEntryAction.action',
-				remoteSort: false,
-				idField:'ORGAN_ID',
-				columns:[
-				[
-					{field:'voucherCode',title:'凭证号',width:80,align:'center'},
-					{field:'acctCode',title:'科目号',width:220,align:'center'},
-					 {field:'crdr',title:'余额方向',width:100,align:'center',
-							formatter:function(value,rec){
-								if(value=="C"){
-									return "贷";
-								}else if(value=="D"){
-									return "借";
-								}
-							}
-					 },
-					{field:'payordno',title:'支付订单号',width:150,align:'center'},
-					{field:'txnseqno',title:'交易流水号',width:150,align:'center'},
-					{field:'inTime',title:'分录时间',width:150,align:'center'
-					 
-					
-					},
-					{field:'amount',title:'交易金额单位(元)',width:150,align:'center'},
-					{field:'status',title:'记账状态',width:100,align:'center',
-						formatter:function(value,rec){
-							if(value=="00"){
-								return "已记账";
-							}else if(value=="01"){
-								return "未记账";
-							}else if(value=="02"){
-								return "待记账";
-							}
-						}
-					}	
-		 
-					
-				]],
-				pagination:true,
-				rownumbers:true
-		
-			});
-	
-		});
-		
+  $(function() {
+	    $('#endTime,#startTime').datebox({});
+	});
+	var width = $("#continer").width();
+	$(function() {
+	    $('#test').datagrid({
+	        title: '收支明细',
+	        iconCls: 'icon-save',
+	        height: 400,
+	        singleSelect: true,
+	        nowrap: false,
+	        striped: true,
+	        url: 'pages/acc/queryTradeDetailEntryAction.action',
+	        remoteSort: false,
+	        idField: 'ORGAN_ID',
+	        columns: [[{
+	            field: 'voucherCode',
+	            title: '凭证号',
+	            width: 80,
+	            align: 'center'
+	        },
+	        {
+	            field: 'acctCode',
+	            title: '账户号',
+	            width: 220,
+	            align: 'center'
+	        },
+	        {
+	            field: 'crdr',
+	            title: '余额方向',
+	            width: 100,
+	            align: 'center',
+	            formatter: function(value, rec) {
+	                if (value == "C") {
+	                    return "贷";
+	                } else if (value == "D") {
+	                    return "借";
+	                }
+	            }
+	        },
+	        {
+	            field: 'payordno',
+	            title: '支付订单号',
+	            width: 150,
+	            align: 'center'
+	        },
+	        {
+	            field: 'txnseqno',
+	            title: '交易流水号',
+	            width: 150,
+	            align: 'center'
+	        },
+	        {
+	            field: 'inTime',
+	            title: '分录时间',
+	            width: 150,
+	            align: 'center'
 
-	    
+	        },
+	        {
+	            field: 'amount',
+	            title: '交易金额单位(元)',
+	            width: 150,
+	            align: 'center'
+	        },
+	        {
+	            field: 'status',
+	            title: '记账状态',
+	            width: 100,
+	            align: 'center',
+	            formatter: function(value, rec) {
+	                if (value == "00") {
+	                    return "已记账";
+	                } else if (value == "01") {
+	                    return "未记账";
+	                } else if (value == "02") {
+	                    return "待记账";
+	                }
+	            }
+	        }
+	        ]],
+	        pagination: true,
+	        rownumbers: true
 
-		function search(){
-	var data={'mq.busiCode':$('#busiCode').val(),'mq.acctCode':$("#acctCode").val(),'mq.endTime':$("#endTime").datebox('getValue'),'mq.startTime':$("#startTime").datebox('getValue'),'mq.payordno':$("#payordno").val(),'mq.type':$("#type").val(),'mq.txnseqno':$("#txnseqno").val()};
-	$('#test').datagrid('load',data);
-		}
+	    });
+	});
 
-					
+	function search() {
+	    var data = {
+	        'mq.busiCode': $('#busiCode').val(),
+	        'mq.acctCode': $("#acctCode").val(),
+	        'mq.endTime': $("#endTime").datebox('getValue'),
+	        'mq.startTime': $("#startTime").datebox('getValue'),
+	        'mq.payordno': $("#payordno").val(),
+	        'mq.type': $("#type").val(),
+	        'mq.txnseqno': $("#txnseqno").val()
+	    };
+	    $('#test').datagrid('load', data);
+	}	
 	</script>
 </html>

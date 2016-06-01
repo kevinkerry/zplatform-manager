@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StringType;
@@ -135,21 +136,9 @@ public class TxnsDAOImpl
 
             e1.printStackTrace();
         }
+        crite.addOrder(Order.desc("txnseqno"));
         return crite;
 
-    }
-
-    /**
-     * @param string
-     * @param retcode
-     * @param instance
-     * @return
-     */
-    private Criterion sqlRestriction(String string,
-            String retcode,
-            StringType instance) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     /**

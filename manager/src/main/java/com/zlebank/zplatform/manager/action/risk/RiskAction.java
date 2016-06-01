@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.BlacklistMemberModel;
 import com.zlebank.zplatform.manager.dao.object.BlacklistPanModel;
@@ -49,12 +50,15 @@ public class RiskAction extends BaseAction {
 	}
 
 	public String saveRisk() {
-		if (riskModel == null) {
-			riskModel = new RiskModel();
-		}
+	    String result = "";
+        if (riskModel == null||StringUtil.isEmpty(riskModel.getRiskver().trim())||StringUtil.isEmpty(riskModel.getRiskname().trim())) {
+            result = "风控版本代码或者风控名称不能为空";
+            json_encode(result);
+            return null;
+        }
 		riskModel.setInuser(getCurrentUser().getUserId());
-		String mark = serviceContainer.getRiskService().AddOneRisk(riskModel);
-		json_encode(mark);
+		result = serviceContainer.getRiskService().AddOneRisk(riskModel);
+		json_encode(result);
 		return null;
 	}
 
@@ -73,9 +77,12 @@ public class RiskAction extends BaseAction {
 	}
 
 	public String UpdateOneRisk() {
-		if (riskModel == null) {
-			riskModel = new RiskModel();
-		}
+	    String result = "";
+        if (riskModel == null||StringUtil.isEmpty(riskModel.getRiskver().trim())||StringUtil.isEmpty(riskModel.getRiskname().trim())) {
+            result = "风控版本代码或者风控名称不能为空";
+            json_encode(result);
+            return null;
+        }
 		riskModel.setInuser(getCurrentUser().getUserId());
 		String mark = serviceContainer.getRiskService()
 				.UpdateOneRisk(riskModel);
