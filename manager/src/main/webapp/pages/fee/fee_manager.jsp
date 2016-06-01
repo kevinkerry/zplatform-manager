@@ -173,6 +173,7 @@
 	
 		function showAdd() {
 			$('#theForm').clearForm();
+			$("#feeCode").removeAttr("readonly");
 			$('#w').window({
 				title: '扣率版本信息',
 				top: panelVertFloat,
@@ -216,7 +217,6 @@
 					}
 				}
 			});
-	
 		}
 		
 		function showProduct() {
@@ -244,6 +244,7 @@
 				success: function(json) {
 					$("#feeid").val(feeid);
 					$("#feeCode").val(json.FEEVER);
+					$("#feeCode").attr("readonly","readonly");
 					$("#feeName").val(json.FEENAME);
 					$("#feeNotes").val(json.NOTES);
 					$.ajax({

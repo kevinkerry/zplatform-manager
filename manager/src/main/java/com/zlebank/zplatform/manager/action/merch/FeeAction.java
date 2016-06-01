@@ -58,7 +58,7 @@ public class FeeAction extends BaseAction {
     public String saveFee() {
         String mark = "";
         if (feeModel == null||StringUtil.isEmpty(feeModel.getFeename().trim())||StringUtil.isEmpty(feeModel.getFeever().trim())) {
-            mark = "风控版本代码或者风控名称不能为空";
+            mark = "扣率版本代码或者扣率名称不能为空";
             json_encode(mark);
             return null;
         }
@@ -149,7 +149,7 @@ public class FeeAction extends BaseAction {
     public String updateFee() {
         String mark = "";
         if (feeModel == null||StringUtil.isEmpty(feeModel.getFeename().trim())||StringUtil.isEmpty(feeModel.getFeever().trim())) {
-            mark = "风控版本代码或者风控名称不能为空";
+            mark = "扣率版本代码或者扣率名称不能为空";
             json_encode(mark);
             return null;
         }

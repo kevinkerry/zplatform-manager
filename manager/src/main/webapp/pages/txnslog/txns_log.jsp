@@ -240,8 +240,6 @@
 	
 		});
 		
-
-	    
 		function search(){
 			var data={"tlb.txnseqno":$('#txnseqno').val(),
 			"tlb.busicode":$('#busicode').val(),

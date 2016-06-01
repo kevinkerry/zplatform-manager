@@ -109,7 +109,12 @@ public class TxnsWithdraAciton extends BaseAction {
 
             List<TxnsWithdrawBean> li = pr.getPagedResult();
             for (TxnsWithdrawBean txnsw : li) {
-                txnsw.setAmount(String.valueOf(Long.parseLong(txnsw.getAmount()) / 100.0));
+                txnsw.setAmount(Money.valueOf(new BigDecimal(txnsw.getAmount())).toYuan());
+                if (StringUtil.isEmpty(txnsw.getFee())) {
+                    txnsw.setFee(Money.ZERO.toYuan());
+                } else {
+                    txnsw.setFee(Money.valueOf(new BigDecimal(txnsw.getFee())).toYuan());
+                }
             }
             Long total = pr.getTotal();
             map.put("total", total);
