@@ -27,6 +27,7 @@ import jxl.read.biff.BiffException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -99,7 +100,7 @@ public class InsteadPayAction extends BaseAction {
 	@Autowired
 	private InsteadBatchService insteadBatchService;
 	@Autowired
-	private InsteadPayService instea;
+	private InsteadPayService insteadPayService;
 	@Autowired
 	private IInsteadPayService iInstea;
 	private FTPClientFactory ftpClientFactory;
@@ -117,6 +118,7 @@ public class InsteadPayAction extends BaseAction {
     private InsteadPayDetailService insteadPayDetailService;
 
 	private File file;
+	private String fileFileName;
 
 	private String falg;
 
@@ -183,7 +185,6 @@ public class InsteadPayAction extends BaseAction {
 
 			for (InsteadPayFile ipf : ins) {
 				amount = new BigDecimal(ipf.getAmt()).add(amount);
-
 			}
 			if (ins == null || ins.isEmpty() || batchList == null
 					|| batchList.isEmpty()) {
@@ -203,7 +204,7 @@ public class InsteadPayAction extends BaseAction {
 					String filePath = INSTEAD_PATH + "/"
 							+ batchList.get(0).getMerId() + "/"
 							+ DateUtil.getCurrentDate();
-					String fileName = batchList.get(0).getBatchNo() + ".xls";
+					String targetFileName = batchList.get(0).getBatchNo() + ".xls";
 
 					if (batchList != null && !batchList.isEmpty()) {
 						InsteadPay_Request insteadRequest = batchList.get(0);
@@ -213,9 +214,9 @@ public class InsteadPayAction extends BaseAction {
 
 						InsteadPayInterfaceParamBean param = new InsteadPayInterfaceParamBean();
 						param.setUserId(userID);
-						param.setFtpFileName(filePath + "/" + fileName);
-						param.setOriginalFileName(file.getName());
-						instea.insteadPay(insteadRequest,
+						param.setFtpFileName(filePath + "/" + targetFileName);
+						param.setOriginalFileName(fileFileName);
+						insteadPayService.insteadPay(insteadRequest,
 								InsteadPayImportTypeEnum.FILE, param);
 
 						messg = "操作成功";
@@ -231,7 +232,7 @@ public class InsteadPayAction extends BaseAction {
 						AbstractFTPClient ftpClient = ftpClientFactory
 								.getFtpClient();
 						try {
-							ftpClient.upload(filePath, fileName, file);
+							ftpClient.upload(filePath, targetFileName, file);
 						} catch (IOException e) {
 							log.error(e.getMessage(), e);
 							log.warn("upload to ftp get a exception.caused by:"
@@ -276,7 +277,10 @@ public class InsteadPayAction extends BaseAction {
 		} catch (FailToInsertFeeException e) {
 		    log.error(e.getMessage(), e);
 			messg = e.getMessage();
-		} catch (Exception e) {
+		} catch(ConstraintViolationException e){
+		    log.error(e.getMessage(), e);
+            messg = "商户批次号重复";
+		}catch (Exception e) {
 		    log.error(e.getMessage(), e);
 		    if (e!= null && e.getMessage() != null) {
 		        messg = e.getMessage();
@@ -285,7 +289,6 @@ public class InsteadPayAction extends BaseAction {
 		    }
 		}
 		json_encode(messg);
-
 	}
 
 	private List<InsteadPayFile> InsteadPayDetaList(List<InsteadPayFile> ins,
@@ -401,7 +404,7 @@ public class InsteadPayAction extends BaseAction {
 		int page = this.getPage();
 		int pageSize = this.getRows();
 		
-		PagedResult<InsteadPayDetailBean> pr = instea.queryPaged(page,
+		PagedResult<InsteadPayDetailBean> pr = insteadPayService.queryPaged(page,
 				pageSize, instead);
 		try {
 			List<InsteadPayDetailBean> li = pr.getPagedResult();
@@ -630,4 +633,12 @@ public class InsteadPayAction extends BaseAction {
 	public void setAuditDataBean(AuditDataBean auditDataBean) {
 		this.auditDataBean = auditDataBean;
 	}
+
+    public String getFileFileName() {
+        return fileFileName;
+    }
+
+    public void setFileFileName(String fileFileName) {
+        this.fileFileName = fileFileName;
+    }
 }

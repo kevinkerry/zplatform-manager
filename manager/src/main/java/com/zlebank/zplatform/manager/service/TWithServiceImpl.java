@@ -225,8 +225,8 @@ public class TWithServiceImpl
                  * 调用分录规则
                  */
                 TxnsLogModel txnsLogModel= txnsLogService.getTxnsLogByTxnseqno(twb.getTxnseqNo());
-                txnsLogModel.setAmount(Long.parseLong(twb.getAmount()));
-                txnsLogModel.setTxnfee(Long.parseLong(twb.getFee()));
+                txnsLogModel.setAmount(with.longValue());
+                txnsLogModel.setTxnfee(fee.longValue());
                 txnsLogDao.merge(txnsLogModel);
                 TradeInfo tradeInfo = new TradeInfo();
                 tradeInfo.setAmount(with.add(fee));
@@ -237,6 +237,7 @@ public class TWithServiceImpl
                 tradeInfo.setPayordno(twb.getWithdraworderno());
                 tradeInfo.setCommission(new BigDecimal(0));
                 tradeInfo.setCharge(fee);
+                tradeInfo.setCoopInstCode(txnsLogModel.getAccfirmerno());
                 // 查看余额
                 accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_APPLY);
                 tw.saveA(txnsw);
@@ -534,7 +535,7 @@ public class TWithServiceImpl
             // 初审通过
             if (firstTrial.getFalg() == true) {
                 txns.setStatus(ReviewEnum.SECONDTRIAL.getCode());
-                Agree(txns);
+                agree(txns);
             } else {
                 // 初审拒绝
                 txns.setStatus(ReviewEnum.FIRSTREFUSED.getCode());
@@ -555,7 +556,7 @@ public class TWithServiceImpl
      * @return
      * @throws RecordsAlreadyExistsException
      */
-    private Long  Agree(TxnsWithdrawModel txns) throws RecordsAlreadyExistsException{
+    private Long agree(TxnsWithdrawModel txns) throws RecordsAlreadyExistsException{
         List<PojoTranData> tranDatas = new ArrayList<PojoTranData>();
         //PojoTranData tranData=BeanCopyUtil.copyBean(PojoTranData.class, txns);
         PojoTranData tranData=new PojoTranData();
@@ -569,8 +570,10 @@ public class TWithServiceImpl
         tranData.setTranAmt(txns.getAmount());
         tranData.setBusiType(TransferBusiTypeEnum.WITHDRAW.getCode());
         tranData.setTxnseqno(txns.getTexnseqno());
+        tranData.setBusiSeqNo(txns.getWithdraworderno());
+        tranData.setMerchOrderNo(txns.getGatewayorderno());
         tranDatas.add(tranData);
-        return transferData.saveTransferData(TransferBusiTypeEnum.WITHDRAW, txns.getId(), tranDatas);
+        return transferData.saveTransferData(TransferBusiTypeEnum.WITHDRAW, tranDatas);
     }
     /**
      * 审核拒绝

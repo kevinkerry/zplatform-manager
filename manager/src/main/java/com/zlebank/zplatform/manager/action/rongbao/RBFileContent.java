@@ -30,9 +30,7 @@ public class RBFileContent extends AbstractFileContentHandler {
             if (upload[0] != null) {
                 // String fileNameString = generateFileName(headImageFileName);
                 InputStream is = new FileInputStream(upload[0]);
-                System.out.println(is);
                 Workbook wbk = Workbook.getWorkbook(is);
-                System.out.println(wbk);
                 for (int k = 0; k < wbk.getNumberOfSheets(); k++) {
                     Sheet rs = wbk.getSheet(k);
                     bnkTxnList = this.getExcelToElement(rs, instiid);

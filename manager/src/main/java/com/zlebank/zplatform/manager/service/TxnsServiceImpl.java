@@ -85,7 +85,6 @@ public class TxnsServiceImpl
     @Override
     protected long getTotal(TxnsLogBean example) {
         return itld.count(example);
-
     }
 
     /**

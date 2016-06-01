@@ -177,7 +177,7 @@
 	  
 	  function closeAdd() {
 	  	$('#w').window('close');
-	  	$("#saveForm").attr("action", "pages/product/AddProductProductAction.action");
+	  	$("#saveForm").attr("action", "pages/product/addProductProductAction.action");
 	  }
 	  
 	  function search() {

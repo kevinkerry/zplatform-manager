@@ -105,6 +105,7 @@ table tr td select {
 					{field : 'ck',checkbox :true},
 					{field : 'id',hidden:true},
 					{field : 'insteadPayBatchSeqNo',title : '代付批次号',width : 150,align : 'center'},
+					{field : 'merId',title : '商户号',width : 150,align : 'center'},
 					{field : 'batchNo',title : '商户批次号',width : 120,align : 'center'},
 					{field : 'type',title : '代付类型',width : 70,align : 'center',
 						formatter : function(value, rec) {
@@ -228,15 +229,14 @@ table tr td select {
 								checkbox : true
 							},
 							{field : 'id',hidden:true},
-							{field : 'orderId',title : '商户订单号',width : 150,align : 'center'},
-							{field : 'batchId',hidden:true},
 							{
 								field : 'insteadPayDataSeqNo',
 								title : '代付流水号',
 								width : 200,
 								align : 'center'
 							},
-							
+							{field : 'orderId',title : '商户订单号',width : 150,align : 'center'},
+							{field : 'batchId',hidden:true},
 							{
 								field : 'accType',
 								title : '账户类型',

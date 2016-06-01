@@ -174,7 +174,7 @@
 		function showAdd() {
 			$('#theForm').clearForm();
 			$('#w').window({
-				title: '版本信息',
+				title: '扣率版本信息',
 				top: panelVertFloat,
 		  		left: panelHoriFloat,
 		  		width: panelWidth,
@@ -205,11 +205,15 @@
 					return false;
 				},
 				success: function(data) {
-					$.messager.alert('提示', data);
-					closeAdd();
-					search();
-					$('#btn_submit').linkbutton('enable');
-	
+					if (data == '添加成功!' || data == '修改成功!') {
+						$.messager.alert('提示', data);
+						closeAdd();
+						$('#btn_submit').linkbutton('enable');
+						search();
+					} else {
+						$.messager.alert('提示', data);
+						$('#btn_submit').linkbutton('enable');
+					}
 				}
 			});
 	

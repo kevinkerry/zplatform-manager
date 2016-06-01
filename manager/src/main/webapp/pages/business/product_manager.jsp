@@ -82,280 +82,307 @@
   </body>
   <script>
   
-  		var width = $("#continer").width();
-  		var gridHeight = 600;
-  		var panelWidth = 640;
-  		var panelHoriFloat = (width-panelWidth)/2;
-  		var panelVertFloat = 150;
-		$(function(){
-		   // var checkmark=1;
-		   // $("#checkAll").click(
-		   //   function () {
-		   //   if(checkmark%2==0){
-		    //    $("#checkboxList,#checkAll").attr("checked",false);
-		   //   }else{
-		   //     $("#checkboxList,#checkAll").attr("checked","checked");
-		   //   }	
-		   //   checkmark=checkmark+1;	      
-		   //   } );
-		   
-			$('#paraList').datagrid({
-				title:'产品列表',
-				iconCls:'icon-save',
-				height:600,
-				nowrap: false,
-				striped: true,
-				singleSelect:true,
-				url:'pages/product/queryProductProductAction.action',
-				remoteSort: false,
-				columns:[[
-					{field:'PRDTVER',title:'产品代码',align:'center',width:150},
-					{field:'PRDTNAME',title:'产品名称',align:'center',width:150},
-					{field:'INTIME',title:'创建时间',width:120,align:'center'},
-					{field:'STATUS',title:'状态',width:120,align:'center'},
-					{field:'NOTES',title:'备注',width:150,align:'center'},
-					{field:'REMARKS',title:'操作',align:'center',width:150,rowspan:2,
-						formatter:function(value,rec){		    
-						        if(rec.STATUS=="注销"){
-						          return  '<a href="javascript:REParaDic('+rec.PRDTVER+')" style="color:blue;margin-left:10px">启用</a>';	;
-						        }else{
-						          return '<a href="javascript:showUpdate(\''+rec.PRDTVER+'\')" style="color:blue;margin-left:10px">修改</a>'+
-								         '<a href="javascript:DetailParaDic(\''+rec.PRDTVER+'\')" style="color:blue;margin-left:10px">详细</a>';	
-						        }
-						          
-						            		      
+  var width = $("#continer").width();
+  var gridHeight = 600;
+  var panelWidth = 640;
+  var panelHoriFloat = (width - panelWidth) / 2;
+  var panelVertFloat = 150;
+  $(function() {
+      // var checkmark=1;
+      // $("#checkAll").click(
+      //   function () {
+      //   if(checkmark%2==0){
+      //    $("#checkboxList,#checkAll").attr("checked",false);
+      //   }else{
+      //     $("#checkboxList,#checkAll").attr("checked","checked");
+      //   }	
+      //   checkmark=checkmark+1;	      
+      //   } );
+      $('#paraList').datagrid({
+          title: '产品列表',
+          iconCls: 'icon-save',
+          height: 600,
+          nowrap: false,
+          striped: true,
+          singleSelect: true,
+          url: 'pages/product/queryProductProductAction.action',
+          remoteSort: false,
+          columns: [[{
+              field: 'PRDTVER',
+              title: '产品代码',
+              align: 'center',
+              width: 150
+          },
+          {
+              field: 'PRDTNAME',
+              title: '产品名称',
+              align: 'center',
+              width: 150
+          },
+          {
+              field: 'INTIME',
+              title: '创建时间',
+              width: 120,
+              align: 'center'
+          },
+          {
+              field: 'STATUS',
+              title: '状态',
+              width: 120,
+              align: 'center'
+          },
+          {
+              field: 'NOTES',
+              title: '备注',
+              width: 150,
+              align: 'center'
+          },
+          {
+              field: 'REMARKS',
+              title: '操作',
+              align: 'center',
+              width: 150,
+              rowspan: 2,
+              formatter: function(value, rec) {
+                  if (rec.STATUS == "注销") {
+                      return '<a href="javascript:REParaDic(' + rec.PRDTVER + ')" style="color:blue;margin-left:10px">启用</a>';;
+                  } else {
+                      return '<a href="javascript:showUpdate(\'' + rec.PRDTVER + '\')" style="color:blue;margin-left:10px">修改</a>' + '<a href="javascript:DetailParaDic(\'' + rec.PRDTVER + '\')" style="color:blue;margin-left:10px">详细</a>';
+                  }
 
-					    }
-					 }
-				
-				]],
-				pagination:true,
-				rownumbers:true,
-				toolbar:[{
-					id:'btnadd',
-					text:'新增产品',
-					iconCls:'icon-add',
-					handler:function(){
-					showAdd(0);
-					}
-				}]
-			});
-			
-		});
+              }
+          }
+          ]],
+          pagination: true,
+          rownumbers: true,
+          toolbar: [{
+              id: 'btnadd',
+              text: '新增产品',
+              iconCls: 'icon-add',
+              handler: function() {
+                  showAdd(0);
+              }
+          }]
+      });
+  });
 
-		function resize(){
-			$('#searchForm :input').val('');
-		}
-		
-		function showAdd(num){
-			$('#saveForm').clearForm();
-		document.getElementById("div_id").style.display="";
-	    	//$("#checkAll").attr("checked",false);
-		    $('#saveForm :input').val('');
-			$("#saveForm").attr("action","pages/product/AddProductProductAction.action");
-		  //  $("#busi_code_ins").attr("readonly",false);
-		    loadYWAll(); 
-			$('#w').window({
-				title: '产品信息',
-				top:panelVertFloat,
-				left:panelHoriFloat,
-				width:panelWidth,
-				modal: true,
-				minimizable:false,
-				collapsible:false,
-				maximizable:false,
-				shadow: false,
-				closed: false,
-				height: 260
-			});
-			
-		}
-		function closeAdd(){
-			$('#w').window('close');
-			$("#saveForm").attr("action","pages/product/AddProductProductAction.action");
-		}		
-		function search(){
-			var data={'productModel.prdtver':$('#code_ins').val(),'productModel.prdtname':$('#name_ins').val()};
-			$('#paraList').datagrid('load',data);
-		}
-		function saveParaDic(){
-		 if($('#saveForm').form("validate")){
-		    $("#button_id").linkbutton('disable');
-			$('#saveForm').form('submit', {  
-			    onSubmit: function(){  
-			        return $('#saveForm').form('validate');   
-			    },   
-			    success:function(data){    
-			    		$.messager.alert('提示',data);  
-			    		search();
-			    		closeAdd();
-			    		$("#button_id").linkbutton('enable');
-			    }   
-			});  
-		 }
-			 
-		}
-		
-		function showUpdate(pid){
-		    document.getElementById("div_id").style.display="";
-			$.ajax({
-			   type: "POST",
-			   url: "pages/product/queryOneProductProductAction.action",
-			   data: "pid="+pid,
-			   async: false,
-			   dataType:"json",
-			   success: function(json){
-					    $("#saveForm").attr("action","pages/product/UpdateProductProductAction.action");						   			
-						$("#group_name_ins").val(json.prdtname);
-						$("#t_id").val(json.prdtver);
-						$("#group_notes_ins").val(json.notes);	
-					    loadYwMark(pid);  
-			   }
-			});
-		     
+  function resize() {
+      $('#searchForm :input').val('');
+  }
 
-			//$("#busi_code_ins").attr("readonly",true);
-			$('#w').window({
-				title: '修改产品信息',
-				top:panelVertFloat,
-				left:panelHoriFloat,
-				width:panelWidth,
-				modal: true,
-				minimizable:false,
-				collapsible:false,
-				maximizable:false,
-				shadow: false,
-				closed: false,
-				height: 260
-			});
-		}
+  function showAdd(num) {
+      $('#saveForm').clearForm();
+      document.getElementById("div_id").style.display = "";
+      //$("#checkAll").attr("checked",false);
+      $('#saveForm :input').val('');
+      $("#saveForm").attr("action", "pages/product/addProductProductAction.action");
+      //  $("#busi_code_ins").attr("readonly",false);
+      loadYWAll();
+      $('#w').window({
+          title: '产品信息',
+          top: panelVertFloat,
+          left: panelHoriFloat,
+          width: panelWidth,
+          modal: true,
+          minimizable: false,
+          collapsible: false,
+          maximizable: false,
+          shadow: false,
+          closed: false,
+          height: 260
+      });
+  }
+  
+  function closeAdd() {
+      $('#w').window('close');
+      $("#saveForm").attr("action", "pages/product/addProductProductAction.action");
+  }
+  
+  function search() {
+      var data = {
+          'productModel.prdtver': $('#code_ins').val(),
+          'productModel.prdtname': $('#name_ins').val()
+      };
+      $('#paraList').datagrid('load', data);
+  }
+  
+  function saveParaDic() {
+      if ($('#saveForm').form("validate")) {
+          $("#button_id").linkbutton('disable');
+          $('#saveForm').form('submit', {
+              onSubmit: function() {
+                  return $('#saveForm').form('validate');
+              },
+              success: function(data) {
+                  $.messager.alert('提示', data);
+                  search();
+                  closeAdd();
+                  $("#button_id").linkbutton('enable');
+              }
+          });
+      }
+  }
 
-		
-		function DetailParaDic(pid){
-		    document.getElementById("div_id").style.display="none";
-		    //$("#div_id").attr("display","none");	
-			$.ajax({
-			   type: "POST",
-			   url: "pages/product/queryOneProductProductAction.action",
-			   data: "pid="+pid,
-			   async: false,
-			   dataType:"json",
-			   success: function(json){
-					    $("#saveForm").attr("action","");						   			
-					    $("#group_name_ins").val(json.prdtname);
-						$("#t_id").val(json.prdtver);
-						$("#group_notes_ins").val(json.notes);	
-						loadYwMark(pid);  		
-			   }
-			});
-			//$("#busi_code_ins").attr("readonly",true);
-			$('#w').window({
-				title: '产品信息',
-				top:panelVertFloat,
-				left:panelHoriFloat,
-				width:panelWidth,
-				modal: true,
-				minimizable:false,
-				collapsible:false,
-				maximizable:false,
-				shadow: false,
-				closed: false,
-				height: 260
-			});
-		}
-		
-		
-		
+  function showUpdate(pid) {
+      document.getElementById("div_id").style.display = "";
+      $.ajax({
+          type: "POST",
+          url: "pages/product/queryOneProductProductAction.action",
+          data: "pid=" + pid,
+          async: false,
+          dataType: "json",
+          success: function(json) {
+              $("#saveForm").attr("action", "pages/product/UpdateProductProductAction.action");
+              $("#group_name_ins").val(json.prdtname);
+              $("#t_id").val(json.prdtver);
+              $("#group_notes_ins").val(json.notes);
+              loadYwMark(pid);
+          }
+      });
+      //$("#busi_code_ins").attr("readonly",true);
+      $('#w').window({
+          title: '修改产品信息',
+          top: panelVertFloat,
+          left: panelHoriFloat,
+          width: panelWidth,
+          modal: true,
+          minimizable: false,
+          collapsible: false,
+          maximizable: false,
+          shadow: false,
+          closed: false,
+          height: 260
+      });
+  }
 
-		function deleteParaDic(pId){
-		       $.messager.confirm('提示','您确定注销此产品?',function(r){   
-			     if (r){  
-			    	$.ajax({
-						type: "GET",
-					  	url: "pages/paradic/DelectGroupGrouAction.action",
-					  	data:"rand="+new Date().getTime()+"&pid="+pId,
-					 	dataType: "text",
-					 	success:function(text){
-			    			$.messager.alert('提示',text);   
-			    			search();
-					 	}
-					});	
-			     }   
-			   });  
-						
-		}
-		function REParaDic(pId){
-		       $.messager.confirm('提示','您是否想要启用此业务版本?',function(r){   
-			     if (r){  
-			    	$.ajax({
-						type: "GET",
-					  	url: "pages/paradic/ReUSERBusiPackBPackAction.action",
-					  	data: "rand="+new Date().getTime()+"&pid="+pId,
-					 	dataType: "text",
-					 	success:function(text){
-			    			$.messager.alert('提示',text);   
-			    			search();
-					 	}
-					});	
-			     }   
-			   });  
-						
-		}
-		function loadYWAll(){
-		     var mark=0;
-		     var html = '';
-			 $.ajax({
-				type: "GET",
-			  	url: "pages/product/queryBusinessTypeProductAction.action",
-			  	data: "rand="+new Date().getTime(),
-			 	dataType: "json",
-			 	success:function(json){
-					$.each(json, function(key,value){
-						 html += '<input type="checkbox" id="checkboxList" name="checkboxList" style="align:left" value="'+value.BUSICODE+'" /><label class="activeflag_label">'+value.BUSINAME+'</label>';
-					    if(mark==3||mark==7){
-					       html+='<br/>';
-					    }
-				    	mark=mark+1;
-					})
-					$("#yewu_ins").html(html);
-					$('#yewu_ins').hcheckbox();   
-			 	}
-			 });
-		}
-		function loadYwMark(pid){
-		     var mark=0;
-		     var html = '';
-			 $.ajax({
-				type: "GET",
-			  	url: "pages/product/queryProductCaseProductAction.action?pid="+pid,
-			  	data: "rand="+new Date().getTime(),
-			 	dataType: "json",
-			 	success:function(json){
-					$.each(json, function(key,value){
-						if(value.CODEMARK=='空'){
-					          html += '<input type="checkbox" id="checkboxList" name="checkboxList" style="width:40px" value="'+value.BUSICODE+'" /><label class="activeflag_label">'+value.BUSINAME+'</label>';
-					       }else{
-					          html += '<input type="checkbox" id="checkboxList" name="checkboxList" checked="checked"   style="width:40px" value="'+value.BUSICODE+'" /><label class="activeflag_label">'+value.BUSINAME+'</label>';					          
-					       }	
-					    if(mark==3||mark==7){
-					       	html += '</br>'				    
-					    }
-				    	mark=mark+1;
-					})
-					$("#yewu_ins").html(html);
-					$('#yewu_ins').hcheckbox(); 
-					//alert($('#yewu_ins').children('#checkboxList'));			
-					$('#yewu_ins').children('#checkboxList').each(function(){
-							if($(this).attr("checked")=="checked"){
-								//$(this).next('.activeflag_label').attr("disabled","disabled");
-								//$(this).next('.activeflag_label').unbind('click');
-								//$(this).attr("disabled","disabled");
-							}else{
-								$(this).removeAttr("disabled");
-							}
-						});
-			 	}
-			 });
-		}
+  function DetailParaDic(pid) {
+      document.getElementById("div_id").style.display = "none";
+      //$("#div_id").attr("display","none");	
+      $.ajax({
+          type: "POST",
+          url: "pages/product/queryOneProductProductAction.action",
+          data: "pid=" + pid,
+          async: false,
+          dataType: "json",
+          success: function(json) {
+              $("#saveForm").attr("action", "");
+              $("#group_name_ins").val(json.prdtname);
+              $("#t_id").val(json.prdtver);
+              $("#group_notes_ins").val(json.notes);
+              loadYwMark(pid);
+          }
+      });
+      //$("#busi_code_ins").attr("readonly",true);
+      $('#w').window({
+          title: '产品信息',
+          top: panelVertFloat,
+          left: panelHoriFloat,
+          width: panelWidth,
+          modal: true,
+          minimizable: false,
+          collapsible: false,
+          maximizable: false,
+          shadow: false,
+          closed: false,
+          height: 260
+      });
+  }
+
+  function deleteParaDic(pId) {
+      $.messager.confirm('提示', '您确定注销此产品?',
+      function(r) {
+          if (r) {
+              $.ajax({
+                  type: "GET",
+                  url: "pages/paradic/DelectGroupGrouAction.action",
+                  data: "rand=" + new Date().getTime() + "&pid=" + pId,
+                  dataType: "text",
+                  success: function(text) {
+                      $.messager.alert('提示', text);
+                      search();
+                  }
+              });
+          }
+      });
+
+  }
+  
+  function REParaDic(pId) {
+      $.messager.confirm('提示', '您是否想要启用此业务版本?',
+      function(r) {
+          if (r) {
+              $.ajax({
+                  type: "GET",
+                  url: "pages/paradic/ReUSERBusiPackBPackAction.action",
+                  data: "rand=" + new Date().getTime() + "&pid=" + pId,
+                  dataType: "text",
+                  success: function(text) {
+                      $.messager.alert('提示', text);
+                      search();
+                  }
+              });
+          }
+      });
+  }
+  
+  function loadYWAll() {
+      var mark = 0;
+      var html = '';
+      $.ajax({
+          type: "GET",
+          url: "pages/product/queryBusinessTypeProductAction.action",
+          data: "rand=" + new Date().getTime(),
+          dataType: "json",
+          success: function(json) {
+              $.each(json,
+              function(key, value) {
+                  html += '<input type="checkbox" id="checkboxList" name="checkboxList" style="align:left" value="' + value.BUSICODE + '" /><label class="activeflag_label">' + value.BUSINAME + '</label>';
+                  if (mark == 3 || mark == 7) {
+                      html += '<br/>';
+                  }
+                  mark = mark + 1;
+              });
+              $("#yewu_ins").html(html);
+              $('#yewu_ins').hcheckbox();
+          }
+      });
+  }
+  
+  function loadYwMark(pid) {
+      var mark = 0;
+      var html = '';
+      $.ajax({
+          type: "GET",
+          url: "pages/product/queryProductCaseProductAction.action?pid=" + pid,
+          data: "rand=" + new Date().getTime(),
+          dataType: "json",
+          success: function(json) {
+              $.each(json,
+              function(key, value) {
+                  if (value.CODEMARK == '空') {
+                      html += '<input type="checkbox" id="checkboxList" name="checkboxList" style="width:40px" value="' + value.BUSICODE + '" /><label class="activeflag_label">' + value.BUSINAME + '</label>';
+                  } else {
+                      html += '<input type="checkbox" id="checkboxList" name="checkboxList" checked="checked"   style="width:40px" value="' + value.BUSICODE + '" /><label class="activeflag_label">' + value.BUSINAME + '</label>';
+                  }
+                  if (mark == 3 || mark == 7) {
+                      html += '</br>'
+                  }
+                  mark = mark + 1;
+              });
+              $("#yewu_ins").html(html);
+              $('#yewu_ins').hcheckbox();
+              //alert($('#yewu_ins').children('#checkboxList'));			
+              $('#yewu_ins').children('#checkboxList').each(function() {
+                  if ($(this).attr("checked") == "checked") {
+                      //$(this).next('.activeflag_label').attr("disabled","disabled");
+                      //$(this).next('.activeflag_label').unbind('click');
+                      //$(this).attr("disabled","disabled");
+                  } else {
+                      $(this).removeAttr("disabled");
+                  }
+              });
+          }
+      });
+  }
 	</script>
 </html>

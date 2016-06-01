@@ -161,7 +161,6 @@ public class ChargeServiceImpl
       
          cm.setChargenoinstid(changeno.getParaCode());
          charge.saveA(cm);
-         
     }
 
     /**

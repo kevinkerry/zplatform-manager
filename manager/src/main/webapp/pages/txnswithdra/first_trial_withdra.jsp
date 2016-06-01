@@ -25,7 +25,7 @@ table tr td select {
 					<tr>
 						<td align="right" width="10%">提现订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="twq.withdraworderno" id="withdrawordernos" maxlength="32" />
+							name="twq.gatewayorderno" id="gatewayorderno" maxlength="32" />
 						</td>
 
 						<td align="right" width="10%">提现类型:</td>
@@ -148,186 +148,169 @@ table tr td select {
 </body>
 
 <script>
-	var width = $("#continer").width();
-	$(function() {
-		$("#withdraworcheckbox").unbind();
-		$('#test')
-				.datagrid(
-						{
-							title : '会员提现信息表',
-							iconCls : 'icon-save',
-							height : 400,
-							singleSelect : true,
-							nowrap : false,
-							striped : true,
-							url : 'pages/withdraw/queryTrialWithdraTriaAction.action?falg=first',
-							remoteSort : false,
-							idField : 'ORGAN_ID',
-							columns : [ [
-									{
-										field : 'ck',
-										checkbox : true
-									},
-									{
-										field : 'withdraworderno',
-										title : '提现订单号',
-										width : 120,
-										align : 'center'
-									},
-									
-									{
-										field : 'memberid',
-										title : '会员号',
-										width : 120,
-										align : 'center'
-									},
-									{
-										field : 'withdrawtype',
-										title : '提现类型',
-										width : 120,
-										align : 'center',
-										formatter : function(value, rec) {
-											if (value == '1') {
-												return '商户';
-											} else if (value == '0') {
-												return '个人';
-											} else {
-												return '';
-											}
-										}
-									},
-									{
-										field : 'amount',
-										title : '提现金额',
-										width : 120,
-										align : 'center'
-									},
-									{
-										field : 'bankname',
-										title : '支行名称',
-										width : 120,
-										align : 'center'
-									},
-									{
-										field : 'acctno',
-										title : '银行账号',
-										width : 120,
-										align : 'center'
-									},
-									{
-										field : 'fee',
-										title : '提现手续费',
-										width : 120,
-										align : 'center'
-									},
-									{
-										field : 'status',
-										title : '状态',
-										width : 120,
-										align : 'center',
-										formatter : function(value, rec) {
+var width = $("#continer").width();
+$(function() {
+    $("#withdraworcheckbox").unbind();
+    $('#test').datagrid({
+        title: '会员提现信息表',
+        iconCls: 'icon-save',
+        height: 400,
+        singleSelect: true,
+        nowrap: false,
+        striped: true,
+        url: 'pages/withdraw/queryTrialWithdraTriaAction.action?falg=first',
+        remoteSort: false,
+        idField: 'ORGAN_ID',
+        columns: [[{
+            field: 'ck',
+            checkbox: true
+        },
+        {field:'withdraworderno',title:'提现流水号',width:150,align:'center'},
+		{field:'gatewayorderno',title:'订单号',width:150,align:'center'},
+        {
+            field: 'memberid',
+            title: '会员号',
+            width: 120,
+            align: 'center'
+        },
+        {
+            field: 'withdrawtype',
+            title: '提现类型',
+            width: 120,
+            align: 'center',
+            formatter: function(value, rec) {
+                if (value == '1') {
+                    return '商户';
+                } else if (value == '0') {
+                    return '个人';
+                } else {
+                    return '';
+                }
+            }
+        },
+        {
+            field: 'amount',
+            title: '提现金额',
+            width: 120,
+            align: 'center'
+        },
+        {
+            field: 'bankname',
+            title: '支行名称',
+            width: 120,
+            align: 'center'
+        },
+        {
+            field: 'acctno',
+            title: '银行账号',
+            width: 120,
+            align: 'center'
+        },
+        {
+            field: 'fee',
+            title: '提现手续费',
+            width: 120,
+            align: 'center'
+        },
+        {
+            field: 'status',
+            title: '状态',
+            width: 120,
+            align: 'center',
+            formatter: function(value, rec) {
+                if (value == '01') {
+                    return '待初审';
+                } else if (value == '09') {
+                    return '初审未过';
+                } else if (value == '11') {
+                    return '待复审';
+                } else if (value == '19') {
+                    return '复审未过';
+                } else if (value == '21') {
+                    return '等待批处理';
+                } else if (value == '29') {
+                    return '批处理失败';
+                } else if (value == '00') {
+                    return '提现成功';
+                } else if (value == '39') {
+                    return '自行终止';
+                } else {
+                    return '';
+                }
+            }
+        },
+        {
+            field: 'txnseqno-',
+            title: '操作',
+            width: 100,
+            align: 'center',
+            formatter: function(value, rec) {
+                if (rec.withdraworderno != null) {
+                    return '<a href="javascript:getWithdraw(\'' + rec.withdraworderno + '\')" style="color:blue;margin-left:10px">审核</a>';
+                } else {
+                    return '';
+                }
+            }
+        }]],
+        singleSelect: false,
+        selectOnCheck: true,
+        checkOnSelect: false,
+        pagination: true,
+        rownumbers: true,
+        toolbar: [{
+            id: 'btnadd',
+            text: '批量审核',
+            iconCls: 'icon-add',
+            handler: function() {
+                var check = $('#test').datagrid('getChecked');
+                if (check.length != 0) {
+                    var myArray = "";
+                    for (var i = 0; i < check.length; i++) {
+                        myArray += check[i].withdraworderno + "|"
+                    }
+                    $("#firstTrial")[0].reset();
+                    $("#btn_submit").linkbutton('enable');
+                    $("#icon-cancel").linkbutton('enable');
 
-											if (value == '01') {
-												return '待初审';
-											} else if (value == '09') {
-												return '初审未过';
-											} else if (value == '11') {
-												return '待复审';
-											} else if (value == '19') {
-												return '复审未过';
-											} else if (value == '21') {
-												return '等待批处理';
-											} else if (value == '29') {
-												return '批处理失败';
-											} else if (value == '00') {
-												return '提现成功';
-											} else if (value == '39') {
-												return '自行终止';
-											} else {
-												return '';
-											}
-										}
-									},
-							
-									{
-										field : 'txnseqno-',
-										title : '操作',
-										width : 100,
-										align : 'center',
-										formatter : function(value, rec) {
-											if (rec.withdraworderno != null) {
-												return '<a href="javascript:getWithdraw(\''
-														+ rec.withdraworderno
-														+ '\')" style="color:blue;margin-left:10px">审核</a>';
-											} else {  
-												return '';
-											}
-										}
-									} ] ],
-							singleSelect : false,
-							selectOnCheck : true,
-							checkOnSelect : false,
-							pagination : true,
-							rownumbers : true,
-							toolbar : [ {
-								id : 'btnadd',
-								text : '批量审核',
-								iconCls : 'icon-add',
-								handler : function() {
-									var check = $('#test').datagrid(
-											'getChecked');
-									if (check.length != 0) {
-										var myArray = "";
-										for (var i = 0; i < check.length; i++) {
-											myArray += check[i].withdraworderno
-													+ "|"
-										}
-										$("#firstTrial")[0].reset();
-										$("#btn_submit").linkbutton('enable');
-										$("#icon-cancel").linkbutton('enable');
-										
-										$("#withdraworderno").val(myArray);
-										showAdd();
-									} else {
-										$.messager.alert('提示', "请选择数据");
+                    $("#withdraworderno").val(myArray);
+                    showAdd();
+                } else {
+                    $.messager.alert('提示', "请选择数据");
+                }
+            }
+        }]
+    });
+});
 
-									}
-								}
-							} ]
-						});
-	});
+function search() {
+    var data = {
+        "twq.gatewayorderno": $('#gatewayorderno').val(),
+        "twq.withdrawtype": $('#withdrawtypes').val(),
+        "twq.memberid": $('#memberids').val()
+    }
+    $('#test').datagrid('load', data);
+}
 
-	function search() {
+function showAdd() {
+    $('#w').window({
+        title: '批量审核',
+        top: 100,
+        width: 800,
+        collapsible: false,
+        minimizable: false,
+        maximizable: false,
+        modal: true,
+        shadow: false,
+        closed: false,
+        height: 240
+    });
+}
+function closeAdd() {
+    $('#w').window('close');
+    $('#ws').window('close');
+}
 
-		var data = {
-			"twq.withdraworderno" : $('#withdrawordernos').val(),
-			"twq.withdrawtype" : $('#withdrawtypes').val(),
-			"twq.memberid" : $('#memberids').val()
-		}
-		$('#test').datagrid('load', data);
-	}
-
-	function showAdd() {
-
-		$('#w').window({
-			title : '批量审核',
-			top : 100,
-			width : 800,
-			collapsible : false,
-			minimizable : false,
-			maximizable : false,
-			modal : true,
-			shadow : false,
-			closed : false,
-			height : 240
-		});
-	}
-	function closeAdd() {
-		$('#w').window('close');
-		$('#ws').window('close');
-	}
-
-	/* function a(falg){
+/* function a(falg){
 		if(falg==true){
 			
 			$("#firstTrial").attr("action",
@@ -339,91 +322,84 @@ table tr td select {
 		
 	} */
 
-	function firstTrial(falg) {
-		if (falg == true) {
-			$("#firstTrial").attr("action",
-					"pages/withdraw/firstTrialTriaAction.action");
-			$("#falg").val("true");
-		} else {
-			$("#firstTrial").attr("action",
-					"pages/withdraw/firstTrialTriaAction.action");
-			$("#falg").val("false");
+function firstTrial(falg) {
+    if (falg == true) {
+        $("#firstTrial").attr("action", "pages/withdraw/firstTrialTriaAction.action");
+        $("#falg").val("true");
+    } else {
+        $("#firstTrial").attr("action", "pages/withdraw/firstTrialTriaAction.action");
+        $("#falg").val("false");
+    }
+    $('#firstTrial').form('submit', {
+        onSubmit: function() {
+            if ($('#firstTrial').form('validate')) {
+                $('#btn_submit').linkbutton('disable');
+                $("#icon-cancel").linkbutton('disable');
+                return true;
+            }
+            return false;
+        },
+        success: function(data) {
+            $.messager.alert('提示', data);
+            search();
+            closeAdd();
+        }
+    });
+}
 
-		}
-		$('#firstTrial').form('submit', {
-			onSubmit : function() {
-				if ($('#firstTrial').form('validate')) {
-					$('#btn_submit').linkbutton('disable');
-					$("#icon-cancel").linkbutton('disable');
-					
-					return true;
-				}
-				return false;
-			},
-			success : function(data) {
-				$.messager.alert('提示', data);
-				search();
-				closeAdd();
+function showAdds() {
 
-			}
-		});
-	}
-	
-	function showAdds() {
+    $('#ws').window({
+        title: '单笔审核',
+        top: 100,
+        width: 800,
+        collapsible: false,
+        minimizable: false,
+        maximizable: false,
+        modal: true,
+        shadow: false,
+        closed: false,
+        height: 500
+    });
 
-		$('#ws').window({
-			title : '单笔审核',
-			top : 100,
-			width : 800,
-			collapsible : false,
-			minimizable : false,
-			maximizable : false,
-			modal : true,
-			shadow : false,
-			closed : false,
-			height : 500
-		});
-		
-		
-		
-	}
-	
-	/*单笔审核**/
-	function getWithdraw(withdraworderno){
-		var ison=false;
-		$.ajax( { 
-				type: "POST",
-	             url: "pages/withdraw/queryTrialWithdraTriaAction.action?falg=first",
-	             data: {"twq.withdraworderno":withdraworderno},
-	             dataType: "json",
-	             success: function(data){
-	            var	json=data.rows[0];
-	            if(json==null){
-	            	$.messager.alert('提示',"数据不正确，请刷新后重试");	
-	            }else{
-	            	 $("#tmemberid").html(json.memberid);
-	            	 if(json.withdrawtype=='1'){
-	            		 $("#twithdrawtype").html('商户')
-	            	 }else if(json.withdrawtype=='0'){
-	            		 $("#twithdrawtype").html('个人')
-	            	 }
-	            	
-	            	 $("#tamount").html(json.amount+"(元)");
-	            	 $("#tacctno").html(json.acctno);
-	            	 $("#tacctname").html(json.acctname);
-	            	 $("#tbankcode").html(json.bankcode);
-	            	 $("#tbankname").html(json.bankname);
-	            	 $("#ttxntime").html(json.txntime);
-	            	 $("#withdraworderno").val(json.withdraworderno);
-	            	 $("#tintime").html(json.intime);
-	           isok=true;
-	            }
-	             }
-		})
-		if(isok==true){
-		showAdds();
-		}
-		}
-	
+}
+
+/*单笔审核**/
+function getWithdraw(withdraworderno) {
+    var ison = false;
+    $.ajax({
+        type: "POST",
+        url: "pages/withdraw/queryTrialWithdraTriaAction.action?falg=first",
+        data: {
+            "twq.withdraworderno": withdraworderno
+        },
+        dataType: "json",
+        success: function(data) {
+            var json = data.rows[0];
+            if (json == null) {
+                $.messager.alert('提示', "数据不正确，请刷新后重试");
+            } else {
+                $("#tmemberid").html(json.memberid);
+                if (json.withdrawtype == '1') {
+                    $("#twithdrawtype").html('商户')
+                } else if (json.withdrawtype == '0') {
+                    $("#twithdrawtype").html('个人')
+                }
+                $("#tamount").html(json.amount + "(元)");
+                $("#tacctno").html(json.acctno);
+                $("#tacctname").html(json.acctname);
+                $("#tbankcode").html(json.bankcode);
+                $("#tbankname").html(json.bankname);
+                $("#ttxntime").html(json.txntime);
+                $("#withdraworderno").val(json.withdraworderno);
+                $("#tintime").html(json.intime);
+                isok = true;
+            }
+        }
+    });
+    if (isok == true) {
+        showAdds();
+    }
+}
 </script>
 </html>

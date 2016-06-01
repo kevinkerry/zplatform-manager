@@ -73,7 +73,7 @@ public class TxnsLogAction extends BaseAction {
      */
     public String getTxnsLog() {
         bus = business.getAllBusiness();
-        return this.SUCCESS;
+        return SUCCESS;
     }
 
     /**

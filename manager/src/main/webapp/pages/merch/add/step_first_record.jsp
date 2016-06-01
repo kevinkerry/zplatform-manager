@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="center">联系手机号</td> 
 						<td>
-							<input  class="easyui-validatebox" maxlength="20"  validType="cellphonenum"  required="true" name="enterprise.phone" />
+							<input  class="easyui-validatebox" maxlength="11"  validType="cellphonenum"  required="true" name="enterprise.phone" />
 							<font color="red">*</font>
 						</td>
 						<td align="center">邮箱</td>

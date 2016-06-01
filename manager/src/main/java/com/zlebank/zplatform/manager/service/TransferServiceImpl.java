@@ -125,8 +125,6 @@ public class TransferServiceImpl
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
 	public boolean transferBatchTrial (long batchId, boolean flag,Long userId) {
 		try {
-			
-			
 			TransferTrialEnum transferTrialEnum = null;
 			if(flag){
 				transferTrialEnum = TransferTrialEnum.SUCCESSFUL;

@@ -109,6 +109,8 @@ table tr td select {
 			columns : [ [
 					{field : 'ck',checkbox : true},
 					{field : 'tranBatchNo',title : '划拨批次号',width : 160,align : 'center'},
+					{field : 'merchBathcNo',title : '商户批次号',width : 160,align : 'center'},
+					{field : 'busiBatchNo',title : '业务批次号',width : 160,align : 'center'},
 					{field : 'totalCount',title : '总笔数',width : 90,align : 'center'},
 					{field : 'totalAmt',title : '总金额',width : 90,align : 'center',
 						formatter:function(value,rec){
@@ -263,6 +265,8 @@ table tr td select {
 					columns : [ [
 							{field : 'ck',checkbox : true},
 							{field : 'tranDataSeqNo',title : '划拨流水号',width : 190,align : 'center'},
+							{field : 'merchOrderNo',title : '商户订单号',width : 190,align : 'center'},
+							{field : 'busiSeqNo',title : '业务流水号',width : 190,align : 'center'},
 							{field : 'accType',title : '账户类型',width : 90,align : 'center',
 								formatter : function(value, rec) {
 												if (value == '01') {
