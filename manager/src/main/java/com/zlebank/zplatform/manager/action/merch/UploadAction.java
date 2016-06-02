@@ -12,6 +12,8 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
+import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
@@ -21,6 +23,7 @@ import com.zlebank.zplatform.manager.service.WeChatReconFileService;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
+import com.zlebank.zplatform.trade.service.ITxnsLogService;
 
 public class UploadAction extends BaseAction {
 
@@ -46,7 +49,8 @@ public class UploadAction extends BaseAction {
     private IChannelFileService iChannelFileService;
     @Autowired
     private WeChatReconFileService chatReconFileService;
-    
+    @Autowired
+    private ITxnsLogService txnsLogService;
     public String getFalg() {
         return falg;
     }
@@ -275,6 +279,34 @@ public class UploadAction extends BaseAction {
     	json_encode(result);
     }
     
+    
+    
+    /////////////////////////////////////////////////结算///////////////////////////////////////////////////////////
+    
+    public String showSetted(){
+    	return "setted";
+    }
+    
+    public String startSetted(){
+    	try {
+			txnsLogService.excuteSetted();
+			json_encode("结算完成");
+		} catch (AccBussinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			json_encode("结算失败");
+		} catch (AbstractBusiAcctException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			json_encode("结算失败");
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			json_encode("结算失败");
+		}
+    	
+    	return null;
+    }
     
     public File[] getUpload() {
         return upload;

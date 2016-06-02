@@ -25,7 +25,8 @@
             <result name="StartCheck_file">/pages/uploadfile/file_start.jsp</result>
             <result name="member_manager">/pages/member/member_manager.jsp</result>
             <result name="member_acc">/pages/member/member_acc_manager.jsp</result>
-            	<result name="merch">/pages/merch/member_manager.jsp</result>
+            <result name="merch">/pages/merch/member_manager.jsp</result>
+            <result name="setted">/pages/uploadfile/setted_start.jsp</result>
 		</action>
 		<action name="*MccAction" class="com.zlebank.zplatform.manager.action.merch.MccAction" method="{1}">
 		</action>
