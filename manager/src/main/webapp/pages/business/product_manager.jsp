@@ -214,10 +214,12 @@
                   return $('#saveForm').form('validate');
               },
               success: function(data) {
-                  $.messager.alert('提示', data);
-                  search();
-                  closeAdd();
-                  $("#button_id").linkbutton('enable');
+            	  if (data == '添加成功!' || data == '修改成功!') {
+						closeAdd();
+						search();
+					}  
+            	  $.messager.alert('提示', data);
+            	  $('#button_id').linkbutton('enable');
               }
           });
       }
@@ -232,7 +234,7 @@
           async: false,
           dataType: "json",
           success: function(json) {
-              $("#saveForm").attr("action", "pages/product/UpdateProductProductAction.action");
+              $("#saveForm").attr("action", "pages/product/updateProductProductAction.action");
               $("#group_name_ins").val(json.prdtname);
               $("#t_id").val(json.prdtver);
               $("#group_notes_ins").val(json.notes);

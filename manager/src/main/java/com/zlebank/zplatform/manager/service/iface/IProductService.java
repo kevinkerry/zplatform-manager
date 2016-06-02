@@ -11,7 +11,7 @@ public interface IProductService extends IBaseService<ProductModel, Long>{
 	public List<?> queryBusinessType() ;
 	public String AddOneProduct(ProductModel product,List listbusicode);
 	public List<?> queryProdCase(String  prdtver) ;
-	public String UpdateProduct(ProductModel product,List listbusicode);
+	public String updateProduct(ProductModel product,List listbusicode);
 	public Map<String, Object> findCashByPage(Map<String, Object> variables, int page,int rows);
 	public String AddOneCash(CashModel cash,List listbusicode) ;
 	public List<?> queryChnlType();

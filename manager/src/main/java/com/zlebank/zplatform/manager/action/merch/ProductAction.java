@@ -48,8 +48,8 @@ public class ProductAction extends BaseAction{
 	//产品新增
 	public String addProduct(){
 	    String result = "";
-        if (productModel == null||StringUtil.isEmpty(productModel.getPrdtname().trim())||StringUtil.isEmpty(productModel.getPrdtver().trim())) {
-            result = "风控版本代码或者风控名称不能为空";
+        if (productModel == null||StringUtil.isEmpty(productModel.getPrdtname().trim())) {
+            result = "产品名称不能为空";
             json_encode(result);
             return null;
         }
@@ -91,15 +91,15 @@ public class ProductAction extends BaseAction{
 	    	return null;
 	 }
 	//产品修改
-	public String UpdateProduct(){
+	public String updateProduct(){
 	    String result = "";
         if (productModel == null||StringUtil.isEmpty(productModel.getPrdtname().trim())||StringUtil.isEmpty(productModel.getPrdtver().trim())) {
-            result = "风控版本代码或者风控名称不能为空";
+            result = "产品名称不能为空";
             json_encode(result);
             return null;
         }
 		productModel.setInuser(getCurrentUser().getUserId());
-		String markString=serviceContainer.getProductService().UpdateProduct(productModel, checkboxList);
+		String markString=serviceContainer.getProductService().updateProduct(productModel, checkboxList);
 		json_encode(markString);
 		return null;
 	}
