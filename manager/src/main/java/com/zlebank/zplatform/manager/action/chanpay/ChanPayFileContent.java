@@ -56,7 +56,6 @@ public class ChanPayFileContent extends AbstractFileContentHandler {
                 } else {
                     // json_encode(returnList);
                 }
-
             }
         } catch (IOException e) {
             Map<String, Object> valueMap = new HashMap<String, Object>();
@@ -75,8 +74,6 @@ public class ChanPayFileContent extends AbstractFileContentHandler {
 			e.printStackTrace();
 		}
         return bnkTxnList;
-        // return errorString;
-
     }
 
     public List<BnkTxnModel> getExcelToElement(Sheet rs, String instiid) throws ParseException {

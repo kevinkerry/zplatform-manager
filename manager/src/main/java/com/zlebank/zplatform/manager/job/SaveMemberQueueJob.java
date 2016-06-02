@@ -48,7 +48,6 @@ public class SaveMemberQueueJob {
  
     private static final Log log = LogFactory.getLog(SaveMemberQueueJob.class);
     public void execute() throws Exception {
-
       List<?> li = iMemberQueueDAO.getAllMemberQueueMode();
         JSONArray jsonArray = JSONArray.fromObject(li);
         for (int i = 0; i < jsonArray.size(); i++) {
