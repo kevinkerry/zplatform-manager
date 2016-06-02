@@ -216,6 +216,7 @@ public class InsteadPayAction extends BaseAction {
 						param.setUserId(userID);
 						param.setFtpFileName(filePath + "/" + targetFileName);
 						param.setOriginalFileName(fileFileName);
+						insteadRequest.setBackUrl("#");
 						insteadPayService.insteadPay(insteadRequest,
 								InsteadPayImportTypeEnum.FILE, param);
 
@@ -349,9 +350,7 @@ public class InsteadPayAction extends BaseAction {
 			}
 			ins.add(instea);
 		}
-
 		return ins;
-
 	}
 
 	public String getInsteadPayDeta() {

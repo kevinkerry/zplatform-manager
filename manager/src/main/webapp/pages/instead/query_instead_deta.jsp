@@ -44,7 +44,6 @@ table tr td select {
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-
 	</div>
 
 	<div id="w" class="easyui-window" closed="true" title="My Window"
