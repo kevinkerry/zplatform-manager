@@ -129,7 +129,7 @@ public class TransferServiceImpl
 			if(flag){
 				transferTrialEnum = TransferTrialEnum.SUCCESSFUL;
 			}else {
-				transferTrialEnum = TransferTrialEnum.REFUSE;
+				transferTrialEnum = TransferTrialEnum.REFUSED;
 			}
 			//获取等待审核的划拨数据，其他状态的不做处理
 			List<PojoTranData> transferDataList = transferBatchDAO.queryWaitTrialTranData(batchId);

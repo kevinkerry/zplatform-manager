@@ -540,7 +540,7 @@ public class TWithServiceImpl
                 // 初审拒绝
                 txns.setStatus(ReviewEnum.FIRSTREFUSED.getCode());
                 TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(txns.getTexnseqno());
-                TxnsOrderinfoModel orderinfo = orderinfoDAO.getOrderinfoByOrderNo(txns.getGatewayorderno(), txnsLog.getAccfirmerno());
+                TxnsOrderinfoModel orderinfo = orderinfoDAO.getOrderByTxnseqno(txns.getTexnseqno());
                 orderinfo.setStatus("03");
                 orderinfoDAO.update(orderinfo);
                 Fused(txns);

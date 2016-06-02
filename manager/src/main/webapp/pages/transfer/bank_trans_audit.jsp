@@ -363,7 +363,9 @@ table tr td select {
 													return '正在转账';
 												} else if (value == '00') {
 													return '转账成功';
-												} else {
+												}else if (value == '04') {
+													return '审核拒绝';
+												}else {
 													return '';
 												}
 											} 

@@ -107,7 +107,7 @@ input {
 		</div>
 	</div>
 	
-	<div style="padding-left: 5px; padding-right: 5px">
+	<!-- <div style="padding-left: 5px; padding-right: 5px">
 			<table width="100%" border="1">
 				<tr>
 					<td colspan="4" align="center">下载并上传微信对账文件</td>
@@ -126,7 +126,7 @@ input {
 						href="javascript:back()">返回</a></td>
 				</tr>
 			</table>
-	</div>
+	</div> -->
 
 
 </body>

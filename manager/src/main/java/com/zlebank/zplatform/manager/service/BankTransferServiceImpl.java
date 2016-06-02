@@ -81,7 +81,6 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 					transferTrialEnum = TransferTrialEnum.REFUSED;
 				}
 		    	
-				
 				transferBatch.setTranUser(userId);
 		    	if("00".equals(transferTrialEnum.getCode())){
 		    		//更新全部转账数据状态，等待转账

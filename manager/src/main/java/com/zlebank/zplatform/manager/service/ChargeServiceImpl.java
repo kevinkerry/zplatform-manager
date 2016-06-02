@@ -228,7 +228,7 @@ public class ChargeServiceImpl
         tradeInfo.setChannelId(charge.getChargenoinstid());
         tradeInfo.setPayMemberId(charge.getMemberid().getMemberId());
         tradeInfo.setPayToMemberId(charge.getMemberid().getMemberId());
-        tradeInfo.setTxnseqno(charge.getChargeno());
+        tradeInfo.setTxnseqno(OrderNumber.getInstance().generateTxnseqno(BusiTypeEnum.charge.getCode()));
         tradeInfo.setCommission(new BigDecimal(0));
         tradeInfo.setCharge(new BigDecimal(0));
         accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_PASS);
@@ -261,7 +261,7 @@ public class ChargeServiceImpl
         txnsLog.setBusitype("9000");
         txnsLog.setTxnseqno(OrderNumber.getInstance().generateTxnseqno(txnsLog.getBusicode()));
         txnsLog.setAmount(charge.getAmount().getAmount().longValue());
-        //txnsLog.setAccordno(DateUtil.getCurrentDateTime());
+        txnsLog.setAccordno(charge.getChargeno());
         txnsLog.setAccfirmerno(COOPINSTICODE);
         if(MemberType.INDIVIDUAL==charge.getMemberid().getMemberType()){
         	 txnsLog.setAccsecmerno("");
