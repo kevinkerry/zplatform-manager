@@ -211,9 +211,10 @@ public class TransferAction extends BaseAction {
 			String batchNos = "";
 			String[] batchno_array = auditBean.getBatchno().split("\\|");
 			for(String batchno:batchno_array){
-				boolean flag = bankTransferService.bankTransferBatchTrial(batchno.trim(), auditBean.getFalg(),getCurrentUser().getUserId());
-				if(!flag){
-					batchNos+=batchno+",";
+				//判断批次状态是否为关闭状态
+				Map<String, Object> resultMap = bankTransferService.bankTransferBatchTrial(batchno.trim(), auditBean.getFalg(),getCurrentUser().getUserId());
+				if("09".equals(resultMap.get("retcode")+"")){
+					batchNos+=resultMap.get("retinfo")+";";
 				}
 			}
 			if(StringUtil.isEmpty(batchNos)){
@@ -224,7 +225,7 @@ public class TransferAction extends BaseAction {
 				}
 				
 			}else{
-				json_encode("批次号："+batchNos+"转账失败");
+				json_encode(batchNos);
 			}
 		}
 		

@@ -77,5 +77,5 @@ public interface ITWithService extends IBasePageService<TxnsWithdrawQuery ,TxnsW
 
     public Long getTxnFee(TxnsLog txns)throws ManagerWithdrawException;
 
-
+    public TxnsWithdrawModel getByTxnsWithdrawNo(String withdrawno);
 }

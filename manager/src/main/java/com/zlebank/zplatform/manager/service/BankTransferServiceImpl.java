@@ -12,9 +12,9 @@
 package com.zlebank.zplatform.manager.service;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,11 +67,17 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 	 * @return
 	 */
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
-	public boolean bankTransferBatchTrial(String batchNo,boolean flag,Long userId){
+	@Transactional(propagation=Propagation.REQUIRES_NEW,rollbackFor=Throwable.class)
+	public Map<String, Object> bankTransferBatchTrial(String batchNo,boolean flag,Long userId){
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		//判断转账批次状态
+		PojoBankTransferBatch transferBatch = bankTransferBatchDAO.getByBankTranBatchNo(Long.valueOf(batchNo));
+		if("0".equals(transferBatch.getOpenStatus())){//未关闭的禁止转账
+			resultMap.put("retcode", "09");
+			resultMap.put("retinfo", "批次号:"+transferBatch.getBankTranBatchNo()+"未关闭不可转账");
+			return resultMap;
+		}
 		try {
-			//判断转账批次状态
-			PojoBankTransferBatch transferBatch = bankTransferBatchDAO.getByBankTranBatchNo(Long.valueOf(batchNo));
 			//只有审核通过和待审核的数据可以进行转账操作
 			if(transferBatch.getStatus().equals("01")&&transferBatch.getTranStatus().equals("01")){
 				TransferTrialEnum transferTrialEnum = null;
@@ -90,8 +96,19 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 			    	//更新批次状态
 			    	bankTransferBatchDAO.updateTransferBatch(transferBatch);
 			    	//开始划拨
-			    	IInsteadPayTrade insteadPayTrade = TradeAdapterFactory.getInstance().getInsteadPayTrade(transferBatch.getChannel().getBankChannelCode());
-			    	insteadPayTrade.batchPay(batchNo);
+			    	try {
+						IInsteadPayTrade insteadPayTrade = TradeAdapterFactory.getInstance().getInsteadPayTrade(transferBatch.getChannel().getBankChannelCode());
+						insteadPayTrade.batchPay(batchNo);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						//强制回滚，防止出现事务异常时，没有回滚
+						bankTransferDataDAO.updateBankTransferStatus(batchNo, "01");
+						transferBatch.setStatus("01");//审核完成状态
+				    	transferBatch.setTranStatus("");//等待转账状态
+				    	//更新批次状态
+				    	bankTransferBatchDAO.updateTransferBatch(transferBatch);
+					}
 		    	}else{
 		    		//更新全部转账数据状态，拒绝转账
 		    		bankTransferDataDAO.updateWaitBankTransferStatus(batchNo, "04");
@@ -113,16 +130,29 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 		    	}
 		    	
 			}else{
-				return false;
+				resultMap.put("retcode", "09");
+				resultMap.put("retinfo", "批次号:"+transferBatch.getBankTranBatchNo()+"不是待转账批次");
+				return resultMap;
 			}
 			
 			
-		} catch (Exception e) {
+		} catch (Exception e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			resultMap.put("retcode", "09");
+			resultMap.put("retinfo", "批次号:"+transferBatch.getBankTranBatchNo()+"转账失败");
+			/*if(!transferBatch.getStatus().equals("01")&&!transferBatch.getTranStatus().equals("01")){
+				bankTransferDataDAO.updateBankTransferStatus(batchNo, "01");
+				transferBatch.setStatus("01");//审核完成状态
+		    	transferBatch.setTranStatus("");//等待转账状态
+		    	//更新批次状态
+		    	bankTransferBatchDAO.updateTransferBatch(transferBatch);
+			}*/
+			return resultMap;
 		}
-		return true;
+		resultMap.put("retcode", "00");
+		resultMap.put("retinfo", "转账成功");
+		return resultMap;
 	}
 	
 

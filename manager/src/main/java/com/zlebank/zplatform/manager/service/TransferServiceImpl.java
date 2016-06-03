@@ -112,7 +112,7 @@ public class TransferServiceImpl
     	for(PojoTranData transferData : transferDataList){
     		UpdateData updateData = new UpdateData();
             updateData.setTxnSeqNo(transferData.getTxnseqno());
-            updateData.setResultCode("02");
+            updateData.setResultCode("01");//划拨拒绝
             updateData.setResultMessage("审核拒绝");
             updateData.setChannelCode("");
             ObserverListService service  = ObserverListService.getInstance();

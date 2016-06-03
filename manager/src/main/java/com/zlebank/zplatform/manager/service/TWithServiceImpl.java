@@ -712,6 +712,11 @@ public class TWithServiceImpl
         } 
 
     }
+    
+    
+    public TxnsWithdrawModel getByTxnsWithdrawNo(String withdrawno){
+    	return tWithdrawDao.getTxnsWithdrawByorderNo("", "01", withdrawno);
+    }
 
 
 }
