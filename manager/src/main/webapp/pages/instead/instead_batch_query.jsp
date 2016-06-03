@@ -195,13 +195,13 @@ table tr td select {
 						}
 			   		},
 			   		{
-			   			field: 'unapproveCount',
+			   			field: 'refuseCount',
 			   			title: '拒绝笔数',
 			   			width: 90,
 			   			align: 'center'
 			   		},
 			   		{
-			   			field: 'unapproveAmt',
+			   			field: 'refuseAmt',
 			   			title: '拒绝金额（元）',
 			   			width: 90,
 			   			align: 'center',
