@@ -393,13 +393,10 @@ function getWithdraw(withdraworderno) {
                 $("#ttxntime").html(json.txntime);
                 $("#withdraworderno").val(json.withdraworderno);
                 $("#tintime").html(json.intime);
-                isok = true;
             }
+            showAdds();
         }
     });
-    if (isok == true) {
-        showAdds();
-    }
 }
 </script>
 </html>

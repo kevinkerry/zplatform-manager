@@ -9,7 +9,7 @@ var Units = new Array("", "万", "亿", "万亿","仟兆");
 */
 function isMoney(s) 
 {
-    var isMoney = RegExp(/^[0-9]*\.?[0-9]{0,2}$/);
+    var isMoney = RegExp(/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/);
     return ( isMoney.test(s) );
 }
  
