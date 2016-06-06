@@ -105,9 +105,12 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 						//强制回滚，防止出现事务异常时，没有回滚
 						bankTransferDataDAO.updateBankTransferStatus(batchNo, "01");
 						transferBatch.setStatus("01");//审核完成状态
-				    	transferBatch.setTranStatus("");//等待转账状态
+				    	transferBatch.setTranStatus("01");//等待转账状态
 				    	//更新批次状态
 				    	bankTransferBatchDAO.updateTransferBatch(transferBatch);
+				    	resultMap.put("retcode", "09");
+						resultMap.put("retinfo", "批次号:"+transferBatch.getBankTranBatchNo()+"转账失败");
+						return resultMap;
 					}
 		    	}else{
 		    		//更新全部转账数据状态，拒绝转账
