@@ -18,15 +18,15 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import com.zlebank.zplatform.acc.util.SpringApplicationObjectSupport;
 import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
 import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 
 @Service
-public class CreateMerchantInsteadSDFileJob {
+public class CreateMerchantInsteadSDFileJob extends SpringApplicationObjectSupport{
     @Autowired
     private ITxnsLogService txnsLogService;
 
@@ -39,6 +39,7 @@ public class CreateMerchantInsteadSDFileJob {
     private static final String TOTAL_AMOUNT = "totalAmount";
     private static final String TOTAL_FEE = "totalFee";
     private static final String DELETIMER = "|";
+    private static final String RECON_FILE_ROOT_DIR="/memberrecon/";
 
     public void execute() throws Exception {
         // 取出网络时间
@@ -135,15 +136,12 @@ public class CreateMerchantInsteadSDFileJob {
             String memberId) {
         string2File(fileString, path + fileName);
         File file = new File(path + fileName);
-        // String uploadPath, String fileName, File file
-        @SuppressWarnings("resource")
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                "/spring/*");
-        FTPClientFactory ftpClientFactory = context
+        fetchApplicationContext();
+        FTPClientFactory ftpClientFactory = applicationContext
                 .getBean(FTPClientFactory.class);
         AbstractFTPClient ftpClient = ftpClientFactory.getFtpClient();
         try {
-            ftpClient.upload("/memberform/" + memberId, fileName, file);
+            ftpClient.upload(RECON_FILE_ROOT_DIR + memberId, fileName, file);
         } catch (IOException e) {
             if (log.isDebugEnabled()) {
                 e.printStackTrace();
