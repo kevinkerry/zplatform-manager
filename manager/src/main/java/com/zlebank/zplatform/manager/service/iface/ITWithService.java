@@ -76,6 +76,4 @@ public interface ITWithService extends IBasePageService<TxnsWithdrawQuery ,TxnsW
     public void trialBatch(Boolean falg,TxnsWithdrawModel txns) throws AccBussinessException, AbstractBusiAcctException, NumberFormatException;   
 
     public Long getTxnFee(TxnsLog txns)throws ManagerWithdrawException;
-
-    public TxnsWithdrawModel getByTxnsWithdrawNo(String withdrawno);
 }

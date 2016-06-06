@@ -161,13 +161,4 @@ public class TrialWithdraAction extends BaseAction {
     public String getSecondTrial() {
         return "second";
     }
-    
-    
-    public void getWithdrawInfo(){
-    	if (twq == null) {
-            twq = new TxnsWithdrawQuery();
-        }
-    	json_encode(itws.getByTxnsWithdrawNo(twq.getWithdraworderno()));
-    }
-    
 }

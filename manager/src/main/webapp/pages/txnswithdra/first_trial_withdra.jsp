@@ -369,14 +369,13 @@ function getWithdraw(withdraworderno) {
     var ison = false;
     $.ajax({
         type: "POST",
-        url: "pages/withdraw/getWithdrawInfoTriaAction.action?falg=first",
+        url: "pages/withdraw/queryTrialWithdraTriaAction.action?falg=first",
         data: {
-            "twq.withdraworderno": withdraworderno,
-            "rand":new Date().getTime()
+            "twq.withdraworderno": withdraworderno
         },
         dataType: "json",
         success: function(data) {
-            var json = data;
+            var json = data.rows[0];
             if (json == null) {
                 $.messager.alert('提示', "数据不正确，请刷新后重试");
             } else {
