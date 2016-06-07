@@ -204,7 +204,7 @@ public class TransferAction extends BaseAction {
      */
 	public void batchBankTrial(){
 		//转账审核时间判断 不得超过当日175500
-		String endTime = DateUtil.getCurrentDate()+"175500";
+		String endTime = DateUtil.getCurrentDate()+"235500";
 		if(Long.valueOf(DateUtil.getCurrentDateTime())>Long.valueOf(endTime)){
 			json_encode("代付业务截止时间已到，请明天再进行转账审核");
 		}else{

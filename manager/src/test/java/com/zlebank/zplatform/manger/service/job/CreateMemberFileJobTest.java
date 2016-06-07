@@ -11,7 +11,7 @@ public class CreateMemberFileJobTest {
     
 private ApplicationContext context;
     
-@Test
+    @Test
     public void test(){
         context = new ClassPathXmlApplicationContext("/spring/*");
         CreateMemberFileJob createMemberFileJob =(CreateMemberFileJob) context.getBean("createMemberFileJob");
