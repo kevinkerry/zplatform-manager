@@ -27,6 +27,7 @@ import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.IBankTransferService;
 import com.zlebank.zplatform.manager.service.iface.ITransferService;
 import com.zlebank.zplatform.trade.adapter.insteadpay.IInsteadPayTrade;
+import com.zlebank.zplatform.trade.bean.ResultBean;
 import com.zlebank.zplatform.trade.bean.UpdateData;
 import com.zlebank.zplatform.trade.bean.page.QueryTransferBean;
 import com.zlebank.zplatform.trade.dao.BankTransferBatchDAO;
@@ -98,7 +99,17 @@ public class BankTransferServiceImpl extends BaseServiceImpl<PojoBankTransferDat
 			    	//开始划拨
 			    	try {
 						IInsteadPayTrade insteadPayTrade = TradeAdapterFactory.getInstance().getInsteadPayTrade(transferBatch.getChannel().getBankChannelCode());
-						insteadPayTrade.batchPay(batchNo);
+						ResultBean resultBean = insteadPayTrade.batchPay(batchNo);
+						if(!resultBean.isResultBool()){
+							bankTransferDataDAO.updateBankTransferStatus(batchNo, "01");
+							transferBatch.setStatus("01");//审核完成状态
+					    	transferBatch.setTranStatus("01");//等待转账状态
+					    	//更新批次状态
+					    	bankTransferBatchDAO.updateTransferBatch(transferBatch);
+					    	resultMap.put("retcode", "09");
+							resultMap.put("retinfo", "批次号:"+transferBatch.getBankTranBatchNo()+"转账失败");
+							return resultMap;
+						}
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
