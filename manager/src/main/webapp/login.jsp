@@ -34,11 +34,11 @@
 <div class="loginbox">
   <ul>
     <li>
-      <input  type="text" class="loginuser" value="wyj" onclick="JavaScript:this.value=''"
+      <input  type="text" class="loginuser"  onclick="JavaScript:this.value=''"
       size="30" maxlength="128" name="user.loginName" id="loginname" class="easyui-validatebox" required="true" missingMessage="请输入用户名"/>
     </li>
     <li>
-      <input   class="loginpwd" value="123456" onclick="JavaScript:this.value=''"
+      <input   class="loginpwd"   onclick="JavaScript:this.value=''"
       type="password"  id="pwd" name="user.pwd"   size="30" maxlength="128" class="easyui-validatebox" required="true"  missingMessage="请输入密码"/>
     </li>
     <li>  

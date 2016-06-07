@@ -36,7 +36,7 @@ import com.zlebank.zplatform.manager.dao.object.PojoTxnsLog;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IRevisionService;
-import com.zlebank.zplatform.manager.service.iface.IRiskService;
+import com.zlebank.zplatform.trade.utils.OrderNumber;
 
 /**
  * Class Description
@@ -52,11 +52,6 @@ public class RevisionServiceImpl
             AbstractBasePageService<RevisionQuery, RevisionBean>
         implements
             IRevisionService {
-
-    
-    @Autowired
-    private IRiskService risk;
-    
     @Autowired
     private IRevisionDAO ird;
     
@@ -83,9 +78,9 @@ public class RevisionServiceImpl
         PojoRevision revision=new PojoRevision();
        
         //流水号
-        String no=risk.generateWithdrawOrderNo();
+        String revisionNo = OrderNumber.getInstance().generateWithdrawOrderNo();;
         //交易流水号 
-        revision.setRevisionno(no);
+        revision.setRevisionno(revisionNo);
         
         PojoTxnsLog txns= txnsDao.getTxnsModelByNo(txnsLogNo);
         if(txns==null){
@@ -97,8 +92,9 @@ public class RevisionServiceImpl
         revision.setBusitype(txns.getBusitype());
         trad=      this.base(txns);
         revision.setTxnslog(txns);
-        accEntyr.accEntryProcess(trad);
-        
+        //TODO
+        //账户账务改造以后，暂时不支持此功能
+        //accEntyr.accEntryProcess(trad);
         
         UserModel user=new UserModel();
         

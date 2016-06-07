@@ -69,6 +69,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  			title: '账户名',
 	  			align: 'center',
 	  			width: 160
+	  		},
+	  		{
+	  			field: 'PARENT_ACCT_NAME',
+	  			title: '父级账户',
+	  			align: 'center',
+	  			width: 160
 	  		}, 
 	  		{
 	  			field: 'C_NUM',

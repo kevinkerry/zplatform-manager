@@ -76,7 +76,7 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductModel, Long> impl
 				"{CALL  PCK_T_PRODUCT.sel_prod_case(?,?)}", columns,
 				paramaters, "cursor0");
 	}
-	public String UpdateProduct(ProductModel product,@SuppressWarnings("rawtypes") List listbusicode) {	
+	public String updateProduct(ProductModel product,@SuppressWarnings("rawtypes") List listbusicode) {	
 	    String  busicodeStr="";		  
 	    if(product==null){
 	    	return "产品不能为空";

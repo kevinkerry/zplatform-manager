@@ -53,5 +53,24 @@ public class BnkTxnServiceImpl extends BaseServiceImpl<BnkTxnModel, Long> implem
 				"{CALL PCK_T_BNK_TXN.ins_t_bnk_txn_nocur(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}", columns,
 				paramaters, "cursor0");
 	}
+	// 判断是否重复上传文件
+	public  Boolean  upLoad(String uploadFileName){
+	    List<?> bnktxnlist= getDao().queryByHQL("from UploadLogModel where filename=? and recode='00' ",
+                new Object[]{uploadFileName});
+	    
+	    if(bnktxnlist.size()>0){
+	        return true;
+	    }else{
+	        return false;
+	    }
+	    
+	}
+	
+	// 等对账数据保存成功后，更新UPload表的上传数据状态
+	public void updateUploadLog(String uploadFileName){
+	    getDao().updateByHQL( "update UploadLogModel set recode='00' where filename=? ",new Object[]{uploadFileName});
+	    
+	}
+	
 	
 }

@@ -321,17 +321,14 @@ public class LoginAction extends BaseAction
     // 得到cookie
     public String getCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        System.out.println("cookies: " + cookies);
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                System.out.println("cookie: " + cookie.getName());
                 if (CookieUtils.USER_COOKIE.equals(cookie.getName())) {
                     String value = cookie.getValue();
                     if (StringUtils.isNotBlank(value)) {
                         String[] split = value.split(",");
                         // String clientIp = split[0];
                         String count = split[0];
-                        System.out.println(count);
                         return count;
                     }
                 }

@@ -11,6 +11,7 @@ import com.zlebank.zplatform.manager.service.iface.IMerchDetaService;
 import com.zlebank.zplatform.manager.service.iface.INoticeService;
 import com.zlebank.zplatform.manager.service.iface.IOperLogService;
 import com.zlebank.zplatform.manager.service.iface.IOrganService;
+import com.zlebank.zplatform.manager.service.iface.IParaDicService;
 import com.zlebank.zplatform.manager.service.iface.IProductService;
 import com.zlebank.zplatform.manager.service.iface.IProvinceService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
@@ -45,6 +46,7 @@ public class ServiceContainer {
 	private IRiskService riskService;
 	private ILimitPerdayService limitperdayService;
 	private IMccListService mccListService;
+	private IParaDicService paraDicService;
 	
 	public IOperLogService getOperLogService() {
 		return operLogService;
@@ -213,4 +215,13 @@ public class ServiceContainer {
     public void setMccListService(IMccListService mccListService) {
         this.mccListService = mccListService;
     }
+
+    public IParaDicService getParaDicService() {
+        return paraDicService;
+    }
+
+    public void setParaDicService(IParaDicService paraDicService) {
+        this.paraDicService = paraDicService;
+    }
+    
 }

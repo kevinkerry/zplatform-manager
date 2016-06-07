@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
-import com.zlebank.zplatform.commons.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawBean;
@@ -26,6 +26,7 @@ import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
 import com.zlebank.zplatform.manager.enums.ReviewEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.ITWithService;
+import com.zlebank.zplatform.trade.exception.RecordsAlreadyExistsException;
 
 /**
  * 提现审核
@@ -50,6 +51,8 @@ public class TrialWithdraAction extends BaseAction {
     private AuditBean ftb;
     
     public String falg;
+    
+    
 
     public AuditBean getFtb() {
         return ftb;
@@ -87,7 +90,10 @@ public class TrialWithdraAction extends BaseAction {
 
             List<TxnsWithdrawBean> li = pr.getPagedResult();
             for (TxnsWithdrawBean txnsw : li) {
-
+                txnsw.setAmount(String.valueOf(Long.parseLong(txnsw.getAmount())/100.0));
+                String fee = txnsw.getFee();
+                fee = (fee==null||fee.equals(""))?"0":fee;
+                txnsw.setFee(String.valueOf(Long.parseLong(fee)/100.0));
             }
             Long total = pr.getTotal();
             map.put("total", total);
@@ -101,7 +107,7 @@ public class TrialWithdraAction extends BaseAction {
     }
 
     public String getFirstTrial() {
-        return this.SUCCESS;
+        return SUCCESS;
     }
     /**
      * 提现初审
@@ -122,6 +128,8 @@ public class TrialWithdraAction extends BaseAction {
 
         } catch (ManagerWithdrawException e) {
             messg = e.getMessage();
+        } catch (RecordsAlreadyExistsException e) {
+           messg=e.getMessage();
         }
         json_encode(messg);
         }
@@ -153,5 +161,4 @@ public class TrialWithdraAction extends BaseAction {
     public String getSecondTrial() {
         return "second";
     }
-    
 }

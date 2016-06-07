@@ -48,17 +48,17 @@
 		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm"   method="post" action="pages/fee/saveFeeFeeAction.action" >
+				<form id="theForm"   method="post" action="pages/risk/saveRiskRiskAction.action" >
 				<input name="riskModel.riskid" id="riskid" type="hidden"/>
 				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
 					<tr>
 						<td align="right" width="15%" height="50px" >风控版本代码</td>
 						<td align="left" style="padding-left:5px" width="25%">
-							<input name="riskModel.riskver" id="riskver" validType="minLength[8,8]" maxlength="8" class="easyui-validatebox" />
+							<input name="riskModel.riskver" id="riskver" validType="minLength[8,8]" maxlength="8" class="easyui-validatebox" required="required"/>
 						</td>
 						<td align="right" width="15%">风控版本名称</td>
 						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="riskModel.riskname" id="riskname"/>
+							<input name="riskModel.riskname" id="riskname" required="required" class="easyui-validatebox"/>
 						</td>
 					</tr>
 					<tr></tr>
@@ -201,7 +201,6 @@
 		}
 	
 		function saveRisk() {
-	
 			$('#theForm').form('submit', {
 				onSubmit: function() {
 					if ($('#theForm').form('validate')) {
@@ -212,12 +211,12 @@
 				},
 				success: function(data) {
 					if (data == '添加成功!' || data == '修改成功!') {
-						alert(data);
+						$.messager.alert('提示', data);
 						closeAdd();
 						$('#btn_submit').linkbutton('enable');
 						search();
 					} else {
-						alert(data);
+						$.messager.alert('提示', data);
 						$('#btn_submit').linkbutton('enable');
 					}
 				}

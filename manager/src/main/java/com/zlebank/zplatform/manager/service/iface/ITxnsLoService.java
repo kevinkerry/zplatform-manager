@@ -11,10 +11,13 @@
 package com.zlebank.zplatform.manager.service.iface;
 
 import java.util.List;
+import java.util.Map;
 
+import com.zlebank.zplatform.commons.dao.pojo.ProductModel;
 import com.zlebank.zplatform.commons.service.IBasePageService;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsLogBean;
+import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 
 /**
  * Class Description
@@ -31,6 +34,10 @@ public interface ITxnsLoService extends IBasePageService<TxnsLogBean, TxnsLog>{
      * @return
      */
    public List<?> getTxnsLogById(String txnseqno); 
+   public Map<String, Object> findTxnsLogByPage(Map<String, Object> variables, int page,int rows) ;
+   public Map<String, Object> findQueryRefundByPage(Map<String, Object> variables,int page,int rows);
+
+   public void refuseRefundAccount(String txnseqno);
    
 
 }

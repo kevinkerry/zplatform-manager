@@ -277,7 +277,6 @@ public class UserAction extends BaseAction {
 			// List<RoleFunctModel> roleList2 =
 			// serviceContainer.getRoleFunctService().findByProperty("roleId",
 			// roleId);
-			System.out.println(roleList);
 			Map<String, Object> variable = new HashMap<String, Object>();
 			variable.put("userId", userId);
 			List<UserFunctModel> userList = serviceContainer
@@ -407,7 +406,6 @@ public class UserAction extends BaseAction {
 				// 密码有效期延长30天
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.DAY_OF_MONTH, +30);//
-				System.out.println(cal.getTime());
 				Timestamp timestamp = new Timestamp(cal.getTime().getTime());
 				user.setPwdValid(timestamp);
 				serviceContainer.getUserService().update(user);

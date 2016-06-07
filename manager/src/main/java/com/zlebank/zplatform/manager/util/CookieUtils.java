@@ -14,7 +14,6 @@ public class CookieUtils {
 	// 添加一个cookie
 	public Cookie addCookie(String clientIp,int count) {
 		Cookie cookie = new Cookie(USER_COOKIE, clientIp + "," + count);
-		System.out.println("添加cookie");
 		cookie.setMaxAge(60 * 60 * 24 );// cookie保存一天
 		return cookie;
 	}
@@ -22,17 +21,17 @@ public class CookieUtils {
 	// 得到cookie
 	public String getCookie(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
-		System.out.println("cookies: " + cookies);
+		//System.out.println("cookies: " + cookies);
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				System.out.println("cookie: " + cookie.getName());
+				//System.out.println("cookie: " + cookie.getName());
 				if (CookieUtils.USER_COOKIE.equals(cookie.getName())) {
 					String value = cookie.getValue();
 					if (StringUtils.isNotBlank(value)) {
 						String[] split = value.split(",");
 						//String clientIp = split[0];
 						String count = split[0];
-						System.out.println(count);
+						//System.out.println(count);
 						return count;
 					}
 				}

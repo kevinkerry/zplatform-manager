@@ -1,7 +1,7 @@
 package com.zlebank.zplatform.manager.service.certhandler;
 
 import com.zlebank.zplatform.manager.action.merch.CertType;
-import com.zlebank.zplatform.manager.dao.object.MerchDetaModel;
+import com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDetaApply;
 
 public class CorpFileOppPicHandler extends CertPicHandler{
     public CorpFileOppPicHandler(){
@@ -9,13 +9,13 @@ public class CorpFileOppPicHandler extends CertPicHandler{
     }
     
     @Override
-    public MerchDetaModel decorate(MerchDetaModel merchDeta,String fileName) {
-        merchDeta.setCorpfileOpp(fileName);
-        return merchDeta;
+    public PojoEnterpriseDetaApply decorate(PojoEnterpriseDetaApply enterpriseDetaApply,String fileName) {
+        enterpriseDetaApply.setCorpFileOpp(fileName);
+        return enterpriseDetaApply;
     }
     
     @Override
-    public String getFileName(MerchDetaModel merch){
-        return merch.getCorpfileOpp();
+    public String getFileName(PojoEnterpriseDetaApply enterpriseDetaApply){
+        return enterpriseDetaApply.getCorpFileOpp();
     }
 }

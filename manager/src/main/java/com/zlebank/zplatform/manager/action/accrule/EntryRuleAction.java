@@ -18,9 +18,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.opensymphony.xwork2.Action;
 import com.zlebank.zplatform.acc.bean.Business;
 import com.zlebank.zplatform.acc.bean.SubjectAccountRule;
-import com.zlebank.zplatform.acc.bean.SubjectQuery;
 import com.zlebank.zplatform.acc.bean.SubjectRule;
 import com.zlebank.zplatform.acc.bean.enums.CRDRType;
 import com.zlebank.zplatform.acc.bean.enums.RuleStatusType;
@@ -112,7 +112,7 @@ public class EntryRuleAction extends BaseAction{
       Map<String, Object> m=new HashMap<String, Object>();
         try {
             int page= this.getPage();
-            int pageSize= this.getPage_size();
+            int pageSize=getRows();
               Long count=  srs.getcount(sar);
               List<Map<String, Object>> li= srs.getRuleBySar(sar, page, pageSize);
               if(li==null){
@@ -129,7 +129,7 @@ public class EntryRuleAction extends BaseAction{
     }
     
     public String getQueryRule(){
-      return   this.SUCCESS;
+      return   Action.SUCCESS;
         
     }
     /**
@@ -151,8 +151,7 @@ public class EntryRuleAction extends BaseAction{
     public void getSubjectByCode(){
        String str="";
         try {
-            SubjectQuery sq=     subject.subjectByCode(accCode);
-        
+            subject.subjectByCode(accCode);
         } catch (AccBussinessException e) {
          str=e.getMessage();
         }
@@ -171,7 +170,7 @@ public class EntryRuleAction extends BaseAction{
             try {
                 sr.setCrdr(CRDRType.fromValue(sr.getCrdrType()));
                 sr.setStatus(RuleStatusType.fromValue(sr.getActionStatus()));
-                sr.setFlag(!sr.getFlag().equals("99")?sr.getFlag():sr.getFlags());
+                sr.setAcctCode(!sr.getAcctCode().equals("99")?sr.getAcctCode():sr.getAcctCode());
              Long ruleId=   srs.addSubjectRule(sr,getCurrentUser().getUserId());
              if(ruleId!=null){
                  messg="true";
@@ -228,7 +227,7 @@ public class EntryRuleAction extends BaseAction{
      
              int page= this.getPage();
             int pageSize= this.getPage_size();
-              Long count=  srs.getcount(sar);
+              srs.getcount(sar);
               try {
                 List<Map<String, Object>> li= srs.getRuleBySar(sar, page, pageSize);
              if(!li.isEmpty()){

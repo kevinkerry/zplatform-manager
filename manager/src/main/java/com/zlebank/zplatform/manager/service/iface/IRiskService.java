@@ -68,13 +68,6 @@ public interface IRiskService extends IBaseService<RiskModel, Long>{
 	 public void tradeRiskControl(String merchId,String subMerchId,String memberId,String busiCode,String txnAmt,String cardType,String cardNo) throws TradeException;
 	     
 	 /**
-	  * 生成订单号
-	  * @return String
-	  */
-	 public String generateWithdrawOrderNo();
-	 
-	 
-	 /**
 	  * 提现手续费
 	  * @param txnsLog
 	  * @return

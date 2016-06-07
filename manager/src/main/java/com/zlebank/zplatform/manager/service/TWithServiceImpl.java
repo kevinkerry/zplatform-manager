@@ -31,38 +31,49 @@ import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.BusinessServiec;
-import com.zlebank.zplatform.commons.bean.AuditBean;
+import com.zlebank.zplatform.acc.service.entry.EntryEvent;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.CardBin;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.dao.CardBinDao;
 import com.zlebank.zplatform.commons.service.impl.AbstractBasePageService;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.DateUtil;
+import com.zlebank.zplatform.commons.utils.Md5;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawBean;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
 import com.zlebank.zplatform.manager.dao.iface.ITWithdrawDAO;
-import com.zlebank.zplatform.manager.dao.object.TxnsWithdrawModel;
 import com.zlebank.zplatform.manager.enums.ReviewEnum;
-import com.zlebank.zplatform.manager.enums.TransFerDataStatusEnum;
 import com.zlebank.zplatform.manager.enums.WithdrawalsBusCodeEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.ITWithService;
 import com.zlebank.zplatform.member.bean.enums.MemberType;
+import com.zlebank.zplatform.member.dao.CoopInstiDAO;
 import com.zlebank.zplatform.member.dao.ParaDicDAO;
+import com.zlebank.zplatform.member.pojo.PojoCoopInsti;
 import com.zlebank.zplatform.member.pojo.PojoMember;
 import com.zlebank.zplatform.member.pojo.PojoMerchDeta;
 import com.zlebank.zplatform.member.pojo.PojoParaDic;
 import com.zlebank.zplatform.member.service.MemberService;
 import com.zlebank.zplatform.member.service.MerchService;
 import com.zlebank.zplatform.member.service.PersonService;
+import com.zlebank.zplatform.trade.bean.enums.TransferBusiTypeEnum;
+import com.zlebank.zplatform.trade.dao.ITxnsLogDAO;
+import com.zlebank.zplatform.trade.dao.ITxnsOrderinfoDAO;
 import com.zlebank.zplatform.trade.dao.TransferBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
+import com.zlebank.zplatform.trade.exception.RecordsAlreadyExistsException;
 import com.zlebank.zplatform.trade.exception.TradeException;
-import com.zlebank.zplatform.trade.model.PojoTransferData;
+import com.zlebank.zplatform.trade.model.PojoTranData;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
+import com.zlebank.zplatform.trade.model.TxnsOrderinfoModel;
+import com.zlebank.zplatform.trade.model.TxnsWithdrawModel;
+import com.zlebank.zplatform.trade.service.ITxnsLogService;
+import com.zlebank.zplatform.trade.service.TransferDataService;
+import com.zlebank.zplatform.trade.utils.OrderNumber;
 
 /**
  * Class Description
@@ -123,7 +134,18 @@ public class TWithServiceImpl
     private TransferDataDAO transdata;
     @Autowired
     private TransferBatchDAO transbatch;
-
+    @Autowired
+    private TransferDataService transferData;
+    @Autowired
+    private CoopInstiDAO coopInstiDao;
+    @Autowired
+    private ITxnsLogDAO txnsLogDao;
+    @Autowired
+    private ITxnsLogService txnsLogService;
+    @Autowired
+    private ITWithdrawDAO tWithdrawDao;
+    @Autowired
+    private ITxnsOrderinfoDAO orderinfoDAO;
     /**
      * 提现申请
      * 
@@ -182,16 +204,30 @@ public class TWithServiceImpl
                     messg.put("messg", "内部错误:字典表配置错误");
                     return messg;
                 }
-
+                //PojoMember member=members.getMbmberByMemberId(twb.getMemberid(), null);
+                //String inputPwd= Md5.getInstance().md5s(twb.getPassWord());
                 TxnsWithdrawModel txnsw = BeanCopyUtil.copyBean(
                         TxnsWithdrawModel.class, twb);
                 txnsw.setIntime(new Date());
                 txnsw.setStatus(status.getParaCode());
                 txnsw.setInuser(userId);
-                txnsw.setAmount(Money.valueOf(with));
-                txnsw.setFee(Money.valueOf(fee));
-                txnsw.setId(99L);
-                // 调用分录规则
+                txnsw.setAmount(with.longValue());
+                txnsw.setFee(fee.longValue());
+                //txnsw.setId(99L);
+                txnsw.setTexnseqno(twb.getTxnseqNo());
+                //txnsWinth.setBankname(card.getBankName());
+                //txnsWinth.setMemberid(memberId);
+                //txnsWinth.setWithdrawtype(MERCH);
+                //txnsWinth.setAcctno(merchPojo.getAccNum());
+                //txnsWinth.setAcctname(merchPojo.getAccNum());
+                //txnsw.setTxnseqNo(txnslog.getTxnseqno());
+                /*
+                 * 调用分录规则
+                 */
+                TxnsLogModel txnsLogModel= txnsLogService.getTxnsLogByTxnseqno(twb.getTxnseqNo());
+                txnsLogModel.setAmount(with.longValue());
+                txnsLogModel.setTxnfee(fee.longValue());
+                txnsLogDao.merge(txnsLogModel);
                 TradeInfo tradeInfo = new TradeInfo();
                 tradeInfo.setAmount(with.add(fee));
                 tradeInfo.setBusiCode(WithdrawalsBusCodeEnum.APPLY.getCode());
@@ -201,8 +237,9 @@ public class TWithServiceImpl
                 tradeInfo.setPayordno(twb.getWithdraworderno());
                 tradeInfo.setCommission(new BigDecimal(0));
                 tradeInfo.setCharge(fee);
+                tradeInfo.setCoopInstCode(txnsLogModel.getAccfirmerno());
                 // 查看余额
-                accEntyr.accEntryProcess(tradeInfo);
+                accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_APPLY);
                 tw.saveA(txnsw);
                 falg = true;
                 messg.put("messg", "操作成功");
@@ -215,12 +252,12 @@ public class TWithServiceImpl
                 messg.put("messg", e.getMessage());
             } catch (NumberFormatException e) {
                 messg.put("messg", e.getMessage());
+            }catch (Exception e) {
+                messg.put("messg", e.getMessage());
             }
-
         }
         messg.put("falg", falg);
         return messg;
-
     }
 
     /**
@@ -253,9 +290,9 @@ public class TWithServiceImpl
         for (TxnsWithdrawModel tw : twm) {
             TxnsWithdrawBean txnswithban = BeanCopyUtil.copyBean(
                     TxnsWithdrawBean.class, tw);
-            txnswithban.setAmount(tw.getAmount() == null ? "" : tw.getAmount()
-                    .toYuan());
-            txnswithban.setFee(tw.getFee() == null ? "" : tw.getFee().toYuan());
+            txnswithban.setAmount(tw.getAmount() == null ? "" : tw.getAmount().toString()
+                    );
+            txnswithban.setFee(tw.getFee() == null ? "" : tw.getFee().toString());
             txnswithban.setIntime(DateUtil.formatDateTime(
                     DEFAULT_TIME_STAMP_FROMAT, tw.getIntime()));
             txnswithban.setStexatime(DateUtil.formatDateTime(
@@ -291,7 +328,7 @@ public class TWithServiceImpl
         }
         // 个人账户+银行卡信息
         if (MemberType.INDIVIDUAL == pm.getMemberType()) {
-
+            map.put("messg", "个人会员不允许后台提现");
         }
         // 商户账户+银行卡信息
         else if (MemberType.ENTERPRISE == pm.getMemberType()) {
@@ -301,11 +338,11 @@ public class TWithServiceImpl
                 map.put("messg", "会员不合法");
                 return map;
             }
-            if (merchPojo.getAccnum() == null) {
+            if (merchPojo.getAccNum() == null) {
                 map.put("messg", "该账户无卡号,无法提现");
                 return map;
             }
-            CardBin card = cardbin.getCard(merchPojo.getAccnum());
+            CardBin card = cardbin.getCard(merchPojo.getAccNum());
             if (card == null) {
                 map.put("messg", "账户银行卡信息错误,无法提现");
                 return map;
@@ -330,45 +367,63 @@ public class TWithServiceImpl
                     map.put("messg", "账户被锁不能提现");
                     return map;
                 }
-                if (StringUtil.isEmpty(merchPojo.getParent())) {
-                    txnsWinth.setMerchId(String.valueOf(merchPojo.getMemid()));
+                TxnsLogModel txnsLog = new TxnsLogModel();
+                if (StringUtil.isEmpty(merchPojo.getParent())||"0".equals(merchPojo.getParent())) {
+                    txnsWinth.setMerchId(String.valueOf(merchPojo.getMemId()));
                 } else {
-                    PojoMerchDeta pMerchPojo = merch
+                   /* PojoMerchDeta pMerchPojo = merch
                             .getMerchBymemberId(merchPojo.getParent());
                     if (pMerchPojo == null) {
                         map.put("messg", "一级商户不存在");
                         return map;
                     }
-                    txnsWinth.setBankcode(pMerchPojo.getBanknode() == null
+                    txnsWinth.setBankcode(pMerchPojo.getBankcode() == null
                             ? pMerchPojo.getBankcode()
-                            : pMerchPojo.getBanknode());
+                            : pMerchPojo.getBanknode());*/
+                    //一级商户变更为合作机构
+                    PojoCoopInsti coopInsti=coopInstiDao.getByInstiCode(merchPojo.getParent());
+                    if (coopInsti==null) {
+                        map.put("messg", "合作机构不存在");
+                        return map;
+                    }
+                    txnsLog.setAccordinst(merchPojo.getParent());
+                    txnsWinth.setBankcode(card.getBankCode());
                     txnsWinth.setMerchId(merchPojo.getParent());
                     txnsWinth
-                            .setSubMerchId(String.valueOf(merchPojo.getMemid()));
+                            .setSubMerchId(String.valueOf(merchPojo.getMemId()));
                 }
                 txnsWinth.setCardType(card.getType());
                 // 银行主行号
                 txnsWinth.setTotalBankCode(card.getBankCode());
-                TxnsLogModel txnsLog = new TxnsLogModel();
-                String withdraworderno = risk.generateWithdrawOrderNo();
-                String txnseqNo = risk.generateWithdrawOrderNo();
+               
+                String withdraworderno = OrderNumber.getInstance().generateWithdrawOrderNo();;
+                String txnseqNo = OrderNumber.getInstance().generateWithdrawOrderNo();;
                 txnsWinth.setTxnseqNo(txnseqNo);
                 txnsWinth.setWithdraworderno(withdraworderno);
                 txnsLog.setTxnseqno(txnseqNo);
                 // 交易序列号，扣率版本，业务类型，交易金额，会员号，原交易序列号，卡类型
-                txnsLog.setFeever(merchPojo.getFeever() == null
+                txnsLog.setFeever(merchPojo.getFeeVer() == null
                         ? ""
-                        : merchPojo.getFeever());
+                        : merchPojo.getFeeVer());
                 txnsLog.setBusicode(WithdrawalsBusCodeEnum.APPLY.getCode());
                 txnsLog.setAccfirmerno(merchPojo.getParent() == null
                         ? memberId
                         : merchPojo.getParent());
+                txnsLog.setAcccoopinstino(merchPojo.getParent());
                 txnsLog.setCardtype(txnsWinth.getCardType());
+                txnsLog.setBusitype("3000");
+                txnsLog.setTradestatflag("00000000");
+                txnsLog.setTxndate(DateUtil.getCurrentDate());
+                txnsLog.setTxntime(DateUtil.getCurrentTime());
+                txnsLog.setAccordcommitime(DateUtil.getCurrentDateTime());
                 txnsWinth.setBankname(card.getBankName());
                 txnsWinth.setMemberid(memberId);
                 txnsWinth.setWithdrawtype(MERCH);
-                txnsWinth.setAcctno(merchPojo.getAccnum());
-                txnsWinth.setAcctname(merchPojo.getAccname());
+                txnsWinth.setAcctno(merchPojo.getAccNum());
+                txnsWinth.setAcctname(merchPojo.getAccNum());
+                TxnsWithdrawModel withdraw=BeanCopyUtil.copyBean(TxnsWithdrawModel.class, txnsWinth);
+                //tWithdrawDao.saveA(withdraw);
+                txnsLogDao.saveA(txnsLog);
                 map.put("txns", txnsWinth);
                 // 手续费
                 map.put("txnsLog", txnsLog);
@@ -399,7 +454,9 @@ public class TWithServiceImpl
         TxnsLogModel tlm = BeanCopyUtil.copyBean(TxnsLogModel.class, txns);
         tlm.setAmount(new BigDecimal(txns.getAmount()).multiply(
                 new BigDecimal(100)).longValue());
-        return risk.getTxnFee(tlm);
+        Long withdrawFee=risk.getTxnFee(tlm);
+        tlm.setTxnfee(withdrawFee);
+        return withdrawFee;
 
     }
 
@@ -444,12 +501,13 @@ public class TWithServiceImpl
      * @throws NumberFormatException
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
+     * @throws RecordsAlreadyExistsException 
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void firstTrialWinth(AuditBean firstTrial)
             throws ManagerWithdrawException, AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException {
+            AbstractBusiAcctException, NumberFormatException, RecordsAlreadyExistsException {
         // 如果提现bean不等于空 做提现操作 等于空返回错误信息
         if (firstTrial == null) {
 
@@ -477,17 +535,46 @@ public class TWithServiceImpl
             // 初审通过
             if (firstTrial.getFalg() == true) {
                 txns.setStatus(ReviewEnum.SECONDTRIAL.getCode());
+                agree(txns);
             } else {
                 // 初审拒绝
                 txns.setStatus(ReviewEnum.FIRSTREFUSED.getCode());
+                TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(txns.getTexnseqno());
+                TxnsOrderinfoModel orderinfo = orderinfoDAO.getOrderByTxnseqno(txns.getTexnseqno());
+                orderinfo.setStatus("03");
+                orderinfoDAO.update(orderinfo);
                 Fused(txns);
             }
-
+            tw.update(txns);
             // txns.setBatchno(batchno);
         }
 
     }
-
+    /**
+     * 审核通过
+     * @param txns
+     * @return
+     * @throws RecordsAlreadyExistsException
+     */
+    private Long agree(TxnsWithdrawModel txns) throws RecordsAlreadyExistsException{
+        List<PojoTranData> tranDatas = new ArrayList<PojoTranData>();
+        //PojoTranData tranData=BeanCopyUtil.copyBean(PojoTranData.class, txns);
+        PojoTranData tranData=new PojoTranData();
+        tranData.setAccNo(txns.getAcctno());
+        tranData.setAccName(txns.getAcctname());
+        tranData.setBusiDataId(txns.getId());
+        tranData.setBankName(txns.getBankname());
+        tranData.setBankNo(txns.getBankcode());
+        tranData.setMemberId(txns.getMemberid());
+        tranData.setTranFee(txns.getFee());
+        tranData.setTranAmt(txns.getAmount());
+        tranData.setBusiType(TransferBusiTypeEnum.WITHDRAW.getCode());
+        tranData.setTxnseqno(txns.getTexnseqno());
+        tranData.setBusiSeqNo(txns.getWithdraworderno());
+        tranData.setMerchOrderNo(txns.getGatewayorderno());
+        tranDatas.add(tranData);
+        return transferData.saveTransferData(TransferBusiTypeEnum.WITHDRAW, tranDatas);
+    }
     /**
      * 审核拒绝
      * 
@@ -496,21 +583,23 @@ public class TWithServiceImpl
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
      */
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
     private void Fused(TxnsWithdrawModel txns) throws AccBussinessException,
             AbstractBusiAcctException, NumberFormatException {
         // 调用分录规则
         TradeInfo tradeInfo = new TradeInfo();
-        tradeInfo.setAmount(txns.getAmount() == null ? new BigDecimal(0) : txns
-                .getAmount().getAmount());
-        tradeInfo.setBusiCode(WithdrawalsBusCodeEnum.REFUSE.getCode());
+        tradeInfo.setAmount(txns.getAmount() == null ? new BigDecimal(0) : new BigDecimal(txns.getAmount()));
+        tradeInfo.setBusiCode(WithdrawalsBusCodeEnum.APPLY.getCode());
         tradeInfo.setPayMemberId(txns.getMemberid());
-        tradeInfo.setPayToMemberId(PAYTOMEMBERID);
-        tradeInfo.setTxnseqno(txns.getTxnseqNo());
+        tradeInfo.setTxnseqno(txns.getTexnseqno());
         tradeInfo.setPayordno(txns.getWithdraworderno());
         tradeInfo.setCommission(new BigDecimal(0));
-        tradeInfo.setCharge(txns.getFee().getAmount());
-        accEntyr.accEntryProcess(tradeInfo);
-
+        tradeInfo.setCharge(new BigDecimal(txns.getFee()));
+        PojoMember memebr =members.getMbmberByMemberId(txns.getMemberid(), null);
+        PojoCoopInsti coopInsti = coopInstiDao.get(memebr.getInstiId());
+        
+        tradeInfo.setCoopInstCode(coopInsti.getInstiCode());
+        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
     }
 
     /**
@@ -550,7 +639,7 @@ public class TWithServiceImpl
             // 复审通过
             if (secondTrial.getFalg() == true) {
                 // 如果有民生银行的卡 单独处理
-                if (TOTALBANKCODE.equals(txns.getTotalBankCode())) {
+                /*if (TOTALBANKCODE.equals(txns.getTotalBankCode())) {
                     
                     PojoTransferData pojotransDate = saveTransfer(txns);
                     pojotransDate.setTransfertype(CMBC);
@@ -560,11 +649,15 @@ public class TWithServiceImpl
                     pojotransDate.setTransfertype(OTHER);
                     pojotransDate.setCreatetime(new Date());
 
-                }
+                }*/
 
             } else {
                 // 复审拒绝
                 txns.setStatus(ReviewEnum.SECONREFUSED.getCode());
+                TxnsLogModel txnsLog = txnsLogService.getTxnsLogByTxnseqno(txns.getTexnseqno());
+                TxnsOrderinfoModel orderinfo = orderinfoDAO.getOrderinfoByOrderNo(txns.getGatewayorderno(), txnsLog.getAccfirmerno());
+                orderinfo.setStatus("03");
+                orderinfoDAO.update(orderinfo);
                 Fused(txns);
             }
 
@@ -573,10 +666,10 @@ public class TWithServiceImpl
     /**
      * 新增划拨数据
      */
-    private PojoTransferData saveTransfer(TxnsWithdrawModel txns) {
+    private void saveTransfer(TxnsWithdrawModel txns) {
         txns.setStatus(ReviewEnum.BATCH.getCode());
         // 通过后需要将数据记录到划拨明细表中 并且将数据统计写入划拨表中
-        PojoTransferData pojotransDate = new PojoTransferData();
+        /*PojoTransferData pojotransDate = new PojoTransferData();
         // 批次号
         pojotransDate.setBatchno(txns.getBatchno());
         pojotransDate.setMemberid(txns.getMemberid());
@@ -599,7 +692,7 @@ public class TWithServiceImpl
         pojotransDate.setRelatedorderno(txns.getWithdraworderno());
         pojotransDate.setTxnseqno(txns.getTxnseqNo());
         // transdata.merge(pojotransDate);
-        return transdata.merge(pojotransDate);
+        return transdata.merge(pojotransDate);*/
     }
 
     /**
@@ -619,5 +712,11 @@ public class TWithServiceImpl
         } 
 
     }
+    
+    
+    public TxnsWithdrawModel getByTxnsWithdrawNo(String withdrawno){
+    	return tWithdrawDao.getTxnsWithdrawByorderNo("", "01", withdrawno);
+    }
+
 
 }

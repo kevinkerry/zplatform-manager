@@ -16,9 +16,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.opensymphony.xwork2.Action;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
-import com.zlebank.zplatform.commons.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.ChargeBean;
@@ -27,6 +28,7 @@ import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IChargeService;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
+import com.zlebank.zplatform.trade.exception.TradeException;
 
 /**
  * Class Description
@@ -87,7 +89,7 @@ public class ChargeAction extends BaseAction {
 
     public String getCharge() {
 
-        return this.SUCCESS;
+        return Action.SUCCESS;
     }
 
     public void queryCharge() {
@@ -162,7 +164,10 @@ public class ChargeAction extends BaseAction {
             messg = e.getMessage();
         } catch (NumberFormatException e) {
             messg = e.getMessage();
-        }
+        } catch (TradeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         map.put("messg", messg);
         map.put("falg", isok);

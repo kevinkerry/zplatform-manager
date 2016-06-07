@@ -18,40 +18,24 @@ table tr td select {
 </style>
 	<div style="margin: 5px; border:" id="continer">
 		<div id="p" class="easyui-panel" title="查询条件"
-			style="height: 140px; padding: 10px; background: #fafafa;"
+			style="height: 90px; padding: 10px; background: #fafafa;"
 			iconCls="icon-save" collapsible="true">
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						<td align="right" width="10%">一级商户号:</td>
+						<!--  <td align="right" width="10%">商户编号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="instead.merId" id="merId" maxlength="32" /></td>
 
 						<td align="right" width="10%">商户订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.orderId" id="orderId" maxlength="32" /></td>
-
-
-
-						<td align="right" width="10%">批次号:</td>
+							name="instead.orderId" id="orderId" maxlength="32" /></td>-->
+							<td align="right" width="10%">代付批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.batchFileNo" id="batchFileNo" maxlength="32" /></td>
+							name="insteadPayBatchQuery.batchNo" id="batchNo" maxlength="32" /></td>
 
-
-						<td align="right" width="10%">代付状态:</td>
-						<td colspan="1"><select name="instead.status"
-							class="easyui-validatebox validatebox-text" id="status">
-								<option value="">请选择</option>
-								<option value="01">待初审</option>
-								<option value="09">初审未过</option>
-								<option value="00">充值成功</option>
-						</select></td>
-					</tr>
-
-					<tr>
-						<td align="right" rowspan="6"><a href="javascript:search()"	
+						<td align="left" rowspan="6"><a href="javascript:search()"	
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
-
 					</tr>
 
 				</table>
@@ -60,7 +44,6 @@ table tr td select {
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-
 	</div>
 
 	<div id="w" class="easyui-window" closed="true" title="My Window"
@@ -81,174 +64,137 @@ table tr td select {
 </body>
 
 <script>
-	var width = $("#continer").width();
-	$(function() {
-		$("#withdraworcheckbox").unbind();
-		$('#test').datagrid({
-			title : '代付信息',
-			iconCls : 'icon-save',
-			height : 400,
-			singleSelect : true,
-			nowrap : false,
-			striped : true,
-			url : 'pages/instead/queryInsteadInsteadAction.action',
-			remoteSort : false,
-			idField : 'ORGAN_ID',
-			columns : [ [
-			           	{
-							field : 'merId',
-							title : '商户编号',
-							width : 120,
-							align : 'center'
-						},
-
-			{
-				field : 'orderId',
-				title : '商户订单号',
-				width : 120,
-				align : 'center'
-			}, {
-				field : 'amt',
-				title : '单笔金额',
-				width : 120,
-				align : 'center'
-			}, {
-				field : 'accType',
-				title : '账号类型',
-				width : 120,
-				align : 'center',
-				formatter : function(value, rec) {
-					if (value == '02') {
-						return '商户';
-					} else if (value == '01') {
-						return '个人';
-					} else {
-						return '';
-					}
+var width = $("#continer").width();
+$(function() {
+    $("#withdraworcheckbox").unbind();
+    $('#test').datagrid({
+        title: '代付导入列表',
+        iconCls: 'icon-save',
+        height: 400,
+        singleSelect: true,
+        nowrap: false,
+        striped: true,
+        url: 'pages/instead/queryInsteadBatchInsteadAction.action',
+        remoteSort: false,
+        idField: 'ORGAN_ID',
+        columns: [[{
+            field: 'merId',
+            title: '商户编号',
+            width: 120,
+            align: 'center'
+        },
+        {
+            field: 'batchNo',
+            title: '商户批次号',
+            width: 150,
+            align: 'center'
+        },
+        {
+            field: 'insteadPayBatchSeqNo',
+            title: '代付批次号',
+            width: 150,
+            align: 'center'
+        },
+        {
+            field: 'totalAmt',
+            title: '总金额',
+            width: 120,
+            align: 'center',
+            formatter : function(value, rec){
+            	return fen2Yuan(value);
+            }
+        },
+        {
+            field: 'totalQty',
+            title: '总笔数',
+            width: 120,
+            align: 'center'
+        },
+        {
+            field: 'intime',
+            title: '导入时间',
+            width: 120,
+            align: 'center',
+            formatter : function(value, rec){
+            	return formateDateTime(value);
+            }
+        } ,
+		{field : 'status',title : '状态',width : 120,align : 'center',
+			formatter : function(value, rec,index) {
+				if (value == '01') {
+					return '未审核';
+				} else if (value == '02') {
+					return '部分审核完毕';
+				} else if (value == '03') {
+					return '全部审核完毕';
+				} else if (value == '00') {
+					return '全部处理完毕';
+				} else {
+					return '';
 				}
-			}, {
-				field : 'accNo',
-				title : '账号',
-				width : 120,
-				align : 'center'
-			},
-
-			{
-				field : 'accName',
-				title : '户名',
-				width : 120,
-				align : 'center'
-			}, {
-				field : 'bankCode',
-				title : '开户行代码',
-				width : 180,
-				align : 'center'
-			}, {
-				field : 'status',
-				title : '状态',
-				width : 180,
-				align : 'center',
-				formatter : function(value, rec) {
-
-					if (value == '01') {
-						return '待初审';
-					} else if (value == '09') {
-						return '初审未过';
-					} else if (value == '11') {
-						return '待复审';
-					} else if (value == '19') {
-						return '复审未过';
-					} else if (value == '21') {
-						return '等待批处理';
-					} else if (value == '29') {
-						return '批处理失败';
-					} else if (value == '00') {
-						return '提现成功';
-					} else if (value == '39') {
-						return '自行终止';
-					} else {
-						return '';
-					}
-				}
-			}, {
-				field : 'batchId',
-				title : '批次号',
-				width : 180,
-				align : 'center'
-			} ] ],
-			/* singleSelect : false,
+			} 
+		} 
+        ]],
+        /* singleSelect : false,
 			selectOnCheck : true,
 			checkOnSelect : false, */
-			pagination : true,
-			rownumbers : true,
-			toolbar : [ {
-				id : 'btnadd',
-				text : '导入划拨数据',
-				iconCls : 'icon-add',
-				handler : function() {
-					$("#btn_submit").linkbutton('enable');
-					$("#icon-cancel").linkbutton('enable');
-					
-					$("#firstTrial")[0].reset();
-					showAdd();
-				}
-				}
-			 ] 
-		});
-	});
+        pagination: true,
+        rownumbers: true,
+        toolbar: [{
+            id: 'btnadd',
+            text: '导入代付文件',
+            iconCls: 'icon-add',
+            handler: function() {
+                $("#btn_submit").linkbutton('enable');
+                $("#icon-cancel").linkbutton('enable');
+                $("#firstTrial")[0].reset();
+                showAdd();
+            }
+        }]
+    });
+});
 
-	function search() {
-		var data = {
-			"instead.merId" : $('#merId').val(),
-			"instead.orderId" : $('#orderId').val(),
-			"instead.batchFileNo":$('#batchFileNo').val(),
-			"instead.status" : $('#status').val()
-		}
-		$('#test').datagrid('load', data);
-	}
-	function closeAdd() {
+function search() {
+    var data = {
+        "insteadPayBatchQuery.batchNo": $('#batchNo').val(),
+    }
+    $('#test').datagrid('load', data);
+}
+function closeAdd() {
+    $('#w').window('close');
+}
 
-		$('#w').window('close');
-	}
-
-	function showAdd() {
-		
-		$('#w').window({
-			title : '导入文件',
-			top : 100,
-			width : 400,
-			collapsible : false,
-			minimizable : false,
-			maximizable : false,
-			modal : true,
-			shadow : false,
-			closed : false,
-			height : 300
-		});
-	} 
-	 function 	filel(){
-		 $("#firstTrial").attr("action",
-			"pages/instead/fileInsteadAction.action");
-		 $('#firstTrial').form('submit', {  
-			    onSubmit: function(){  
-				    if($('#firstTrial').form('validate')){
-				    	$('#btn_submit').linkbutton('disable');
-						$("#icon-cancel").linkbutton('disable');
-				    	
-				    	return 	true;
-					}
-			        return false;   
-			    },   
-			    success:function(data){  
-			    	$.messager.alert('提示',data); 
-	    			search();
-		    		closeAdd();
-			 
-			        
-			    }  
-			});  
-		 
-	 }
-
+function showAdd() {
+    $('#w').window({
+        title: '导入文件',
+        top: 100,
+        width: 400,
+        collapsible: false,
+        minimizable: false,
+        maximizable: false,
+        modal: true,
+        shadow: false,
+        closed: false,
+        height: 300
+    });
+}
+function filel() {
+    $("#firstTrial").attr("action", "pages/instead/fileInsteadAction.action");
+    $('#firstTrial').form('submit', {
+        onSubmit: function() {
+            if ($('#firstTrial').form('validate')) {
+                $('#btn_submit').linkbutton('disable');
+                $("#icon-cancel").linkbutton('disable');
+                return true;
+            }
+            return false;
+        },
+        success: function(data) {
+            $.messager.alert('提示', data);
+            search();
+            closeAdd();
+        }
+    });
+}
 </script>
 </html>

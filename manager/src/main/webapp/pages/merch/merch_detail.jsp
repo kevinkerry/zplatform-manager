@@ -22,9 +22,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			style="background:#fafafa;" iconCls="icon-save" data-options="fit:true,border:false"
 			collapsible="false">		
 			<div style="padding-left:5px;padding-right:5px">
-		<form id="merchDateForm" action="pages/merchant/saveMerchDateMerchantAction.action" method="post" >
-		<input type="hidden" id="isDelegation" value="${merchMap.ISDELEGATION}" />
-		<input type="hidden" id="merchId" value="${merchMap.MERCHID}" />
+		<form id="merchDetaForm" action="pages/merchant/saveMerchDetaMerchantAction.action" method="post" >
+		<input type="hidden" id="isDelegation" value="${merchMap.IS_DELEGATION}" />
+		<input type="hidden" id="merchId" name="merchDeta.merchId" value="${merchMap.MERCHID}" />
+		 <input type="hidden" id="merchApplyId" value="${merchApplyId}" />
 		<input type="hidden" id="flag_ins" value="${flag}" />
 				<table width="100%">
 					<tr>
@@ -32,9 +33,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center" width="20%">企业名称<font color="red">*</font></td>
-						<td  width="30%">${merchMap.MERCHNAME}</td>
+						<td  width="30%">${merchMap.ENTERPRISE_NAME}</td>
 						<td align="center">会员编号</td>
-						<td>${merchMap.MEMBERID}</td>
+						<td>${merchMap.MEMBER_ID}</td>
 					</tr>
 					<tr> 
 						<td align="center">企业所在地<font color="red">*</font></td>
@@ -42,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">联系手机号<font color="red">*</font></td> 
-						<td>${merchMap.CELLPHONENO}</td>
+						<td>${merchMap.PHONE}</td>
 						<td align="center">邮箱<font color="red">*</font></td>
 						<td>${merchMap.EMAIL}</td>
 					</tr>
@@ -51,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${merchMap.ADDRESS}
 						</td>
 						<td align="center">邮编编码</td>
-						<td>${merchMap.POSTCODE}
+						<td>${merchMap.POST_CODE}
 						</td>
 					</tr>
 					<tr>
@@ -64,15 +65,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>-->
 					<tr>
 						<td align="center">营业执照号<font color="red">*</font></td>
-						<td>${merchMap.LICENCENO}
+						<td>${merchMap.LICENCE_NO}
 						</td>    
 						<td align="center">组织机构代码号<font color="red">*</font></td>
-						<td>${merchMap.ORGCODE}
+						<td>${merchMap.ORG_CODE}
 						</td> 
 					</tr>
 					<tr>
 						<td align="center">税务登记号<font color="red">*</font></td>
-						<td> ${merchMap.TAXNO}
+						<td> ${merchMap.TAX_NO}
 						</td>
 						<td align="center">所属行业<font color="red">*</font></td>
 						<td>${merchMap.MCCLIST}</td>
@@ -93,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${merchMap.CORPORATION}
 						</td>
 						<td align="center">法人身份证号<font color="red">*</font></td>
-						<td>${merchMap.CORPNO}
+						<td>${merchMap.CORP_NO}
 						 </td>
 					</tr> 
 					
@@ -118,10 +119,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">开户账号<font color="red">*</font></td>
-						<td>${merchMap.ACCNUM}
+						<td>${merchMap.ACC_NUM}
 						</td>
 						<td align="center">开户名<font color="red">*</font></td>
-						<td>${merchMap.ACCNAME}
+						<td>${merchMap.ACC_NAME}
 					</tr>
 					
 					<tr>
@@ -159,13 +160,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">委托人姓名<font color="red">*</font></td>
 						<td>${merchMap.SIGNATORY}</td>
 						<td align="center">委托人身份证号<font color="red">*</font></td>
-						<td>${merchMap.SIGNCERTNO}
+						<td>${merchMap.SIGN_CERT_NO}
 					</tr>
 					<tr>
 						<td align="center">客户经理</td>
-						<td>${merchMap.CUSTMGR}</td>
+						<td>${merchMap.CUST_MGR}</td>
 						<td align="center">客户经理部门</td>
-						<td>${merchMap.CUSTMGRDEPT}
+						<td>${merchMap.CUST_MGR_DEPT}
 						    </td>
 					</tr>
 					<tr>
@@ -190,17 +191,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">联系人姓名</td>
 						<td>${merchMap.CONTACT}</td>
 						<td align="center">联系人地址</td>
-						<td>${merchMap.CONTADDRESS}</td>    
+						<td>${merchMap.CONT_ADDRESS}</td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td>${merchMap.CONTPHONE}</td>
+						<td>${merchMap.CONT_PHONE}</td>
 						<td align="center">联系人职位</td>
-						<td>${merchMap.CONTTITLE}</td>
+						<td>${merchMap.CONT_TITLE}</td>
 					</tr>
 					<tr>
 						<td align="center">联系人邮箱</td>
-						<td>${merchMap.CONTEMAIL}</td>
+						<td>${merchMap.CONT_EMAIL}</td>
 						<td colspan="2"></td>
 					</tr>
 					<tr>
@@ -256,7 +257,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">初审人</td>
 						<td>${merchMap.STEXANAME}</td>
 						<td align="center">初审意见</td>
-						<td>${merchMap.STEXAOPT}</td>
+						<td>${merchMap.STEXA_OPT}</td>
 					</tr>
 					 <tr>
 					    <td align="center">复核意见</td>
@@ -269,13 +270,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					 <tr>
 					    <td align="center">初核意见</td>
 					    <td colspan="3" align="center">
-					        <textarea rows="5" cols="100" style="margin:5px" value="${merchMap.STEXAOPT}" maxlength="60" id="STOPINION"></textarea>
+					        <textarea rows="5" cols="100" style="margin:5px" value="${merchMap.STEXA_OPT}" maxlength="60" id="STOPINION"></textarea>
 					    </td>
 					  </tr>
 					   <tr>
 					    <td align="center">复核意见</td>
 					    <td colspan="3" align="center">
-					        <textarea rows="5" cols="100" style="margin:5px" value="${merchMap.CVLEXAOPT}" maxlength="60" id="STOPINION"></textarea>
+					        <textarea rows="5" cols="100" style="margin:5px" value="${merchMap.CVLEXA_OPT}" maxlength="60" id="STOPINION"></textarea>
 					    </td>
 					  </tr> 
 					 </s:if>
@@ -317,7 +318,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$.ajax({
 					type: "POST",
 					url: "pages/merchant/downloadImgUrlMerchantAction.action",
-					data: "merchId=" + $('#merchId').val()+"&certTypeCode="+certType,
+					data: "merchApplyId=" + $('#merchApplyId').val()+"&certTypeCode="+certType,
 					dataType: "json",
 					success: function(json) {
 						 if(json.status=='OK'){
@@ -336,15 +337,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#button_ins1").linkbutton('disable');
 			$("#button_ins2").linkbutton('disable');
 			$("#button_ins3").linkbutton('disable');
-			var merchid = $("#merchId").val();
-			var stexaopt = $("#STOPINION").val();
-			var memberid = $("#merchId").val();
-			var merchname = $("#merchname_ins").val();
+			var merchApplyId = $("#merchApplyId").val();
+			var stexaOpt = $("#STOPINION").val();
 			var flag = $("#flag_ins").val();
 			$.ajax({
 				type: "POST",
-				url: "pages/merchant/auditMerchantAction.action?isAgree=" + result + "&merchId=" + merchid + "&flag=" + flag,
-				data: "merchDate.stexaopt=" + encodeURI(stexaopt),
+				url: "pages/merchant/auditMerchantAction.action?isAgree=" + result + "&merchApplyId=" + merchApplyId + "&flag=" + flag,
+				data: "merchDate.stexaOpt=" + encodeURI(stexaOpt),
 				dataType: "json",
 				success: function(json) {
 					$.each(json,

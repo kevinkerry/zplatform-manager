@@ -19,13 +19,13 @@ public class TradeStatDAOTest {
     public void init() {
         context = new ClassPathXmlApplicationContext("/spring/*");
     }
-    
+    @Test
     public void testTradeStat() {
         IStatDAO statDao = context.getBean(IStatDAO.class);
         List<TradeStatModel> list = statDao.queryTradeStat(null, null, null, null, null);
         Assert.assertTrue(list!=null&&list.size()==5);
     }
-    @Test
+    
     public void testEntryCount() {
         IStatDAO statDao = context.getBean(IStatDAO.class);
         Map<String,Object> list = statDao.queryEntryCount("", "", null, 1, 10);

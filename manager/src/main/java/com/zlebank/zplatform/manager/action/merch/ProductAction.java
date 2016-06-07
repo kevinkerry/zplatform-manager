@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.zlebank.zplatform.commons.dao.pojo.ProductModel;
+import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.CashModel;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
@@ -45,10 +46,16 @@ public class ProductAction extends BaseAction{
 		return null;
 	}
 	//产品新增
-	public String AddProduct(){
+	public String addProduct(){
+	    String result = "";
+        if (productModel == null||StringUtil.isEmpty(productModel.getPrdtname().trim())) {
+            result = "产品名称不能为空";
+            json_encode(result);
+            return null;
+        }
 		productModel.setInuser(getCurrentUser().getUserId());
-		String markString=serviceContainer.getProductService().AddOneProduct(productModel, checkboxList);
-		json_encode(markString);
+		result=serviceContainer.getProductService().AddOneProduct(productModel, checkboxList);
+		json_encode(result);
 		return null;
 	}
 	//业务类型
@@ -84,9 +91,15 @@ public class ProductAction extends BaseAction{
 	    	return null;
 	 }
 	//产品修改
-	public String UpdateProduct(){
+	public String updateProduct(){
+	    String result = "";
+        if (productModel == null||StringUtil.isEmpty(productModel.getPrdtname().trim())||StringUtil.isEmpty(productModel.getPrdtver().trim())) {
+            result = "产品名称不能为空";
+            json_encode(result);
+            return null;
+        }
 		productModel.setInuser(getCurrentUser().getUserId());
-		String markString=serviceContainer.getProductService().UpdateProduct(productModel, checkboxList);
+		String markString=serviceContainer.getProductService().updateProduct(productModel, checkboxList);
 		json_encode(markString);
 		return null;
 	}

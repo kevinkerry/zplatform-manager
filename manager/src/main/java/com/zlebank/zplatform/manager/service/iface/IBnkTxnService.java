@@ -7,4 +7,8 @@ import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
 
 public interface IBnkTxnService extends IBaseService<BnkTxnModel, Long>{
 	public List<Map<String, Object>> saveBnkTxn(BnkTxnModel bnktxn) ;
+
+    public Boolean upLoad(String uploadFileName);
+
+    public void updateUploadLog(String uploadFileName);
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
+import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.BusiRateModel;
 import com.zlebank.zplatform.manager.dao.object.CardRateModel;
@@ -55,11 +56,15 @@ public class FeeAction extends BaseAction {
         return null;
     }
     public String saveFee() {
-        if (feeModel == null) {
-            feeModel = new FeeModel();
+        String mark = "";
+        if (feeModel == null||StringUtil.isEmpty(feeModel.getFeename().trim())||StringUtil.isEmpty(feeModel.getFeever().trim())) {
+            mark = "扣率版本代码或者扣率名称不能为空";
+            json_encode(mark);
+            return null;
         }
+        
         feeModel.setInuser(getCurrentUser().getUserId());
-        String mark = serviceContainer.getFeeService().AddOneFee(feeModel);
+        mark = serviceContainer.getFeeService().AddOneFee(feeModel);
         json_encode(mark);
         return null;
     }
@@ -142,11 +147,14 @@ public class FeeAction extends BaseAction {
     }
     // 修改扣率版本
     public String updateFee() {
-        if (feeModel == null) {
-            feeModel = new FeeModel();
+        String mark = "";
+        if (feeModel == null||StringUtil.isEmpty(feeModel.getFeename().trim())||StringUtil.isEmpty(feeModel.getFeever().trim())) {
+            mark = "扣率版本代码或者扣率名称不能为空";
+            json_encode(mark);
+            return null;
         }
         feeModel.setInuser(getCurrentUser().getUserId());
-        String mark = serviceContainer.getFeeService().UpdateFee(feeModel);
+        mark = serviceContainer.getFeeService().UpdateFee(feeModel);
         json_encode(mark);
         return null;
     }

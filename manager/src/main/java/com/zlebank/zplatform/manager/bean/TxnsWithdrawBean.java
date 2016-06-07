@@ -101,7 +101,7 @@ public class TxnsWithdrawBean implements Bean{
     
     private String cardType;
     
-    /**交易订单号**/
+    /**交易流水号**/
     private String txnseqNo;
     
   

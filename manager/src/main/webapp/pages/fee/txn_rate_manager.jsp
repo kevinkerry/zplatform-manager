@@ -60,7 +60,7 @@
 					<tr>
 						<td width="15%">扣率版本</td>
 						<td width="30%">
-						<select id="busipack" class="easyui-validatebox"  required="true" name="busiRateModel.feever" onchange="showFeeCase()">
+						<select id="busipack" class="easyui-validatebox"  required="true" name="busiRateModel.feever">
 							</select>
 						</td>
 						<td width="15%" >业务</td>
@@ -228,6 +228,8 @@
 				$("#save_button").linkbutton('disable');
 				$('#txnRateForm').form('submit', {
 					onSubmit: function() {
+						$("#busipack").removeAttr("disabled");
+						$("#busicase").removeAttr("disabled");
 						return $('#txnRateForm').form('validate');
 					},
 					success: function(data) {
@@ -243,7 +245,6 @@
 						}
 					}
 				});
-	
 			}
 		}
 		function showFee() {
@@ -261,26 +262,10 @@
 				}
 			});
 		}
-		function showFeeCase() {
-			feever = $("#busipack").val();
-			$.ajax({
-				type: "POST",
-				url: "pages/fee/queryFeeCaseByFeeverFeeAction.action?feever=" + feever,
-				dataType: "json",
-				success: function(json) {
-					var html = "<option value=''>--请选择业务--</option>";
-					$.each(json,
-					function(key, value) {
-						html += '<option value="' + value.BUSICODE + '">' + value.BUSINAME + '</option>';
-					});
-					$("#busicase").html(html);
-				}
-			});
-		}
+		 
 		function showTxnRate(tid) {
 			showAdd();
 			showFee();
-	
 			$.ajax({
 				type: "POST",
 				url: "pages/fee/queryOneBusiRateFeeAction.action?caseid=" + tid,
@@ -299,7 +284,8 @@
 				}
 			});
 			$("#txnRateForm").attr("action", "pages/fee/updateBusiRateFeeAction.action");
-	
+			$("#busipack").attr("disabled","disabled");
+			$("#busicase").attr("disabled","disabled");
 		}
 		function showFeeCase2(feever) {
 			$.ajax({
@@ -358,7 +344,6 @@
 						html += '<option value="' + value.BUSICODE + '">' + value.BUSINAME + '</option>';
 					});
 					$("#busiCase_ins").html(html);
-	
 				}
 			});
 		}

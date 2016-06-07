@@ -73,7 +73,7 @@
 							
 						</td>
 						
-						<td align="right" width="10%">受理定提交时间</td>
+						<td align="right" width="10%">受理定单提交时间</td>
 						<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
 							至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input></td>
 						
@@ -240,8 +240,6 @@
 	
 		});
 		
-
-	    
 		function search(){
 			var data={"tlb.txnseqno":$('#txnseqno').val(),
 			"tlb.busicode":$('#busicode').val(),
@@ -292,9 +290,9 @@
 					   $("#tapptype").html(json.APPTYPE);
 					   $("#tbusitype").html(json.BUSITYPE);
 					   $("#tbusicode").html(json.BUSINAME);
-					   $("#tamount").html(json.AMOUNT);
-					   $("#ttradcomm").html(json.TRADCOMM);
-					   $("#ttxnfee").html(json.TXNFEE);
+					   $("#tamount").html(fen2Yuan(json.AMOUNT));
+					   $("#ttradcomm").html(fen2Yuan(json.TRADCOMM));
+					   $("#ttxnfee").html(fen2Yuan(json.TXNFEE));
 					   $("#triskver").html(json.RISKNAME);
 					   $("#tsplitver").html(json.SPLITVER);
 					   $("#tfeever").html(json.FEENAME);
@@ -346,10 +344,6 @@
 					   }
 				 	}
 				});
-			
-			
-			
 		}
-					
 	</script>
 </html>

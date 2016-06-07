@@ -25,15 +25,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			collapsible="false">		
 			<div style="padding-left:5px;padding-right:5px">
 		<form id="merchDateForm" action="pages/merchant/commitMerchMerchantAction.action" method="post" >
-		<input type="hidden" id="merchId" name="merchDate.merchid" value="${merchDate.merchid}"/>
-		<input type="hidden" id="busilice_old"  value="${merchDate.licencefile}"/>
-		<input type="hidden" id="orgCert_old" value="${merchDate.orgcodefile}"/>
-		<input type="hidden" id="corpfileFace_old"  value="${merchDate.corpfile}"/>
-		<input type="hidden" id="corpfileOpp_old"  value="${merchDate.corpfileOpp}"/>
-		<input type="hidden" id="signfileFace_old" value="${merchDate.signfile}"/>
-		<input type="hidden" id="signfileOpp_old" value="${merchDate.signfileOpp}"/>
-		<input type="hidden" id="taxRegCert_old"  value="${merchDate.taxfile}"/>
-		<input type="text" id="isde"  value="${merchDate.isDelegation}"/>
+		<input type="hidden" id="merchApplyId"  value="${merchApplyId}"/>
+		<input type="hidden" id="merchId" name="merchDeta.merchId" value="${merchDeta.merchId}"/>
+		<input type="hidden" id="busilice_old"  value="${merchDeta.member.licenceFile}"/>
+		<input type="hidden" id="orgCert_old" value="${merchDeta.member.orgCodeFile}"/>
+		<input type="hidden" id="corpfileFace_old"  value="${merchDeta.member.corpFile}"/>
+		<input type="hidden" id="corpfileOpp_old"  value="${merchDeta.member.corpFileOpp}"/>
+		<input type="hidden" id="signfileFace_old" value="${merchDeta.member.signCertFile}"/>
+		<input type="hidden" id="signfileOpp_old" value="${merchDeta.member.signCertFileOpp}"/>
+		<input type="hidden" id="taxRegCert_old"  value="${merchDeta.member.taxFile}"/>
+		<input type="hidden" id="isde"  value="${merchDeta.member.isDelegation}"/>
 				<table width="100%">
 					<tr>
 						<td colspan="4" class="head-guide">第一步:企业信息录入----><font class="current-step"> 第二步:上传证件照片</font></td>
@@ -43,9 +44,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					 <tr>
 						<td align="center" width="20%">企业名称</td>
-						<td  width="30%">${merchDate.merchname}</td>
+						<td  width="30%">${merchDeta.member.enterpriseName}</td>
 						<td align="center" width="20%">商户号</td>
-						<td  width="30%">${merchDate.memberid}</td>
+						<td  width="30%">${merchDeta.memberId}</td>
 					</tr>
 					<tr>
 						<td align="center">企业法人营业执照</td>
@@ -74,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<span id="corpfileOpp_span"></span>
 						</td>
 					</tr> 
-					<s:if test="merchDate.isDelegation==1">
+					<s:if test="merchDeta.member.isDelegation==1">
 					<tr>
 						<td align="center" id="psamORpass">委托人身份证正面照</td>
 						<td>
@@ -118,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				'swf' : '<%=basePath%>js/uploadify/uploadify.swf', 
 				'uploader': '<%=basePath%>/pages/merchant/uploadMerchantAction.action',
 				'fileObjName': 'headImage',
-				'formData' : {'merchId':$('#merchId').val(),'certTypeCode':certType},
+				'formData' : {'merchApplyId':$('#merchApplyId').val(),'certTypeCode':certType},
 				 'method'   : 'post',
 				//可选  
 				'height': 20,
@@ -164,14 +165,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   });
 	
 	function toFirstStep(){
-		window.location.href= "<%=basePath%>" +'/pages/merchant/ToMerchChangeMerchantAction.action?merchId='+$('#merchId').val();
+		window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchChangeMerchantAction.action?merchApplyId='+$('#merchApplyId').val();
 	}
 	
 	function commitMerch(){
 			$.ajax({
 				type: "POST",
 				url: "pages/merchant/commitMerchMerchantAction.action",
-				data: "rand=" + new Date().getTime()+"&merchId="+$('#merchId').val(),
+				data: "rand=" + new Date().getTime()+"&merchApplyId="+$('#merchApplyId').val(),
 				dataType: "json",
 				success: function(json) {
 					if (json.status == "OK") {
@@ -197,7 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.ajax({
 				type: "POST",
 				url: "pages/merchant/downloadImgUrlMerchantAction.action",
-				data: "merchId=" + $('#merchId').val()+"&certTypeCode="+certType,
+				data: "merchApplyId=" + $('#merchApplyId').val()+"&certTypeCode="+certType,
 				dataType: "json",
 				success: function(json) {
 					 if(json.status=='OK'){
@@ -217,7 +218,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$.ajax({
 			type: "POST",
 			url: "pages/merchant/downloadImgUrlMerchantAction.action",
-			data: "merchId=" + $('#merchId').val()+"&certTypeCode="+certType+"&fouceDownload=fouce",
+			data: "merchApplyId=" + $('#merchApplyId').val()+"&certTypeCode="+certType+"&fouceDownload=fouce",
 			dataType: "json",
 			success: function(json) {
 				 if(json.status=='OK'){

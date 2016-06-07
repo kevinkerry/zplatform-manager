@@ -4,11 +4,13 @@ import com.zlebank.zplatform.manager.dao.iface.IBnkTxnDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICityDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICountyDAO;
 import com.zlebank.zplatform.manager.dao.iface.IDeptDAO;
+import com.zlebank.zplatform.manager.dao.iface.IEnterpriseDetaDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFTPDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFeeDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFunctionDAO;
 import com.zlebank.zplatform.manager.dao.iface.ILimitPerDayDAO;
 import com.zlebank.zplatform.manager.dao.iface.IMccListDAO;
+import com.zlebank.zplatform.manager.dao.iface.IMemberQueueDAO;
 import com.zlebank.zplatform.manager.dao.iface.IMerchDetaDAO;
 import com.zlebank.zplatform.manager.dao.iface.INoticeDAO;
 import com.zlebank.zplatform.manager.dao.iface.IOperLogDAO;
@@ -57,8 +59,21 @@ public class DAOContainer {
 	private IRiskDAO riskDAO;
 	private ILimitPerDayDAO limitperdayDAO;
 	private IMccListDAO mccListDAO;
+	private IEnterpriseDetaDAO enterpriseDetaDAO;
+	private IMemberQueueDAO memberQueueDAO;
 	
-	public IProvinceDAO getProvinceDAO() {
+	
+	
+
+    public IMemberQueueDAO getMemberQueueDAO() {
+        return memberQueueDAO;
+    }
+
+    public void setMemberQueueDAO(IMemberQueueDAO memberQueueDAO) {
+        this.memberQueueDAO = memberQueueDAO;
+    }
+
+    public IProvinceDAO getProvinceDAO() {
 		return provinceDAO;
 	}
 
@@ -225,4 +240,12 @@ public class DAOContainer {
 	public void setMccListDAO(IMccListDAO mccListDAO) {
 		this.mccListDAO = mccListDAO;
 	}
+
+    public IEnterpriseDetaDAO getEnterpriseDetaDAO() {
+        return enterpriseDetaDAO;
+    }
+
+    public void setEnterpriseDetaDAO(IEnterpriseDetaDAO enterpriseDetaDAO) {
+        this.enterpriseDetaDAO = enterpriseDetaDAO;
+    }
 }

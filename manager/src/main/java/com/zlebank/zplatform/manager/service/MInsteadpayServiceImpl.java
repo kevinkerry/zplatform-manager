@@ -11,8 +11,10 @@
 package com.zlebank.zplatform.manager.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -23,22 +25,25 @@ import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
-import com.zlebank.zplatform.commons.bean.AuditBean;
-import com.zlebank.zplatform.commons.bean.CardBin;
+import com.zlebank.zplatform.acc.service.entry.EntryEvent;
 import com.zlebank.zplatform.commons.dao.CardBinDao;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
-import com.zlebank.zplatform.manager.enums.TransFerDataStatusEnum;
+import com.zlebank.zplatform.manager.bean.AuditBean;
+import com.zlebank.zplatform.manager.bean.TranBatch;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IInsteadPayService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailQuery;
 import com.zlebank.zplatform.trade.bean.enums.InsteadEnum;
+import com.zlebank.zplatform.trade.bean.enums.TransferBatchStatusEnum;
 import com.zlebank.zplatform.trade.dao.InsteadPayDetailDAO;
+import com.zlebank.zplatform.trade.dao.TranBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.model.PojoInsteadPayDetail;
-import com.zlebank.zplatform.trade.model.PojoTransferData;
+import com.zlebank.zplatform.trade.model.PojoTranBatch;
+import com.zlebank.zplatform.trade.utils.DateUtil;
 
 /**
  * Class Description
@@ -62,6 +67,8 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
     private TransferDataDAO transdata;
     @Autowired
     private AccEntryService accEntyr;
+    @Autowired
+    private TranBatchDAO tranBatchDao;
     /** 民生 **/
     private final static String CMBC = "01";
     /** 其他 **/
@@ -95,7 +102,7 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
         }
         // 审核通过
         if (trial.getFalg() == true) {
-            through(pojoinstead);
+            //through(pojoinstead);
             pojoinstead.setStexauser(trial.getStexauser());
             pojoinstead.setStexaopt(trial.getStexaopt());
         } else {
@@ -118,14 +125,14 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
             NumberFormatException {
         pojoinstead.setStatus(status);
         TradeInfo tradeInfo = new TradeInfo();
-        tradeInfo.setAmount(pojoinstead.getAmt());
+        tradeInfo.setAmount(new BigDecimal(pojoinstead.getAmt()));
         tradeInfo.setBusiCode(REFUSE);
         tradeInfo.setPayMemberId(pojoinstead.getMerId());
         tradeInfo.setTxnseqno(pojoinstead.getTxnseqno());
         //tradeInfo.setTxnseqno(pojoinstead.getOrderId());
         tradeInfo.setCommission(new BigDecimal(0));
-        tradeInfo.setCharge(pojoinstead.getTxnfee());
-        accEntyr.accEntryProcess(tradeInfo);
+        tradeInfo.setCharge(new BigDecimal(pojoinstead.getTxnfee()));
+        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
 
     }
 
@@ -135,8 +142,8 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
      * @param pojoinstead
      * @throws ManagerWithdrawException 
      */
-    private PojoTransferData through(PojoInsteadPayDetail pojoinstead) throws ManagerWithdrawException {
-        if (StringUtil.isEmpty(pojoinstead.getAccNo())) {
+    private String through(PojoInsteadPayDetail pojoinstead) throws ManagerWithdrawException {
+        /*if (StringUtil.isEmpty(pojoinstead.getAccNo())) {
             throw new ManagerWithdrawException("G100016");
         }
         CardBin card = cardbin.getCard(pojoinstead.getAccNo());
@@ -172,7 +179,8 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
         pojotransDate.setBusicode(BUSINESSCODE);
         pojotransDate.setBusitype(BUSINESSTYPE);
         pojotransDate.setRelatedorderno(pojoinstead.getOrderId());
-        return transdata.merge(pojotransDate);
+        return transdata.merge(pojotransDate);*/
+    	return null;
 
     }
 
@@ -223,5 +231,18 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
    
     
     }
+
+	@Override
+	public List<TranBatch> getByInsteadPayBatchandStaus(long id,
+			List<String> statusList) {
+		List<PojoTranBatch> tranBatchs = tranBatchDao.getByInsteadPayBatchandStaus(id, statusList);
+		List<TranBatch> tranBatchCopier = new ArrayList<TranBatch>();
+		for(PojoTranBatch copySource : tranBatchs){
+			TranBatch copyTarget = new TranBatch();
+			BeanUtils.copyProperties(copySource, copyTarget, "insteadPayBatchs","tranBatchs");
+			tranBatchCopier.add(copyTarget);
+		}
+		return tranBatchCopier;
+	}
 
 }

@@ -1,7 +1,7 @@
 package com.zlebank.zplatform.manager.service.certhandler;
 
 import com.zlebank.zplatform.manager.action.merch.CertType;
-import com.zlebank.zplatform.manager.dao.object.MerchDetaModel;
+import com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDetaApply;
 
 /**
  * 
@@ -20,7 +20,7 @@ public abstract class CertPicHandler {
      * @param merchDeta
      * @param fileName
      */
-    public abstract MerchDetaModel decorate(MerchDetaModel merchDeta,String fileName);
+    public abstract PojoEnterpriseDetaApply decorate(PojoEnterpriseDetaApply enterpriseApply,String fileName);
     /**
      * 
      * @param merchDeta
@@ -34,5 +34,5 @@ public abstract class CertPicHandler {
         return srcFileName; 
     }
     
-    public abstract String getFileName(MerchDetaModel merch);
+    public abstract String getFileName(PojoEnterpriseDetaApply enterpriseApply);
 }

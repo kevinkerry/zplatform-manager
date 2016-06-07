@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</td>
 						<td align="right" width="10%">商户名称</td>
 						<td align="left" style="padding-left: 5px" width="15%" >
-							<input  id="merchName_ins" maxlength="50"/>
+							<input  id="memberName_ins" maxlength="50"/>
 						</td>
 						<td align="right" width="10%">商户状态</td>
 						<td align="left" style="padding-left: 5px" width="15%" >
@@ -79,12 +79,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					striped: true,
 					url:'pages/merchant/queryMerchMerchantAction.action?flag='+flag,
 					remoteSort: false,
-				//	idField:'ORGAN_ID',
 					columns:[
 					[
-						{field:'MEMBERID',title:' 会员编号',align:'center',width:120},
-						{field:'MERCHNAME',title:'商户名称',width:120,align:'center'},
-						{field:'LICENCENO',title:'营业执照号',width:120,align:'center'},
+						{field:'MEMBER_ID',title:' 会员编号',align:'center',width:120},
+						{field:'ENTERPRISE_NAME',title:'商户名称',width:120,align:'center'},
+						{field:'LICENCE_NO',title:'营业执照号',width:120,align:'center'},
 						{field:'CORPORATION',title:'法人名称',width:120,align:'center'}, 
 						{field:'CONTACT',title:'联系人',width:120,align:'center'},
 						{field:'STATUS',title:'状态',width:100,align:'center',
@@ -131,21 +130,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						{field:'DEPT_ID',title:'操作',width:120,align:'center',
 						formatter:function(value,rec){
 							if(flag=='10'){
-								
 								if(rec.STATUS=='00'){
-									return '<a href="javascript:ToMerchMk('+rec.MEMBERID+')" style="color:blue;margin-left:10px">秘钥下载</a>&nbsp<a href="javascript:ToMerchDetail('+rec.MERCHID+')" style="color:blue;margin-left:10px">详情</a>';
+									return '<a href="javascript:toMerchMk('+rec.MEMBER_ID+')" style="color:blue;margin-left:10px">秘钥下载</a>&nbsp<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
 								}else{
-									return '<a href="javascript:ToMerchDetail('+rec.MERCHID+')" style="color:blue;margin-left:10px">详情</a>';
+									return '<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
 								}
 							}else if(flag=='2'){
-								return '<a href="javascript:ToMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">审核</a>';
+								return '<a href="javascript:toMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">审核</a>';
 							}else{
-								return '<a href="javascript:ToMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">复核</a>';
+								return '<a href="javascript:toMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">复核</a>';
+							}
+							
+							
+						}
+					},
+					{field:'ACTIVATE_STATUS',title:'是否激活成功',width:120,align:'center',
+						formatter:function(value,rec){
+							if(rec.ACTIVATE_STATUS=='00'){
+								return "已经激活";
+							}else{
+							return '<a id="'+rec.MEMBER_ID+'"href="javascript:toActivateStatus('+rec.MEMBER_ID+')" style="color:blue;margin-left:10px" value="0">重发邮件</a>';
 							}
 							
 						}
-										}
-						
+					}
 					]],
 						pagination:true,
 						rownumbers:true
@@ -169,23 +177,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function search(){
 			//var url="pages/merchant/queryMerchMerchantAction.action?flag="+$("#flag").val();
 			var data={
-					'merchDate.memberid':$('#merchId_ins').val(),
-					'merchDate.merchname':$('#merchName_ins').val(),
-					'merchDate.status':$('#status_ins').val()
+					'merchDeta.member.memberId':$('#merchId_ins').val(),
+					'merchDeta.member.memberName':$('#memberName_ins').val(),
+					'merchStatus':$('#status_ins').val()
 					};
 			$('#test').datagrid('load',data);
 		}
 
-		function ToMerchDetail(memberId){
-			window.location.href= "<%=basePath%>" +'/pages/merchant/ToMerchDetailMerchantAction.action?merchId='+memberId;
+		function toMerchDetail(id,isApply){
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+id;
 			window.event.returnValue = false;
 		}
-		function ToMerchMk(memberId){
+		function toMerchMk(memberId){
 			window.location.href= "<%=basePath%>" +'/pages/merchant/loadMerchMkMerchantAction.action?memberId='+memberId;
 	    	window.event.returnValue = false;
             
 		}
-	
+		//function toActivateStatus(memberId){
+	    //	window.event.returnValue = false;
+            
+	//	}
+		function toActivateStatus(memberId) {
+			if(($("#"+memberId).attr("value"))!=0){
+				alert("您刚刚已经申请过发送邮件了");
+				return ;
+			}
+		
+			$.ajax({
+				type : "POST",
+				url : "<%=basePath%>" +"/pages/active/replayEmailActiveStatusAction.action?memberId="+memberId,
+				data : "",
+				dataType : "json",
+				success : function(json) {
+					var dataArray = eval(json);
+					alert(dataArray.messg)
+					$("#"+memberId).attr("value",01);
+
+				}
+			});
+			
+			setTimeout("remove("+memberId+")",5000);
+		}
+		
+	function remove(memberId){
+		$("#"+memberId).attr("value",120000);
+	}
 		
 	</script>
 </html>

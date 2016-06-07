@@ -16,13 +16,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
-import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.RevisionBean;
 import com.zlebank.zplatform.manager.bean.RevisionQuery;
-import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.manager.service.iface.IRevisionService;
 
 /**
@@ -52,39 +49,21 @@ public class RevisionAciton extends BaseAction{
         return txnsLogNo;
     }
 
-
-
-
-
     public void setTxnsLogNo(String txnsLogNo) {
         this.txnsLogNo = txnsLogNo;
     }
-
-
-
-
 
     public RevisionQuery getRq() {
         return rq;
     }
 
-
-
-
-
     public void setRq(RevisionQuery rq) {
         this.rq = rq;
     }
 
-
-
-
-
     public String getRevision(){
-       return this.SUCCESS;
+       return SUCCESS;
     }
-    
-    
     
     public void queryRevision(){
         int page = this.getPage();
@@ -104,13 +83,12 @@ public class RevisionAciton extends BaseAction{
         
     }
     
-    
     public void saveRevision(){
         String messg="";
         boolean isok=false;
         Map< String, Object> map=new HashMap<String, Object>();
         Long userId = getCurrentUser().getUserId();
-        try {
+        /*try {
             revision.saveRevision(txnsLogNo, userId);
             isok=true;
            
@@ -121,18 +99,11 @@ public class RevisionAciton extends BaseAction{
             messg=e.getMessage();
         } catch (AbstractBusiAcctException e) {
             messg=e.getMessage();
-        }
+        }*/
+        isok=false;
+        messg="账户账务改造后暂时不支持此功能";
         map.put("falg", isok);
         map.put("messg", messg);
         json_encode(map);
-        
     }
-    
-    
-    
-    
-    
-    
-    
-
 }
