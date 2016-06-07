@@ -90,6 +90,9 @@ public class InsteadPayAction extends BaseAction {
 	private static final String CHANNELTYPE = "00";
 	private static final String TXNTYPE = "21";
 	private static final String TXNSUBTYPE = "03";
+	private static final String VERSION="1.0";
+	private static final String ISTEADPAY_FILE_CHARSET="1.0";
+	private static final String BACKURL="#";
 
 	private final String INSTEAD_PATH = "/instead";
 
@@ -216,7 +219,7 @@ public class InsteadPayAction extends BaseAction {
 						param.setUserId(userID);
 						param.setFtpFileName(filePath + "/" + targetFileName);
 						param.setOriginalFileName(fileFileName);
-						insteadRequest.setBackUrl("#");
+						
 						insteadPayService.insteadPay(insteadRequest,
 								InsteadPayImportTypeEnum.FILE, param);
 
@@ -344,6 +347,9 @@ public class InsteadPayAction extends BaseAction {
 			/*instea.setAccessType(ACCESSTYPE);*/
 			instea.setTxnType(TXNTYPE);
 			instea.setTxnSubType(TXNSUBTYPE);
+			instea.setBackUrl(BACKURL);
+			instea.setVersion(VERSION);
+			instea.setEncoding(ISTEADPAY_FILE_CHARSET);
 			String messg = HibernateValidatorUtil.validateBeans(instea);
 			if (StringUtil.isNotEmpty(messg)) {
 				throw new ManagerWithdrawException("G100015", 2, i + 1, messg);

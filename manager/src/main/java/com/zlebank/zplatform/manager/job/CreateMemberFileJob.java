@@ -18,14 +18,14 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import com.zlebank.zplatform.acc.util.SpringApplicationObjectSupport;
 import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
 import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 @Service
-public class CreateMemberFileJob {
+public class CreateMemberFileJob extends SpringApplicationObjectSupport{
     @Autowired
     private ITxnsLogService txnsLogService;
 
@@ -33,6 +33,7 @@ public class CreateMemberFileJob {
     
     private static final String  FILE_PREX = "ZLMSD";
     private static final String DELETIMER = "|";
+    private static final String RECON_FILE_ROOT_DIR="/memberrecon/";
     public void execute() throws Exception {
         // 取出网络时间
         long time = TimeUtil.syncCurrentTime();
@@ -40,7 +41,6 @@ public class CreateMemberFileJob {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dateTime = sdf.format(date);
-        dateTime = "20160525";
         // 根据日期取出t_txns_log取出当天清算的所有商户号
         List<?> memberList = txnsLogService.getAllMemberByDate(dateTime);
         List<?> memberListA = txnsLogService
@@ -156,14 +156,12 @@ public class CreateMemberFileJob {
         string2File(fileString, path + fileName);
         File file = new File(path + fileName);
         // String uploadPath, String fileName, File file
-        @SuppressWarnings("resource")
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-                "/spring/*");
-        FTPClientFactory ftpClientFactory = context
+        fetchApplicationContext();
+        FTPClientFactory ftpClientFactory = applicationContext
                 .getBean(FTPClientFactory.class);
         AbstractFTPClient ftpClient = ftpClientFactory.getFtpClient();
         try {
-            ftpClient.upload("/memberform/" + memberId, fileName, file);
+            ftpClient.upload(RECON_FILE_ROOT_DIR + memberId, fileName, file);
         } catch (IOException e) {
             if (log.isDebugEnabled()) {
                 e.printStackTrace();

@@ -34,13 +34,13 @@ public class SaveMemberQueueJob {
     @Autowired
     private IMemberQueueDAO iMemberQueueDAO;
     
-    private final static String MER_PORTAL_URL = "http://192.168.101.248:8080/merportal/";
+    /*private final static String MER_PORTAL_URL = "http://192.168.101.248:8080/merportal/";
     private final static String MER_PORTAL_WLAN_URL = "http://192.168.101.248:8080/merportal/";
-    private final static String MAIL_PROXY_URL = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";
+    private final static String MAIL_PROXY_URL = "http://192.168.101.231:8081/mailproxy/email/addEmail.action";*/
     
-    /*private final static String MER_PORTAL_URL = "http://192.168.95.121:8080/merportal/";
+    private final static String MER_PORTAL_URL = "http://192.168.95.121:8080/merportal/";
     private final static String MER_PORTAL_WLAN_URL = "http://219.234.83.144:8080/merportal/";
-    private final static String MAIL_PROXY_URL = "http://192.168.95.70:8080/mailproxy/email/addEmail.action";*/
+    private final static String MAIL_PROXY_URL = "http://192.168.95.70:8080/mailproxy/email/addEmail.action";
  
     
     private final static String QUERY_SYNC_MER_REQUEST = "merchant/querySyncMerchanet";
