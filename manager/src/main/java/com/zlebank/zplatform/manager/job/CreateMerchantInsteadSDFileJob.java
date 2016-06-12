@@ -40,6 +40,7 @@ public class CreateMerchantInsteadSDFileJob extends SpringApplicationObjectSuppo
     private static final String TOTAL_FEE = "totalFee";
     private static final String DELETIMER = "|";
     private static final String RECON_FILE_ROOT_DIR="/memberrecon/";
+    private static final String RECON_FILE_LOCAL_ROOT_DIR="/home/web/recon_temp";
 
     public void execute() throws Exception {
         // 取出网络时间
@@ -124,7 +125,7 @@ public class CreateMerchantInsteadSDFileJob extends SpringApplicationObjectSuppo
             }
             fileBuffer.append("\n");
             fileBuffer.append("######");
-            String filePath = "/" + memberId + "/";
+            String filePath = RECON_FILE_LOCAL_ROOT_DIR+"/" + memberId + "/";
             String fileName = FILE_PREX + "_" + memberId + "_" + dateTime
                     + ".txt"; 
              doPrint(fileBuffer.toString(), filePath, fileName, memberId);
