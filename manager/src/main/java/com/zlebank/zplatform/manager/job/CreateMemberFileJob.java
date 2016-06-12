@@ -34,6 +34,8 @@ public class CreateMemberFileJob extends SpringApplicationObjectSupport{
     private static final String  FILE_PREX = "ZLMSD";
     private static final String DELETIMER = "|";
     private static final String RECON_FILE_ROOT_DIR="/memberrecon/";
+    private static final String RECON_FILE_LOCAL_ROOT_DIR="/home/web/recon_temp";
+    
     public void execute() throws Exception {
         // 取出网络时间
         long time = TimeUtil.syncCurrentTime();
@@ -144,7 +146,7 @@ public class CreateMemberFileJob extends SpringApplicationObjectSupport{
             fileBuffer.append("\n");
             fileBuffer.append("######");
             System.out.println(fileBuffer.toString());
-            doPrint(fileBuffer.toString(), "/" + memberId + "/",
+            doPrint(fileBuffer.toString(), RECON_FILE_LOCAL_ROOT_DIR+"/" + memberId + "/",
                     FILE_PREX+"_"+memberId + "_" + dateTime + ".txt", memberId);
         }
     }

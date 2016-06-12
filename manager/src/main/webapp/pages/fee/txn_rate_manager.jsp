@@ -60,7 +60,7 @@
 					<tr>
 						<td width="15%">扣率版本</td>
 						<td width="30%">
-						<select id="busipack" class="easyui-validatebox"  required="true" name="busiRateModel.feever">
+						<select id="busipack" class="easyui-validatebox"  required="true" name="busiRateModel.feever" onchange="showFeeCase()">
 							</select>
 						</td>
 						<td width="15%" >业务</td>
@@ -198,13 +198,20 @@
 					text: '新增业务类型扣率',
 					iconCls: 'icon-add',
 					handler: function() {
-						showAdd();
+						showAdd(false);
 					}
 				}]
 			});
 			var p = $('#test').datagrid('getPager');
 		});
-		function showAdd() {
+		function showAdd(isToModify) {
+			if(!isToModify){
+				$("#busipack").removeAttr("disabled");
+				$("#busicase").removeAttr("disabled");
+			}else{
+				$("#busipack").attr("disabled","disabled");
+				$("#busicase").attr("disabled","disabled");
+			}
 			$("#save_button").linkbutton('enable');
 			$('#txnRateForm').clearForm();
 			$("#txnRateForm").attr("action", "pages/fee/saveTxnRateFeeAction.action");
@@ -228,8 +235,6 @@
 				$("#save_button").linkbutton('disable');
 				$('#txnRateForm').form('submit', {
 					onSubmit: function() {
-						$("#busipack").removeAttr("disabled");
-						$("#busicase").removeAttr("disabled");
 						return $('#txnRateForm').form('validate');
 					},
 					success: function(data) {
@@ -264,7 +269,7 @@
 		}
 		 
 		function showTxnRate(tid) {
-			showAdd();
+			showAdd(true);
 			showFee();
 			$.ajax({
 				type: "POST",
@@ -284,8 +289,6 @@
 				}
 			});
 			$("#txnRateForm").attr("action", "pages/fee/updateBusiRateFeeAction.action");
-			$("#busipack").attr("disabled","disabled");
-			$("#busicase").attr("disabled","disabled");
 		}
 		function showFeeCase2(feever) {
 			$.ajax({
@@ -397,6 +400,23 @@
 				$("#minFee").removeAttr("readonly");
 				$("#minFee").val("");
 			}
+		}
+		
+		function showFeeCase() {
+			feever = $("#busipack").val();
+			$.ajax({
+				type: "POST",
+				url: "pages/fee/queryFeeCaseByFeeverFeeAction.action?feever=" + feever,
+				dataType: "json",
+				success: function(json) {
+					var html = "<option value=''>--请选择业务--</option>";
+					$.each(json,
+					function(key, value) {
+						html += '<option value="' + value.BUSICODE + '">' + value.BUSINAME + '</option>';
+					});
+					$("#busicase").html(html);
+				}
+			});
 		}
 	</script>
 </html>
