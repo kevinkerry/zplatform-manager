@@ -40,7 +40,7 @@ public class CreateMemberFileJob extends SpringApplicationObjectSupport{
         // 取出网络时间
         long time = TimeUtil.syncCurrentTime();
         Date date = new Date(time);
-
+        
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dateTime = sdf.format(date);
         // 根据日期取出t_txns_log取出当天清算的所有商户号
