@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
@@ -52,8 +53,6 @@ public class TrialWithdraAction extends BaseAction {
     
     public String falg;
     
-    
-
     public AuditBean getFtb() {
         return ftb;
     }
@@ -87,7 +86,6 @@ public class TrialWithdraAction extends BaseAction {
         }
         PagedResult<TxnsWithdrawBean> pr = itws.queryPaged(page, pageSize, twq);
         try {
-
             List<TxnsWithdrawBean> li = pr.getPagedResult();
             for (TxnsWithdrawBean txnsw : li) {
                 txnsw.setAmount(String.valueOf(Long.parseLong(txnsw.getAmount())/100.0));
@@ -103,7 +101,6 @@ public class TrialWithdraAction extends BaseAction {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     public String getFirstTrial() {
@@ -119,20 +116,21 @@ public class TrialWithdraAction extends BaseAction {
         try {
             itws.firstTrialWinth(ftb);
             messg = "操作成功";
-        } catch (AccBussinessException e) {
+        } catch (IllegalEntryRequestException e) {
+            messg = e.getMessage();
+        }catch (AccBussinessException e) {
             messg = e.getMessage();
         } catch (AbstractBusiAcctException e) {
             messg = e.getMessage();
         } catch (NumberFormatException e) {
             messg = e.getMessage();
-
         } catch (ManagerWithdrawException e) {
             messg = e.getMessage();
         } catch (RecordsAlreadyExistsException e) {
            messg=e.getMessage();
-        }
+        } 
         json_encode(messg);
-        }
+     }
         
     
     /**
@@ -145,18 +143,19 @@ public class TrialWithdraAction extends BaseAction {
         try {
             itws.secondTrialWinth(ftb);
             messg = "操作成功";
-        } catch (AccBussinessException e) {
+        } catch (IllegalEntryRequestException e) {
+            messg = e.getMessage();
+        }catch (AccBussinessException e) {
             messg = e.getMessage();
         } catch (AbstractBusiAcctException e) {
             messg = e.getMessage();
         } catch (NumberFormatException e) {
             messg = e.getMessage();
-
         } catch (ManagerWithdrawException e) {
             messg = e.getMessage();
-        }
+        } 
         json_encode(messg);
-        }
+    }
         
     public String getSecondTrial() {
         return "second";

@@ -14,12 +14,12 @@ import java.util.List;
 
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.manager.bean.TranBatch;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailQuery;
-import com.zlebank.zplatform.trade.bean.enums.TransferBatchStatusEnum;
 import com.zlebank.zplatform.trade.model.PojoInsteadPayDetail;
 
 /**
@@ -39,17 +39,17 @@ public interface IInsteadPayService {
      */
     public void firstInstead(AuditBean trial) throws AccBussinessException,
             ManagerWithdrawException, AbstractBusiAcctException,
-            NumberFormatException;
+            NumberFormatException,IllegalEntryRequestException;
 
     public InsteadPayDetailBean getDetailByTxnseqno(String txnserno,String status)
             throws ManagerWithdrawException;
     /** 审核拒绝 **/
     public void veto(PojoInsteadPayDetail pojoinstead,String status)
             throws AccBussinessException, AbstractBusiAcctException,
-            NumberFormatException;
+            NumberFormatException,IllegalEntryRequestException;
     public void batchFirst(AuditBean trial,InsteadPayDetailQuery instead) 
             throws AccBussinessException, AbstractBusiAcctException, 
-            NumberFormatException, ManagerWithdrawException;
+            NumberFormatException, ManagerWithdrawException,IllegalEntryRequestException;
     
     public List<TranBatch> getByInsteadPayBatchandStaus(long id, List<String> statusList);
 }

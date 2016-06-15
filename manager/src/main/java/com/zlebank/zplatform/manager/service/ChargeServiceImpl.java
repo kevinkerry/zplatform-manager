@@ -21,9 +21,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.entry.EntryEvent;
@@ -35,6 +37,7 @@ import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.manager.bean.ChargeBean;
 import com.zlebank.zplatform.manager.bean.ChargeQuery;
+import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.dao.iface.IChargeDAO;
 import com.zlebank.zplatform.manager.dao.object.ChargeModel;
 import com.zlebank.zplatform.manager.enums.ChargeEnum;
@@ -49,6 +52,7 @@ import com.zlebank.zplatform.member.pojo.PojoParaDic;
 import com.zlebank.zplatform.member.service.MemberService;
 import com.zlebank.zplatform.member.service.MerchService;
 import com.zlebank.zplatform.trade.bean.enums.BusinessEnum;
+import com.zlebank.zplatform.trade.bean.gateway.SplitAcctBean;
 import com.zlebank.zplatform.trade.exception.TradeException;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
@@ -184,9 +188,10 @@ public class ChargeServiceImpl
      * @throws AbstractBusiAcctException 
      * @throws AccBussinessException 
      * @throws TradeException 
+     * @throws IllegalEntryRequestException 
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
-    public void firstCharge(AuditBean ftb) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, TradeException {
+    public void firstCharge(AuditBean ftb) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, TradeException, IllegalEntryRequestException {
         if(ftb==null||StringUtil.isEmpty(ftb.getOrderNo())){
             throw new ManagerWithdrawException("G100013");  
         }
@@ -203,7 +208,6 @@ public class ChargeServiceImpl
         }else{
            charges.setStatus(ChargeEnum.FIRSTREFUSED.getCode()); 
         }
-        
     }
     
     /**
@@ -214,12 +218,26 @@ public class ChargeServiceImpl
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
      * @throws TradeException 
+     * @throws IllegalEntryRequestException 
      */
     private void Fused(ChargeModel charge) throws AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException, TradeException {
+            AbstractBusiAcctException, NumberFormatException, TradeException, IllegalEntryRequestException {
+        // 调用分录规则
+        TradeInfo tradeInfo = new TradeInfo();
+        tradeInfo.setAmount(charge.getAmount() == null ? new BigDecimal(0) : charge
+                .getAmount().getAmount());
+        tradeInfo.setBusiCode(CHARGEBUSICODE);
+        tradeInfo.setChannelId(charge.getChargenoinstid());
+        tradeInfo.setPayMemberId(charge.getMemberid().getMemberId());
+        tradeInfo.setPayToMemberId(charge.getMemberid().getMemberId());
+        tradeInfo.setTxnseqno(OrderNumber.getInstance().generateTxnseqno(BusiTypeEnum.charge.getCode()));
+        tradeInfo.setCommission(new BigDecimal(0));
+        tradeInfo.setCharge(new BigDecimal(0));
+        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_PASS);
+        
+        //记录交易流水
         TxnsLogModel txnsLog = new TxnsLogModel();
         txnsLog.setTxnseqno(OrderNumber.getInstance().generateTxnseqno(BusiTypeEnum.charge.getCode()));
-        //记录交易流水
         String charge_memberId = charge.getMemberid().getMemberId();
         if(MemberType.INDIVIDUAL==charge.getMemberid().getMemberType()){//为个人会员时
             txnsLog.setRiskver(getDefaultVerInfo(COOPINSTICODE,BusinessEnum.CHARGE_OFFLINE.getBusiCode(),13));
@@ -280,24 +298,10 @@ public class ChargeServiceImpl
         txnsLog.setTxnfee(0L);
         txnsLog.setAccmemberid(charge.getMemberid().getMemberId());
         txnsLogService.save(txnsLog);
-        
-        // 调用分录规则
-        TradeInfo tradeInfo = new TradeInfo();
-        tradeInfo.setAmount(charge.getAmount() == null ? new BigDecimal(0) : charge
-                .getAmount().getAmount());
-        tradeInfo.setBusiCode(CHARGEBUSICODE);
-        tradeInfo.setChannelId(charge.getChargenoinstid());
-        tradeInfo.setPayMemberId(charge.getMemberid().getMemberId());
-        tradeInfo.setPayToMemberId(charge.getMemberid().getMemberId());
-        tradeInfo.setTxnseqno(txnsLog.getTxnseqno());
-        tradeInfo.setCommission(new BigDecimal(0));
-        tradeInfo.setCharge(new BigDecimal(0));
-        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_PASS);
     }
     
     @Transactional(propagation=Propagation.REQUIRED)
     public String getDefaultVerInfo(String instiCode,String busicode,int verType) throws TradeException{
-        @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultList = (List<Map<String, Object>>) txnsLogService.queryBySQL("select COOP_INSTI_CODE,BUSI_CODE,VER_TYPE,VER_VALUE from T_NONMER_DEFAULT_CONFIG where COOP_INSTI_CODE=? and BUSI_CODE=? and VER_TYPE=?", new Object[]{instiCode,busicode,verType+""});
         if(resultList.size()>0){
             Map<String, Object> valueMap = resultList.get(0);

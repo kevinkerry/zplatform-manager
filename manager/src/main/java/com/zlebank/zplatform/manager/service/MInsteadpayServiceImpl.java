@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.entry.EntryEvent;
@@ -37,13 +38,11 @@ import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailBean;
 import com.zlebank.zplatform.trade.bean.InsteadPayDetailQuery;
 import com.zlebank.zplatform.trade.bean.enums.InsteadEnum;
-import com.zlebank.zplatform.trade.bean.enums.TransferBatchStatusEnum;
 import com.zlebank.zplatform.trade.dao.InsteadPayDetailDAO;
 import com.zlebank.zplatform.trade.dao.TranBatchDAO;
 import com.zlebank.zplatform.trade.dao.TransferDataDAO;
 import com.zlebank.zplatform.trade.model.PojoInsteadPayDetail;
 import com.zlebank.zplatform.trade.model.PojoTranBatch;
-import com.zlebank.zplatform.trade.utils.DateUtil;
 
 /**
  * Class Description
@@ -57,8 +56,6 @@ import com.zlebank.zplatform.trade.utils.DateUtil;
 public class MInsteadpayServiceImpl implements IInsteadPayService {
     @Autowired
     private InsteadPayDetailDAO insteadPayDetailDAO;
-    /** 民生银行code **/
-    private final static String TOTALBANKCODE = "0305";
     @Autowired
     private CardBinDao cardbin;
     @Autowired
@@ -69,13 +66,6 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
     private AccEntryService accEntyr;
     @Autowired
     private TranBatchDAO tranBatchDao;
-    /** 民生 **/
-    private final static String CMBC = "01";
-    /** 其他 **/
-    private final static String OTHER = "02";
-
-    private static final String BUSINESSCODE = "70000001";
-    private static final String BUSINESSTYPE = "7000";
     
     /** 审核拒绝 **/
     private static final String REFUSE = "70000003";
@@ -86,12 +76,13 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
      * @throws ManagerWithdrawException
      * @throws NumberFormatException
      * @throws AbstractBusiAcctException
+     * @throws IllegalEntryRequestException 
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void firstInstead(AuditBean trial) throws AccBussinessException,
             ManagerWithdrawException, AbstractBusiAcctException,
-            NumberFormatException {
+            NumberFormatException, IllegalEntryRequestException {
         if (trial == null || StringUtil.isEmpty(trial.getOrderNo())) {
             throw new ManagerWithdrawException("G100014");
         }
@@ -119,10 +110,11 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
      * @throws AbstractBusiAcctException
      * 
      * @throws AccBussinessException
+     * @throws IllegalEntryRequestException, IllegalEntryRequestException 
      */
     public  void veto(PojoInsteadPayDetail pojoinstead,String status)
             throws AccBussinessException, AbstractBusiAcctException,
-            NumberFormatException {
+            NumberFormatException, IllegalEntryRequestException, IllegalEntryRequestException {
         pojoinstead.setStatus(status);
         TradeInfo tradeInfo = new TradeInfo();
         tradeInfo.setAmount(new BigDecimal(pojoinstead.getAmt()));
@@ -133,7 +125,6 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
         tradeInfo.setCommission(new BigDecimal(0));
         tradeInfo.setCharge(new BigDecimal(pojoinstead.getTxnfee()));
         accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
-
     }
 
     /**
@@ -210,7 +201,7 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
     
     
     @Transactional(propagation = Propagation.REQUIRED)
-    public void batchFirst(AuditBean trial,InsteadPayDetailQuery instead) throws AccBussinessException, AbstractBusiAcctException, NumberFormatException, ManagerWithdrawException{
+    public void batchFirst(AuditBean trial,InsteadPayDetailQuery instead) throws AccBussinessException, AbstractBusiAcctException, NumberFormatException, ManagerWithdrawException, IllegalEntryRequestException{
         List<PojoInsteadPayDetail> li= insteadPayDetailDAO.getListByQuery(0,Integer.MAX_VALUE, instead);
         if(li==null||li.isEmpty()){
             throw new ManagerWithdrawException("G100014");
@@ -228,8 +219,6 @@ public class MInsteadpayServiceImpl implements IInsteadPayService {
                 ppd.setStexaopt(trial.getStexaopt());
             }
         }
-   
-    
     }
 
 	@Override
