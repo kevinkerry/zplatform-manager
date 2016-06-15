@@ -35,5 +35,4 @@ public abstract class AbstractManagerException extends
 	public ResourceBundle getResourceBundle() {
 		return RESOURCE;
 	}
-
 }

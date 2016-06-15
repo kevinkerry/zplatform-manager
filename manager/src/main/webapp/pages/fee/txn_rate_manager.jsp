@@ -235,6 +235,8 @@
 				$("#save_button").linkbutton('disable');
 				$('#txnRateForm').form('submit', {
 					onSubmit: function() {
+						$("#busipack").removeAttr("disabled");
+						$("#busicase").removeAttr("disabled");
 						return $('#txnRateForm').form('validate');
 					},
 					success: function(data) {

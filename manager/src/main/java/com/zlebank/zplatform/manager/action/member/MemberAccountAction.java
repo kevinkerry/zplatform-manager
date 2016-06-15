@@ -97,30 +97,27 @@ public class MemberAccountAction extends BaseAction {
      */
     public void freezeAmount() {
         String messg = "";
-        Date date = new Date();
-        Date da;
+        Date nowDate = new Date();
+        Date frozeStartDate;
         try {
-            da = DateUtil.convertToDate(account.getStartTime(),
+            frozeStartDate = DateUtil.convertToDate(account.getStartTime(),
                     DEFAULT_TIME_STAMP_FROMAT);
 
-            if (date.getTime() > da.getTime()) {
-
+            if (nowDate.getTime() > frozeStartDate.getTime()) {
                 messg = "开始日期必须大于或者等于当前时间";
             } else {
-
                 AccountAmount amount = BeanCopyUtil.copyBean(
                         AccountAmount.class, account);
                 double money = Double.valueOf(account.getFrozenBalance());
                 money = money * 100;
-                Long min;
-
-                min = DateUtil.convertToDate(account.getStartTime(),
-                        DEFAULT_TIME_STAMP_FROMAT).getTime();
-
-                Long min2 = DateUtil.convertToDate(account.getEndTime(),
-                        DEFAULT_TIME_STAMP_FROMAT).getTime();
-
-                amount.setFrozenTime((min2 - min) / 60 / 1000);
+                
+                Long frozeStartDateTimeValue = frozeStartDate.getTime();
+                Date frozeEndDate = DateUtil.convertToDate(account.getEndTime(),
+                        DEFAULT_TIME_STAMP_FROMAT);
+                Long frozeStartEndTimeValue = frozeEndDate.getTime();
+                amount.setFrozenSTime(frozeStartDate);
+                amount.setUnfrozenTime(frozeEndDate);
+                amount.setFrozenTime((frozeStartEndTimeValue - frozeStartDateTimeValue) / 60 / 1000);
                 amount.setInuser(getCurrentUser().getUserId());
                 amount.setUpuser(getCurrentUser().getUserId());
                 amount.setFrozenBalance(Money.valueOf(money));
@@ -138,14 +135,6 @@ public class MemberAccountAction extends BaseAction {
 
         json_encode(messg);
     }
-        /**
-         * 根据memberID操作账户
-         */
-    public void OperationByMid(){
-         
-        
-    }
-    
     
     /**
      * 查询所有的账户信息
@@ -165,6 +154,7 @@ public class MemberAccountAction extends BaseAction {
                 account.setFronzenBalance(busaq.getFronzenBalance().toYuan());
                 account.setTotalBalance(busaq.getTotalBalance().toYuan());
                 account.setStatus(busaq.getStatus().getCode());
+                account.setUsage(busaq.getUsage());
                 accQ.add(account);
             }
 
@@ -183,7 +173,7 @@ public class MemberAccountAction extends BaseAction {
     /**
      * 账户操作
      */
-    public void Operation() {
+    public void operation() {
         String messg = "";
         if (type == 1) {
             messg = this.unFreezeAcct();

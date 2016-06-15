@@ -25,7 +25,6 @@ public class CMBCRealNameFeilContent extends AbstractFileContentHandler{
         String newline = "";// 读取一行
         Object[] fileNameob;// 文件名称按照_拆分
         BufferedReader brfile = new BufferedReader(new FileReader(upload[0]));
-        int i = 0;
         try {
         while ((newline = brfile.readLine()) != null
                 && !newline.equals("########")) {

@@ -18,6 +18,7 @@ import java.util.Map;
 import com.zlebank.zplatform.acc.bean.QueryAccount;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.service.IBasePageService;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
@@ -55,7 +56,7 @@ public interface ITWithService extends IBasePageService<TxnsWithdrawQuery ,TxnsW
      * @param secondTrial
      * @return
      */
-    public void secondTrialWinth(AuditBean secondTrial) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException;
+    public void secondTrialWinth(AuditBean secondTrial) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, IllegalEntryRequestException;
 
     /**
      * 
@@ -64,7 +65,7 @@ public interface ITWithService extends IBasePageService<TxnsWithdrawQuery ,TxnsW
      * @return
      * @throws RecordsAlreadyExistsException 
      */
-    public void firstTrialWinth(AuditBean firstTrial) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, RecordsAlreadyExistsException;
+    public void firstTrialWinth(AuditBean firstTrial) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, RecordsAlreadyExistsException, IllegalEntryRequestException;
     /**
      * 划拨审核
      * @param falg
@@ -73,7 +74,7 @@ public interface ITWithService extends IBasePageService<TxnsWithdrawQuery ,TxnsW
      * @throws AbstractBusiAcctException
      * @throws NumberFormatException
      */
-    public void trialBatch(Boolean falg,TxnsWithdrawModel txns) throws AccBussinessException, AbstractBusiAcctException, NumberFormatException;   
+    public void trialBatch(Boolean falg,TxnsWithdrawModel txns) throws AccBussinessException, AbstractBusiAcctException, NumberFormatException,IllegalEntryRequestException;   
 
     public Long getTxnFee(TxnsLog txns)throws ManagerWithdrawException;
 }
