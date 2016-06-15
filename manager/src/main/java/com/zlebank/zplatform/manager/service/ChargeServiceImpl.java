@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSON;
 import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.entry.EntryEvent;
@@ -187,9 +188,10 @@ public class ChargeServiceImpl
      * @throws AbstractBusiAcctException 
      * @throws AccBussinessException 
      * @throws TradeException 
+     * @throws IllegalEntryRequestException 
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
-    public void firstCharge(AuditBean ftb) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, TradeException {
+    public void firstCharge(AuditBean ftb) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, TradeException, IllegalEntryRequestException {
         if(ftb==null||StringUtil.isEmpty(ftb.getOrderNo())){
             throw new ManagerWithdrawException("G100013");  
         }
@@ -206,7 +208,6 @@ public class ChargeServiceImpl
         }else{
            charges.setStatus(ChargeEnum.FIRSTREFUSED.getCode()); 
         }
-        
     }
     
     /**
@@ -217,9 +218,10 @@ public class ChargeServiceImpl
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
      * @throws TradeException 
+     * @throws IllegalEntryRequestException 
      */
     private void Fused(ChargeModel charge) throws AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException, TradeException {
+            AbstractBusiAcctException, NumberFormatException, TradeException, IllegalEntryRequestException {
         // 调用分录规则
         TradeInfo tradeInfo = new TradeInfo();
         tradeInfo.setAmount(charge.getAmount() == null ? new BigDecimal(0) : charge

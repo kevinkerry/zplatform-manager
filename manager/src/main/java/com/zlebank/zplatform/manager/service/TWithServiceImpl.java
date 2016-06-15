@@ -28,19 +28,18 @@ import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.bean.enums.AcctStatusType;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
-import com.zlebank.zplatform.acc.pojo.Money;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.BusinessServiec;
 import com.zlebank.zplatform.acc.service.entry.EntryEvent;
-import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.CardBin;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.dao.CardBinDao;
 import com.zlebank.zplatform.commons.service.impl.AbstractBasePageService;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.DateUtil;
-import com.zlebank.zplatform.commons.utils.Md5;
 import com.zlebank.zplatform.commons.utils.StringUtil;
+import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawBean;
 import com.zlebank.zplatform.manager.bean.TxnsWithdrawQuery;
@@ -91,26 +90,11 @@ public class TWithServiceImpl
         implements
             ITWithService {
     public final static String DEFAULT_TIME_STAMP_FROMAT = "yyyy-MM-dd HH:mm:ss";
-    /** 批次号序列 **/
-    private final static String SEQUENCES = "seq_t_txns_withdraw_batchno";
     /** 收款方Id **/
     private final static String PAYTOMEMBERID = "999999999999999";
-    private final static String PERSON = "0";
     private final static String MERCH = "1";
     /** 状态 **/
     private final static String PARATYPE = "DRAWSTATUS";
-    /** 民生银行code **/
-    private final static String TOTALBANKCODE = "0305";
-    /** 对公账户 **/
-    private final static String PUBLICACC = "01";
-    /** 私人账户 **/
-    private final static String PRIVATEACC = "00";
-    private final static String BUSINESSCODE="30000001";
-    private final static String  BUSINESSTYPE="3000";
-    /** 民生 **/
-    private final static String CMBC = "01";
-    /** 其他 **/
-    private final static String OTHER = "02";
     @Autowired
     private ParaDicDAO paradic;
     @Autowired
@@ -502,12 +486,13 @@ public class TWithServiceImpl
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
      * @throws RecordsAlreadyExistsException 
+     * @throws IllegalEntryRequestException 
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void firstTrialWinth(AuditBean firstTrial)
             throws ManagerWithdrawException, AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException, RecordsAlreadyExistsException {
+            AbstractBusiAcctException, NumberFormatException, RecordsAlreadyExistsException, IllegalEntryRequestException {
         // 如果提现bean不等于空 做提现操作 等于空返回错误信息
         if (firstTrial == null) {
 
@@ -582,10 +567,11 @@ public class TWithServiceImpl
      * @throws NumberFormatException
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
+     * @throws IllegalEntryRequestException 
      */
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
     private void Fused(TxnsWithdrawModel txns) throws AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException {
+            AbstractBusiAcctException, NumberFormatException, IllegalEntryRequestException {
         // 调用分录规则
         TradeInfo tradeInfo = new TradeInfo();
         tradeInfo.setAmount(txns.getAmount() == null ? new BigDecimal(0) : new BigDecimal(txns.getAmount()));
@@ -609,11 +595,12 @@ public class TWithServiceImpl
      * @throws AccBussinessException
      * @throws AbstractBusiAcctException
      * @throws NumberFormatException
+     * @throws IllegalEntryRequestException 
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void secondTrialWinth(AuditBean secondTrial)
             throws ManagerWithdrawException, AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException {
+            AbstractBusiAcctException, NumberFormatException, IllegalEntryRequestException {
         if (secondTrial == null) {
             throw new ManagerWithdrawException("G100001");
         }
@@ -660,7 +647,6 @@ public class TWithServiceImpl
                 orderinfoDAO.update(orderinfo);
                 Fused(txns);
             }
-
         }
     }
     /**
@@ -702,10 +688,11 @@ public class TWithServiceImpl
      * @throws NumberFormatException
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
+     * @throws IllegalEntryRequestException 
      */
     public void trialBatch(Boolean falg, TxnsWithdrawModel txns)
             throws AccBussinessException, AbstractBusiAcctException,
-            NumberFormatException {
+            NumberFormatException,IllegalEntryRequestException {
         if (falg == false) {
             Fused(txns);
             txns.setStatus(ReviewEnum.BATCHFAILURE.getCode());
