@@ -14,18 +14,29 @@ public class UploadLogModel implements java.io.Serializable {
 
 	// Fields
 
+    /** 日志id */
 	private Long logid;
+	/** 文件名  */
 	private String filename;
+	/** 重新上传次数 */	
 	private Byte reuploadcount;
+	/** 文件所属机构id */  
 	private Long caId;
+	/** 上传时间 */  
 	private String uploadtime;
+	/** 文件所属机构名称 */  
 	private String caName;
+	/** 上传操作员id */  
 	private Long uploaderid;
+	/** 最后一次重新上传时间 */  
 	private String reuploadtime;
+	/** 上传操作员名称 */  
 	private String uploadername;
-	private String recode;
-	private String notes;
+	/** 00-上传成功，其他表示失败 */  
+	private String recode;	 
+	private String notes;  
 	private String remarks;
+	/** 文件服务器保存路径 */  
 	private String fileurl;
 
 	// Constructors

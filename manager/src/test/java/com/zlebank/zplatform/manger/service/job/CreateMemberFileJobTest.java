@@ -11,7 +11,7 @@ public class CreateMemberFileJobTest {
     
 private ApplicationContext context;
     
-    @Test
+    
     public void test(){
         context = new ClassPathXmlApplicationContext("/spring/*");
         CreateMemberFileJob createMemberFileJob =(CreateMemberFileJob) context.getBean("createMemberFileJob");
@@ -21,7 +21,7 @@ private ApplicationContext context;
             e.printStackTrace();
         }
     } 
-    
+    @Test
     public void testSendEmail(){
         context = new ClassPathXmlApplicationContext("/spring/*");
         SaveMemberQueueJob saveMemberQueueJob =(SaveMemberQueueJob) context.getBean("sendEmailJob");

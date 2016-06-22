@@ -26,9 +26,14 @@ public class ChannelFileDaoImpl extends HibernateBaseDAOImpl<ChannelFileMode>
         String queryString = "select count(id) from ChannelFileMode t where t.fileName = SUBSTRING('"+uploadFileName+"',0,length(t.fileName)) and t.chnlCode like '%"
                 + instiId.substring(0, 6) + "%'";
         
-        Long result =  (Long)getSession().createQuery(queryString).iterate().next();
-        if (result != null&&result.longValue()>0) {
-                return true;
+//        Long result =  (Long)getSession().createQuery(queryString).iterate().next();
+//        System.out.println("result1 = " + result1);
+//        if (result != null&&result.longValue()>0) {
+//                return true;
+//        }
+        Boolean result = (Boolean)getSession().createQuery(queryString).iterate().hasNext();
+        if(result == true){
+            return true ;
         }
         return false;
     }

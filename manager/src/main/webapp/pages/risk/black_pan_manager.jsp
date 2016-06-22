@@ -266,7 +266,7 @@
 			});
 			$("#theForm").attr("action", "pages/risk/updateBlackPanRiskAction.action");
 			$('#btn_submit').linkbutton('enable');
-			s
+			
 		}
 		
 		function deleteblack(tid) {

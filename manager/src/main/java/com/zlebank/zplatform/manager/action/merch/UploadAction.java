@@ -198,8 +198,8 @@ public class UploadAction extends BaseAction {
             }
         } else {
             // excel
-            channelFileMode = iChannelFileService
-                    .getLikeInstiid(uploadFileName[0].split("-")[0]);
+//            channelFileMode = iChannelFileService.getLikeInstiid(uploadFileName[0].split("-")[0]);
+            channelFileMode = iChannelFileService.getLikeInstiid(uploadFileName[0].substring(0, 5));
         }
         if (channelFileMode != null) {
             sonInstiid = channelFileMode.getChnlCode();

@@ -92,7 +92,7 @@ public class InsteadPayAction extends BaseAction {
     private static final String TXNTYPE = "21";
     private static final String TXNSUBTYPE = "03";
     private static final String VERSION = "1.0";
-    private static final String ISTEADPAY_FILE_CHARSET = "1.0";
+    private static final String ISTEADPAY_FILE_CHARSET = "1";
     private static final String BACKURL = "#";
 
     private final String INSTEAD_PATH = "/instead";
