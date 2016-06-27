@@ -58,7 +58,7 @@
 						
 						
 					<td align="right" width="10%">中心应答码</td>
-					<td colspan="1">
+					<td colspan="1" width="15%">
 								<select name="tlb.retcode"  id="retcode">
 								  <option value="">请选择</option>
 						          <option value="00">成功</option>
@@ -68,14 +68,15 @@
 					</tr>
 						<tr>
 							<td align="right" width="10%">受理清算日期</td>
-						<td align="left" style="padding-left:5px" width="15%">
-						<input id="accsettledate" type="text" class="easyui-datebox" name="tlb.accsettledate"></input>  
-							
-						</td>
+							<td align="left" style="padding-left:5px" width="15%">
+							<input id="accsettledate" type="text" class="easyui-datebox" name="tlb.accsettledate"></input>  
+								
+							</td>
 						
-						<td align="right" width="10%">受理定单提交时间</td>
-						<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
-							至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input></td>
+							<td align="right" width="10%">受理定单提交时间</td>
+							<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
+								至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input>
+							</td>
 						
 							<td align="right" width="10%">支付类型</td>
 								<td colspan="1">
@@ -85,12 +86,21 @@
 						          <option value="02">网银</option>
 						            <option value="03">账户</option>
 					        	</select>							
-						</td>
-						<td align="right">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>
-						
-					</tr>
+							</td>
+							
+							<td align="right" width="10%">支付订单号</td>
+							<td align="left" style="padding-left:5px" width="15%">
+							<input name="tlb.payordno" id="payordno" maxlength="32"/>
+						    </td>
+						    
+					    <tr>
+						    <td align="right">
+								<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
+							</td>
+						</tr>
+						    
+													
+					   </tr>
 					
 				</table>
 			</form>
@@ -203,24 +213,14 @@
 							}
 							}
 					},  
-
-				/* 	{field:'retcode',title:'中心应答码',width:120,align:'center'}, */
 					{field:'retinfo',title:'中心应答信息',width:120,align:'center'},
 					{field:'pan',title:'转出帐号或卡号',width:120,align:'center'},
 					{field:'inpan',title:'转入帐号或卡号',width:120,align:'center'},
-					{field:'accordno',title:'商户订单号',width:120,align:'center'},
+					
 					{field:'accfirmerno',title:'一级商户号',width:120,align:'center'},
 					{field:'accsecmerno',title:'二级商户号',width:120,align:'center'},
 					{field:'accordfintime',title:'受理定单完成时间',width:120,align:'center'},
-				/* 	{field:'apporderstatus',title:'订单状态',width:100,align:'center',
-						formatter:function(value,rec){
-						if(value=="00"){
-							return "记账成功";
-						}else{
-							return "记账失败";
-						}
-						}
-					} , */
+					{field:'payordno',title:'支付订单号',width:120,align:'center'},
 					{field:'txnseqno-',title:'操作',width:100,align:'center',
 					formatter:function(value,rec){
 						if(rec.txnseqno!=null){
@@ -252,7 +252,8 @@
 			"tlb.accordcommitimen":$('#accordcommitimen').datebox('getValue'), 
 			"tlb.payType":$('#paytype').val(),
 			"tlb.payrettsnseqno":$('#payrettsnseqno').val(),
-			"tlb.retcode":$('#retcode').val()
+			"tlb.retcode":$('#retcode').val(),
+			"tlb.payordno":$('#payordno').val()
 		}
 			$('#test').datagrid('load',data);
 		}
