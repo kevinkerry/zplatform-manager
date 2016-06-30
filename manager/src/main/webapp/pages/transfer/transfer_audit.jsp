@@ -27,12 +27,18 @@ table tr td select {
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="transQuery.batchno" id="batchno" maxlength="32" />
 						</td>
-							<td align="right" width="10%">申请日期:</td>
+						
+						<td align="right" width="10%">申请日期:</td>
 						<td align="left" style="padding-left: 5px" width="30%">
 							<input name="queryTransferBean.beginDate" id="beginDate" maxlength="32" />-
 							<input name="queryTransferBean.endDate" id="endDate" maxlength="32" />
 						</td>
 				
+				        <td align="right" width="10%">订单编号:</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							name="queryTransferBean.busi_seqno" id="busi_seqno" maxlength="32" />
+						</td>
+						
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
