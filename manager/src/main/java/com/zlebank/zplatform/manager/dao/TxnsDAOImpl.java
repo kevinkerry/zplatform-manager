@@ -24,7 +24,9 @@ import com.zlebank.zplatform.commons.dao.impl.AbstractPagedQueryDAOImpl;
 import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.bean.TxnsLogBean;
+import com.zlebank.zplatform.manager.dao.base.HibernateDAOImpl;
 import com.zlebank.zplatform.manager.dao.iface.ITxnsDAO;
+import com.zlebank.zplatform.manager.dao.object.FeeModel;
 import com.zlebank.zplatform.manager.dao.object.PojoTxnsLog;
 
 /**
@@ -56,7 +58,7 @@ public class TxnsDAOImpl
         try {
             if (e != null) {
                 if (StringUtil.isNotEmpty(e.getAccfirmerno())) {
-                    crite.add(Restrictions.eq("accfirmerno", e.getAccfirmerno()));
+                    crite.add(Restrictions.eq("accfirmerno", e.getAccfirmerno()));//受理一级商户号
                 }
                 if (StringUtil.isNotEmpty(e.getAccordcommitimes())) {
                     SimpleDateFormat format = new SimpleDateFormat(
@@ -68,7 +70,7 @@ public class TxnsDAOImpl
                                     e.getAccordcommitimes(),
                                     DEFAULT_TIME_STAMP_FROMAT));
 
-                    crite.add(Restrictions.ge("accordcommitime", datetimes));
+                    crite.add(Restrictions.ge("accordcommitime", datetimes));//受理定提交时间
 
                 }
                 if (StringUtil.isNotEmpty(e.getAccordcommitimen())) {
@@ -83,37 +85,37 @@ public class TxnsDAOImpl
 
                 }
                 if (StringUtil.isNotEmpty(e.getAccordno())) {
-                    crite.add(Restrictions.eq("accordno", e.getAccordno()));
+                    crite.add(Restrictions.eq("accordno", e.getAccordno()));//受理订单号
                 }
                 if (StringUtil.isNotEmpty(e.getAccsecmerno())) {
-                    crite.add(Restrictions.eq("accsecmerno", e.getAccsecmerno()));
+                    crite.add(Restrictions.eq("accsecmerno", e.getAccsecmerno()));//受理二级商户号
                 }
                 if (StringUtil.isNotEmpty(e.getAccsettledate())) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
                     String date = format.format(DateUtil.convertToDate(
                             e.getAccsettledate(), DEFAULT_DATE_STAMP_FROMAT));
 
-                    crite.add(Restrictions.eq("accsettledate", date));
+                    crite.add(Restrictions.eq("accsettledate", date));//受理清算日期
 
                 }
                 if (StringUtil.isNotEmpty(e.getBusicode())) {
-                    crite.add(Restrictions.eq("busicode", e.getBusicode()));
+                    crite.add(Restrictions.eq("busicode", e.getBusicode()));//业务代码
                 }
                 if (StringUtil.isNotEmpty(e.getPayType())) {
-                    crite.add(Restrictions.eq("paytype", e.getPayType()));
+                    crite.add(Restrictions.eq("paytype", e.getPayType()));//支付类型
                 }
                 if (StringUtil.isNotEmpty(e.getPan())) {
-                    crite.add(Restrictions.eq("pan", e.getPan()));
+                    crite.add(Restrictions.eq("pan", e.getPan()));//转出帐号或卡号
                 }
                 if (StringUtil.isNotEmpty(e.getPayrettsnseqno())) {
                     crite.add(Restrictions.eq("payrettsnseqno",
-                            e.getPayrettsnseqno()));
+                            e.getPayrettsnseqno()));//支付方交易流水号
                 }
                 if (StringUtil.isNotEmpty(e.getRetcode())) {
                     if ("00".equals(e.getRetcode())) {
                         crite.add(Restrictions.sqlRestriction(
                                 "? like substr(trim(retcode),-2)", "00",
-                                StringType.INSTANCE));
+                                StringType.INSTANCE));//中心应答码
                     } else {
                         crite.add(Restrictions.or(Property.forName("retcode").isNull()
                                 ,Restrictions.not(
@@ -126,7 +128,16 @@ public class TxnsDAOImpl
 
                 }
                 if (StringUtil.isNotEmpty(e.getTxnseqno())) {
-                    crite.add(Restrictions.eq("txnseqno", e.getTxnseqno()));
+                    crite.add(Restrictions.eq("txnseqno", e.getTxnseqno()));//交易序列号[证联金融所用：关联各子流水表]
+                }
+                if(StringUtil.isNotEmpty(e.getPayordno())){
+                    crite.add(Restrictions.eq("payordno", e.getPayordno()));//支付订单号
+                }
+                if (StringUtil.isNotEmpty(e.getAccmemberid())){
+                    crite.add(Restrictions.eq("accmemberid", e.getAccmemberid()));//受理会员号
+                }
+                if (StringUtil.isNotEmpty(e.getPayinst()) ){
+                    crite.add(Restrictions.eq("payinst", e.getPayinst()));//交易渠道
                 }
                 if (e.getUserId() != null) {
                     crite.add(Restrictions.eq("userId", e.getUserId()));

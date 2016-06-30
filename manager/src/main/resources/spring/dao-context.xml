@@ -93,7 +93,9 @@
 	<bean id="memberQueueDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.MemberQueueDAOImpl">
 	</bean>
-	
+	<bean id="txnsLogsDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.TxnsLogsDAOImpl">
+	</bean>
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
 
@@ -177,5 +179,9 @@
 		<property name="memberQueueDAO">
 			<ref bean="memberQueueDAO" />
 		</property>
+		<property name="txnsLogsDAO">
+			<ref bean="txnsLogsDAO" />
+		</property>
+		
 	</bean>
 </beans>

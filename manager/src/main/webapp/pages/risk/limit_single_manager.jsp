@@ -72,17 +72,20 @@
 						</td>
 					</tr>
 					<tr>
+					   
 					    <td align="right" width="18%" height="30px">风险等级</td>
 						<td align="left" style="padding-left: 5px" width="25%">
 							<select id="risklevel" class="easyui-validatebox" missingMessage="请选选择风险等级" required="true" name="limitSingleModel.risklevel" class="easyui-validatebox">
 								<option value="">--请选择风险等级--</option>
 							</select>
 						</td>
+						
 						<td align="right" width="18%">备注</td>
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="limitSingleModel.notes" id="Notes" maxlength="32"/>
-						</td>
+						</td>						
 					</tr>
+					
 				</table>
 				</form>
 			</div>

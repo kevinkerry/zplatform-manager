@@ -28,7 +28,7 @@
 						          </c:if>
 						          </c:forEach> 
 					        	</select>
-							</td>
+						</td>
 						
 						<td align="right" width="10%">转出帐号或卡号</td> 
 						<td align="left" style="padding-left:5px" width="15%">
@@ -64,7 +64,7 @@
 						          <option value="00">成功</option>
 						          <option value="01">失败</option>
 					        	</select>
-							</td>
+					</td>
 					</tr>
 						<tr>
 							<td align="right" width="10%">受理清算日期</td>

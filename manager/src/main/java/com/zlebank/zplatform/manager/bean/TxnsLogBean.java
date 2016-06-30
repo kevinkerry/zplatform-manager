@@ -46,7 +46,57 @@ public class TxnsLogBean implements Bean{
     private String retcode;
     /**支付类型**/
     private String payType;
+    /**支付所属机构**/
+    private String payinst;
+    /**支付定单号**/
+    private String payordno;
+    /**受理会员号**/
+    private String accmemberid;
+    /**转出账户名称**/
+    private String pan_name;
+    /**原交易序列号**/
+    private String txnseqno_og;
     
+    public String getTxnseqno_og() {
+        return txnseqno_og;
+    }
+
+    public void setTxnseqno_og(String txnseqno_og) {
+        this.txnseqno_og = txnseqno_og;
+    }
+
+    public String getPan_name() {
+        return pan_name;
+    }
+
+    public void setPan_name(String pan_name) {
+        this.pan_name = pan_name;
+    }
+
+    public String getAccmemberid() {
+        return accmemberid;
+    }
+
+    public void setAccmemberid(String accmemberid) {
+        this.accmemberid = accmemberid;
+    }
+
+    public String getPayordno() {
+        return payordno;
+    }
+
+    public void setPayordno(String payordno) {
+        this.payordno = payordno;
+    }
+
+    public String getPayinst() {
+        return payinst;
+    }
+
+    public void setPayinst(String payinst) {
+        this.payinst = payinst;
+    }
+
     private Long userId;
    
     

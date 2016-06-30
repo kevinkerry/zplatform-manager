@@ -35,8 +35,11 @@ import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsLogBean;
+import com.zlebank.zplatform.manager.dao.container.DAOContainer;
+import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.iface.ITxnsDAO;
 import com.zlebank.zplatform.manager.dao.iface.ITxnsHibDao;
+import com.zlebank.zplatform.manager.dao.object.FeeModel;
 import com.zlebank.zplatform.manager.dao.object.PojoTxnsLog;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.ITxnsLoService;
@@ -78,6 +81,21 @@ public class TxnsServiceImpl
     private AccEntryService accEntryService;
     @Autowired
     private ITxnsLogService txnsLogService;
+    
+    private DAOContainer daoContainer;
+
+    public DAOContainer getDaoContainer() {
+        return daoContainer;
+    }
+
+    public void setDaoContainer(DAOContainer daoContainer) {
+        this.daoContainer = daoContainer;
+    }
+    
+    @Override
+    public IBaseDAO<TxnsLogModel, Long> getDao() {
+        return daoContainer.getTxnsLogsDAO();
+    }
     /**
      *
      * @param example
@@ -258,5 +276,9 @@ public class TxnsServiceImpl
         txnsOrderinfoDAO.update(order);
         log.info("交易:"+txnseqno+"退款账务处理成功");
     }
+
+
+
+
     
 }

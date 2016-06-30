@@ -53,7 +53,7 @@ table tr td select {
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<form id="firstTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" enctype="multipart/form-data">
 				导入文件:<input  id="file" type="file" name="file">
-			</form>
+			    </form>
 			</div>
 			<div region="south" border="false" style="text-align:center;padding:5px 0;">
 				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:filel()" id="btn_submit" onclick="">上传</a>
