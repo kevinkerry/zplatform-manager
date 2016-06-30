@@ -59,7 +59,7 @@ public class CheckFileAction extends BaseAction {
         int pageSize = this.getRows();
         Map<String, Object> map = new HashMap<String, Object>();
         PagedResult<CheckFileBean> cfb = cfs.queryPaged(page, pageSize, cfq);
-
+       
         try {
             List<CheckFileBean> li = cfb.getPagedResult();
             Long count = cfb.getTotal();

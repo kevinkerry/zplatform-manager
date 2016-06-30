@@ -220,22 +220,9 @@ public class ChargeServiceImpl
      */
     private void Fused(ChargeModel charge) throws AccBussinessException,
             AbstractBusiAcctException, NumberFormatException, TradeException {
-        // 调用分录规则
-        TradeInfo tradeInfo = new TradeInfo();
-        tradeInfo.setAmount(charge.getAmount() == null ? new BigDecimal(0) : charge
-                .getAmount().getAmount());
-        tradeInfo.setBusiCode(CHARGEBUSICODE);
-        tradeInfo.setChannelId(charge.getChargenoinstid());
-        tradeInfo.setPayMemberId(charge.getMemberid().getMemberId());
-        tradeInfo.setPayToMemberId(charge.getMemberid().getMemberId());
-        tradeInfo.setTxnseqno(OrderNumber.getInstance().generateTxnseqno(BusiTypeEnum.charge.getCode()));
-        tradeInfo.setCommission(new BigDecimal(0));
-        tradeInfo.setCharge(new BigDecimal(0));
-        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_PASS);
-        
-        //记录交易流水
-        TxnsLogModel txnsLog = new TxnsLogModel();
+    	TxnsLogModel txnsLog = new TxnsLogModel();
         txnsLog.setTxnseqno(OrderNumber.getInstance().generateTxnseqno(BusiTypeEnum.charge.getCode()));
+        //记录交易流水
         String charge_memberId = charge.getMemberid().getMemberId();
         if(MemberType.INDIVIDUAL==charge.getMemberid().getMemberType()){//为个人会员时
         	txnsLog.setRiskver(getDefaultVerInfo(COOPINSTICODE,BusinessEnum.CHARGE_OFFLINE.getBusiCode(),13));
@@ -296,6 +283,19 @@ public class ChargeServiceImpl
         txnsLog.setTxnfee(0L);
         txnsLog.setAccmemberid(charge.getMemberid().getMemberId());
         txnsLogService.save(txnsLog);
+        
+        // 调用分录规则
+        TradeInfo tradeInfo = new TradeInfo();
+        tradeInfo.setAmount(charge.getAmount() == null ? new BigDecimal(0) : charge
+                .getAmount().getAmount());
+        tradeInfo.setBusiCode(CHARGEBUSICODE);
+        tradeInfo.setChannelId(charge.getChargenoinstid());
+        tradeInfo.setPayMemberId(charge.getMemberid().getMemberId());
+        tradeInfo.setPayToMemberId(charge.getMemberid().getMemberId());
+        tradeInfo.setTxnseqno(txnsLog.getTxnseqno());
+        tradeInfo.setCommission(new BigDecimal(0));
+        tradeInfo.setCharge(new BigDecimal(0));
+        accEntyr.accEntryProcess(tradeInfo,EntryEvent.AUDIT_PASS);
     }
     
     @Transactional(propagation=Propagation.REQUIRED)

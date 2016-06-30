@@ -68,8 +68,9 @@ public class CheckFileServiceImpl
       List<PojoCheckFile> checkLi=check.getListByQuery(offset, pageSize, example);
       for(PojoCheckFile li:checkLi){
           CheckFileBean checkfileb=    BeanCopyUtil.copyBean(CheckFileBean.class, li);
-          checkfileb.setMerchName(li.getMerchno().getAccName());
-          checkfileb.setMerchno(li.getMerchno().getMemberId());
+          //checkfileb.setMerchName(li.getMerchno().getAccName());
+          //checkfileb.setMerchno(li.getMerchno().getMemberId());
+          checkfileb.setTxnseqno(li.getTxnseqno().getTxnseqno());
           checkfileb.setAmount(li.getAmount().toYuan());
           checkfileb.setBusName(li.getBusicode().getBusiName());
           checkfileb.setBusicode(li.getBusicode().getBusiCode());

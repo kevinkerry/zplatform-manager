@@ -56,12 +56,12 @@
 				</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoAccEntry</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoMemberBase</value>
-				<value> com.zlebank.zplatform.member.pojo.PojoMerchDeta</value>
+				<value>com.zlebank.zplatform.member.pojo.PojoMerchDeta</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoPersonDeta</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoParaDic</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoMember</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoMerchMK</value> 
-				<value> com.zlebank.zplatform.commons.dao.pojo.PojoCounty</value>
+				<value>com.zlebank.zplatform.commons.dao.pojo.PojoCounty</value>
 				<value>com.zlebank.zplatform.commons.dao.pojo.PojoBankInfo</value> 
 				<value>com.zlebank.zplatform.acc.pojo.PojoBusiness</value>
 				
@@ -84,6 +84,7 @@
 				<value>com.zlebank.zplatform.manager.dao.object.PojoMember</value>
 				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDeta</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoTradeEntryEventMapping</value>
+				
 				</list>
 		</property>
 		<property name="packagesToScan">

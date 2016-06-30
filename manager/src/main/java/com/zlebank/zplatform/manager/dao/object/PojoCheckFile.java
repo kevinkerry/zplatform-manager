@@ -62,7 +62,7 @@ public class PojoCheckFile implements Serializable{
     /**银行卡号**/
     private String pan;
     /**商户编号**/
-    private PojoMerchDeta merchno;
+    //private PojoMerchDeta merchno;
     /**系统参考号（或为：对方订单号）**/
     private String systrcno;
     /**支付交易流水号**/
@@ -186,14 +186,14 @@ public class PojoCheckFile implements Serializable{
     public void setPan(String pan) {
         this.pan = pan;
     }
-    @JoinColumn(name = "MERCHNO",insertable = false, updatable = false)
+    /*@JoinColumn(name = "MERCHNO",insertable = false, updatable = false,referencedColumnName="MEMBER_ID")
     @ManyToOne(optional=false,fetch = FetchType.LAZY)
     public PojoMerchDeta getMerchno() {
         return merchno;
     }
     public void setMerchno(PojoMerchDeta merchno) {
         this.merchno = merchno;
-    }
+    }*/
     @Column(name = "SYSTRCNO")
     public String getSystrcno() {
         return systrcno;

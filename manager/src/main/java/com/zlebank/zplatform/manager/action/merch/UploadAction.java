@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
@@ -303,6 +304,9 @@ public class UploadAction extends BaseAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json_encode("结算失败");
+		} catch (IllegalEntryRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     	
     	return null;

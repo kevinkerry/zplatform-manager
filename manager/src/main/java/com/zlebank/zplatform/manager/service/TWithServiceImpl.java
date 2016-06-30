@@ -28,6 +28,7 @@ import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.bean.enums.AcctStatusType;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.BusinessServiec;
@@ -502,12 +503,13 @@ public class TWithServiceImpl
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
      * @throws RecordsAlreadyExistsException 
+     * @throws IllegalEntryRequestException 
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     public void firstTrialWinth(AuditBean firstTrial)
             throws ManagerWithdrawException, AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException, RecordsAlreadyExistsException {
+            AbstractBusiAcctException, NumberFormatException, RecordsAlreadyExistsException, IllegalEntryRequestException {
         // 如果提现bean不等于空 做提现操作 等于空返回错误信息
         if (firstTrial == null) {
 
@@ -582,10 +584,11 @@ public class TWithServiceImpl
      * @throws NumberFormatException
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
+     * @throws IllegalEntryRequestException 
      */
     @Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
     private void Fused(TxnsWithdrawModel txns) throws AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException {
+            AbstractBusiAcctException, NumberFormatException, IllegalEntryRequestException {
         // 调用分录规则
         TradeInfo tradeInfo = new TradeInfo();
         tradeInfo.setAmount(txns.getAmount() == null ? new BigDecimal(0) : new BigDecimal(txns.getAmount()));
