@@ -9,47 +9,28 @@
  * 
  */
 package com.zlebank.zplatform.manager.action.txnslog;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import jxl.Cell;
-import jxl.Range;
-import jxl.Sheet;
 import jxl.Workbook;
-import jxl.read.biff.BiffException;
-import jxl.read.biff.PasswordException;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
 
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.sun.tools.internal.ws.processor.model.Response;
 import com.zlebank.zplatform.acc.bean.Business;
 import com.zlebank.zplatform.acc.service.BusinessServiec;
 import com.zlebank.zplatform.commons.bean.PagedResult;
@@ -198,7 +179,7 @@ public class TxnsLogAction extends BaseAction {
     }
     
     
-    public void exportAll() throws WriteException{
+    public void exportAll() throws WriteException, UnsupportedEncodingException{
         Map<String, Object> variables = new HashMap<String, Object>();
         if (txnsLogModel == null) {
             txnsLogModel = new TxnsLogModel();
@@ -221,12 +202,17 @@ public class TxnsLogAction extends BaseAction {
         exportExcel(groupList);
     }
 
-    private void exportExcel(Map<String,Object> map) throws  WriteException {
+    private void exportExcel(Map<String,Object> map) throws  WriteException, UnsupportedEncodingException {
  
+        
+        HttpServletResponse response = ServletActionContext.getResponse();   
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");      
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("交易流水.xls", "UTF-8")); 
+     
         // 打开文件
         WritableWorkbook workbook = null;
         try {
-            workbook = Workbook.createWorkbook(new File("D:/交易流水.xls"));
+            workbook = Workbook.createWorkbook(response.getOutputStream());
 
             // 生成名为"交易流水"的工作表，参数0表示这是第一页
             WritableSheet sheet = workbook.createSheet("交易流水",0);
@@ -258,8 +244,9 @@ public class TxnsLogAction extends BaseAction {
             sheet.addCell(label11);
             sheet.addCell(label12);
             sheet.addCell(label13);
+            sheet.addCell(label14);
+            @SuppressWarnings("unchecked")
             List<Map<String, Object>> rowslist = (List<Map<String, Object>>) map.get("rows");
-            int totalList =  (Integer)map.get("total");
             for(int i = 1;i <= rowslist.size();i++){                
                     Label labelOne = new Label(0,i,(String) rowslist.get(i-1).get("MEMBER_NAME"));
                     Label labelTwo = new Label(1,i,(String) rowslist.get(i-1).get("ACCSECMERNO"));
@@ -279,6 +266,7 @@ public class TxnsLogAction extends BaseAction {
                     sheet.addCell(labelTwo);
                     sheet.addCell(labelThree);
                     sheet.addCell(labelFour);
+                    sheet.addCell(labelFive);
                     sheet.addCell(labelSix);
                     sheet.addCell(labelSeven);
                     sheet.addCell(labelEight);
