@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zlebank.zplatform.acc.util.SpringApplicationObjectSupport;
+import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
 import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
@@ -40,6 +41,7 @@ public class CreateMerchantInsteadSDFileJob extends SpringApplicationObjectSuppo
     private static final String TOTAL_FEE = "totalFee";
     private static final String DELETIMER = "|";
     private static final String RECON_FILE_ROOT_DIR="/memberrecon/";
+    private static final String RECON_FILE_LOCAL_ROOT_DIR="/home/web/recon_temp";
 
     public void execute() throws Exception {
         // 取出网络时间
@@ -48,7 +50,6 @@ public class CreateMerchantInsteadSDFileJob extends SpringApplicationObjectSuppo
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dateTime = sdf.format(date);
-
         // 根据日期取出t_txns_log取出当天清算的所有商户号
         List<?> memberList = txnsLogService.getInsteadMemberByDate(dateTime);
 
@@ -108,7 +109,7 @@ public class CreateMerchantInsteadSDFileJob extends SpringApplicationObjectSuppo
                 long settAmount = 0;
                 job = detailJsonArray.getJSONObject(i);
                 amount = Long.valueOf(job.get("AMOUNT").toString());
-                fee = Long.valueOf(job.get("TXNFEE").toString());
+                fee = StringUtil.isEmpty(job.get("TXNFEE").toString())?0:Long.valueOf(job.get("TXNFEE").toString());
                 settAmount = amount + fee;
                 fileBuffer.append("\n");
                 fileBuffer.append(job.get("ACCORDNO").toString())
@@ -124,7 +125,7 @@ public class CreateMerchantInsteadSDFileJob extends SpringApplicationObjectSuppo
             }
             fileBuffer.append("\n");
             fileBuffer.append("######");
-            String filePath = "/" + memberId + "/";
+            String filePath = RECON_FILE_LOCAL_ROOT_DIR+"/" + memberId + "/";
             String fileName = FILE_PREX + "_" + memberId + "_" + dateTime
                     + ".txt"; 
              doPrint(fileBuffer.toString(), filePath, fileName, memberId);

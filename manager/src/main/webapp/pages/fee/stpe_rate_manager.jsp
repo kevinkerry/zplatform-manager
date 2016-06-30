@@ -236,13 +236,20 @@
 					text: '分段类型扣率',
 					iconCls: 'icon-add',
 					handler: function() {
-						showAdd();
+						showAdd(false);
 					}
 				}]
 			});
 			var p = $('#test').datagrid('getPager');
 		});
-		function showAdd() {
+		function showAdd(isToModify) {
+			if(!isToModify){
+				$("#busipack").removeAttr("disabled");
+				$("#busicase").removeAttr("disabled");
+			}else{
+				$("#busipack").attr("disabled","disabled");
+				$("#busicase").attr("disabled","disabled");
+			}
 			$("#save_button").linkbutton('enable');
 			$('#txnRateForm').clearForm();
 			$("#txnRateForm").attr("action", "pages/fee/saveStepRateFeeAction.action");
@@ -267,6 +274,8 @@
 				$("#save_button").linkbutton('disable');
 				$('#txnRateForm').form('submit', {
 					onSubmit: function() {
+						$("#busipack").removeAttr("disabled");
+						$("#busicase").removeAttr("disabled");
 						return $('#txnRateForm').form('validate');
 					},
 					success: function(data) {
@@ -319,7 +328,7 @@
 			});
 		}
 		function showTxnRate(tid) {
-			showAdd();
+			showAdd(true);
 			showFee();
 			$.ajax({
 				type: "POST",

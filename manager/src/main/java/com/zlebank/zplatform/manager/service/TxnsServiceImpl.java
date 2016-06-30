@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.entry.EntryEvent;
 import com.zlebank.zplatform.commons.dao.pojo.AccStatusEnum;
@@ -229,7 +230,10 @@ public class TxnsServiceImpl
         try {
 			accEntryService.accEntryProcess(tradeInfo,EntryEvent.AUDIT_REJECT);
 			resultBean = new ResultBean("success");
-		}  catch (AccBussinessException e) {
+		} catch (IllegalEntryRequestException e) {
+            resultBean = new ResultBean(e.getCode(), e.getMessage());
+            e.printStackTrace();
+        }catch (AccBussinessException e) {
             resultBean = new ResultBean(e.getCode(), e.getMessage());
             e.printStackTrace();
         } catch (AbstractBusiAcctException e) {
@@ -238,7 +242,7 @@ public class TxnsServiceImpl
         } catch (NumberFormatException e) {
             resultBean = new ResultBean("T099", e.getMessage());
             e.printStackTrace();
-        }
+        } 
         
         if(resultBean.isResultBool()){
             txnsLog.setApporderstatus(AccStatusEnum.Finish.getCode());

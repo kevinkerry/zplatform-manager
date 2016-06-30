@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 import com.zlebank.zplatform.acc.bean.TradeInfo;
@@ -19,8 +18,6 @@ import com.zlebank.zplatform.trade.dao.InsteadPayDetailDAO;
 import com.zlebank.zplatform.trade.model.PojoInsteadPayDetail;
 import com.zlebank.zplatform.trade.model.TxnsRefundModel;
 import com.zlebank.zplatform.trade.service.ITxnsRefundService;
-import com.zlebank.zplatform.trade.service.ObserverListService;
-import com.zlebank.zplatform.trade.service.UpdateSubject;
 import com.zlebank.zplatform.trade.service.impl.UpdateInsteadServiceImpl;
 
 public class RefundUpdate

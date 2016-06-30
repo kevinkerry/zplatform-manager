@@ -50,7 +50,7 @@ public class UploadLogServiceImpl extends BaseServiceImpl<UploadLogModel, Long> 
 		paramaters[2] = page;
 		paramaters[3] = rows;
 		return getDao().executePageOracleProcedure("{CALL PCK_T_SETT_PROCESS.sel_t_sett_process(?,?,?,?,?,?)}",columns,
-				paramaters, "cursor0","v_total");
+				paramaters, "cursor0","v_total");		
 	}
 	
 	

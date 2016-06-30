@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSON;
 import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.acc.service.AccEntryService;
 import com.zlebank.zplatform.acc.service.entry.EntryEvent;
@@ -187,9 +188,10 @@ public class ChargeServiceImpl
      * @throws AbstractBusiAcctException 
      * @throws AccBussinessException 
      * @throws TradeException 
+     * @throws IllegalEntryRequestException 
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
-    public void firstCharge(AuditBean ftb) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, TradeException {
+    public void firstCharge(AuditBean ftb) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException, TradeException, IllegalEntryRequestException {
         if(ftb==null||StringUtil.isEmpty(ftb.getOrderNo())){
             throw new ManagerWithdrawException("G100013");  
         }
@@ -206,7 +208,6 @@ public class ChargeServiceImpl
         }else{
            charges.setStatus(ChargeEnum.FIRSTREFUSED.getCode()); 
         }
-        
     }
     
     /**
@@ -217,23 +218,26 @@ public class ChargeServiceImpl
      * @throws AbstractBusiAcctException
      * @throws AccBussinessException
      * @throws TradeException 
+     * @throws IllegalEntryRequestException 
      */
-    private void Fused(ChargeModel charge) throws AccBussinessException,
-            AbstractBusiAcctException, NumberFormatException, TradeException {
-    	TxnsLogModel txnsLog = new TxnsLogModel();
+    private void Fused(ChargeModel charge) throws AccBussinessException,AbstractBusiAcctException, NumberFormatException, TradeException ,IllegalEntryRequestException{
+        
+        //记录交易流水
+        TxnsLogModel txnsLog = new TxnsLogModel();
+
         txnsLog.setTxnseqno(OrderNumber.getInstance().generateTxnseqno(BusiTypeEnum.charge.getCode()));
         //记录交易流水
         String charge_memberId = charge.getMemberid().getMemberId();
         if(MemberType.INDIVIDUAL==charge.getMemberid().getMemberType()){//为个人会员时
-        	txnsLog.setRiskver(getDefaultVerInfo(COOPINSTICODE,BusinessEnum.CHARGE_OFFLINE.getBusiCode(),13));
+            txnsLog.setRiskver(getDefaultVerInfo(COOPINSTICODE,BusinessEnum.CHARGE_OFFLINE.getBusiCode(),13));
             txnsLog.setSplitver(getDefaultVerInfo(COOPINSTICODE,BusinessEnum.CHARGE_OFFLINE.getBusiCode(),12));
             txnsLog.setFeever(getDefaultVerInfo(COOPINSTICODE,BusinessEnum.CHARGE_OFFLINE.getBusiCode(),11));
             txnsLog.setPrdtver(getDefaultVerInfo(COOPINSTICODE,BusinessEnum.CHARGE_OFFLINE.getBusiCode(),10));
             txnsLog.setRoutver(getDefaultVerInfo(COOPINSTICODE,BusinessEnum.CHARGE_OFFLINE.getBusiCode(),20));
             txnsLog.setAccsettledate(DateUtil.getSettleDate(1));
         }else{
-        	PojoMerchDeta member = merchService.getMerchBymemberId(charge_memberId);
-        	txnsLog.setRiskver(member.getRiskVer());
+            PojoMerchDeta member = merchService.getMerchBymemberId(charge_memberId);
+            txnsLog.setRiskver(member.getRiskVer());
             txnsLog.setSplitver(member.getSpiltVer());
             txnsLog.setFeever(member.getFeeVer());
             txnsLog.setPrdtver(member.getPrdtVer());
@@ -251,9 +255,9 @@ public class ChargeServiceImpl
         txnsLog.setAccordno(charge.getChargeno());
         txnsLog.setAccfirmerno(COOPINSTICODE);
         if(MemberType.INDIVIDUAL==charge.getMemberid().getMemberType()){
-        	 txnsLog.setAccsecmerno("");
+             txnsLog.setAccsecmerno("");
         }else{
-        	txnsLog.setAccsecmerno(charge.getMemberid().getMemberId());
+            txnsLog.setAccsecmerno(charge.getMemberid().getMemberId());
         }
         txnsLog.setAcccoopinstino(COOPINSTICODE);
         txnsLog.setAccordinst(COOPINSTICODE);
@@ -300,12 +304,12 @@ public class ChargeServiceImpl
     
     @Transactional(propagation=Propagation.REQUIRED)
     public String getDefaultVerInfo(String instiCode,String busicode,int verType) throws TradeException{
-    	List<Map<String, Object>> resultList = (List<Map<String, Object>>) txnsLogService.queryBySQL("select COOP_INSTI_CODE,BUSI_CODE,VER_TYPE,VER_VALUE from T_NONMER_DEFAULT_CONFIG where COOP_INSTI_CODE=? and BUSI_CODE=? and VER_TYPE=?", new Object[]{instiCode,busicode,verType+""});
-    	if(resultList.size()>0){
-    		Map<String, Object> valueMap = resultList.get(0);
-    		return valueMap.get("VER_VALUE").toString();
-    	}
-    	throw new TradeException("GW03");
-		//return null;
+        List<Map<String, Object>> resultList = (List<Map<String, Object>>) txnsLogService.queryBySQL("select COOP_INSTI_CODE,BUSI_CODE,VER_TYPE,VER_VALUE from T_NONMER_DEFAULT_CONFIG where COOP_INSTI_CODE=? and BUSI_CODE=? and VER_TYPE=?", new Object[]{instiCode,busicode,verType+""});
+        if(resultList.size()>0){
+            Map<String, Object> valueMap = resultList.get(0);
+            return valueMap.get("VER_VALUE").toString();
+        }
+        throw new TradeException("GW03");
+        //return null;
     }
 }

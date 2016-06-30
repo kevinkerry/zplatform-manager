@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.opensymphony.xwork2.Action;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
+import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
@@ -156,6 +157,8 @@ public class ChargeAction extends BaseAction {
             charge.firstCharge(trial);
             isok = true;
             messg = "操作成功";
+        } catch (IllegalEntryRequestException e) {
+            messg = e.getMessage();;
         } catch (ManagerWithdrawException e) {
             messg = e.getMessage();
         } catch (AccBussinessException e) {
@@ -165,9 +168,9 @@ public class ChargeAction extends BaseAction {
         } catch (NumberFormatException e) {
             messg = e.getMessage();
         } catch (TradeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         map.put("messg", messg);
         map.put("falg", isok);

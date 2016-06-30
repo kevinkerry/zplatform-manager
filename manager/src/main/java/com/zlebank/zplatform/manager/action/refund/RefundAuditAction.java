@@ -1,23 +1,15 @@
 package com.zlebank.zplatform.manager.action.refund;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
-import com.zlebank.zplatform.acc.bean.TradeInfo;
-import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
-import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.service.AccEntryService;
-import com.zlebank.zplatform.acc.service.entry.EntryEvent;
-import com.zlebank.zplatform.commons.dao.pojo.AccStatusEnum;
 import com.zlebank.zplatform.commons.utils.DateUtil;
-import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.PojoTxnsLog;
 import com.zlebank.zplatform.manager.service.iface.ITxnsLoService;
@@ -26,7 +18,6 @@ import com.zlebank.zplatform.trade.bean.wap.WapRefundBean;
 import com.zlebank.zplatform.trade.dao.ITxnsOrderinfoDAO;
 import com.zlebank.zplatform.trade.exception.TradeException;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
-import com.zlebank.zplatform.trade.model.TxnsOrderinfoModel;
 import com.zlebank.zplatform.trade.model.TxnsRefundModel;
 import com.zlebank.zplatform.trade.service.IGateWayService;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
@@ -184,7 +175,6 @@ public class RefundAuditAction extends BaseAction {
             	map.put("messg", "退款失败");
                 json_encode(map);
             }
-           
         }else{
         	String txnseqno = txnsRefundModel.getReltxnseqno();
         	//审核账务处理 
@@ -192,60 +182,6 @@ public class RefundAuditAction extends BaseAction {
         	map.put("messg", "初审拒绝");
             json_encode(map);
         }
-        
-
-        // 取到原交易信息
-        /*List<?> li = txnsService.getTxnsLogById(txnsRefundModel
-                .getOldtxnseqno());
-        JSONArray jsonArray = JSONArray.fromObject(li);
-        JSONObject job = jsonArray.getJSONObject(0);
-
-        // 保存划拨
-        if (txnxRefund.getFlag().equals("true")) {
-            PojoTranData pojoTranData = new PojoTranData();
-            List<PojoTranData> pojoTranDataList = new ArrayList<PojoTranData>();
-            // 划拨批次号
-            pojoTranData.setTranDataSeqNo(String.valueOf(System
-                    .currentTimeMillis()));
-            // pojoTranData.setTranBatch(tranBatch);
-            pojoTranData.setAccNo(job.get("ACCORDNO").toString());
-            // 划拨金额
-            pojoTranData.setTranAmt(txnsRefundModel.getAmount());
-            // pojoTranData.setBusiDataId("11111111111111");
-            // pojoTranDataList.add(pojoTranData);
-
-            // pojoTranData.setTxnseqno();
-            pojoTranData.setStatus(InsteadPayDetailStatusEnum.WAIT_TRAN_APPROVE
-                    .getCode());
-            // PojoTranData tmp = BeanCopyUtil.copyBean(PojoTranData.class,
-            // pojoTranData);
-            // pojoTranData.setTranAmt(detail.getAmt());
-            // / "业务流水号" /
-            pojoTranData.setBusiDataId(Long.parseLong(txnsRefundModel
-                    .getRefundorderno()));
-            pojoTranData.setMemberId(txnsRefundModel.getMerchno());
-            // 交易手续费0
-            pojoTranData.setTranFee(0L);
-            pojoTranData.setBusiType(TransferBusiTypeEnum.INSTEAD.getCode());
-            pojoTranData.setBankNo("00001");
-            pojoTranData.setBankName(job.get("ACCORDNO").toString());
-            pojoTranDataList.add(pojoTranData);
-
-            try {
-                transferDataService.saveTransferData(
-                        TransferBusiTypeEnum.REFUND, 1L, pojoTranDataList);
-                map.put("messg", "退款审核成功");
-                json_encode(map);
-            } catch (RecordsAlreadyExistsException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        } else {
-
-            map.put("messg", "初审未过");
-            json_encode(map);
-        }*/
-
     }
 
     public PojoTxnsLog getPojoTxnsLog() {

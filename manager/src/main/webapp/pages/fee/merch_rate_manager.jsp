@@ -207,13 +207,20 @@
 					text: '新增商户类型扣率',
 					iconCls: 'icon-add',
 					handler: function() {
-						showAdd();
+						showAdd(false);
 					}
 				}]
 			});
 			var p = $('#test').datagrid('getPager');
 		});
-		function showAdd() {
+		function showAdd(isToModify) {
+			if(!isToModify){
+				$("#busipack").removeAttr("disabled");
+				$("#busicase").removeAttr("disabled");
+			}else{
+				$("#busipack").attr("disabled","disabled");
+				$("#busicase").attr("disabled","disabled");
+			}
 			$("#save_button").linkbutton('enable');
 			$('#txnRateForm').clearForm();
 			$("#txnRateForm").attr("action", "pages/fee/saveMemberRateFeeAction.action");
@@ -237,6 +244,8 @@
 				$("#save_button").linkbutton('disable');
 				$('#txnRateForm').form('submit', {
 					onSubmit: function() {
+						$("#busipack").removeAttr("disabled");
+						$("#busicase").removeAttr("disabled");
 						return $('#txnRateForm').form('validate');
 					},
 					success: function(data) {
@@ -289,7 +298,7 @@
 		}
 		
 		function showTxnRate(tid) {
-			showAdd();
+			showAdd(true);
 			showFee();
 			$.ajax({
 				type: "POST",
@@ -326,7 +335,6 @@
 						html += '<option value="' + value.BUSICODE + '">' + value.BUSINAME + '</option>';
 					});
 					$("#busicase").html(html);
-	
 				}
 			});
 			$("#busipack").val(feever);

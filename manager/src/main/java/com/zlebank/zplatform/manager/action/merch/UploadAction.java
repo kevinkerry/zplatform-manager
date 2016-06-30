@@ -20,6 +20,7 @@ import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
 import com.zlebank.zplatform.manager.dao.object.scan.ChannelFileMode;
+import com.zlebank.zplatform.manager.exception.ResolveReconFileContentException;
 import com.zlebank.zplatform.manager.service.WeChatReconFileService;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
@@ -198,15 +199,29 @@ public class UploadAction extends BaseAction {
             }
         } else {
             // excel
-            channelFileMode = iChannelFileService
-                    .getLikeInstiid(uploadFileName[0].split("-")[0]);
+//            channelFileMode = iChannelFileService.getLikeInstiid(uploadFileName[0].split("-")[0]);
+            channelFileMode = iChannelFileService.getLikeInstiid(uploadFileName[0].substring(0, 5));
         }
         if (channelFileMode != null) {
             sonInstiid = channelFileMode.getChnlCode();
-            Class c = Class.forName(channelFileMode.getClassPath());
-            contentHandler = (AbstractFileContentHandler) c.newInstance();
+            @SuppressWarnings("unchecked")
+            Class<AbstractFileContentHandler> fileHandlerClass = (Class<AbstractFileContentHandler>)Class.forName(channelFileMode.getClassPath());
+            contentHandler =  fileHandlerClass.newInstance();
 
-            list = contentHandler.readFile(upload, sonInstiid, uploadFileName);
+            try {
+                list = contentHandler.readFile(upload, sonInstiid, uploadFileName);
+                if(list==null){
+                    ResolveReconFileContentException rrfce = new ResolveReconFileContentException();
+                    rrfce.setParams("解析对账文件后,返回结果为空");
+                    throw rrfce;
+                }
+            } catch (ResolveReconFileContentException e) {
+                result.put("info", e.getMessage());
+                json_encode(result);
+            } catch (Exception e) {
+                result.put("info", "上传失败");
+                json_encode(result);
+            }
             for (BnkTxnModel bnk : list) {
                 resultMark = serviceContainer.getBnktxnService()
                         .saveBnkTxn(bnk);
