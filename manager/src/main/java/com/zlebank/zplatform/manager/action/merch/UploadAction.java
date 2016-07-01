@@ -10,13 +10,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.sun.tools.internal.ws.processor.model.Request;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
+import com.zlebank.zplatform.manager.dao.object.SelfTxnModel;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
 import com.zlebank.zplatform.manager.dao.object.scan.ChannelFileMode;
 import com.zlebank.zplatform.manager.exception.ResolveReconFileContentException;
@@ -24,6 +29,7 @@ import com.zlebank.zplatform.manager.service.WeChatReconFileService;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
+import com.zlebank.zplatform.trade.model.TxnsLogModel;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 
 public class UploadAction extends BaseAction {
@@ -52,6 +58,16 @@ public class UploadAction extends BaseAction {
     private WeChatReconFileService chatReconFileService;
     @Autowired
     private ITxnsLogService txnsLogService;
+    
+    private SelfTxnModel selfTxnModel;
+    
+    
+    public SelfTxnModel getSelfTxnModel() {
+        return selfTxnModel;
+    }
+    public void setSelfTxnModel(SelfTxnModel selfTxnModel) {
+        this.selfTxnModel = selfTxnModel;
+    }
     public String getFalg() {
         return falg;
     }
@@ -70,6 +86,7 @@ public class UploadAction extends BaseAction {
     public String showMemberQuery() {
         return "member_manager";
     }
+   
     // 会员分页查询
     public String queryMerchByPage() {
 
@@ -104,8 +121,7 @@ public class UploadAction extends BaseAction {
                 filestartid);
         try {
             json_encode(list);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        } catch (IOException e) {         
             e.printStackTrace();
         }
         return null;
@@ -287,7 +303,7 @@ public class UploadAction extends BaseAction {
 			result.put("info", "微信对账文件处理成功！");
 			
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			result.put("info", "微信对账文件处理失败！");
 		}
@@ -306,21 +322,58 @@ public class UploadAction extends BaseAction {
     	try {
 			txnsLogService.excuteSetted();
 			json_encode("结算完成");
-		} catch (AccBussinessException e) {
-			// TODO Auto-generated catch block
+		} catch (AccBussinessException e) {			
 			e.printStackTrace();
 			json_encode("结算失败");
 		} catch (AbstractBusiAcctException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json_encode("结算失败");
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json_encode("结算失败");
 		}
     	
     	return null;
+    }
+    //-----------------------------------------------导出对账表、差错表--------------------------------------
+    /**
+     * 查询对账成功的记录
+     * @return
+     */
+    public String querySuccess(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        variables.put("proid", request.getParameter("proid")); 
+        variables.put("user",getCurrentUser().getUserId());
+        Map<String, Object> successList = serviceContainer
+                .getUploadlogService().querySuccess(variables, getPage(),
+                        getRows());
+        json_encode(successList);
+        return null;
+    }
+    
+
+    /**
+     * 查询对账差错的记录
+     * @return
+     */
+    public String queryFail(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        variables.put("proid", request.getParameter("proid")); 
+        variables.put("user",getCurrentUser().getUserId());
+        Map<String, Object> failList = serviceContainer
+                .getUploadlogService().queryFail(variables, getPage(),
+                        getRows());
+        json_encode(failList);
+        return null;   
+    }
+    public void exportExcel(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        if (selfTxnModel == null) {
+            selfTxnModel = new SelfTxnModel();
+        }
+        
     }
     
     public File[] getUpload() {
