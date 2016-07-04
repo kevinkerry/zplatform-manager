@@ -24,13 +24,11 @@ import jxl.write.biff.RowsExceededException;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sun.tools.internal.ws.processor.model.Request;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
-import com.zlebank.zplatform.manager.dao.object.SelfTxnModel;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
 import com.zlebank.zplatform.manager.dao.object.scan.ChannelFileMode;
 import com.zlebank.zplatform.manager.exception.ResolveReconFileContentException;
@@ -38,7 +36,6 @@ import com.zlebank.zplatform.manager.service.WeChatReconFileService;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
-import com.zlebank.zplatform.trade.model.TxnsLogModel;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 
 public class UploadAction extends BaseAction {
@@ -68,15 +65,6 @@ public class UploadAction extends BaseAction {
     @Autowired
     private ITxnsLogService txnsLogService;
     
-    private SelfTxnModel selfTxnModel;
-    
-    
-    public SelfTxnModel getSelfTxnModel() {
-        return selfTxnModel;
-    }
-    public void setSelfTxnModel(SelfTxnModel selfTxnModel) {
-        this.selfTxnModel = selfTxnModel;
-    }
     public String getFalg() {
         return falg;
     }
