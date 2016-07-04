@@ -14,4 +14,16 @@ public interface IUploadLogService extends IBaseService<UploadLogModel, Long>{
 			int rows) ;
 	public Map<String, Object> findMemberACCByPage(Map<String, Object> variables, int page,
 			int rows) ;
+    public Map<String, Object> querySuccess(Map<String, Object> variables,
+            int page,
+            int rows);
+    public Map<String, Object> queryFail(Map<String, Object> variables,
+            int page,
+            int rows);
+    public Map<String, Object> exportCheckSuccess(Map<String, Object> variables,
+            int page,
+            int rows);
+    public Map<String, Object> exportCheckFail(Map<String, Object> variables,
+            int page,
+            int rows);
 }
