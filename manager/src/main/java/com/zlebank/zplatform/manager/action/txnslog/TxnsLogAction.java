@@ -9,28 +9,20 @@
  * 
  */
 package com.zlebank.zplatform.manager.action.txnslog;
-import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletResponse;
-
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
-
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import com.sun.tools.internal.ws.processor.model.Response;
 import com.zlebank.zplatform.acc.bean.Business;
 import com.zlebank.zplatform.acc.service.BusinessServiec;
 import com.zlebank.zplatform.commons.bean.PagedResult;
@@ -179,6 +171,11 @@ public class TxnsLogAction extends BaseAction {
     }
     
     
+    /**
+     * 导出个人所有交易流水
+     * @throws WriteException
+     * @throws UnsupportedEncodingException
+     */
     public void exportAll() throws WriteException, UnsupportedEncodingException{
         Map<String, Object> variables = new HashMap<String, Object>();
         if (txnsLogModel == null) {
