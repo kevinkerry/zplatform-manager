@@ -48,13 +48,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 		</div>
 		<div style="margin-top: 5px">
-			<form id = "check" method="post" action="">
+			
 				<table id="test"></table>
-			</form>
+		
 			
 		</div>
 		<div>
-		    <table id = "success"></table>
+			<form id = "check" method="post" action="">		
+		   		 <table id = "success"></table>
+			</form>
 		</div>		
 		
 	</div>
@@ -215,15 +217,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  			text: '导出对账表',
 	  			iconCls: 'icon-add',
 	  			handler: function() {
-	  				exportSuccess();
+	  				exportSuccess(proid);
 	  			}
 	  		}]
 		})
 			
 	}
 
-	function exportSuccess(){
-		
+	function exportSuccess(proid){
+		$('#check').attr("action","pages/merchant/exportCheckSuccessUploadAction.action?proid"+proid);
+		$("#check").submit();
 	}
 	function showCheckFail(proid){				
 		$('#success').datagrid({
@@ -256,15 +259,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  			text: '导出差错表',
 	  			iconCls: 'icon-add',
 	  			handler: function() {
-	  				exportFail();
+	  				exportFail(proid);
 	  			}
 	  		}]
 		})
 			
 	}
 	
-	function exportFail(){
-		
+	function exportFail(proid){
+		$('#check').attr("action","pages/merchant/exportCheckFailUploadAction.action?proid"+proid);
+		$("#check").submit();
 	}
 </script>
 </html>
