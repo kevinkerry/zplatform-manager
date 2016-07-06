@@ -48,8 +48,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</form>
 		</div>
 		<div style="margin-top: 5px">
-			<table id="test"></table>
+			
+				<table id="test"></table>
+		
+			
 		</div>
+		<div>
+			<form id = "check" method="post" action="">		
+		   		 <table id = "success"></table>
+			</form>
+		</div>		
 		
 	</div>
   </body>
@@ -72,14 +80,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var dataArray = eval(json);
 				var html = "<option value=''>请选择</option>"
 				for ( var i in dataArray) {
-					//TODO
 					for (j = 0; j < dataArray[i].length; j++) {
 						html += "<option value='"+dataArray[i][j].chnlCode+"'>"
 								+ dataArray[i][j].chnlName + "</option>"
 						$("#instiid_ins").html(html)
 					}
 				}
-
 			}
 		});
 	}
@@ -88,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$('#test').datagrid({
 			title:'任务列表',
 			iconCls:'icon-save',
-			height:400,
+			height:200,
 			singleSelect:true,
 			nowrap: false,
 			striped: true,
@@ -98,8 +104,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			columns:[
 			[
 				{field:'TID',title:'任务代码',width:120,align:'center'},
-				{field:'STARTTIME',title:'任务开始时间',width:100,align:'center'},
-				{field:'STATUS',title:'状态',width:100,align:'center',
+				{field:'STARTTIME',title:'任务开始时间',width:120,align:'center'},
+				{field:'STATUS',title:'状态',width:120,align:'center',
 					formatter:function(value,rec){
 					if(value=="00"){
 						return "初始";
@@ -112,12 +118,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 				}
 					},	
-				{field:'TI',title:'操作',width:100,align:'center',
+				{field:'TI',title:'操作',width:160,align:'center',
 				formatter:function(value,rec){
 					if(rec.STATUS=="00"){
 						return '<a href="javascript:startProcess('+rec.TID+')" style="color:blue;margin-left:10px">开始任务</a>';
 					}else{
-						return "";
+						return '<a href="javascript:showCheckSuccess(\'' + rec.TID + '\')" style="color:blue;margin-left:10px">查看对账表</a>' + 
+						       '<a href="javascript:showCheckFail(\'' + rec.TID + '\')" style="color:blue;margin-left:10px">查看差错表</a>';
 					}
 					
 				}
@@ -163,7 +170,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$('#test').datagrid('load',data);
 	}
 	function startProcess(tId) {
-
 		 $.ajax({
 			   type: "POST",
 			   url: "pages/merchant/StartCheckFileUploadAction.action",
@@ -180,6 +186,89 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     	
 	}
+    
+	function showCheckSuccess(proid){				
+		$('#success').datagrid({
+			title:'对账信息表',
+			iconCls:'icon-save',
+			height:400,
+			singleSelect:true,
+			nowrap: false,
+			striped: true,
+			url:'pages/merchant/querySuccessUploadAction.action?proid='+proid,			
+			remoteSort: false,
+			idField:'TID',
+			columns:[
+			[
+				{field:'TXNSEQNO',title:'交易流水号',width:140,align:'center'},
+				{field:'PAYORDNO',title:'支付订单号',width:140,align:'center'},
+				{field:'PAYRETTSNSEQNO',title:'应答流水号',width:140,align:'center'},
+				{field:'PAYORDFINTIME',title:'交易时间',width:140,align:'center'},
+				{field:'BUSINAME',title:'交易类型',width:140,align:'center'},
+				{field:'AMOUNT',title:'交易金额(元)',width:140,align:'center'},
+				{field:'TXNFEE',title:'手续费金额(元)',width:140,align:'center'},
+				{field:'CFEE',title:'通道手续费',width:140,align:'center'},
+				{field:'PAYINST',title:'交易渠道',width:140,align:'center'}		
+			]],
+			pagination:true,
+			rownumbers:true,
+	  		toolbar: [{
+	  			id: 'btnexport1',
+	  			text: '导出对账表',
+	  			iconCls: 'icon-add',
+	  			handler: function() {
+	  				exportSuccess(proid);
+	  			}
+	  		}]
+		})
+			
+	}
 
+	function exportSuccess(proid){
+		$('#check').attr("action","pages/merchant/exportCheckSuccessUploadAction.action?proid"+proid);
+		$("#check").submit();
+	}
+	function showCheckFail(proid){				
+		$('#success').datagrid({
+			title:'差错信息表',
+			iconCls:'icon-save',
+			height:400,
+			singleSelect:true,
+			nowrap: false,
+			striped: true,
+			url:'pages/merchant/queryFailUploadAction.action?proid='+proid,			
+			remoteSort: false,
+			idField:'TID',
+			columns:[
+			[
+				{field:'TXNSEQNO',title:'交易流水号',width:140,align:'center'},
+				{field:'PAYORDNO',title:'支付订单号',width:140,align:'center'},
+				{field:'PAYRETTSNSEQNO',title:'应答流水号',width:140,align:'center'},
+				{field:'PAYORDFINTIME',title:'交易时间',width:140,align:'center'},
+				{field:'BUSINAME',title:'交易类型',width:140,align:'center'},
+				{field:'AMOUNT',title:'交易金额(元)',width:140,align:'center'},
+				{field:'TXNFEE',title:'手续费金额(元)',width:140,align:'center'},
+				{field:'CFEE',title:'通道手续费',width:140,align:'center'},
+				{field:'PAYINST',title:'交易渠道',width:140,align:'center'},
+				{field:'PAYINST',title:'差错原因',width:140,align:'center'}
+			]],
+			pagination:true,
+			rownumbers:true,
+	  		toolbar: [{
+	  			id: 'btnexport2',
+	  			text: '导出差错表',
+	  			iconCls: 'icon-add',
+	  			handler: function() {
+	  				exportFail(proid);
+	  			}
+	  		}]
+		})
+			
+	}
+	
+	function exportFail(proid){
+		$('#check').attr("action","pages/merchant/exportCheckFailUploadAction.action?proid"+proid);
+		$("#check").submit();
+	}
 </script>
 </html>

@@ -79,6 +79,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="memberName" id="memberName"/>
 						</td>
+						<td align="right" width="15%">绑定手机号</td>
+						<td align="left" style="padding-left: 5px" width="25%">
+							<input name="memberPhone" id="memberPhone"/>
+						</td>
 						<td align="right">
 							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
 						</td>
@@ -510,7 +514,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    
 
 		function search(){
-			var data={'memberId':$('#memberId').val(),'memberName':$("#memberName").val()};
+			var data={'memberId':$('#memberId').val(),
+					  'memberName':$("#memberName").val(),
+					  'memberPhone':$('#memberPhone').val()
+					};
 			$('#test').datagrid('load',data);
 		}
 		/*商户window*/

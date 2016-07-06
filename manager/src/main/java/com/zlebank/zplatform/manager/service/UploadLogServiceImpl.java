@@ -3,6 +3,8 @@ package com.zlebank.zplatform.manager.service;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.dialect.function.VarArgsSQLFunction;
+
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
@@ -88,5 +90,89 @@ public class UploadLogServiceImpl extends BaseServiceImpl<UploadLogModel, Long> 
 		return getDao().executePageOracleProcedure("{CALL PCK_SEL_ACCT.sel_acct(?,?,?,?,?,?,?,?)}",columns,
 				paramaters,"cursor0","v_total");
 	}
+
+	/**
+	 * 查询所有的对账成功的记录
+	 *
+	 * @param variables
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+    @Override
+    public Map<String, Object> querySuccess(Map<String, Object> variables,
+            int page,
+            int rows) {
+        String[] columns = new String[]{"v_proid","v_stime","v_etime","v_user","i_no","i_perno"};
+        Object[] paramaters = new Object[6];
+        paramaters[0] = variables.containsKey("proid")?variables.get("proid"):null;
+        paramaters[1] = variables.containsKey("stime")?variables.get("stime"):null;
+        paramaters[2] = variables.containsKey("etime")?variables.get("etime"):null;
+        paramaters[3] = variables.containsKey("user")?variables.get("user"):null;
+        paramaters[4] = page;
+        paramaters[5] = rows;
+        return getDao().executePageOracleProcedure("{CALL PCK_SEL_checkfile_succ.sel_succ(?,?,?,?,?,?,?,?)}",
+                columns, paramaters, "cursor0", "v_total");
+               
+    }
+
+    /**
+     * 查询所有的对账差错的记录
+     *
+     * @param variables
+     * @param page
+     * @param rows
+     * @return
+     */
+    @Override
+    public Map<String, Object> queryFail(Map<String, Object> variables,
+            int page,
+            int rows) {
+        String[] columns = new String[]{"v_proid","v_stime","v_etime","v_user","i_no","i_perno"};
+        Object[] paramaters = new Object[6];
+        paramaters[0] = variables.containsKey("proid")?variables.get("proid"):null;
+        paramaters[1] = variables.containsKey("stime")?variables.get("stime"):null;
+        paramaters[2] = variables.containsKey("etime")?variables.get("etime"):null;
+        paramaters[3] = variables.containsKey("user")?variables.get("user"):null;
+        paramaters[4] = page;
+        paramaters[5] = rows;
+        return getDao().executePageOracleProcedure("{CALL PCK_SEL_checkfile_succ.sel_mistake(?,?,?,?,?,?,?,?)}",
+                columns, paramaters, "cursor0", "v_total");
+        
+    }
+
+    /**
+     * 导出对账表 
+     *
+     * @param variables
+     * @param page
+     * @param rows
+     * @return
+     */
+    @Override 
+    public Map<String, Object> exportCheckSuccess(Map<String, Object> variables,
+            int page,
+            int rows) {
+        String[] columns = new String[]{"v_proid","v_stime","v_etime","v_user"};
+        Object[] paramaters = new Object[4];
+        paramaters[0] = variables.containsKey("proid")?variables.get("proid"):null;
+        paramaters[1] = variables.containsKey("stime")?variables.get("stime"):null;
+        paramaters[2] = variables.containsKey("etime")?variables.get("etime"):null;
+        paramaters[3] = variables.containsKey("user")?variables.get("user"):null;
+        return getDao().executePageOracleProcedure("{CALL PCK_SEL_checkfile_succ.sel_succ_all(?,?,?,?,?,?)}", columns, paramaters, "cursor0", "v_total");
+    }
+
+    @Override
+    public Map<String, Object> exportCheckFail(Map<String, Object> variables,
+            int page,
+            int rows) {
+        String[] columns = new String[]{"v_proid","v_stime","v_etime","v_user"};
+        Object[] paramaters = new Object[4];
+        paramaters[0] = variables.containsKey("proid")?variables.get("proid"):null;
+        paramaters[1] = variables.containsKey("stime")?variables.get("stime"):null;
+        paramaters[2] = variables.containsKey("etime")?variables.get("etime"):null;
+        paramaters[3] = variables.containsKey("user")?variables.get("user"):null;
+        return getDao().executePageOracleProcedure("{CALL PCK_SEL_checkfile_succ.sel_mistake_all(?,?,?,?,?,?)}", columns, paramaters, "cursor0", "v_total");
+    }
 	
 }

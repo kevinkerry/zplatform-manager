@@ -2,6 +2,7 @@ package com.zlebank.zplatform.manager.action.merch;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +11,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
@@ -53,6 +65,7 @@ public class UploadAction extends BaseAction {
     private WeChatReconFileService chatReconFileService;
     @Autowired
     private ITxnsLogService txnsLogService;
+    
     public String getFalg() {
         return falg;
     }
@@ -71,6 +84,7 @@ public class UploadAction extends BaseAction {
     public String showMemberQuery() {
         return "member_manager";
     }
+   
     // 会员分页查询
     public String queryMerchByPage() {
 
@@ -105,8 +119,7 @@ public class UploadAction extends BaseAction {
                 filestartid);
         try {
             json_encode(list);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        } catch (IOException e) {         
             e.printStackTrace();
         }
         return null;
@@ -288,7 +301,7 @@ public class UploadAction extends BaseAction {
 			result.put("info", "微信对账文件处理成功！");
 			
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			result.put("info", "微信对账文件处理失败！");
 		}
@@ -307,16 +320,13 @@ public class UploadAction extends BaseAction {
     	try {
 			txnsLogService.excuteSetted();
 			json_encode("结算完成");
-		} catch (AccBussinessException e) {
-			// TODO Auto-generated catch block
+		} catch (AccBussinessException e) {			
 			e.printStackTrace();
 			json_encode("结算失败");
 		} catch (AbstractBusiAcctException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json_encode("结算失败");
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			json_encode("结算失败");
 		} catch (IllegalEntryRequestException e) {
@@ -326,6 +336,214 @@ public class UploadAction extends BaseAction {
     	
     	return null;
     }
+    //-----------------------------------------------导出对账表、差错表--------------------------------------
+    /**
+     * 查询对账成功的记录
+     * @return
+     */
+    public String querySuccess(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        variables.put("proid", request.getParameter("proid")); 
+        variables.put("user",getCurrentUser().getUserId());
+        Map<String, Object> successList = serviceContainer
+                .getUploadlogService().querySuccess(variables, getPage(),
+                        getRows());
+        json_encode(successList);
+        return null;
+    }
+    
+
+    /**
+     * 查询对账差错的记录
+     * @return
+     */
+    public String queryFail(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        variables.put("proid", request.getParameter("proid")); 
+        variables.put("user",getCurrentUser().getUserId());
+        Map<String, Object> failList = serviceContainer
+                .getUploadlogService().queryFail(variables, getPage(),
+                        getRows());
+        json_encode(failList);
+        return null;   
+    }
+    /**
+     * 导出对账成功的记录为excel表
+     * @throws UnsupportedEncodingException 
+     * @throws WriteException 
+     * @throws RowsExceededException 
+     */
+    public void exportCheckSuccess() throws UnsupportedEncodingException, RowsExceededException, WriteException{
+        Map<String, Object> variables = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        variables.put("proid", request.getParameter("proid")); 
+        variables.put("user",getCurrentUser().getUserId());
+        Map<String, Object> successList = serviceContainer
+                .getUploadlogService().exportCheckSuccess(variables, getPage(),
+                        getRows());
+        exportSuccessExcel(successList);
+        
+    }
+    
+    /**
+     * 导出对账差错表为excel表
+     * @throws WriteException 
+     * @throws UnsupportedEncodingException 
+     * @throws RowsExceededException 
+     */
+    public void exportCheckFail() throws RowsExceededException, UnsupportedEncodingException, WriteException{
+        Map<String, Object> variables = new HashMap<String, Object>();
+        HttpServletRequest request = ServletActionContext.getRequest();
+        variables.put("proid", request.getParameter("proid")); 
+        variables.put("user",getCurrentUser().getUserId());
+        Map<String, Object> failList = serviceContainer
+                .getUploadlogService().exportCheckFail(variables, getPage(),
+                        getRows());
+        exportFailExcel(failList);
+    }
+    /**
+     * excel创建差错表的表头并且写入数据
+     * @param failList
+     * @throws WriteException 
+     * @throws RowsExceededException 
+     * @throws UnsupportedEncodingException 
+     */
+    private void exportFailExcel(Map<String, Object> failList) throws RowsExceededException, WriteException, UnsupportedEncodingException {
+        HttpServletResponse response = ServletActionContext.getResponse();   
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");      
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("对账单和差错表.xls", "UTF-8")); 
+        WritableWorkbook workbook = null;
+        try {
+            
+            workbook = Workbook.createWorkbook(response.getOutputStream());    
+            // 生成名为"对账单"的工作表，参数0表示这是第一页
+            WritableSheet sheet = workbook.createSheet("差错表",1);
+            // 指定单元格位置是第一列第一行(0, 0)以及单元格内容为交易流水，依次做此操作
+            Label label1 = new Label(0,0,"交易流水号");
+            Label label2 = new Label(1,0,"支付订单号");
+            Label label3 = new Label(2,0,"应答流水号");
+            Label label4 = new Label(3,0,"交易时间");
+            Label label5 = new Label(4,0,"交易类型");
+            Label label6 = new Label(5,0,"交易金额(元)");
+            Label label7 = new Label(6,0,"手续费金额(元)");
+            Label label8 = new Label(7,0,"通道手续费");
+            Label label9 = new Label(8,0,"交易渠道");
+            Label label10 = new Label(9,0,"差错原因");
+            sheet.addCell(label1);
+            sheet.addCell(label2);
+            sheet.addCell(label3);
+            sheet.addCell(label4);
+            sheet.addCell(label5);
+            sheet.addCell(label6);
+            sheet.addCell(label7);
+            sheet.addCell(label8);
+            sheet.addCell(label9);
+            sheet.addCell(label10);
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> rowList = (List<Map<String, Object>>) failList.get("rows");
+            for(int i= 0;i<rowList.size();i++){
+                Label labelone = new Label(0,i+1,(String) rowList.get(i).get("TXNSEQNO"));
+                Label labeltwo = new Label(1,i+1,(String) rowList.get(i).get("PAYORDNO"));
+                Label labelthree = new Label(2,i+1,(String) rowList.get(i).get("SYSTRCNO"));
+                Label labelfour = new Label(3,i+1,(String) rowList.get(i).get("TXNDATETIME"));
+                Label labelfive = new Label(4,i+1,(String) rowList.get(i).get("BUSINAME"));
+                Label labelsix = new Label(5,i+1,(String) rowList.get(i).get("AMOUNT"));
+                Label labelseven = new Label(6,i+1,(String) rowList.get(i).get("TXNFEE"));
+                Label labeleight = new Label(7,i+1,(String) rowList.get(i).get("CFEE"));
+                Label labelnine = new Label(8,i+1,(String) rowList.get(i).get("PAYINST"));
+                Label labelten = new Label(9,i+1,(String) rowList.get(i).get("MISTAKEDESC"));
+                sheet.addCell(labelone);
+                sheet.addCell(labeltwo);
+                sheet.addCell(labelthree);
+                sheet.addCell(labelfour);
+                sheet.addCell(labelfive);
+                sheet.addCell(labelsix);
+                sheet.addCell(labelseven);
+                sheet.addCell(labeleight);
+                sheet.addCell(labelnine);
+                sheet.addCell(labelten);
+                
+            }
+            //写入数据并关闭文件 
+            workbook.write(); 
+            workbook.close(); 
+        } catch (IOException e) {            
+            e.printStackTrace();
+        }
+        
+    }
+    /**
+     * excel创建对账表的表头并且写入数据，
+     * @param successList
+     * @throws UnsupportedEncodingException
+     * @throws RowsExceededException
+     * @throws WriteException
+     */
+    private void exportSuccessExcel(Map<String, Object> successList) throws UnsupportedEncodingException, RowsExceededException, WriteException {
+        HttpServletResponse response = ServletActionContext.getResponse();   
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");      
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("对账单和差错表.xls", "UTF-8")); 
+        WritableWorkbook workbook = null;
+        try {
+            
+            workbook = Workbook.createWorkbook(response.getOutputStream());    
+            // 生成名为"对账单"的工作表，参数0表示这是第一页
+            WritableSheet sheet = workbook.createSheet("对账单",0);
+            // 指定单元格位置是第一列第一行(0, 0)以及单元格内容为交易流水，依次做此操作
+            Label label1 = new Label(0,0,"交易流水号");
+            Label label2 = new Label(1,0,"支付订单号");
+            Label label3 = new Label(2,0,"应答流水号");
+            Label label4 = new Label(3,0,"交易时间");
+            Label label5 = new Label(4,0,"交易类型");
+            Label label6 = new Label(5,0,"交易金额(元)");
+            Label label7 = new Label(6,0,"手续费金额(元)");
+            Label label8 = new Label(7,0,"通道手续费");
+            Label label9 = new Label(8,0,"交易渠道");
+            sheet.addCell(label1);
+            sheet.addCell(label2);
+            sheet.addCell(label3);
+            sheet.addCell(label4);
+            sheet.addCell(label5);
+            sheet.addCell(label6);
+            sheet.addCell(label7);
+            sheet.addCell(label8);
+            sheet.addCell(label9);
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> rowList = (List<Map<String, Object>>) successList.get("rows");
+            for(int i= 0;i<rowList.size();i++){
+                Label labelone = new Label(0,i+1, (String) rowList.get(i).get("TXNSEQNO"));
+                Label labeltwo = new Label(1,i+1, (String) rowList.get(i).get("PAYORDNO"));
+                Label labelthree = new Label(2,i+1, (String) rowList.get(i).get("PAYRETTSNSEQNO"));
+                Label labelfour = new Label(3,i+1, (String) rowList.get(i).get("PAYORDFINTIME"));
+                Label labelfive = new Label(4,i+1, (String) rowList.get(i).get("BUSINAME"));
+                Label labelsix = new Label(5,i+1, (String) rowList.get(i).get("AMOUNT"));
+                Label labelseven = new Label(6,i+1, (String) rowList.get(i).get("TXNFEE"));
+                Label labeleight = new Label(7,i+1, (String) rowList.get(i).get("CFEE"));
+                Label labelnine = new Label(8,i+1, (String) rowList.get(i).get("PAYINST"));
+                sheet.addCell(labelone);
+                sheet.addCell(labeltwo);
+                sheet.addCell(labelthree);
+                sheet.addCell(labelfour);
+                sheet.addCell(labelfive);
+                sheet.addCell(labelsix);
+                sheet.addCell(labelseven);
+                sheet.addCell(labeleight);
+                sheet.addCell(labelnine);          
+            }
+            //写入数据并关闭文件 
+            workbook.write(); 
+            workbook.close();
+        } catch (IOException e) {            
+            e.printStackTrace();
+        }
+        
+    }
+    /**
+     * 导出对账失败的记录为excel表
+     * @return
+     */
     
     public File[] getUpload() {
         return upload;

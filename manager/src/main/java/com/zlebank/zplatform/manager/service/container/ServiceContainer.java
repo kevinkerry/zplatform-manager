@@ -18,10 +18,14 @@ import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.IRoleFunctService;
 import com.zlebank.zplatform.manager.service.iface.IRoleService;
 import com.zlebank.zplatform.manager.service.iface.ITaskService;
+import com.zlebank.zplatform.manager.service.iface.ITxnsLoService;
+import com.zlebank.zplatform.manager.service.iface.ITxnsLogsService;
 import com.zlebank.zplatform.manager.service.iface.IUploadLogService;
 import com.zlebank.zplatform.manager.service.iface.IUserFunctService;
 import com.zlebank.zplatform.manager.service.iface.IUserRoleService;
 import com.zlebank.zplatform.manager.service.iface.IUserService;
+import com.zlebank.zplatform.trade.service.ITxnsLogService;
+
 
 public class ServiceContainer {
 
@@ -47,8 +51,21 @@ public class ServiceContainer {
 	private ILimitPerdayService limitperdayService;
 	private IMccListService mccListService;
 	private IParaDicService paraDicService;
+	private ITxnsLogsService txnsLogsService;
 	
-	public IOperLogService getOperLogService() {
+
+
+
+
+    public ITxnsLogsService getTxnsLogsService() {
+        return txnsLogsService;
+    }
+
+    public void setTxnsLogsService(ITxnsLogsService txnsLogsService) {
+        this.txnsLogsService = txnsLogsService;
+    }
+
+    public IOperLogService getOperLogService() {
 		return operLogService;
 	}
 

@@ -23,10 +23,10 @@ public class LimitSingleModel implements java.io.Serializable {
 	private String status;
 	private String notes;
 	private String remarks;
+//	private String cardtype;
 
 	// Constructors
-
-	/** default constructor */
+    /** default constructor */
 	public LimitSingleModel() {
 	}
 
@@ -123,5 +123,6 @@ public class LimitSingleModel implements java.io.Serializable {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	
 
 }

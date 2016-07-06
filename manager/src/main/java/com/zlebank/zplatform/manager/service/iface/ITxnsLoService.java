@@ -16,6 +16,8 @@ import java.util.Map;
 import com.zlebank.zplatform.commons.service.IBasePageService;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsLogBean;
+import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
+import com.zlebank.zplatform.trade.model.TxnsLogModel;
 
 /**
  * Class Description
@@ -36,6 +38,9 @@ public interface ITxnsLoService extends IBasePageService<TxnsLogBean, TxnsLog>{
    public Map<String, Object> findQueryRefundByPage(Map<String, Object> variables,int page,int rows);
 
    public void refuseRefundAccount(String txnseqno);
+
+   IBaseDAO<TxnsLogModel, Long> getDao();
+
    
 
 }

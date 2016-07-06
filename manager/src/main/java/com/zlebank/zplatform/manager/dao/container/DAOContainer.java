@@ -22,6 +22,7 @@ import com.zlebank.zplatform.manager.dao.iface.IRiskDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRoleDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRoleFunctDAO;
 import com.zlebank.zplatform.manager.dao.iface.ITaskDAO;
+import com.zlebank.zplatform.manager.dao.iface.ITxnsLogsDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUploadLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserFunctDAO;
@@ -60,10 +61,18 @@ public class DAOContainer {
 	private ILimitPerDayDAO limitperdayDAO;
 	private IMccListDAO mccListDAO;
 	private IEnterpriseDetaDAO enterpriseDetaDAO;
-	private IMemberQueueDAO memberQueueDAO;
+	private IMemberQueueDAO memberQueueDAO;	
+    private ITxnsLogsDAO txnsLogsDAO;
 	
 	
-	
+
+    public ITxnsLogsDAO getTxnsLogsDAO() {
+        return txnsLogsDAO;
+    }
+
+    public void setTxnsLogsDAO(ITxnsLogsDAO txnsLogsDAO) {
+        this.txnsLogsDAO = txnsLogsDAO;
+    }
 
     public IMemberQueueDAO getMemberQueueDAO() {
         return memberQueueDAO;
@@ -248,4 +257,6 @@ public class DAOContainer {
     public void setEnterpriseDetaDAO(IEnterpriseDetaDAO enterpriseDetaDAO) {
         this.enterpriseDetaDAO = enterpriseDetaDAO;
     }
+
+
 }

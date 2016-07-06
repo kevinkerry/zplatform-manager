@@ -21,10 +21,12 @@ public class LimitPerdayModel implements java.io.Serializable {
 	private String status;
 	private String notes;
 	private String remarks;
+	private String cardtype;
+	
 
 	// Constructors
 
-	/** default constructor */
+    /** default constructor */
 	public LimitPerdayModel() {
 	}
 
@@ -111,5 +113,14 @@ public class LimitPerdayModel implements java.io.Serializable {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	
+	@Column(name = "CARDTYPE", length = 8)
+    public String getCardtype() {
+        return cardtype;
+    }
+
+    public void setCardtype(String cardtype) {
+        this.cardtype = cardtype;
+    }
 
 }
