@@ -76,13 +76,13 @@ public class WeChatReconFileService {
 				 payorderno = bills[6];
 				 payretorderno = bills[5];
 				 amount =  bills[12];
-				 bnk.setDfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
+				 bnk.setCfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
 			}else if("REFUND".equals(tradeType)){
 				//支付订单号（证联） 6
 				 payorderno = bills[15];
 				 payretorderno = bills[14];
 				 amount =  bills[16];
-				 bnk.setCfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
+				 bnk.setDfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
 			}
             bnk.setTxndatetime(DateUtil.formatDateTime("yyyyMMddHHmmss", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(bills[0])));
             bnk.setSystrcno(payretorderno);

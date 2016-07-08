@@ -65,7 +65,7 @@
 					<tr>
 					    <td align="right" width="15%">卡种类</td>
 					    <td align="left" style="padding-left:5px" width="25%">
-					        <select id="cardtype" class="easyui-validatebox" missingMessage="请选择卡种类" required="true" name="limitPerdayModel.cardtype"
+					        <select id="cardtype" class="easyui-validatebox" missingMessage="请选择卡种类" required="true" name="limitPerdayModel.cardtype">
 					            <option value="">--请选择卡种类--</optiion>
 					            <option value="0">全部</optiion>
 					            <option value="1">借记卡</optiion>
