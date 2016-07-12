@@ -69,7 +69,10 @@ public class BnkTxnServiceImpl extends BaseServiceImpl<BnkTxnModel, Long> implem
 	// 等对账数据保存成功后，更新UPload表的上传数据状态
 	public void updateUploadLog(String uploadFileName){
 	    getDao().updateByHQL( "update UploadLogModel set recode='00' where filename=? ",new Object[]{uploadFileName});
-	    
+	}
+	
+	public void deleteFailedWechatUploadLog(String uploadFileName){
+		getDao().updateByHQL( "delete from UploadLogModel where filename=? ",new Object[]{uploadFileName});
 	}
 	
 	

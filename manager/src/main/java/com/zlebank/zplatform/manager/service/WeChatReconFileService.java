@@ -58,6 +58,10 @@ public class WeChatReconFileService {
 		queryBillBean.setBill_date(date);
 		queryBillBean.setBill_type("ALL");
 		List<String[]> dowanWeChatBill = weChatService.dowanWeChatBill(queryBillBean);
+		
+		if(dowanWeChatBill==null){
+			return null;
+		}
 		// 0         1      2      3     4     5         6      7       8	   9	  10     11     12     13       14
 		//[交易时间, 公众账号ID, 商户号, 子商户号, 设备号, 微信订单号, 商户订单号, 用户标识, 交易类型, 交易状态, 付款银行, 货币种类, 总金额, 企业红包金额, 微信退款单号,
 		//  15       16       17         18     19     20      21     22   23

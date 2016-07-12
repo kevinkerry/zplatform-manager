@@ -11,4 +11,6 @@ public interface IBnkTxnService extends IBaseService<BnkTxnModel, Long>{
     public Boolean upLoad(String uploadFileName);
 
     public void updateUploadLog(String uploadFileName);
+    
+    public void deleteFailedWechatUploadLog(String uploadFileName);
 }
