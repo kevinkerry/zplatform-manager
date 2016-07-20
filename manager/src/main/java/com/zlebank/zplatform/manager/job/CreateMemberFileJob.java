@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.zlebank.zplatform.acc.util.SpringApplicationObjectSupport;
 import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
+import com.zlebank.zplatform.manager.util.TimeUtil;
 import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 @Service
