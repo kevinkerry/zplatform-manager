@@ -26,8 +26,14 @@
             <result name="member_manager">/pages/member/member_manager.jsp</result>
             <result name="member_acc">/pages/member/member_acc_manager.jsp</result>
             <result name="merch">/pages/merch/member_manager.jsp</result>
-            <result name="setted">/pages/uploadfile/setted_start.jsp</result>
+            <result name="setted">/pages/uploadfile/setted_start.jsp</result>	            
+            <result name="parsing">/pages/uploadfile/minsheng_pay.jsp</result>
 		</action>
+		
+		<action name="*DownloadAction" class="com.zlebank.zplatform.manager.action.merch.DownloadAction" method="{1}">
+		</action>
+				
+		
 		<action name="*MccAction" class="com.zlebank.zplatform.manager.action.merch.MccAction" method="{1}">
 		</action>
     </package>

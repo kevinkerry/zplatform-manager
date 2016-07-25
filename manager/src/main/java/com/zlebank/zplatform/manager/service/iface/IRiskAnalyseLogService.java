@@ -1,16 +1,23 @@
 package com.zlebank.zplatform.manager.service.iface;
 
+import java.util.List;
 import java.util.Map;
 
-import com.zlebank.zplatform.trade.model.TxnsLogModel;
+import com.zlebank.zplatform.manager.bean.RiskAnalyseLogQueryBean;
+import com.zlebank.zplatform.manager.dao.object.RiskAnalyseLogModel;
 
-public interface ITxnsLogsService extends IBaseService<TxnsLogModel,Long> {
+public interface IRiskAnalyseLogService extends IBaseService<RiskAnalyseLogModel,Long>{
 
-    Map<String, Object> findPersonTxnsLogs(Map<String, Object> variables,
-            int page,
-            int rows);
+    Map<String, Object> queryRiskRulesControl(int page,
+            int rows,
+            RiskAnalyseLogQueryBean riskAnalyseLogQueryBean, String roletype);
 
-    Map<String, Object> findPersonTxnsLogsOfAllPage(Map<String, Object> variables);
+    public List<?> showRulecodeList(String roletype);
+
+    Map<String, Object> queryAllRiskRulesControl(int page,
+            int rows,
+            RiskAnalyseLogQueryBean riskAnalyseLogQueryBean,
+            String roletype);
 
     Map<String, Object> queryAllSuccess(Map<String, Object> variables,
             int page,
@@ -29,6 +36,5 @@ public interface ITxnsLogsService extends IBaseService<TxnsLogModel,Long> {
     Map<String, Object> queryAllInsteadPay(Map<String, Object> variables);
 
     Map<String, Object> queryAllCrr(Map<String, Object> variables);
-            
 
 }

@@ -16,39 +16,39 @@ public class TxnsLogModel implements java.io.Serializable {
     private String pan;
     /**受理订单号**/
     private String accordno;
+    /**受理会员号**/
+    private String accmemberid;
+    
     /**受理二级商户号**/
     private String accsecmerno;
     /**交易时间**/
     private String txntime;
-    /**支付订单完成时间**/
+    /**应答流水号**/
     private String payrettsnseqno;
     /**中心应答码**/
     private String retcode;
 
     
-    /**受理会员号**/
-    private String accmemberid;
+   
 
     public TxnsLogModel() {
         super();
     }
 
-
     public TxnsLogModel(String txnseqno, String busicode, String pan,
-            String accordno, String accsecmerno, String txntime,
-            String payrettsnseqno, String retcode, String accmemberid) {
+            String accordno, String accmemberid, String accsecmerno,
+            String txntime, String payrettsnseqno, String retcode) {
         super();
         this.txnseqno = txnseqno;
         this.busicode = busicode;
         this.pan = pan;
         this.accordno = accordno;
+        this.accmemberid = accmemberid;
         this.accsecmerno = accsecmerno;
         this.txntime = txntime;
         this.payrettsnseqno = payrettsnseqno;
         this.retcode = retcode;
-        this.accmemberid = accmemberid;
     }
-
 
     @Id
     @Column(name = "TXNSEQNO", unique = true, nullable = false)

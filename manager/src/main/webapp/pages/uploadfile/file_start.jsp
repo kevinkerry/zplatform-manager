@@ -220,7 +220,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 
 	function exportSuccess(proid){
-		$('#check').attr("action","pages/merchant/exportCheckSuccessUploadAction.action?proid"+proid);
+		$('#check').attr("action","pages/merchant/exportCheckSuccessUploadAction.action?proid="+proid);
 		$("#check").submit();
 	}
 	function showCheckFail(proid){				
@@ -262,7 +262,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	function exportFail(proid){
-		$('#check').attr("action","pages/merchant/exportCheckFailUploadAction.action?proid"+proid);
+		$('#check').attr("action","pages/merchant/exportCheckFailUploadAction.action?proid="+proid);
 		$("#check").submit();
 	}
 </script>

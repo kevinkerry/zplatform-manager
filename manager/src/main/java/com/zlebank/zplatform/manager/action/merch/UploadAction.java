@@ -1,11 +1,10 @@
 package com.zlebank.zplatform.manager.action.merch;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,26 +20,33 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
+import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
+import com.zlebank.zplatform.manager.bean.CmbcResfileBean;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
 import com.zlebank.zplatform.manager.dao.object.UploadLogModel;
 import com.zlebank.zplatform.manager.dao.object.scan.ChannelFileMode;
 import com.zlebank.zplatform.manager.exception.ResolveReconFileContentException;
 import com.zlebank.zplatform.manager.service.WeChatReconFileService;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
+import com.zlebank.zplatform.manager.service.iface.CheckFileService;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
+import com.zlebank.zplatform.manager.service.iface.ICmbcResfileService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 
 public class UploadAction extends BaseAction {
-
+    private static final Log log = LogFactory.getLog(UploadAction.class);
+    
     /**
 	 * 
 	 */
@@ -65,7 +71,18 @@ public class UploadAction extends BaseAction {
     private WeChatReconFileService chatReconFileService;
     @Autowired
     private ITxnsLogService txnsLogService;
+    @Autowired
+    private CheckFileService cfs;
+    @Autowired
+    private ICmbcResfileService cmbcservice;
     
+    private CmbcResfileBean crb;
+    public CmbcResfileBean getCrb() {
+        return crb;
+    }
+    public void setCrb(CmbcResfileBean crb) {
+        this.crb = crb;
+    }
     public String getFalg() {
         return falg;
     }
@@ -164,6 +181,7 @@ public class UploadAction extends BaseAction {
     public String upload() throws IOException, InstantiationException,
             IllegalAccessException, ClassNotFoundException {
         Map<String, Object> result = new HashMap<String, Object>();
+        try{
         List<Map<String, Object>> resultMark = null;// 保存对账数据后，返回的标记
         // 判断文件的类型（证联or中信）
         if (uploadFileName[0] != null) {
@@ -245,6 +263,11 @@ public class UploadAction extends BaseAction {
             result.put("info", "对账文件上传成功！");
             json_encode(result);
         }
+    }catch (Exception e) {
+        result.put("info", "上传失败！");
+        json_encode(result);
+        log.error("上传失败:"+e.getMessage());
+   }
         return null;
     }
 
@@ -277,13 +300,12 @@ public class UploadAction extends BaseAction {
     	billDate = billDate.replaceAll("-", "");
     	// 判断是否重复上传文件
         Boolean boo = serviceContainer.getBnktxnService().upLoad(billDate);
-        UploadLogModel ulm = null;
         if (boo) {
             result.put("info", "此日期对账文件已经保存！");
             json_encode(result);
             return;
         } else {
-            ulm = new UploadLogModel();
+            UploadLogModel ulm = new UploadLogModel();
             ulm.setLogid(1l);
             ulm.setFilename(billDate);
             ulm.setUploaderid(getCurrentUser().getUserId());
@@ -304,10 +326,8 @@ public class UploadAction extends BaseAction {
 				// 等对账数据保存成功后，更新UPload表的上传数据状态
 	            serviceContainer.getBnktxnService().updateUploadLog(billDate);
 				result.put("info", "微信对账文件处理成功！");
-			}
-			
-		} catch (ParseException e) {
-			
+			}			
+		} catch (ParseException e) {			
 			e.printStackTrace();
 			result.put("info", "微信对账文件处理失败！");
 		}
@@ -419,13 +439,13 @@ public class UploadAction extends BaseAction {
     private void exportFailExcel(Map<String, Object> failList) throws RowsExceededException, WriteException, UnsupportedEncodingException {
         HttpServletResponse response = ServletActionContext.getResponse();   
         response.setContentType("application/vnd.ms-excel;charset=utf-8");      
-        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("对账单和差错表.xls", "UTF-8")); 
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("差错表.xls", "UTF-8")); 
         WritableWorkbook workbook = null;
         try {
             
             workbook = Workbook.createWorkbook(response.getOutputStream());    
             // 生成名为"对账单"的工作表，参数0表示这是第一页
-            WritableSheet sheet = workbook.createSheet("差错表",1);
+            WritableSheet sheet = workbook.createSheet("差错表",0);
             // 指定单元格位置是第一列第一行(0, 0)以及单元格内容为交易流水，依次做此操作
             Label label1 = new Label(0,0,"交易流水号");
             Label label2 = new Label(1,0,"支付订单号");
@@ -490,7 +510,7 @@ public class UploadAction extends BaseAction {
     private void exportSuccessExcel(Map<String, Object> successList) throws UnsupportedEncodingException, RowsExceededException, WriteException {
         HttpServletResponse response = ServletActionContext.getResponse();   
         response.setContentType("application/vnd.ms-excel;charset=utf-8");      
-        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("对账单和差错表.xls", "UTF-8")); 
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("对账单.xls", "UTF-8")); 
         WritableWorkbook workbook = null;
         try {
             
@@ -554,7 +574,35 @@ public class UploadAction extends BaseAction {
     public File[] getUpload() {
         return upload;
     }
-
+    
+    /**
+     * 民生回盘文件解析
+     * @param upload
+     */
+    public String peopleFileParsing(){
+        return "parsing";
+    }
+    
+    /**
+     * 根据交易时间查询民生代付的回盘文件
+     * @param upload
+     */
+    public void queryMinsheng(){
+        int page = this.getPage();
+        int pagesize = this.getRows();
+        Map<String,Object> map = new HashMap<String, Object>();
+        PagedResult<CmbcResfileBean> cfb = cmbcservice.queryPaged(page, pagesize,crb);
+        try {
+            List<CmbcResfileBean> li = cfb.getPagedResult();
+            Long count = cfb.getTotal();
+            map.put("total", count);
+            map.put("rows", li);
+            json_encode(map);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void setUpload(File[] upload) {
         this.upload = upload;
     }

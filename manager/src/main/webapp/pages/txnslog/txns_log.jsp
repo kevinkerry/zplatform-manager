@@ -283,6 +283,64 @@
 		}
 		
 		function queryTxnsLog(txnseqno){
+		 $("#ttxnseqno").html("");
+			   $("#ttxndate").html("");
+			   $("#ttxntime").html("");
+			   $("#tapptype").html("");
+			   $("#tbusitype").html("");
+			   $("#tbusicode").html("");
+			   $("#tamount").html("");
+			   $("#ttradcomm").html("");
+			   $("#ttxnfee").html("");
+			   $("#triskver").html("");
+			   $("#tsplitver").html("");
+			   $("#tfeever").html("");
+			   $("#tprdtver").html("");
+			   $("#tcheckstandver").html("");
+			   $("#troutver").html("");
+			   $("#tpan").html("");
+			   $("#tcardtype").html("");
+			   $("#tcardinstino").html("");
+			   $("#tinpan").html("");
+			   $("#tincardtype").html("");
+			   $("#tincardinstino").html("");
+			   $("#taccordno").html("");
+			   $("#taccordinst").html("");
+			   $("#taccsecmerno").html("");
+			   $("#taccfirmerno").html("");
+			   $("#taccsettledate").html("");
+			   $("#taccordcommitime").html("");
+			   $("#taccordfintime").html("");
+			   $("#tpaytype").html("");
+			   $("#tpayordno").html("");
+			   $("#tpayinst").html("");
+			   $("#tpayfirmerno").html("");
+			   $("#tpaysecmerno").html("");
+			   $("#tpayordcomtime").html("");
+			   $("#tpayordfintime").html("");
+			   $("#tpayrettsnseqno").html("");
+			   $("#tpayretcode").html("");
+			   $("#tpayretinfo").html("");
+			   $("#tappordno").html("");
+			   $("#tappinst").html("");
+			   $("#tappordcommitime").html("");
+			   $("#tappordfintime").html("");
+			   $("#ttradeseltxn").html("");
+			   $("#tretcode").html("");
+			   $("#tretinfo").html("");
+			   $("#ttradestatflag").html("");
+			   $("#ttradetxnflag").html("");
+			   $("#ttxncode").html("");
+			   $("#tcashcode").html("");
+			   $("#trelate").html("");
+			   $("#tretdatetime").html("");
+			   $("#ttxnseqno_og").html("");
+			   $("#tnotes").html("");
+			   $("#tremarks").html("");
+			   $("#taccmemberid").html("");
+			   $("#tapporderstatus").html("");
+			   $("#tapporderinfo").html("");
+			   
 			$('#w').window({
 				title: '详细信息',
 				top:90,
@@ -309,6 +367,25 @@
 						   
 					   }else{
 						   json=date.json;
+						   
+						   					   var tpayinst= json.PAYINST;
+					   var tpayinstString ="";
+					   if(tpayinst == 98000001){
+						   tpayinstString ="证联支付";
+					   }else if(tpayinst == 96000001){
+						   tpayinstString ="融宝快捷支付";
+					   }else if(tpayinst == 93000001){
+						   tpayinstString ="民生银行批量代付";
+					   }else if(tpayinst == 93000002){
+						   tpayinstString ="民生银行批量代付";
+					   }else if(tpayinst == 93000003){
+						   tpayinstString ="民生银行本行代扣";
+					   }else if(tpayinst == 90000001){
+						   tpayinstString ="畅捷网关支付";
+					   }else if(tpayinst == 91000001){
+						   tpayinstString ="微信支付";
+					   }
+					   
 					   $("#ttxnseqno").html(json.TXNSEQNO);
 					   $("#ttxndate").html(json.TXNDATE);
 					   $("#ttxntime").html(json.TXNTIME);
@@ -339,7 +416,7 @@
 					   $("#taccordfintime").html(json.ACCORDFINTIME);
 					   $("#tpaytype").html(json.PAYTYPE);
 					   $("#tpayordno").html(json.PAYORDNO);
-					   $("#tpayinst").html(json.PAYINST);
+                       $("#tpayinst").html(tpayinstString);
 					   $("#tpayfirmerno").html(json.PAYFIRMERNO);
 					   $("#tpaysecmerno").html(json.PAYSECMERNO);
 					   $("#tpayordcomtime").html(json.PAYORDCOMTIME);

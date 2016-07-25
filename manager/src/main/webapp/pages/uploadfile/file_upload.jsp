@@ -60,7 +60,29 @@ input {
 </head>
 <body>
 	<div style="margin: 5px;" id="continer">
-
+	
+		<div style="padding-left: 5px; padding-right: 5px">
+			<form id="downBillchanform" method="post"
+				action="pages/merchant/downChanBilDownloadAction.action"
+				>
+				<table width="100%" border="1">
+					<tr>
+						<td colspan="4" align="center">畅捷对账文件下载</td>
+					</tr>
+					<tr height="26"  id="fileadd1">
+						<td align="center">对账日期</td>
+						<td colspan="3"><input name="billDate" class=''  maxlength="12"   type="text"  id="billDate"/>
+					    </td>
+					</tr>
+					<tr>
+						<td align="center" colspan="4" id="uploadbutton"><a 
+							class="easyui-linkbutton" iconCls="icon-ok"
+							href="javascript:downBillchan()">下载</a>
+					    </td>
+					</tr>
+				</table>
+			</form>
+		</div>
 		<div style="padding-left: 5px; padding-right: 5px">
 			<form id="fileuploadform" method="post"
 				action="pages/merchant/uploadUploadAction.action"
@@ -78,7 +100,7 @@ input {
 							<input name="upload" type="file" class="type-file-file"
 							id="upload" size="25" /> <!-- <input type="button" id="addFileSelectButton" class="type-add-button" value="更多文件"/>  -->
 						</td>
-					</tr>
+					</tr>					
 					<tr height="26" id="fileadd1">
 						<td align="center">对账机构</td>
 						<td colspan="3"><select id="instiid_ins"
@@ -170,8 +192,14 @@ input {
 		$("#addFileSelectButton").click(function() {
 			fileInputList.add("upload", "addFileSelectButton")
 		});
-		 $('#startDate').datebox({   
+		 $('#billDate').datebox({  
+		    required:true
 	      }); 
+	      
+	      $('#startDate').datebox({   
+	         }); 
+		 
+		
 	});
 
 	function fileUpload() {
@@ -199,25 +227,30 @@ input {
 
 				},
 				success : function(json) {
-					json = eval('(' + json + ')');
-					if (json.info == "对账文件上传成功！" || json.info == "") {
-						alert("操作成功!");
+					if(json!=null ||json!=""){
+						json = eval('(' + json + ')');
+						if (json.info == "对账文件上传成功！" || json.info == "") {
+							alert("操作成功!");
 
-						setTimeout(function() {
-							back();
+							setTimeout(function() {
+								back();
 
-						}, 500);
-					} else {
-						$("#uploadbutton").show();
-						$.messager.alert('提示', json.info);
-						$("#uploadbutton").show();
-						$("#uploadhint").hide();
+							}, 500);
+						} else {
+							$("#uploadbutton").show();
+							$.messager.alert('提示', json.info);
+							$("#uploadbutton").show();
+							$("#uploadhint").hide();
+						}
 					}
+					
 				}
 			});
 		}
 
 	}
+	
+	
 
 	function back() {
 		var form = document.forms['fileuploadform'];
@@ -238,6 +271,41 @@ input {
 				$.messager.alert('提示', json.info);
 			}
 		});
+		
+		
+	}
+	
+	
+	
+	function downBillchan() {
+		
+		$('#downBillchanform').form('submit', {
+			onSubmit : function() {
+				if($('#downBillchanform').form('validate')){
+					//校验日期，大于当前日期
+					var billDate =new Date($('input[name="billDate"]').val().replace(/-/g,"/"));
+					var myDate = new Date();
+					var result=myDate.getFullYear()+'/'+(myDate.getMonth()+1)+'/'+myDate.getDate() ;
+					var curDate=new Date(result);
+					if(billDate-curDate>=0){
+						alert("对账日期只能选择当前日期之前");
+						return false;
+					}
+					
+					$("#downBillchanButton").hide();
+					return;
+				}
+
+			},
+			success : function(json) {
+				$("#downBillchanButton").show();
+			},
+			error: function(e) { 
+				alert("下载失败！请联系管理员！"); 
+			} 
+		});
+		
+
 	}
 </script>
 </html>

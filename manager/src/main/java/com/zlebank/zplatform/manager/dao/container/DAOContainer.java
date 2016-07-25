@@ -1,6 +1,7 @@
 package com.zlebank.zplatform.manager.dao.container;
 
 import com.zlebank.zplatform.manager.dao.iface.IBnkTxnDAO;
+import com.zlebank.zplatform.manager.dao.iface.ICardHolderBlackDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICityDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICountyDAO;
 import com.zlebank.zplatform.manager.dao.iface.IDeptDAO;
@@ -18,6 +19,7 @@ import com.zlebank.zplatform.manager.dao.iface.IOrganDAO;
 import com.zlebank.zplatform.manager.dao.iface.IParaDicDAO;
 import com.zlebank.zplatform.manager.dao.iface.IProductDAO;
 import com.zlebank.zplatform.manager.dao.iface.IProvinceDAO;
+import com.zlebank.zplatform.manager.dao.iface.IRiskAnalyseLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRiskDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRoleDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRoleFunctDAO;
@@ -27,6 +29,7 @@ import com.zlebank.zplatform.manager.dao.iface.IUploadLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserFunctDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserRoleDAO;
+import com.zlebank.zplatform.manager.service.iface.ICardHolderBlackService;
 
 public class DAOContainer {
 
@@ -63,8 +66,26 @@ public class DAOContainer {
 	private IEnterpriseDetaDAO enterpriseDetaDAO;
 	private IMemberQueueDAO memberQueueDAO;	
     private ITxnsLogsDAO txnsLogsDAO;
+    private ICardHolderBlackDAO cardHolderBlackDAO;
+    private IRiskAnalyseLogDAO riskAnalyseLogDAO;
 	
 	
+
+    public IRiskAnalyseLogDAO getRiskAnalyseLogDAO() {
+        return riskAnalyseLogDAO;
+    }
+
+    public void setRiskAnalyseLogDAO(IRiskAnalyseLogDAO riskAnalyseLogDAO) {
+        this.riskAnalyseLogDAO = riskAnalyseLogDAO;
+    }
+
+    public ICardHolderBlackDAO getCardHolderBlackDAO() {
+        return cardHolderBlackDAO;
+    }
+
+    public void setCardHolderBlackDAO(ICardHolderBlackDAO cardHolderBlackDAO) {
+        this.cardHolderBlackDAO = cardHolderBlackDAO;
+    }
 
     public ITxnsLogsDAO getTxnsLogsDAO() {
         return txnsLogsDAO;

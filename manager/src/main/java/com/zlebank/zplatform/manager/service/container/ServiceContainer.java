@@ -1,6 +1,7 @@
 package com.zlebank.zplatform.manager.service.container;
 
 import com.zlebank.zplatform.manager.service.iface.IBnkTxnService;
+import com.zlebank.zplatform.manager.service.iface.ICardHolderBlackService;
 import com.zlebank.zplatform.manager.service.iface.ICityService;
 import com.zlebank.zplatform.manager.service.iface.IDeptService;
 import com.zlebank.zplatform.manager.service.iface.IFeeService;
@@ -14,6 +15,7 @@ import com.zlebank.zplatform.manager.service.iface.IOrganService;
 import com.zlebank.zplatform.manager.service.iface.IParaDicService;
 import com.zlebank.zplatform.manager.service.iface.IProductService;
 import com.zlebank.zplatform.manager.service.iface.IProvinceService;
+import com.zlebank.zplatform.manager.service.iface.IRiskAnalyseLogService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.IRoleFunctService;
 import com.zlebank.zplatform.manager.service.iface.IRoleService;
@@ -52,10 +54,26 @@ public class ServiceContainer {
 	private IMccListService mccListService;
 	private IParaDicService paraDicService;
 	private ITxnsLogsService txnsLogsService;
-	
+	private ICardHolderBlackService cardHolderBlackService;
+	private IRiskAnalyseLogService riskAnalyseLogService;
 
 
 
+    public IRiskAnalyseLogService getRiskAnalyseLogService() {
+        return riskAnalyseLogService;
+    }
+
+    public void setRiskAnalyseLogService(IRiskAnalyseLogService riskAnalyseLogService) {
+        this.riskAnalyseLogService = riskAnalyseLogService;
+    }
+
+    public ICardHolderBlackService getCardHolderBlackService() {
+        return cardHolderBlackService;
+    }
+
+    public void setCardHolderBlackService(ICardHolderBlackService cardHolderBlackService) {
+        this.cardHolderBlackService = cardHolderBlackService;
+    }
 
     public ITxnsLogsService getTxnsLogsService() {
         return txnsLogsService;

@@ -18,7 +18,7 @@ table tr td select {
 </style>
 	<div style="margin: 5px; border:" id="continer">
 		<div id="p" class="easyui-panel" title="查询条件"
-			style="height: 70px; padding: 10px; background: #fafafa;"
+			style="height: 100px; padding: 10px; background: #fafafa;"
 			iconCls="icon-save" collapsible="true">
 			<form id="theForm" method="post">
 				<table width="100%">
@@ -33,13 +33,14 @@ table tr td select {
 							<input name="queryTransferBean.beginDate" id="beginDate" maxlength="32" />-
 							<input name="queryTransferBean.endDate" id="endDate" maxlength="32" />
 						</td>
-				
+				</tr>
+				<tr>
 				        <td align="right" width="10%">订单编号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="queryTransferBean.busi_seqno" id="busi_seqno" maxlength="32" />
+							name="queryTransferBean.merchOrderNo" id="merchOrderNo" maxlength="32" />
 						</td>
 						
-						<td align="right" rowspan="6"><a href="javascript:search()"
+						<td align="right" rowspan="7"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
 				</table>
@@ -386,9 +387,11 @@ table tr td select {
 		var data = {
 				"queryTransferBean.batchNo" : $('#batchno').val(),
 				"queryTransferBean.beginDate":$("#beginDate").datebox("getValue"),//.replace("-","").replace("-",""),
-				"queryTransferBean.endDate":$("#endDate").datebox("getValue")//.replace("-","").replace("-","")
+				"queryTransferBean.endDate":$("#endDate").datebox("getValue"),//.replace("-","").replace("-","")
+				"queryTransferBean.merchOrderNo":$("#merchOrderNo").val()
 			   }
 			$('#test').datagrid('load', data);
+		
 	}
 
 	function showAdd() {

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.zlebank.zplatform.manager.dao.object.DeptModel;
 
-public interface IDeptService extends IBaseService<DeptModel, Long>{
+public interface IDeptService extends IBaseService<DeptModel, Long> {
 	
 	public List<?> saveDept(DeptModel dept);
 	public List<?> updateDept(DeptModel dept);
@@ -13,4 +13,6 @@ public interface IDeptService extends IBaseService<DeptModel, Long>{
 			int rows);
 	public long findDeptByPageCount(Map<String, Object> variables);
 	public List<?> deleteDept(Long deptId);
+    
+    public List<?> updateDeptNotes(String deptCode, String notes);
 }

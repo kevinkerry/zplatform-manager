@@ -26,6 +26,8 @@ public class TxnsLogBean implements Bean{
     private String txnseqno;
     /**业务代码**/
     private String busicode;
+    /**业务类型**/
+    private String busitype;
     /**转出帐号或卡号**/
     private String pan;
     /**受理订单号**/
@@ -57,6 +59,15 @@ public class TxnsLogBean implements Bean{
     /**原交易序列号**/
     private String txnseqno_og;
     
+    
+    public String getBusitype() {
+        return busitype;
+    }
+
+    public void setBusitype(String busitype) {
+        this.busitype = busitype;
+    }
+
     public String getTxnseqno_og() {
         return txnseqno_og;
     }

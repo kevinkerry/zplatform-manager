@@ -97,6 +97,7 @@ public class RBFileContent extends AbstractFileContentHandler {
                 if(c7.getContents() != null && !c7.getContents().trim().equals("")){
                     bnk.setCfee(new BigDecimal(c7.getContents()).multiply(new BigDecimal(100)).longValue());  
                 }
+                bnk.setInstiid(instiid);
                 bnk.setRetcode("00");
                 bnkTxnList.add(bnk); 
             }

@@ -211,7 +211,9 @@ table tr td select {
 												return '退款成功';
 											} else if (rec.STATUS == '39') {
 												return '自行终止';
-											} else {
+											}else if (rec.STATUS == '49') {
+												return '交易失败';
+											}else {
 												return rec.STATUS;
 											}
 										}

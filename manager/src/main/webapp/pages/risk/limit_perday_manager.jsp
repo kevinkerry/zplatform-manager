@@ -57,7 +57,7 @@
 						</td>
 						<td align="right" width="15%" >风控业务实例</td>
 						<td align="left" style="padding-left:5px" width="25%">
-							<select id="riskcase" class="easyui-validatebox" missingMessage="请选选择风险等级" required="true" name="limitPerdayModel.caseid" >
+                          <select id="riskcase" class="easyui-validatebox" missingMessage="请选择风控业务实例" required="true" name="limitPerdayModel.caseid" >
 								<option value="">--请选择风控版本实例--</option>
 							</select>
 						</td>
@@ -67,7 +67,6 @@
 					    <td align="left" style="padding-left:5px" width="25%">
 					        <select id="cardtype" class="easyui-validatebox" missingMessage="请选择卡种类" required="true" name="limitPerdayModel.cardtype">
 					            <option value="">--请选择卡种类--</optiion>
-					            <option value="0">全部</optiion>
 					            <option value="1">借记卡</optiion>
 					            <option value="2">信用卡</optiion>
 					            <option value="3">准贷记卡</optiion>
@@ -76,7 +75,7 @@
 					    
 						<td align="right" width="15%" height="30px">限制次数</td>
 						<td align="left" style="padding-left:5px" width="25%">
-							<input name="limitPerdayModel.nums" id="nums_id"  maxlength="10"  onkeyup="this.value=this.value.replace(/\D/g,'')" class="easyui-validatebox">
+							<input name="limitPerdayModel.nums" id="nums_id"  maxlength="10"  onkeyup="this.value=this.value.replace(/\D/g,'')" class="easyui-validatebox" required="true" missingMessage="请填写限制次数">
 						</td>						
 					</tr>
 					
@@ -130,6 +129,17 @@
  				[
                     {field:'RISKNAME',title:'风控版本',width:150,align:'center'},
 					{field:'BUSINAME',title:'业务实例',width:150,align:'center'},
+					{field:'CARDTYPE',title:'卡种类',width:150,align:'center',
+						formatter:function(value,rec){
+							if(value=="1"){
+								return '<span style="color:black;">'+'借记卡'+'</span>';
+							}else if(value=="2"){
+								return '<span style="color:black;">'+'信用卡'+'</span>';
+							}else if(value=="3"){
+								return '<span style="color:black;">'+'准贷记卡'+'</span>';
+							}
+						}		
+					},
 					{field:'RISKLEVEL',title:'风险级别',width:120,align:'center',
 						formatter:function(value,rec){
 							if(value=="1"){
@@ -155,6 +165,7 @@
 							}
 						}					
 					},
+					{field:'NOTES',title:'备注',width:150,align:'center'},
 					{field:'T_ID',title:'操作',width:150,align:'center', 			
 					  formatter:function(value,rec){	
 						    if(rec.STATUS=="00"){
@@ -263,6 +274,7 @@
 			$("#nums_id").val(json.NUMS);
 			$("#TId").val(json.T_ID);
 			$("#Notes").val(json.NOTES);
+			$('#cardtype').val(json.CARDTYPE);			
 			showRiskLevel();showRisk();
 			    setTimeout(function(){ 
 				   $("#risk").val(riskver);

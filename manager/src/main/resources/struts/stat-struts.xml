@@ -6,7 +6,8 @@
  	<package name="stat" namespace="/pages/stat" extends="global">
 		<action name="*StatAction" class="com.zlebank.zplatform.manager.action.stat.StatAction" method="{1}">
 			<result name="tradeStat">/pages/stat/trade_stat.jsp</result> 
-			<result name="entryCount">/pages/stat/entry_count.jsp</result> 
+			<result name="entryCount">/pages/stat/entry_count.jsp</result>
+			<result name="riskRulesControl">/pages/stat/riskRules_control.jsp</result>			
 		</action>
     </package>
 </struts>

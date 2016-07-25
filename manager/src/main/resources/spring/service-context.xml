@@ -111,6 +111,19 @@
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
+	<bean id="cardHolderBlackService" parent="baseServiceImpl"
+	    class="com.zlebank.zplatform.manager.service.CardHolderBlackServiceImpl">	   
+	    <property name="daoContainer">
+	        <ref bean="DAOContainer"/>
+	    </property>
+	</bean>
+	<bean id="riskAnalyseLogService" parent="baseServiceImpl"
+	   class="com.zlebank.zplatform.manager.service.RiskAnalyseLogServiceImpl">
+	   <property name="daoContainer">
+	       <ref bean="DAOContainer"/>
+	   </property>
+	
+	</bean>
 	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
 		<property name="operLogService">
 			<ref bean="operLogService" />
@@ -172,7 +185,12 @@
 		<property name="paraDicService">
 			<ref bean="paraDicService" />
 		</property>
-		
+		<property name="cardHolderBlackService">
+		    <ref bean="cardHolderBlackService"/>
+		</property>
+		<property name="riskAnalyseLogService">
+		    <ref bean="riskAnalyseLogService"/>
+		</property>
 	</bean>
 	<bean id="ftpClientFactory" class="com.zlebank.zplatform.manager.util.net.FTPClientFactory">
 	</bean>
