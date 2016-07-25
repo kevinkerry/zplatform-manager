@@ -83,7 +83,8 @@
 								  <option value="">请选择</option>
 						          <option value="01">快捷</option>
 						          <option value="02">网银</option>
-						            <option value="03">账户</option>
+						          <option value="03">账户</option>
+						          <option value="04">代付</option>
 					        	</select>							
 							</td>
 							
@@ -227,6 +228,10 @@
 								return "网银支付";
 							}else if(value=="03"){
 								return "账户支付";
+							}else if(value=="04"){
+								return "代付";
+							}else{
+								return "未知";
 							}
 							}
 					},  

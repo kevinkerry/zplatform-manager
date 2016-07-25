@@ -65,11 +65,22 @@
 		  $(window).resize(function(){  
 	      $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
 	      }) 
-	    })
+	    });
+	     
+	    
 		$(function(){
-			
+				
 				if("?overtime" == location.search){
-					window.parent.returnLogin();
+					var parent = window.parent;
+					while(parent!=window.parent){
+						parent = window.parent;
+					}
+					try{
+						window.parent.returnLogin()
+					}catch(err){ 
+						window.location.href="<%=basePath%>"+"pages/logoutAction.action?relogin=relogin";
+					}
+						 
 					$("#info").html("操作超时,请重新登录");
 				} 
 				$('#rand_image').attr("src","validateCodeLoginAction.action?rand="+new Date().getTime());

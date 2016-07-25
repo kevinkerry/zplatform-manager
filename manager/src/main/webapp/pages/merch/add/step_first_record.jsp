@@ -143,7 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					     
 						<td align="center">开户行</td>
 						<td colspan="3"> 
-							<select id="banknode_ins" class="easyui-validatebox" required="true"  name="merchDeta.bankNode" style="width:150px"  /></select>
+							<select id="banknode_ins" class="easyui-validatebox" required="true"  name="merchDeta.bankNode" style="width:350px"  /></select>
 					    	<font color="red">*</font>
 					    	<input id="banknode_key" maxlength="16" type="text" onclick="checkBankKey()" onchange="queryBankNode()"/>
 					    </td>

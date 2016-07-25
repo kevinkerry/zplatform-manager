@@ -227,11 +227,11 @@
 		    },   
 		    success:function(data){  
 		    		if(data=='添加成功!'||data=='修改成功!'){
-		    			alert(data);
+		    			$.messager.alert('提示', data);
 		    			closeAdd();
 		    			search();
-			    	}else{
-			    		alert(data);
+			    	}else{ 
+			    		$.messager.alert('提示', data);
 			    		$('#btn_submit').linkbutton('enable');		
 			    	}	        
 		    }   

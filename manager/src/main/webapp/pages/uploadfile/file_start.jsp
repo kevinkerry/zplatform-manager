@@ -129,13 +129,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				}
 				}
-				
 			]],
 			pagination:true,
 			rownumbers:true
-			
 		});
-
 	});
 	
 	
@@ -161,11 +158,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			});
 		}		
-		
-
 	}
+	
 	function search(){
-		
 		var data={"startDate":$('#startDate').datebox('getValue'),"endDate":$("#endDate").datebox('getValue')};
 		$('#test').datagrid('load',data);
 	}
