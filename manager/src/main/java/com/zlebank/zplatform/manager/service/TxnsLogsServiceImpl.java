@@ -286,6 +286,8 @@ public class TxnsLogsServiceImpl extends BaseServiceImpl<TxnsLogModel, Long>
                 "{CALL PCK_SEL_TXNS_BYBUSICODE.sel_txns_all(?,?,?,?,?,?,?)}", columns, paramaters,
                 "cursor0", "v_total");
     }
+
+
     
     
 

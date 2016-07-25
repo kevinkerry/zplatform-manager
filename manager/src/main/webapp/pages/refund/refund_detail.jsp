@@ -350,6 +350,10 @@ table tr td select {
 		$("#REFUNDDESC").html(c[4]=="NaN"?"":c[4]);
 		$("#stexaopt").val("");
 		$("#refundordernoA").val(c[0]);
+		isok = true;
+		if (isok == true) {
+			showAdds();
+		}
 		/*$.ajax( { 
 				type: "POST",
 		         url: "pages/withdraw/queryTrialWithdraTriaAction.action?falg=first",
@@ -378,11 +382,9 @@ table tr td select {
 		       
 		        }
 		         }
-		})*/
-		isok = true;
-		if (isok == true) {
-			showAdds();
-		}
+		})
+		*/
+
 	}
 </script>
 </html>

@@ -416,7 +416,7 @@ public class TxnsLogAction extends BaseAction {
         variables.put("accordcommitimes", commitimes);
         variables.put("accordcommitimen",commitimen);
         variables.put("user", getCurrentUser().getUserId());
-        Map<String, Object> groupList = txnsLogsService.queryAllSuccess(variables,getPage(),getRows());
+        Map<String, Object> groupList = txnsLogsService.queryAllCrr(variables);
         createSuccessExcel(groupList);
     }
     private void createSuccessExcel(Map<String, Object> groupList) throws IOException {
@@ -574,11 +574,13 @@ public class TxnsLogAction extends BaseAction {
     public void exportAllCrr() throws IOException, ParseException{
         HttpServletRequest request = ServletActionContext.getRequest();
         String flag=  request.getParameter("flag");
+        String busicode = request.getParameter("busicode");
         Map<String, Object> variables = new HashMap<String, Object>();
         if (tlb == null) {
             tlb = new TxnsLogBean();
-        }       
-        variables.put("accsecmerno", tlb.getAccsecmerno());
+        } 
+        variables.put("busicode", busicode);//交易类型
+        variables.put("accsecmerno", tlb.getAccsecmerno());//商户号
         SimpleDateFormat format = new SimpleDateFormat(
                 "yyyyMMddHHmmss");
         String commitimes = "" ;
@@ -589,8 +591,8 @@ public class TxnsLogAction extends BaseAction {
         if(StringUtil.isNotEmpty(tlb.getAccordcommitimen())){
             commitimen = format.format(DateUtil.convertToDate(tlb.getAccordcommitimen(), DEFAULT_TIME_STAMP_FROMAT1));
         }
-        variables.put("accordcommitimes", commitimes);
-        variables.put("accordcommitimen",commitimen);
+        variables.put("accordcommitimes", commitimes);//开始时间
+        variables.put("accordcommitimen",commitimen);//结束时间
         variables.put("user", getCurrentUser().getUserId());
         Map<String, Object> groupList = txnsLogsService.queryAllCrr(variables);
         exportCrrExcel(groupList,flag);
@@ -642,7 +644,7 @@ public class TxnsLogAction extends BaseAction {
             Label label9 = new Label(8, 0, "交易类型");
             Label label10 = new Label(9, 0, "支付流水号");
             Label label11 = new Label(10, 0, "应答流水号");
-            Label label12 = new Label(12, 0, "交易渠道");
+            Label label12 = new Label(11, 0, "交易渠道");
             try {
                 sheet.addCell(label1);
                 sheet.addCell(label2);
@@ -687,8 +689,7 @@ public class TxnsLogAction extends BaseAction {
                 sheet.addCell(labelnine);
                 sheet.addCell(labelten);
                 sheet.addCell(labeleleven);
-                sheet.addCell(labeltwlve);
-                
+                sheet.addCell(labeltwlve);                
             }
             //写入数据并关闭文件 
             workbook.write(); 

@@ -307,6 +307,7 @@
 		}
 				
 		function queryAllSuccess(busicode,data){
+			var flag ="";
 			if($('#busicode').val() == 10000001){
 				flag =1;					
 			}else if($('#busicode').val() == 20000001){
@@ -347,7 +348,7 @@
   		  			text: '导出',
   		  			iconCls: 'icon-add',
   		  			handler: function() {
-  		  				exportAllCrr(busicode,data,flag);
+  		  				exportAllCrr(busicode,flag);
   		  			}
   		  		}]
 		
@@ -366,8 +367,10 @@
 			$('#testForm').attr("action","pages/txnslog/exportAllInsteadPayTxnsLogAction.action");
 			$('#testForm').submit();
 		}
-		function exportAllCrr(busicode,data,flag){
-			$('#testForm').attr("action","pages/txnslog/exportAllCrrTxnsLogAction.action?flag="+flag);
+		function exportAllCrr(busicode,flag){
+			alert(busicode);
+			alert(flag);
+			$('#testForm').attr("action",'pages/txnslog/exportAllCrrTxnsLogAction.action?flag='+ flag +'&busicode='+busicode);
 			$('#testForm').submit();
 		}
 

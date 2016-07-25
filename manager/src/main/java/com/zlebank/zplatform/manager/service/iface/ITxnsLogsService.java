@@ -29,6 +29,6 @@ public interface ITxnsLogsService extends IBaseService<TxnsLogModel,Long> {
     Map<String, Object> queryAllInsteadPay(Map<String, Object> variables);
 
     Map<String, Object> queryAllCrr(Map<String, Object> variables);
-            
+
 
 }
