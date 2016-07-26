@@ -30,5 +30,7 @@ public interface ITxnsLogsService extends IBaseService<TxnsLogModel,Long> {
 
     Map<String, Object> queryAllCrr(Map<String, Object> variables);
 
+    Map<String, Object> queryAllSuccess1(Map<String, Object> variables);
+
 
 }

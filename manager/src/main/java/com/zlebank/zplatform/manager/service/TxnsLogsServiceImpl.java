@@ -246,11 +246,11 @@ public class TxnsLogsServiceImpl extends BaseServiceImpl<TxnsLogModel, Long>
             variables.containsKey("accsecmerno")
                     ? variables.get("accsecmerno")
                     : null,
-            variables.containsKey("stime")
-                    ? variables.get("stime")
+            variables.containsKey("accordcommitimes")
+                    ? variables.get("accordcommitimes")
                     : null,
-            variables.containsKey("etime")
-                    ? variables.get("etime")
+            variables.containsKey("accordcommitimen")
+                    ? variables.get("accordcommitimen")
                     : null,
             variables.containsKey("user")
                     ? variables.get("user")
@@ -272,11 +272,11 @@ public class TxnsLogsServiceImpl extends BaseServiceImpl<TxnsLogModel, Long>
             variables.containsKey("accsecmerno")
                     ? variables.get("accsecmerno")
                     : null,
-            variables.containsKey("stime")
-                    ? variables.get("stime")
+            variables.containsKey("accordcommitimes")
+                    ? variables.get("accordcommitimes")
                     : null,
-            variables.containsKey("etime")
-                    ? variables.get("etime")
+            variables.containsKey("accordcommitimen")
+                    ? variables.get("accordcommitimen")
                     : null,
             variables.containsKey("user")
                     ? variables.get("user")
@@ -285,6 +285,31 @@ public class TxnsLogsServiceImpl extends BaseServiceImpl<TxnsLogModel, Long>
         return getDao().executePageOracleProcedure(
                 "{CALL PCK_SEL_TXNS_BYBUSICODE.sel_txns_all(?,?,?,?,?,?,?)}", columns, paramaters,
                 "cursor0", "v_total");
+    }
+
+    @Override
+    public Map<String, Object> queryAllSuccess1(Map<String, Object> variables) {
+        String[] columns = new String[]{"v_busicode", "v_accsecmerno", "v_stime",
+                "v_etime","v_user"};
+                Object[] paramaters = new Object[]{
+                        variables.containsKey("busicode")
+                                ? variables.get("busicode")
+                                : null,
+                        variables.containsKey("accsecmerno")
+                                ? variables.get("accsecmerno")
+                                : null,
+                        variables.containsKey("accordcommitimes")
+                                ? variables.get("accordcommitimes")
+                                : null,
+                        variables.containsKey("accordcommitimen")
+                                ? variables.get("accordcommitimen")
+                                : null,
+                        variables.containsKey("user")
+                                ? variables.get("user")
+                                : null};                                
+                return getDao().executePageOracleProcedure(
+                        "{CALL PCK_SEL_TXNS_BYBUSICODE.sel_txns_all(?,?,?,?,?,?,?)}", columns, paramaters,
+                        "cursor0", "v_total");
     }
 
 
