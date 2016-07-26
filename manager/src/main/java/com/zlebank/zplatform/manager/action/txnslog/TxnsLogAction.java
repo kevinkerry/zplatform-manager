@@ -417,7 +417,7 @@ public class TxnsLogAction extends BaseAction {
         variables.put("accordcommitimen",commitimen);
         variables.put("user", getCurrentUser().getUserId());
         Map<String, Object> groupList = txnsLogsService.queryAllCrr(variables);
-        createSuccessExcel(groupList);
+        createSuccessExcel(groupList);     
     }
     private void createSuccessExcel(Map<String, Object> groupList) throws IOException {
         HttpServletResponse response = ServletActionContext.getResponse();   
