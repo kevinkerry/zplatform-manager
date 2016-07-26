@@ -245,7 +245,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				{field:'TXNFEE',title:'手续费金额(元)',width:140,align:'center'},
 				{field:'CFEE',title:'通道手续费',width:140,align:'center'},
 				{field:'PAYINST',title:'交易渠道',width:140,align:'center'},
-				{field:'PAYINST',title:'差错原因',width:140,align:'center'}
+				{field:'MISTAKEDESC',title:'差错原因',width:140,align:'center'}
 			]],
 			pagination:true,
 			rownumbers:true,
