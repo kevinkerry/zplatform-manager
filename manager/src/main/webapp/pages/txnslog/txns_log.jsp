@@ -73,10 +73,7 @@
 								
 							</td>
 						
-							<td align="right" width="10%">受理定单提交时间</td>
-							<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
-								至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input></td>
-						
+
 							<td align="right" width="10%">支付类型</td>
 								<td colspan="1">
 								<select name="tlb.payType"  id="paytype">
@@ -93,8 +90,7 @@
 							<input name="tlb.payordno" id="payordno" maxlength="32"/>
 						    </td>
 						    
-					    <tr>
-						    <td align="right" width="10%">交易渠道
+						     <td align="right" width="10%">交易渠道
 						    <td colspan="1">
 								<select name="tlb.payinst"  id="payinst">
 								  <option value="">请选择</option>
@@ -107,11 +103,17 @@
 						          <option value="91000001">微信支付</option>
 					        	</select>
 					        </td>
+					    <tr>
+						   
 					        <td align="right" width="10%">会员号</td>
 					        <td align="left" style="padding-left:5px" width="15%">
 							<input name="tlb.accmemberid" id="accmemberid" maxlength="32"/>
 						    </td>
 						    
+						    <td align="right" width="10%">受理定单提交时间</td>
+							<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
+								至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input></td>
+						
 						    <td align="right">
 								<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
 							</td>
@@ -162,7 +164,7 @@
 <td >受理定单完成时间</td><td id="taccordfintime"></td> </tr>
 <tr><td >支付类型（01：快捷，02：网银，03：账户）</td><td id="tpaytype"></td> 
 <td >支付定单号</td><td id="tpayordno"></td> </tr>
-<tr><td >支付所属机构</td><td id="tpayinst"></td> 
+<tr><td >交易渠道</td><td id="tpayinst"></td> 
 <td >支付一级商户号</td><td id="tpayfirmerno"></td> </tr>
 <tr><td >支付二级商户号</td><td id="tpaysecmerno"></td> 
 <td >支付定单提交时间</td><td id="tpayordcomtime"></td> </tr>
@@ -368,23 +370,17 @@
 					   }else{
 						   json=date.json;
 						   
-						   					   var tpayinst= json.PAYINST;
+					   var tpayinst= json.PAYINST;
 					   var tpayinstString ="";
-					   if(tpayinst == 98000001){
-						   tpayinstString ="证联支付";
-					   }else if(tpayinst == 96000001){
-						   tpayinstString ="融宝快捷支付";
-					   }else if(tpayinst == 93000001){
-						   tpayinstString ="民生银行批量代付";
-					   }else if(tpayinst == 93000002){
-						   tpayinstString ="民生银行批量代付";
-					   }else if(tpayinst == 93000003){
-						   tpayinstString ="民生银行本行代扣";
-					   }else if(tpayinst == 90000001){
-						   tpayinstString ="畅捷网关支付";
-					   }else if(tpayinst == 91000001){
-						   tpayinstString ="微信支付";
-					   }
+                       $.ajax({
+                    	   type:"POST",
+                    	   url:"pages/txnslog/getChnlnameTxnsLogAction.action",
+                    	   data:"chnlcode="+tpayinst,
+                    	   dataType:"json",
+                    	   success:function(data){
+                    		   
+                    	   }
+                       });
 					   
 					   $("#ttxnseqno").html(json.TXNSEQNO);
 					   $("#ttxndate").html(json.TXNDATE);
