@@ -354,6 +354,17 @@ public class MerchDetaAction extends BaseAction {
                 Long.parseLong(merchApplyId), userId);
         return "merch_detail";
     }
+    /***
+     * 复审未通过，则允许变更商户申请信息
+     * 
+     * @return
+     */
+    public String toMerchModify(){
+        Long userId = getCurrentUser().getUserId();
+        merchMap = serviceContainer.getMerchDetaService().queryApplyMerchDeta(Long.parseLong(merchApplyId), userId);
+        return "merch_modify";
+        
+    }
 
     /**
      * 商户审核（通过，否决，驳回） --0 通过 1 拒绝 9 终止

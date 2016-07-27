@@ -288,7 +288,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>
 							<input  class="easyui-validatebox" maxlength="50" validType="email" name="merchDeta.member.contEmail" value="${merchDeta.member.contEmail}"/>
 						</td>
-						<td colspan="2"></td>
+						
+						
+						<td align="center">备注</td>
+						<td>
+							<input  class="easyui-validatebox" maxlength="50"  name="merchDeta.notes" value="${merchDeta.notes}"/>
+						</td>
+						
 					</tr> 
 				</table>
 			</form>

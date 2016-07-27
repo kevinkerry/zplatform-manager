@@ -113,11 +113,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 						}
 							},	
-						{field:'DEPT_ID',title:'操作',width:120,align:'center',
+						{field:'DEPT_ID',title:'操作',width:150,align:'center',
 						formatter:function(value,rec){
 							if(flag=='10'){
 								if(rec.STATUS=='00'){
-									return '<a href="javascript:toMerchMk('+rec.MEMBER_ID+')" style="color:blue;margin-left:10px">秘钥下载</a>&nbsp<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
+									return '<a href="javascript:toMerchMk('+rec.MEMBER_ID+')" style="color:blue;margin-left:10px">秘钥下载</a>&nbsp<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>&nbsp<a href="javascript:toMerchModify('+rec.SELF_ID+')" style="color:blue;margin-left:10px">修改</a>';
+									        
+									      
 								}else{
 									return '<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
 								}
@@ -182,6 +184,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	window.event.returnValue = false;
             
 		}
+		function toMerchModify(id){
+			window.location.href= "<%=basePath%>" +'pages/merchant/toMerchModifyMerchantAction.action?merchApplyId='+id;
+			window.event.returnValue = false;
+		}
+		
 		//function toActivateStatus(memberId){
 	    //	window.event.returnValue = false;
             
