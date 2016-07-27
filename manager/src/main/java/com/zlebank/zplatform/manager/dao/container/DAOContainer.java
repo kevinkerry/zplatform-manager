@@ -2,6 +2,7 @@ package com.zlebank.zplatform.manager.dao.container;
 
 import com.zlebank.zplatform.manager.dao.iface.IBnkTxnDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICardHolderBlackDAO;
+import com.zlebank.zplatform.manager.dao.iface.IChannelDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICityDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICountyDAO;
 import com.zlebank.zplatform.manager.dao.iface.IDeptDAO;
@@ -29,7 +30,6 @@ import com.zlebank.zplatform.manager.dao.iface.IUploadLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserFunctDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserRoleDAO;
-import com.zlebank.zplatform.manager.service.iface.ICardHolderBlackService;
 
 public class DAOContainer {
 
@@ -68,8 +68,15 @@ public class DAOContainer {
     private ITxnsLogsDAO txnsLogsDAO;
     private ICardHolderBlackDAO cardHolderBlackDAO;
     private IRiskAnalyseLogDAO riskAnalyseLogDAO;
+    private IChannelDAO channelDAO;
 	
-	
+    public IChannelDAO getChannelDAO() {
+        return channelDAO;
+    }
+
+    public void setChannelDAO(IChannelDAO channelDAO) {
+        this.channelDAO = channelDAO;
+    }
 
     public IRiskAnalyseLogDAO getRiskAnalyseLogDAO() {
         return riskAnalyseLogDAO;

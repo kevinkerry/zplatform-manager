@@ -40,6 +40,7 @@ import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.bean.ChnlDetaBean;
 import com.zlebank.zplatform.manager.bean.TxnsLog;
 import com.zlebank.zplatform.manager.bean.TxnsLogBean;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
@@ -70,8 +71,10 @@ public class TxnsLogAction extends BaseAction {
     private ITxnsLoService txns;
     @Autowired
     public BusinessServiec business;
+    
     private TxnsLogBean tlb;
-    public List<Business> bus;   
+    public List<Business> bus;
+    public List<ChnlDetaBean> channel;
     private ServiceContainer serviceContainer;
     
     private TxnsLogModel txnsLogModel;
@@ -110,6 +113,7 @@ public class TxnsLogAction extends BaseAction {
      */
     public String getTxnsLog() {
         bus = business.getAllBusiness();
+        channel = serviceContainer.getChannelService().getAllChannelCodeList();
         return SUCCESS;
     }
 
@@ -141,6 +145,8 @@ public class TxnsLogAction extends BaseAction {
         String messg=null;    
         Map<String, Object> map = new HashMap<String, Object>();
         List<?> li=txns.getTxnsLogById(tlb.getTxnseqno());
+        String aString= "123";
+        String bString ="234";
            if(li==null||li.isEmpty()){
                 messg="交易数据不存在";
                 map.put("messg", messg);

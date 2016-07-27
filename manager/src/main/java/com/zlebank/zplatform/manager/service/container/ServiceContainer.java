@@ -2,6 +2,7 @@ package com.zlebank.zplatform.manager.service.container;
 
 import com.zlebank.zplatform.manager.service.iface.IBnkTxnService;
 import com.zlebank.zplatform.manager.service.iface.ICardHolderBlackService;
+import com.zlebank.zplatform.manager.service.iface.IChannelService;
 import com.zlebank.zplatform.manager.service.iface.ICityService;
 import com.zlebank.zplatform.manager.service.iface.IDeptService;
 import com.zlebank.zplatform.manager.service.iface.IFeeService;
@@ -20,13 +21,11 @@ import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.IRoleFunctService;
 import com.zlebank.zplatform.manager.service.iface.IRoleService;
 import com.zlebank.zplatform.manager.service.iface.ITaskService;
-import com.zlebank.zplatform.manager.service.iface.ITxnsLoService;
 import com.zlebank.zplatform.manager.service.iface.ITxnsLogsService;
 import com.zlebank.zplatform.manager.service.iface.IUploadLogService;
 import com.zlebank.zplatform.manager.service.iface.IUserFunctService;
 import com.zlebank.zplatform.manager.service.iface.IUserRoleService;
 import com.zlebank.zplatform.manager.service.iface.IUserService;
-import com.zlebank.zplatform.trade.service.ITxnsLogService;
 
 
 public class ServiceContainer {
@@ -56,8 +55,18 @@ public class ServiceContainer {
 	private ITxnsLogsService txnsLogsService;
 	private ICardHolderBlackService cardHolderBlackService;
 	private IRiskAnalyseLogService riskAnalyseLogService;
+    private IChannelService channelService;
 
 
+ 
+
+    public IChannelService getChannelService() {
+        return channelService;
+    }
+
+    public void setChannelService(IChannelService channelService) {
+        this.channelService = channelService;
+    }
 
     public IRiskAnalyseLogService getRiskAnalyseLogService() {
         return riskAnalyseLogService;

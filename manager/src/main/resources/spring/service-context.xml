@@ -121,9 +121,15 @@
 	   class="com.zlebank.zplatform.manager.service.RiskAnalyseLogServiceImpl">
 	   <property name="daoContainer">
 	       <ref bean="DAOContainer"/>
-	   </property>
-	
+	   </property>	
 	</bean>
+
+    <bean id="channelService" parent="baseServiceImpl" 
+    class="com.zlebank.zplatform.manager.service.ChannelServiceImpl">
+        <property name="daoContainer">
+            <ref bean="DAOContainer"/>
+        </property>
+    </bean>
 	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
 		<property name="operLogService">
 			<ref bean="operLogService" />
@@ -190,6 +196,9 @@
 		</property>
 		<property name="riskAnalyseLogService">
 		    <ref bean="riskAnalyseLogService"/>
+		</property>
+		<property name="channelService">
+		    <ref bean="channelService"/>
 		</property>
 	</bean>
 	<bean id="ftpClientFactory" class="com.zlebank.zplatform.manager.util.net.FTPClientFactory">

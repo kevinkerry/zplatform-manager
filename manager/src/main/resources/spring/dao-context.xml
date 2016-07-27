@@ -102,6 +102,9 @@
 	<bean id="riskAnalyseLogDAO" parent="hibernateDAOImpl"
 	    class="com.zlebank.zplatform.manager.dao.RiskAnalyseLogDAOImpl">
 	</bean>
+	<bean id="channelDAO" parent="hibernateDAOImpl" 
+	class="com.zlebank.zplatform.manager.dao.ChannelDaoImpl">
+	</bean>
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
 		<property name="userDAO">
@@ -192,6 +195,9 @@
         </property>
         <property name="riskAnalyseLogDAO">
             <ref bean="riskAnalyseLogDAO"/>
+        </property>
+        <property name="channelDAO">
+             <ref bean="channelDAO"/>
         </property>
 		
 	</bean>

@@ -93,14 +93,10 @@
 						     <td align="right" width="10%">交易渠道
 						    <td colspan="1">
 								<select name="tlb.payinst"  id="payinst">
-								  <option value="">请选择</option>
-						          <option value="98000001">证联支付</option>
-						          <option value="96000001">融宝快捷支付</option>
-						          <option value="93000001">民生银行批量代付</option>
-						          <option value="93000002">民生银行跨行代扣</option>
-						          <option value="93000003">民生银行本行代扣</option>
-						          <option value="90000001">畅捷网关支付</option>
-						          <option value="91000001">微信支付</option>
+								  <option value="">请选择</option>					
+								  <c:forEach items="${channel}" var="channel">								  		
+						              <option value=${channel.chnlcode }>${channel.chnlname}</option>						         
+						          </c:forEach> 			          						           
 					        	</select>
 					        </td>
 					    <tr>
@@ -203,6 +199,7 @@
   <script>
   	var width = $("#continer").width();
 		$(function(){
+			
 			$('#test').datagrid({
 				title:'会员账户信息列表',
 				iconCls:'icon-save',
@@ -368,20 +365,7 @@
 					   if(date.messg!=null){
 						   
 					   }else{
-						   json=date.json;
-						   
-					   var tpayinst= json.PAYINST;
-					   var tpayinstString ="";
-                       $.ajax({
-                    	   type:"POST",
-                    	   url:"pages/txnslog/getChnlnameTxnsLogAction.action",
-                    	   data:"chnlcode="+tpayinst,
-                    	   dataType:"json",
-                    	   success:function(data){
-                    		   
-                    	   }
-                       });
-					   
+						   json=date.json;		   
 					   $("#ttxnseqno").html(json.TXNSEQNO);
 					   $("#ttxndate").html(json.TXNDATE);
 					   $("#ttxntime").html(json.TXNTIME);
@@ -412,7 +396,7 @@
 					   $("#taccordfintime").html(json.ACCORDFINTIME);
 					   $("#tpaytype").html(json.PAYTYPE);
 					   $("#tpayordno").html(json.PAYORDNO);
-                       $("#tpayinst").html(tpayinstString);
+                       $("#tpayinst").html(json.CHNLNAME);
 					   $("#tpayfirmerno").html(json.PAYFIRMERNO);
 					   $("#tpaysecmerno").html(json.PAYSECMERNO);
 					   $("#tpayordcomtime").html(json.PAYORDCOMTIME);
