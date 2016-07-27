@@ -262,20 +262,6 @@
 		   }
 		});
 	}
-	function showCardtype(){	
-		$.ajax({
-		   type: "POST",
-		   url: "pages/risk/queryRiskLevelRiskAction.action",
-		   dataType:"json",
-		   success: function(json){
-		   		var html ="<option value=''>--请选择风险等级--</option>";
-		   		$.each(json, function(key,value){
-		   			html += '<option value="'+value.PARA_CODE+'">'+value.PARA_NAME+'</option>';
-				})
-				$("#risklevel").html(html);
-		   }
-		});
-	}
 	function showLimitPerday(tId,riskver){		
 		$.ajax({
 		   type: "POST",
