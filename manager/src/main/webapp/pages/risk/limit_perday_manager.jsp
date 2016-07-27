@@ -51,7 +51,7 @@
 				    <tr>
 					    <td align="right" width="15%" height="30px" >风控版本</td>
 					  	<td align="left" style="padding-left:5px" width="25%">
-					        <select id="risk" class="easyui-validatebox" missingMessage="请选选择风险等级" required="true"  class="easyui-validatebox" onchange="queryRiskCase()">
+					        <select id="risk" class="easyui-validatebox" required="true" missingMessage="请选择风控版本"  class="easyui-validatebox" onchange="queryRiskCase()">
 								<option value="">--请选择风控版本--</option>
 							</select>
 						</td>
@@ -65,11 +65,11 @@
 					<tr>
 					    <td align="right" width="15%">卡种类</td>
 					    <td align="left" style="padding-left:5px" width="25%">
-					        <select id="cardtype" class="easyui-validatebox" missingMessage="请选择卡种类" required="true" name="limitPerdayModel.cardtype">
-					            <option value="">--请选择卡种类--</optiion>
-					            <option value="1">借记卡</optiion>
-					            <option value="2">信用卡</optiion>
-					            <option value="3">准贷记卡</optiion>
+					        <select id="cardtype" class="easyui-validatebox"  required="true" missingMessage="请选择卡种类"  name="limitPerdayModel.cardtype">
+					            <option value="" selected="selected">--请选择卡种类--</option>
+					            <option value="1">借记卡</option>
+					            <option value="2">信用卡</option>
+					            <option value="3">准贷记卡</option>
 					        </select>
 					    </td>
 					    
@@ -83,8 +83,7 @@
 					</td>
 						<td align="right" width="15%">风险等级</td>
 						<td align="left" style="padding-left: 5px" width="25%">
-							<select id="risklevel" class="easyui-validatebox" missingMessage="请选选择风险等级" required="true" name="limitPerdayModel.risklevel">
-								<option value="">--请选择风险等级--</option>
+							<select id="risklevel" class="easyui-validatebox" missingMessage="请选择风险等级" required="true" name="limitPerdayModel.risklevel">
 							</select>
 						</td>
 						
@@ -202,7 +201,7 @@
 		}
 		
 		function showAdd(){	
-			$('#theForm').clearForm();
+			//$('#theForm').clearForm();
 			$('#w').window({
 				title: '单卡单日限次信息',
 				top: panelVertFloat, 
@@ -220,7 +219,7 @@
 			$('#btn_submit').linkbutton('enable');	
 			$("#risk").removeAttr("readonly");
 			$("#riskcase").removeAttr("readonly");
-			showRisk()
+			showRisk();
 			showRiskLevel();
 			
 		}		
@@ -263,6 +262,20 @@
 		   }
 		});
 	}
+	function showCardtype(){	
+		$.ajax({
+		   type: "POST",
+		   url: "pages/risk/queryRiskLevelRiskAction.action",
+		   dataType:"json",
+		   success: function(json){
+		   		var html ="<option value=''>--请选择风险等级--</option>";
+		   		$.each(json, function(key,value){
+		   			html += '<option value="'+value.PARA_CODE+'">'+value.PARA_NAME+'</option>';
+				})
+				$("#risklevel").html(html);
+		   }
+		});
+	}
 	function showLimitPerday(tId,riskver){		
 		$.ajax({
 		   type: "POST",
@@ -275,7 +288,8 @@
 			$("#TId").val(json.T_ID);
 			$("#Notes").val(json.NOTES);
 			$('#cardtype').val(json.CARDTYPE);			
-			showRiskLevel();showRisk();
+			showRiskLevel();
+			showRisk();
 			    setTimeout(function(){ 
 				   $("#risk").val(riskver);
 				   $("#risklevel").val(json.RISKLEVEL);
