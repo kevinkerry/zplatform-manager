@@ -161,7 +161,7 @@
 <td >受理清算日期</td><td id="taccsettledate"></td> </tr>
 <tr><td >受理定提交时间</td><td id="taccordcommitime"></td> 
 <td >受理定单完成时间</td><td id="taccordfintime"></td> </tr>
-<tr><td >支付类型（01：快捷，02：网银，03：账户）</td><td id="tpaytype"></td> 
+<tr><td >支付类型</td><td id="tpaytype"></td> 
 <td >支付定单号</td><td id="tpayordno"></td> </tr>
 <tr><td >交易渠道</td><td id="tpayinst"></td> 
 <td >支付一级商户号</td><td id="tpayfirmerno"></td> </tr>
@@ -236,8 +236,10 @@
 								return "微信";
 							}else if(value=="06"){
 								return "手工充值";
-							}else{
+							}else if(value=="07"){
 								return "退款";
+							}else{
+								return "线下";  
 							}
 							}
 					},  
