@@ -82,6 +82,9 @@
 						          <option value="02">网银</option>
 						          <option value="03">账户</option>
 						          <option value="04">代付</option>
+						          <option value="05">微信</option>
+						          <option value="06">手工充值</option>
+						          <option value="07">退款</option>
 					        	</select>							
 							</td>
 							
@@ -229,8 +232,12 @@
 								return "账户支付";
 							}else if(value=="04"){
 								return "代付";
+							}else if(value=="05"){
+								return "微信";
+							}else if(value=="06"){
+								return "手工充值";
 							}else{
-								return "未知";
+								return "退款";
 							}
 							}
 					},  
