@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="hidden" id="isDelegation_old" value="${merchDeta.member.isDelegation}"/>
 				<table width="100%">
 					<tr>
-						<td colspan="4" class="head-guide"><font class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
+					   <td colspan="4" class="head-guide"><font class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
 					</tr>	
 					<tr>
 						<td colspan="4" class="head-title"></td>
