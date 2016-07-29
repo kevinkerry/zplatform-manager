@@ -73,11 +73,13 @@
 				</form>
 			</div>
 			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveDept()" id="btn_submit" onclick="">保存</a>
+				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveDept()" id="btn_submit" onclick="">确定</a>
 				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
+	
+	
   </body>
   
   <script>
@@ -219,28 +221,7 @@
 			});
 		}
 
-		
-		function deleteDept(deptId){
-			$.messager.confirm('提示','您是否想要注销此部门?',function(r){   
-			   if (r){  
-				$.ajax({
-				   type: "POST",
-				   url: "pages/system/deleteDeptAction.action",
-				   data: "deptId="+deptId,
-				   dataType:"json",
-				   success:function(json){
-					$.each(json, function(key,value){
-			    		$.messager.alert('提示',value.INFO);   
-			    		search();
-			    		closeAdd();
-					}) 
 
-				   
-				 	}
-				});
-				    }   
-				});  
-		}
 		function showDept(deptId){		
 			$.ajax({
 			   type: "POST",
@@ -248,18 +229,15 @@
 			   data: "deptId="+deptId,
 			   dataType:"json",
 			   success: function(json){
-				
-		   		//alert(json.creator);
-				$("#dept_code").val(json.deptCode);
-				$('#dept_code').attr('disabled','disabled');
-				$("#dept_name").val(json.deptName);
-				$("#dept_organId").val(json.organId);
-				$("#dept_notes").val(json.notes);
-				$("#dept_id").val(json.deptId);
-				$("#dept_status").val(json.status);
-				
+					$("#dept_code").val(json.deptCode);
+					$('#dept_code').attr('disabled','disabled');
+					$("#dept_name").val(json.deptName);					
+					$("#dept_organId").val(json.organId);						
+					$("#dept_notes").val(json.notes);
+					$("#dept_id").val(json.deptId);
+					$("#dept_status").val(json.status);
 			   }
-			});
+		   });
 			$('#dept_code').removeAttr('class')
 			$('#w').window({
 				title: '修改部门',
@@ -275,6 +253,43 @@
 			});
 			$("#deptForm").attr("action","pages/system/updateDeptAction.action");
 			$('#btn_submit').linkbutton('enable');		
+		}
+		
+		//注销部门 
+		function deleteDept(deptId){
+			$.ajax({
+				   type: "POST",
+				   url: "pages/system/getSingleByIdDeptAction.action",
+				   data: "deptId="+deptId,
+				   dataType:"json",
+				   success: function(json){					
+					$("#dept_code").val(json.deptCode);
+					$("#dept_code").attr('disabled','disabled');					
+					$("#dept_name").val(json.deptName);
+					$("#dept_organId").val(json.organId);
+					$("#dept_notes").val(json.notes);
+					$("#dept_id").val(json.deptId);
+					$("#dept_status").val(json.status);
+				   }
+			});
+				$('#dept_code').removeAttr('class');
+				$('#w').window({
+					title: '注销部门', 
+					top:100,
+					width: 500,
+					collapsible:false,
+					minimizable:false,
+					maximizable:false,
+					modal: true,
+					shadow: false,
+					closed: false,
+					height: 220
+				});
+				var deptId = $("#dept_id").val();
+				alert(deptId);
+				$("#deptForm").attr ("action","pages/system/deleteDeptAction.action");
+				$('#btn_submit').linkbutton('enable');		
+				
 		}
 					
 	</script>
