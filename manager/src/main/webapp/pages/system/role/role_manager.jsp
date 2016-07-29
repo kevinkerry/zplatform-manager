@@ -140,7 +140,7 @@
 					{field:'DEPT_ID',title:'所属部门',width:150,align:'center'},
 					{field:'CREAT_DATE',title:'创建时间',width:150,align:'center'},
 					{field:'CREATOR',title:'创建者',width:120,align:'center'},
-					{field:'NOTES',title:'状态',width:120,align:'center'},
+					{field:'NOTES',title:'备注',width:120,align:'center'}, 
 					{field:'STATUS',title:'状态',width:120,align:'center',
 						formatter:function(value,rec){
 							if(value=="00"){
