@@ -8,6 +8,11 @@
 
 </style>
   <body>
+    <style type="text/css">
+  	table tr td{height:25px}
+  	table tr td input{height:15px}
+  	table tr td select{height:20px}
+    </style>
   	<div style="padding-top:5px;margin-left:5px;margin-right:5px" id="continer">
 	    <div id="p" class="easyui-panel" title="查询条件" style="height:110px;padding-top:10px;background:#fafafa;" iconCls="icon-save" collapsible="true">
 			<form action="" id="searchForm">
@@ -102,7 +107,13 @@
 							<td align="left">
 							</td>
 						</tr>
-						
+						<tr style="height: 25px">
+						    <td>备注</td>
+							<td colspan="3">
+							    <textarea  rows="3" cols="81" id="user_notes" maxlength="50" name="user.notes"></textarea>
+						    </td>
+	
+						</tr>
 					</table>
 				</form>
 			</div>
@@ -180,6 +191,7 @@
 					{field:'DEPT_NAME',title:'所属部门',width:100,align:'center'},
 					{field:'CREATOR',title:'创建者',width:100,align:'center'},
 					{field:'CREATE_DATE',title:'创建时间',width:130,align:'center'},
+					{field:'NOTES',title:'备注',width:100,align:'center'},					
 					{field:'STATUS',title:'状态',width:120,align:'center',
 						formatter:function(value,rec){
 							if(value=="00"){
