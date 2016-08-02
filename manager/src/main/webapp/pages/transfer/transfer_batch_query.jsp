@@ -314,12 +314,14 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 					return '等待转账';
 				} else if (value == '02') {
 					return '部分转账成功';
-				} else if (value == '00') {
-					return '全部转账成功';
 				} else if (value == '03') {
+					return '全部转账成功';
+				} else if (value == '04') {
 					return '全部失败';
+				} else if(value == '05'){
+					return '正在转账';
 				} else {
-					return '未知';
+					return '未知'; 
 				}
 			}
 		}/*,
@@ -442,10 +444,12 @@ function queryBankTranBatch(tranBatchId, seqNo, openStatus) {
 					return '等待转账';
 				} else if (value == '02') {
 					return '部分转账成功';
-				} else if (value == '00') {
-					return '全部转账成功';
 				} else if (value == '03') {
+					return '全部转账成功';
+				} else if (value == '04') {
 					return '全部失败';
+				} else if(value == '05'){
+					return '正在转账'; 
 				} else {
 					return '未知';
 				}
