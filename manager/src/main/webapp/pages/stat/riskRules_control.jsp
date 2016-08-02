@@ -146,14 +146,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	function search() {
 		var data = {
-			'riskAnalyseLogQueryBean.roletype':$('#roletype').val(),
+			'riskAnalyseLogQueryBean.roletype': $('#roletype').val(),
 			'riskAnalyseLogQueryBean.rolecode': $('#rulecode').val(),
 			'riskAnalyseLogQueryBean.memberid': $('#memberid').val(),
 			'riskAnalyseLogQueryBean.startdate':$('#startdate').datebox('getValue'),
-			'riskAnalyseLogQueryBean.enddate':  $('#enddate').datebox('getValue')
-		}
-			
-		var roletype = $('#roletype').val();
+			'riskAnalyseLogQueryBean.enddate': $('#enddate').datebox('getValue')
+		}			
+		var roletype = $('#roletype').val();		
 		if(roletype ==""){
 			queryAll();			
 		}else if(roletype ==1){
@@ -169,61 +168,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	//查询所有的触犯规则的记录
 	function queryAll(){
 		$('#test').datagrid({
-		  		title: '风控规则报表',
-		  		iconCls: 'icon-save',
-		  		height: 490,
-		  		singleSelect: true,
-		  		nowrap: false,
-		  		striped: true,
-		  		url: 'pages/stat/queryRiskRulesControlStatAction.action',
-		  		remoteSort: false,	  		
-		  		columns: [[
-		  		{
-		  			field: 'ROLECODE',
-		  			title: '规则编号',
-		  			align: 'center',
-		  			width: 150
-		  		},
-		  		{
-		  			field: 'ROLENAME',
-		  			title: '触犯规则类',
-		  			align: 'center',
-		  			width: 250
-		  		},
-		  		{
-		  			field: 'MEMBERID',
-		  			title: '商户号\会员号\银行卡号',
-		  			align: 'center',
-		  			width: 150
-		  		},
-		  		{
-		  			field: 'DATES',
-		  			title: '日期',
-		  			align: 'center',
-		  			width: 150
-		  		},
-		  		{
-		  			field: 'PARAMETER',
-		  			title: '数值',
-		  			align: 'center',
-		  			width: 150
-		  		},
-		  		{
-		  			field: 'INTIME',
-		  			title: '写入时间',
-		  			align: 'center',
-		  			width: 150
-		  		},
-		  		{
-		  			field: 'NOTES',
-		  			title: '备注',
-		  			align: 'center',
-		  			width: 150
-		  		}
-		  		]],
-			pagination: true,
-			rownumbers: true,
-		  	});
+	  		title: '风控规则报表',
+	  		iconCls: 'icon-save',
+	  		height: 490,
+	  		singleSelect: true,
+	  		nowrap: false,
+	  		striped: true,
+	  		url: 'pages/stat/queryRiskRulesControlStatAction.action',
+	  		remoteSort: false,	  		
+	  		columns: [[
+	  		{
+	  			field: 'ROLECODE',
+	  			title: '规则编号',
+	  			align: 'center',
+	  			width: 150
+	  		},
+	  		{
+	  			field: 'ROLENAME',
+	  			title: '触犯规则类',
+	  			align: 'center',
+	  			width: 250
+	  		},
+	  		{
+	  			field: 'MEMBERID',
+	  			title: '商户号\会员号\银行卡号',
+	  			align: 'center',
+	  			width: 150
+	  		},
+	  		{
+	  			field: 'DATES',
+	  			title: '日期',
+	  			align: 'center',
+	  			width: 150
+	  		},
+	  		{
+	  			field: 'PARAMETER',
+	  			title: '数值',
+	  			align: 'center',
+	  			width: 150
+	  		},
+	  		{
+	  			field: 'INTIME',
+	  			title: '写入时间',
+	  			align: 'center',
+	  			width: 150
+	  		},
+	  		{
+	  			field: 'NOTES',
+	  			title: '备注',
+	  			align: 'center',
+	  			width: 150
+	  		}
+	  		]],
+		pagination: true,
+		rownumbers: true,
+		toolbar: [{
+	
+		}]
+	  	});
 	}
 	
 	//商户 
