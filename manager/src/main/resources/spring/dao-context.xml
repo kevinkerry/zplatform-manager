@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="UserDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.UserDAOImpl">
+	</bean>
+	<bean id="FunctionDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.FunctionDAOImpl">
+	</bean>
+	<bean id="ProvinceDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.ProvinceDAOImpl">
+	</bean>
+	<bean id="CityDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.CityDAOImpl">
+	</bean>
+	<bean id="OrganDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.OrganDAOImpl">
+	</bean>
+	<bean id="DeptDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.DeptDAOImpl">
+	</bean>
+
+	<bean id="RoleDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.RoleDAOImpl">
+	</bean>
+	<bean id="RoleFunctDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.RoleFunctDAOImpl">
+	</bean>
+	<bean id="UserFunctDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.UserFunctDAOImpl">
+	</bean>
+
+	<bean id="ParaDicDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.ParaDicDAOImpl">
+	</bean>
+
+	<bean id="OperLogDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.OperLogDAOImpl">
+	</bean>
+
+	<bean id="NoticeDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.NoticeDAOImpl">
+	</bean>
+	<bean id="taskDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.TaskDAOImpl">
+	</bean>
+    <bean id="userRoleDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.UserRoleDAOImpl">
+	</bean>
+	<bean id="merchDetaDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.MerchDetaDAOImpl">
+	</bean>
+	<bean id="FTPDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.FTPDAOImpl">
+	</bean>
+	<bean id="uploadlogDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.UploadLogDAOImpl">
+	</bean>
+	<bean id="bnktxnDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.BnkTxnDAOImpl">
+	</bean>
+	<bean id="productDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.ProductDAOImpl">
+	</bean>
+	<bean id="feeDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.FeeDAOImpl">
+	</bean>
+	<bean id="riskDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.RiskDAOImpl">
+	</bean>
+	<bean id="limitperdayDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.LimitPerdayDAOImpl">
+	</bean>
+	<bean id="insteadPayDetailDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.trade.dao.impl.InsteadPayDetailDAOImpl">
+	</bean>
+	<bean id="insteadPayBatchDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.trade.dao.impl.InsteadPayBatchDAOImpl">
+	</bean>
+	<bean id="transferBatchDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.trade.dao.impl.TransferBatchDAOImpl">
+	</bean>
+	<bean id="transferDataDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.trade.dao.impl.TransferDataDAOImpl">
+	</bean>
+	<bean id="mccListDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.MccListDAOImpl">
+	</bean>
+	<bean id="enterpriseDetaDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.EnterpriseDetaDAOImpl">
+	</bean>
+	<bean id="memberQueueDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.MemberQueueDAOImpl">
+	</bean>
+	<bean id="txnsLogsDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.TxnsLogsDAOImpl">
+	</bean>
+	<bean id="cardHolderBlackDAO" parent="hibernateDAOImpl"
+	    class="com.zlebank.zplatform.manager.dao.CardHolderBlackDAOImpl">
+	</bean>
+	<bean id="riskAnalyseLogDAO" parent="hibernateDAOImpl"
+	    class="com.zlebank.zplatform.manager.dao.RiskAnalyseLogDAOImpl">
+	</bean>
+	<bean id="channelDAO" parent="hibernateDAOImpl" 
+	class="com.zlebank.zplatform.manager.dao.ChannelDaoImpl">
+	</bean>
+	<bean id="DAOContainer"
+		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
+		<property name="userDAO">
+			<ref bean="UserDAO" />
+		</property>
+		<property name="functionDAO">
+			<ref bean="FunctionDAO" />
+		</property>
+		<property name="provinceDAO">
+			<ref bean="ProvinceDAO" />
+		</property>
+		<property name="cityDAO">
+			<ref bean="CityDAO" />
+		</property>
+		<property name="organDAO">
+			<ref bean="OrganDAO" />
+		</property>
+		<property name="roleDAO">
+			<ref bean="RoleDAO" />
+		</property>
+		<property name="deptDAO">
+			<ref bean="DeptDAO" />
+		</property>
+
+		<property name="roleFunctDAO">
+			<ref bean="RoleFunctDAO" />
+		</property>
+		<property name="userFunctDAO">
+			<ref bean="UserFunctDAO" />
+		</property>
+
+		<property name="paradicDAO">
+			<ref bean="ParaDicDAO" />
+		</property>
+
+		<property name="operLogDAO">
+			<ref bean="OperLogDAO" />
+		</property>
+
+		<property name="noticeDAO">
+			<ref bean="NoticeDAO" />
+		</property>
+
+		<property name="taskDAO">
+			<ref bean="taskDAO" />
+		</property>
+		<property name="userRoleDAO">
+			<ref bean="userRoleDAO" />
+		</property>
+		<property name="merchDetaDAO">
+		    <ref bean="merchDetaDAO" />
+		</property>
+		<property name="FTPDAO">
+			<ref bean="FTPDAO" />
+		</property>
+		<property name="uploadlogDAO">
+		    <ref bean="uploadlogDAO" />
+		</property>
+		<property name="bnktxnDAO">
+			<ref bean="bnktxnDAO" />
+		</property>
+		<property name="productDAO">
+			<ref bean="productDAO" />
+		</property>
+		<property name="feeDAO">
+			<ref bean="feeDAO" />
+		</property>
+		<property name="riskDAO">
+			<ref bean="riskDAO" />
+		</property>
+		<property name="limitperdayDAO">
+			<ref bean="limitperdayDAO" />
+		</property>
+		<property name="mccListDAO">
+			<ref bean="mccListDAO" />
+		</property>
+		<property name="enterpriseDetaDAO">
+			<ref bean="enterpriseDetaDAO" />
+		</property>
+		<property name="memberQueueDAO">
+			<ref bean="memberQueueDAO" />
+		</property>
+		<property name="txnsLogsDAO">
+			<ref bean="txnsLogsDAO" />
+		</property>
+		<property name="cardHolderBlackDAO">
+        	<ref bean="cardHolderBlackDAO"/>
+        </property>
+        <property name="riskAnalyseLogDAO">
+            <ref bean="riskAnalyseLogDAO"/>
+        </property>
+        <property name="channelDAO">
+             <ref bean="channelDAO"/>
+        </property>
+		
+	</bean>
+</beans>

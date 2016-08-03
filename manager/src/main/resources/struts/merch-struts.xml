@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+ 	<package name="merch" namespace="/pages/merchant" extends="global">
+ 		<default-action-ref name="index" />
+		<action name="*MerchantAction" class="com.zlebank.zplatform.manager.action.merch.MerchDetaAction" method="{1}">
+			<result name="merch_add">/pages/merch/add/step_first_record.jsp</result>
+			<result name="success">/pages/merch/merch_query.jsp</result>
+			<result name="merch_change">/pages/merch/merch_change.jsp</result>
+			<result name="merch_detail">/pages/merch/merch_detail.jsp</result>
+			<result name="merch_Audit">/pages/merch/merch_detail.jsp</result>
+			<result name="merch_query_all">/pages/merch/merch_query_all.jsp</result>
+			<result name="merch_mk_export">/pages/merch/merch_mk_export.jsp</result>
+			<result name="input">/login.jsp</result>
+			<result name="code" type="stream">   
+               <param name="contentType">image/jpeg</param>   
+               <param name="inputName">inputStream</param>   
+        	</result>   
+        	<result name="toUpload">/pages/merch/add/step_sec_upload.jsp</result>
+        	<result name="merch_modify">/pages/merch/merch_modify.jsp</result>
+        	<result name="merch_modify_query">/pages/merch/merch_modify_query.jsp</result>
+		</action>
+		<action name="*UploadAction" class="com.zlebank.zplatform.manager.action.merch.UploadAction" method="{1}">
+			<result name="upload_file">/pages/uploadfile/file_upload.jsp</result>
+            <result name="StartCheck_file">/pages/uploadfile/file_start.jsp</result>
+            <result name="member_manager">/pages/member/member_manager.jsp</result>
+            <result name="member_acc">/pages/member/member_acc_manager.jsp</result>
+            <result name="merch">/pages/merch/member_manager.jsp</result>
+            <result name="setted">/pages/uploadfile/setted_start.jsp</result>	            
+            <result name="parsing">/pages/uploadfile/minsheng_pay.jsp</result>
+		</action>
+		
+		<action name="*DownloadAction" class="com.zlebank.zplatform.manager.action.merch.DownloadAction" method="{1}">
+		</action>
+				
+		
+		<action name="*MccAction" class="com.zlebank.zplatform.manager.action.merch.MccAction" method="{1}">
+		</action>
+    </package>
+
+</struts>
