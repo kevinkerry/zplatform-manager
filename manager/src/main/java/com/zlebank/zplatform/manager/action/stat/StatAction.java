@@ -122,7 +122,7 @@ public class StatAction extends BaseAction {
             riskAnalyseLogQueryBean = new RiskAnalyseLogQueryBean();
         }
         String roletype = request.getParameter("roletype");
-        riskAnalyseLogQueryBean.setUser(null);
+        
         Map<String, Object> resultMap = serviceContainer.getRiskAnalyseLogService().
                 queryRiskRulesControl(this.getPage(),this.getRows(),riskAnalyseLogQueryBean,roletype);
         json_encode(resultMap);

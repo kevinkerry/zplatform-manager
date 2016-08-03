@@ -90,6 +90,11 @@ public class MerchDetaAction extends BaseAction {
         flag = "10";
         return "merch_query_all";
     }
+    
+    //商户信息变更菜单
+    public String showMerchModify(){
+        return "merch_modify_query";
+    }
 
     /**
      * 保存商户信息

@@ -75,14 +75,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="left" style="padding-left:5px" width="25%">
 							<input name="memberId" id="memberId" maxlength="15"/>
 						</td>
+						
 						<td align="right" width="15%">会员名称</td>
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="memberName" id="memberName"/>
-						
-						<td align="right">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
 						</td>
+						
+						 <td align="right">
+							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
+						</td>	
 					</tr>
+					
+					
 					
 				</table>
 			</form>
@@ -511,7 +515,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		function search(){
 			var data={'memberId':$('#memberId').val(),
-					  'memberName':$("#memberName").val(),			  
+					  'memberName':$("#memberName").val(),	
+			          
 					};
 			$('#test').datagrid('load',data);
 		}

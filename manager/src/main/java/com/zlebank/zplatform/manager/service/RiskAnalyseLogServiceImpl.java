@@ -41,32 +41,48 @@ public class RiskAnalyseLogServiceImpl extends BaseServiceImpl<RiskAnalyseLogMod
             int rows,
             RiskAnalyseLogQueryBean riskAnalyseLogQueryBean,String roletype) {
         Map<String , Object> map = new HashMap<String,Object>();
-      if(roletype == null ||roletype .equals("1")||roletype.equals("3")){
+      if(roletype == null ){
           String[] columns = new String[] {"v_rolecode", "v_value", "v_sdate","v_edate","v_roletype","v_user","i_no","i_perno" };
           Object[] paramaters = new Object[8];
-          paramaters[0] = riskAnalyseLogQueryBean.getRolecode()==null? null: riskAnalyseLogQueryBean.getRolecode();
-          paramaters[1] = riskAnalyseLogQueryBean.getMemberid()==null? null: riskAnalyseLogQueryBean.getMemberid();
-          paramaters[2] = riskAnalyseLogQueryBean.getStartdate()==null? null:riskAnalyseLogQueryBean.getStartdate();
-          paramaters[3] = riskAnalyseLogQueryBean.getEnddate()==null? null:riskAnalyseLogQueryBean.getEnddate();
-          paramaters[4] =riskAnalyseLogQueryBean.getRoletype()==null?null:riskAnalyseLogQueryBean.getRoletype();
-          paramaters[5] = riskAnalyseLogQueryBean.getUser()==null? null:riskAnalyseLogQueryBean.getUser();
+          paramaters[0] = null;
+          paramaters[1] = null;
+          paramaters[2] = null;
+          paramaters[3] = null;
+          paramaters[4] = null;
+          paramaters[5] = null;
           paramaters[6] = page;                      
           paramaters[7] = rows;              
           map =  getDao().executePageOracleProcedure("{CALL PCK_SEL_T_RISK_ANALYSE_LOG.sel_t_risk_analyse_log(?,?,?,?,?,?,?,?,?,?)}",columns,
                   paramaters, "cursor0","v_total");
-      } else{
-          String[] columns = new String[] {"v_rolecode", "v_value", "v_sdate","v_edate","v_roletype","v_user","i_no","i_perno" };
-          Object[] paramaters = new Object[8];
-          paramaters[0] = riskAnalyseLogQueryBean.getRolecode()==null? null: riskAnalyseLogQueryBean.getRolecode();
-          paramaters[1] = riskAnalyseLogQueryBean.getMemberid()==null? null: riskAnalyseLogQueryBean.getMemberid();
-          paramaters[2] = riskAnalyseLogQueryBean.getStartdate()==null? null:riskAnalyseLogQueryBean.getStartdate();
-          paramaters[3] = riskAnalyseLogQueryBean.getEnddate()==null? null:riskAnalyseLogQueryBean.getEnddate();
-          paramaters[4] =riskAnalyseLogQueryBean.getRoletype()==null?null:riskAnalyseLogQueryBean.getRoletype();
-          paramaters[5] = riskAnalyseLogQueryBean.getUser()==null? null:riskAnalyseLogQueryBean.getUser();
-          paramaters[6] = page;                      
-          paramaters[7] = rows;              
-          map =  getDao().executePageOracleProcedure("{CALL PCK_SEL_T_RISK_ANALYSE_LOG.sel_t_risk_analyse_log2(?,?,?,?,?,?,?,?,?,?)}",columns,
-                  paramaters, "cursor0","v_total");
+      } else if (roletype != null){
+          if(roletype .equals("1")||roletype.equals("3")){
+              String[] columns = new String[] {"v_rolecode", "v_value", "v_sdate","v_edate","v_roletype","v_user","i_no","i_perno" };
+              Object[] paramaters = new Object[8];
+              paramaters[0] = riskAnalyseLogQueryBean.getRolecode()==null? null: riskAnalyseLogQueryBean.getRolecode();
+              paramaters[1] = riskAnalyseLogQueryBean.getMemberid()==null? null: riskAnalyseLogQueryBean.getMemberid();
+              paramaters[2] = riskAnalyseLogQueryBean.getStartdate()==null? null:riskAnalyseLogQueryBean.getStartdate();
+              paramaters[3] = riskAnalyseLogQueryBean.getEnddate()==null? null:riskAnalyseLogQueryBean.getEnddate();
+              paramaters[4] =riskAnalyseLogQueryBean.getRoletype()==null?null:riskAnalyseLogQueryBean.getRoletype();
+              paramaters[5] = riskAnalyseLogQueryBean.getUser()==null? null:riskAnalyseLogQueryBean.getUser();
+              paramaters[6] = page;                      
+              paramaters[7] = rows;              
+              map =  getDao().executePageOracleProcedure("{CALL PCK_SEL_T_RISK_ANALYSE_LOG.sel_t_risk_analyse_log(?,?,?,?,?,?,?,?,?,?)}",columns,
+                      paramaters, "cursor0","v_total");
+          }else if(roletype .equals("2")){
+              String[] columns = new String[] {"v_rolecode", "v_value", "v_sdate","v_edate","v_roletype","v_user","i_no","i_perno" };
+              Object[] paramaters = new Object[8];
+              paramaters[0] = riskAnalyseLogQueryBean.getRolecode()==null? null: riskAnalyseLogQueryBean.getRolecode();
+              paramaters[1] = riskAnalyseLogQueryBean.getMemberid()==null? null: riskAnalyseLogQueryBean.getMemberid();
+              paramaters[2] = riskAnalyseLogQueryBean.getStartdate()==null? null:riskAnalyseLogQueryBean.getStartdate();
+              paramaters[3] = riskAnalyseLogQueryBean.getEnddate()==null? null:riskAnalyseLogQueryBean.getEnddate();
+              paramaters[4] =riskAnalyseLogQueryBean.getRoletype()==null?null:riskAnalyseLogQueryBean.getRoletype();
+              paramaters[5] = riskAnalyseLogQueryBean.getUser()==null? null:riskAnalyseLogQueryBean.getUser();
+              paramaters[6] = page;                      
+              paramaters[7] = rows;              
+              map =  getDao().executePageOracleProcedure("{CALL PCK_SEL_T_RISK_ANALYSE_LOG.sel_t_risk_analyse_log2(?,?,?,?,?,?,?,?,?,?)}",columns,
+                      paramaters, "cursor0","v_total");
+          }
+          
       } 
       return map;
     }
