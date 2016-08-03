@@ -145,8 +145,6 @@ public class TxnsLogAction extends BaseAction {
         String messg=null;    
         Map<String, Object> map = new HashMap<String, Object>();
         List<?> li=txns.getTxnsLogById(tlb.getTxnseqno());
-        String aString= "123";
-        String bString ="234";
            if(li==null||li.isEmpty()){
                 messg="交易数据不存在";
                 map.put("messg", messg);

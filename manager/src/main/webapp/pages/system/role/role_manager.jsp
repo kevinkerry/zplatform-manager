@@ -276,24 +276,48 @@
 		}
 		
 		function deleteRole(roleId){
-			$.messager.confirm('提示','您是否想要注销此角色?',function(r){   
-			   if (r){  
-				$.ajax({
+			$.ajax({
 				   type: "POST",
-				   url: "pages/system/deleteRoleAction.action",
+				   url: "pages/system/getSingleByIdRoleAction.action",
 				   data: "roleId="+roleId,
-				   dataType:"text",
-				   success:function(data){   
-					 	var json = eval('(' + data + ')')
-				    	$.each(json, function(key,value){
-				    		$.messager.alert('提示',value.INFO);   
-				    		search();
-				    		closeAdd();
-						}) 
-				 	}
+				   dataType:"json",
+				   success: function(json){
+				    $("#role_roleId").val(json.roleId);
+					$("#role_name").val(json.roleName);
+					$("#role_organId").val(json.organId);
+					$("#role_notes").val(json.notes);
+					var html = '<option value="">--请选择所属部门--</option>';
+					$.ajax({
+						type: "GET",
+					  	url: "pages/system/showDeptRoleAction.action",
+					  	data: "rand="+new Date().getTime()+"&organId="+json.organId,
+					 	dataType: "json",
+					 	async: false,
+					 	success:function(json){
+							$.each(json, function(key,value){
+								html += '<option value="'+value.deptId+'">'+value.deptName+'</option>';
+							})
+							$("#role_deptId").html(html);
+					 	}
+					});
+					$("#role_deptId").val(json.deptId);
+					
+				   }
 				});
-			  }   
-			});  
+				$('#w').window({
+					title: '注销角色',
+					top:100,
+					width: 500,
+					collapsible:false,
+					minimizable:false,
+					maximizable:false,
+					modal: true,
+					shadow: false,
+					closed: false,
+					height: 210
+				});
+				$("#roleForm").attr("action","pages/system/deleteRoleAction.action");
+				$('#btn_submit').linkbutton('enable');	
 		}
 		function showDept(flag){
 			var organId;

@@ -155,6 +155,8 @@ input {
 <script type="text/javascript">
 	function queryChannel() {
 
+		// $('#billDate').datebox('getValue');
+		// $('#startDate').datebox('getValue');
 		$.ajax({
 			type : "POST",
 			url : "pages/merchant/queryChannelUploadAction.action",
@@ -265,7 +267,7 @@ input {
 		$.ajax({
 			type : "POST",
 			url : "pages/merchant/dowanWeChatBillUploadAction.action",
-			data : "billDate="+$('#startDate').datebox('getValue'),
+			data : "billDate="+ $('#startDate').datebox('getValue'),
 			dataType : "json",
 			success : function(json) {
 				$.messager.alert('提示', json.info);

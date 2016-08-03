@@ -172,11 +172,26 @@ public class UserAction extends BaseAction {
 	 * 
 	 * @return
 	 */
-	public String delete() {
-		UserModel user = serviceContainer.getUserService().get(userId);
-		user.setStatus("01");
-		serviceContainer.getUserService().update(user);
-		json_encode("操作成功");
+	@SuppressWarnings("unchecked")
+    public String delete() {	    
+		try {
+		    user.setStatus("01");
+		    List<?> returnList = serviceContainer.getUserService().updateUser(
+	                user);
+            List resultList = new ArrayList();
+		    Map<String, Object> map1 = new HashMap<String, Object>();
+		    map1 = (Map<String, Object>) returnList.get(0);
+		    if(map1.get("RET").equals("succ")){
+		        Map<String, Object> map2 = new HashMap<String, Object>();
+		        map2.put("RET", "succ");
+		        map2.put("INFO", "注销成功!");
+		        resultList.add(map2);
+		    }
+            json_encode(resultList);
+        } catch (IOException e) {
+           
+            e.printStackTrace();
+        }
 		return null;
 	}
 

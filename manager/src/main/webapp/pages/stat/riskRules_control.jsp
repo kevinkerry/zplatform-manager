@@ -332,19 +332,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  			width: 150
 	  		},
 			{
-				field: 'member_name',
+				field: 'MEMBER_NAME',
 				title: '姓名',
 				align: 'center',
 				width: 100
 			},
 			{
-				field: 'idnum',
+				field: 'IDNUM',
 				title: '身份证号',
 				align: 'center',
 				width: 150
 			},
 			{
-	  			field: 'phone',
+	  			field: 'PHONE',
 	  			title: '注册手机号',
 	  			align: 'center',
 	  			width: 150

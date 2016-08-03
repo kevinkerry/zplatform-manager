@@ -20,6 +20,7 @@
         	</result>   
         	<result name="toUpload">/pages/merch/add/step_sec_upload.jsp</result>
         	<result name="merch_modify">/pages/merch/merch_modify.jsp</result>
+        	<result name="merch_modify_query">/pages/merch/merch_modify_query.jsp</result>
 		</action>
 		<action name="*UploadAction" class="com.zlebank.zplatform.manager.action.merch.UploadAction" method="{1}">
 			<result name="upload_file">/pages/uploadfile/file_upload.jsp</result>
