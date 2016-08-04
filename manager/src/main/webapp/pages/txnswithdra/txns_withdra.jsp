@@ -35,18 +35,19 @@
 						<td align="right" width="10%">会员号:</td> 
 						<td align="left" style="padding-left:5px" width="15%">
 							<input name="twq.memberid" id="memberids" maxlength="32"/>
-						</td>
-						
-						
+						</td>					
 					</tr>
-					
-						<tr>
-						<td align="right" rowspan="6">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
+										    
+					<tr>						
+						<td align="right" width="10%">提现申请日期:</td> 
+						<td align="left" style="padding-left:5px" width="15%">
+							<input name="twq.txntime" id="txntime" maxlength="32"/>
 						</td>
-						
-					</tr>
-					
+						<td align="right" rowspan="2">
+						<td align="left" style="padding-right:5px" width="15%">
+							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>						
+						</td>						
+					</tr>					
 				</table>
 			</form>
 		</div>
@@ -231,7 +232,7 @@
   	var width = $("#continer").width();
 	
 	$(function (){
-		
+		$('#txntime').datebox();
 			$('#test').datagrid({
 				title:'会员提现信息表',
 				iconCls:'icon-save',
@@ -262,6 +263,7 @@
 					{field:'bankname',title:'支行名称',width:120,align:'center'},
 					{field:'acctno',title:'银行账号',width:120,align:'center'},
 					{field:'fee',title:'提现手续费(元)',width:120,align:'center'},
+					{field:'txntime',title:'提现申请日期',width:120,align:'center'}, 
 					{field:'status',title:'状态',width:120,align:'center',
 						formatter:function(value,rec){
 						
@@ -316,9 +318,11 @@
 		function search(){
 			
 		 	var data={"twq.gatewayorderno":$('#gatewayorderno').val(),
-			"twq.withdrawtype":$('#withdrawtypes').val(),
-			"twq.memberid":$('#memberids').val()
-		} 	
+					  "twq.withdrawtype":$('#withdrawtypes').val(),
+					  "twq.memberid":$('#memberids').val(),
+					  "twq.txntime":$('#txntime').datebox("getValue")					  
+					 } 	
+		    
 			$('#test').datagrid('load',data);
 		}
 		

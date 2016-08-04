@@ -60,6 +60,7 @@ public class UploadAction extends BaseAction {
     private String filestartid;
     private String memberId;
     private String memberName;
+    private String memberPhone;
     private String acctCode;
     private String accNo;
     private ServiceContainer serviceContainer;
@@ -109,6 +110,7 @@ public class UploadAction extends BaseAction {
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("memberId", memberId);
         variables.put("memberName", memberName);
+        variables.put("memberPhone", memberPhone);
         if ("person".equals(falg)) {
             // 个人会员查询
             variables.put("membertype", BusinessActorType.INDIVIDUAL.getCode());
@@ -689,5 +691,12 @@ public class UploadAction extends BaseAction {
 	public void setBillDate(String billDate) {
 		this.billDate = billDate;
 	}
+    public String getMemberPhone() {
+        return memberPhone;
+    }
+    public void setMemberPhone(String memberPhone) {
+        this.memberPhone = memberPhone;
+    }
 
+	
 }

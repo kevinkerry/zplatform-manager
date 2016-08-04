@@ -87,7 +87,7 @@
 					{field:'ACCORDCOMMITIME',title:'交易时间',width:120,align:'center'},
 					{field:'AMOUNT',title:'交易金额(元)',width:80,align:'center'},					
 					{field:'TXNFEE',title:'手续费(元)',width:80,align:'center'},					
-					{field:'PAYORDNO',title:'原交易流水号',width:120,align:'center'},
+					{field:'PAYORDNO',title:'支付流水号',width:120,align:'center'},
 					{field:'PAYRETTSNSEQNO',title:'应答流水号',width:120,align:'center'},
 					{field:'BUSINAME',title:'交易类型',width:80,align:'center'},
 					{field:'CHNLNAME',title:'交易渠道',width:120,align:'center'},  						
@@ -132,7 +132,7 @@
 					{field:'ACCORDCOMMITIME',title:'交易时间',width:120,align:'center'},
 					{field:'AMOUNT',title:'交易金额(元)',width:80,align:'center'},
 					{field:'TXNFEE',title:'手续费(元)',width:80,align:'center'},					
-					{field:'PAYORDNO',title:'原交易流水号',width:120,align:'center'},
+					{field:'PAYORDNO',title:'支付流水号',width:120,align:'center'},
 					{field:'PAYRETTSNSEQNO',title:'应答流水号',width:120,align:'center'},
 					{field:'BUSINAME',title:'交易类型',width:80,align:'center'},
 					{field:'CHNLNAME',title:'交易渠道',width:120,align:'center'},  						
@@ -153,11 +153,13 @@
 			queryWithdrawals(busicode,data);
 		}else if(busicode == 70000001){
 			queryInsteadPay(busicode,data);
+		}else if(busicode == 40000001){
+            queryRefund(busicode,data) ;
 		}else{
 			queryAllSuccess(busicode,data);
 		}
 		}
-		
+		//提现 
 		function queryWithdrawals(busicode,data){			
 			$('#test').datagrid({
 				title:'商户交易信息列表',
@@ -200,6 +202,7 @@
 		}
 		//代付
 		function queryInsteadPay(busicode,data){
+			
 			$('#test').datagrid({
 				title:'商户交易信息列表',
 				iconCls:'icon-save',
@@ -212,7 +215,7 @@
 				remoteSort: false,					
 				columns:[
 				[
-					{field:'MEMBER_NAME',title:'商户名称',width:120,align:'center'},
+					{field:'MEMBER_NAME',title:'商户名称',width:100,align:'center'},
 					{field:'ORDER_ID',title:'商户订单编号',width:120,align:'center'},
 					{field:'TXNSEQNO',title:'交易流水号',width:120,align:'center'},
 					{field:'INSTEAD_PAY_DATA_SEQ_NO',title:'代付流水号',width:150,align:'center'},
@@ -221,9 +224,9 @@
 					{field:'TRAN_BATCH_NO',title:'划拨批次号',width:80,align:'center'},
 					{field:'BANK_TRAN_DATA_SEQ_NO',title:'转账流水号',width:80,align:'center'},
 					{field:'BANK_TRAN_BATCH_NO',title:'转账批次号',width:80,align:'center'},
-					{field:'PAYORDCOMTIME',title:'交易时间',width:120,align:'center'},
-					{field:'AMOUNT',title:'交易金额(元)',width:120,align:'center'},
-					{field:'TXNFEE',title:'手续费(元)',width:120,align:'center'},  									
+					{field:'PAYORDCOMTIME',title:'交易时间',width:100,align:'center'},
+					{field:'AMOUNT',title:'交易金额(元)',width:100,align:'center'},
+					{field:'TXNFEE',title:'手续费(元)',width:100,align:'center'},  									
 					{field:'CHNLNAME',title:'交易渠道',width:100,align:'center'},				
 				]],
 				pagination:true,
@@ -239,15 +242,55 @@
 		
 			});
 		}
-				
+		//退款
+	    function queryRefund(busicode,data){
+	    	var flag =4;
+	    	$('#test').datagrid({
+				title:'商户交易信息列表',
+				iconCls:'icon-save',
+				height:500,
+				singleSelect:true,
+				nowrap: false,
+				striped: true,
+				queryParams:data,
+				url:'pages/txnslog/queryAllSuccessTxnsLogAction.action',
+				remoteSort: false,
+				idField:'ORGAN_ID',
+				columns:[
+				[
+					{field:'MEMBER_NAME',title:'商户名称',width:120,align:'center'},
+					{field:'ACCSECMERNO',title:'商户编号',width:120,align:'center'},
+					{field:'PAN',title:'银行卡号',width:120,align:'center'},
+					{field:'ACCORDNO',title:'商户订单编号',width:150,align:'center'},
+					{field:'TXNSEQNO',title:'交易流水号',width:120,align:'center'},
+					{field:'ACCORDCOMMITIME',title:'交易时间',width:120,align:'center'},
+					{field:'AMOUNT',title:'交易金额(元)',width:80,align:'center'},
+					{field:'TXNFEE',title:'手续费(元)',width:80,align:'center'},
+					{field:'BUSINAME',title:'交易类型',width:80,align:'center'},
+					{field:'TXNSEQNO_OG',title:'原交易流水号',width:120,align:'center'},
+					{field:'PAYRETTSNSEQNO',title:'应答流水号',width:120,align:'center'},
+					{field:'CHNLNAME',title:'交易渠道',width:120,align:'center'},  						
+				]],
+				pagination:true,
+				rownumbers:true,
+  		  		toolbar: [{
+  		  			id: 'btnadd',
+  		  			text: '导出',
+  		  			iconCls: 'icon-add',
+  		  			handler: function() {
+  		  				exportAllCrr(busicode,flag);
+  		  			}
+  		  		}]
+		
+			});
+	    }	
+		//快捷消费和充值
 		function queryAllSuccess(busicode,data){
 			var flag ="";
 			if(busicode == 10000001){
 				flag =1;					
 			}else if(busicode == 20000001){
 				flag =2;	
-			}else if(busicode == 40000001){
-				flag =4;
 			}
 			$('#test').datagrid({
 				title:'商户交易信息列表',
@@ -271,8 +314,8 @@
 					{field:'AMOUNT',title:'交易金额(元)',width:80,align:'center'},
 					{field:'TXNFEE',title:'手续费(元)',width:80,align:'center'},
 					{field:'BUSINAME',title:'交易类型',width:80,align:'center'},
-					{field:'PAYORDNO',title:'支付订单号',width:120,align:'center'},
-					{field:'PAYRETTSNSEQNO',title:'应答流水号',width:120,align:'center'},
+					{field:'PAYORDNO',title:'支付流水号',width:120,align:'center'},
+					{field:'PAYRETTSNSEQNO',title:'支付应答流水号',width:120,align:'center'},
 					{field:'CHNLNAME',title:'交易渠道',width:120,align:'center'},  						
 				]],
 				pagination:true,

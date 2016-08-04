@@ -31,6 +31,15 @@ public class TxnsWithdrawQuery implements Bean{
     private String withdrawtype;
     /**提现状态**/
     private String status;
+    /**提现申请日期**/
+    private String txntime;
+    
+    public String getTxntime() {
+        return txntime;
+    }
+    public void setTxntime(String txntime) {
+        this.txntime = txntime;
+    }
     private String gatewayorderno;
     
     public String getStatus() {

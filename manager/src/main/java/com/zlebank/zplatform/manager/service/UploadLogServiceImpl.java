@@ -63,7 +63,7 @@ public class UploadLogServiceImpl extends BaseServiceImpl<UploadLogModel, Long> 
 		Object[] paramaters = new Object[8];
 		paramaters[0] = variables.containsKey("memberId") ? variables.get("memberId"): null;
 		paramaters[1] = variables.containsKey("memberName") ? variables.get("memberName") : null;
-		paramaters[2] = null;
+		paramaters[2] = variables.containsKey("memberPhone") ? variables.get("memberPhone") : null;
 		paramaters[3] = null;
 		paramaters[4] = null;
 		paramaters[5] =  variables.containsKey("membertype") ? variables.get("membertype") : null;
@@ -85,8 +85,8 @@ public class UploadLogServiceImpl extends BaseServiceImpl<UploadLogModel, Long> 
 		paramaters[3] = variables.containsKey("busiacct_name") ? variables.get("busiacct_name") : null;
 		paramaters[4] = page;
 		paramaters[5] = rows;
-
-
+		
+		
 		return getDao().executePageOracleProcedure("{CALL PCK_SEL_ACCT.sel_acct(?,?,?,?,?,?,?,?)}",columns,
 				paramaters,"cursor0","v_total");
 	}
