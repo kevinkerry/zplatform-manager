@@ -71,7 +71,7 @@ public class ITxnsWithdrawDAOImpl
                 for(int i=0;i<txntimeString.length;i++){
                     txntime  = txntime +txntimeString[i];
                 }            
-                crite.add(Restrictions.like("txntime", txntime));
+                crite.add(Restrictions.like("txntime", '%'+txntime+'%'));
             }
         }
         crite.addOrder(Order.desc("intime"));
