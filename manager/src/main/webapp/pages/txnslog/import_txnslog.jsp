@@ -92,13 +92,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				[
   					{field:'MEMBER_NAME',title:'商户名称',width:120,align:'center'},
   					{field:'ACCSECMERNO',title:'商户编号',width:120,align:'center'},
-  					{field:'ACCMEMBERID',title:'会员编号',width:120,align:'center'},
+  					
   					{field:'PAN',title:'银行卡号',width:130,align:'center'}, 				
   					{field:'ACCORDNO',title:'商户订单号',width:130,align:'center'},
   					{field:'TXNSEQNO',title:'交易流水号',width:120,align:'center'},
   					{field:'ACCORDCOMMITIME',title:'交易时间',width:120,align:'center'},
   					{field:'AMOUNT',title:'交易金额(元)',width:120,align:'center'},
-  					{field:'FEEVER',title:'扣率版本号',width:120,align:'center'},
+  					
   					{field:'TXNFEE',title:'手续费(元)',width:120,align:'center'},
   					{field:'TXNSEQNO_OG',title:'原交易流水号',width:120,align:'center'},
   					{field:'PAYRETTSNSEQNO',title:'应答流水号',width:120,align:'center'},

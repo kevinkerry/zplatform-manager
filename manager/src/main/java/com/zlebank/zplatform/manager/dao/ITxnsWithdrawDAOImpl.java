@@ -61,8 +61,17 @@ public class ITxnsWithdrawDAOImpl
             }
             if (StringUtil.isNotEmpty(e.getStatus())) {
                 crite.add(Restrictions.eq("status", e.getStatus()));
-            }if (StringUtil.isNotEmpty(e.getWithdraworderno())) {
+            }
+            if (StringUtil.isNotEmpty(e.getWithdraworderno())) {
                 crite.add(Restrictions.eq("withdraworderno", e.getWithdraworderno()));
+            }
+            if(StringUtil.isNotEmpty(e.getTxntime())){
+                String[] txntimeString = e.getTxntime().split("-");
+                String txntime = "";
+                for(int i=0;i<txntimeString.length;i++){
+                    txntime  = txntime +txntimeString[i];
+                }            
+                crite.add(Restrictions.like("txntime", txntime));
             }
         }
         crite.addOrder(Order.desc("intime"));

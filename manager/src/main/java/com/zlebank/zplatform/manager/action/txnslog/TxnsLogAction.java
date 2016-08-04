@@ -230,29 +230,27 @@ public class TxnsLogAction extends BaseAction {
         
         HttpServletResponse response = ServletActionContext.getResponse();   
         response.setContentType("application/vnd.ms-excel;charset=utf-8");      
-        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("交易流水.xls", "UTF-8")); 
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("个人交易流水.xls", "UTF-8")); 
         // 打开文件
         WritableWorkbook workbook = null;
         try {
             workbook = Workbook.createWorkbook(response.getOutputStream());
 
             // 生成名为"交易流水"的工作表，参数0表示这是第一页
-            WritableSheet sheet = workbook.createSheet("交易流水",0);
+            WritableSheet sheet = workbook.createSheet("个人交易流水",0);
             // 指定单元格位置是第一列第一行(0, 0)以及单元格内容为商户名称，依次做此操作
             Label label1 = new Label(0, 0,"商户名称");              
-            Label label2 = new Label(1,0,"商户编号");
-            Label label3 = new Label(2,0,"会员编号");
-            Label label4 = new Label(3,0,"银行卡号");
-            Label label5 = new Label(4,0,"商户订单编号");
-            Label label6 = new Label(5,0,"交易流水");       
-            Label label7 = new Label(6,0,"交易时间");
-            Label label8 = new Label(7,0,"交易金额");
-            Label label9 = new Label(8,0,"扣率版本号");
-            Label label10 = new Label(9,0,"手续费");
-            Label label11 = new Label(10,0,"原交易流水号");
-            Label label12 = new Label(11,0,"应答流水号");
-            Label label13 = new Label(12,0,"交易类型");
-            Label label14 = new Label(13,0,"交易渠道");
+            Label label2 = new Label(1,0,"商户编号");        
+            Label label3 = new Label(2,0,"银行卡号");
+            Label label4 = new Label(3,0,"商户订单编号");
+            Label label5 = new Label(4,0,"交易流水号");       
+            Label label6 = new Label(5,0,"交易时间");
+            Label label7 = new Label(6,0,"交易金额");
+            Label label8 = new Label(7,0,"手续费");
+            Label label9 = new Label(8,0,"原交易流水号");
+            Label label10 = new Label(9,0,"应答流水号");
+            Label label11 = new Label(10,0,"交易类型");
+            Label label12 = new Label(11,0,"交易渠道");
             sheet.addCell(label1);
             sheet.addCell(label2);
             sheet.addCell(label3);
@@ -265,25 +263,21 @@ public class TxnsLogAction extends BaseAction {
             sheet.addCell(label10);
             sheet.addCell(label11);
             sheet.addCell(label12);
-            sheet.addCell(label13);
-            sheet.addCell(label14);
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> rowslist = (List<Map<String, Object>>) map.get("rows");
             for(int i = 1;i <= rowslist.size();i++){                
                     Label labelOne = new Label(0,i,(String) rowslist.get(i-1).get("MEMBER_NAME"));
-                    Label labelTwo = new Label(1,i,(String) rowslist.get(i-1).get("ACCSECMERNO"));
-                    Label labelThree = new Label(2,i,(String) rowslist.get(i-1).get("ACCMEMBERID"));
-                    Label labelFour = new Label(3,i,(String) rowslist.get(i-1).get("PAN"));
-                    Label labelFive = new Label(4,i,(String) rowslist.get(i-1).get("ACCORDNO"));
-                    Label labelSix = new Label(5,i,(String) rowslist.get(i-1).get("TXNSEQNO"));
-                    Label labelSeven = new Label(6,i,(String) rowslist.get(i-1).get("RETDATETIME"));
-                    Label labelEight = new Label(7,i, (String) rowslist.get(i-1).get("AMOUNT"));
-                    Label labelNine = new Label(8,i,(String) rowslist.get(i-1).get("FEEVER"));
-                    Label labelTen = new Label(9,i, (String) rowslist.get(i-1).get("TXNFEE"));
-                    Label labelEleven = new Label(10,i,(String) rowslist.get(i-1).get("TXNSEQNO_OG"));
-                    Label labelTwelve = new Label(11,i,(String) rowslist.get(i-1).get("PAYRETTSNSEQNO"));
-                    Label labelThirteen = new Label(12,i,(String) rowslist.get(i-1).get("BUSINAME"));
-                    Label labelFourteen = new Label(13,i,(String) rowslist.get(i-1).get("CHNLNAME"));
+                    Label labelTwo = new Label(1,i,(String) rowslist.get(i-1).get("ACCSECMERNO"));                   
+                    Label labelThree = new Label(2,i,(String) rowslist.get(i-1).get("PAN"));
+                    Label labelFour = new Label(3,i,(String) rowslist.get(i-1).get("ACCORDNO"));
+                    Label labelFive = new Label(4,i,(String) rowslist.get(i-1).get("TXNSEQNO"));
+                    Label labelSix = new Label(5,i,(String) rowslist.get(i-1).get("RETDATETIME"));
+                    Label labelSeven= new Label(6,i, (String) rowslist.get(i-1).get("AMOUNT"));
+                    Label labelEight = new Label(7,i, (String) rowslist.get(i-1).get("TXNFEE"));
+                    Label labelNine = new Label(8,i,(String) rowslist.get(i-1).get("TXNSEQNO_OG"));
+                    Label labelTen = new Label(9,i,(String) rowslist.get(i-1).get("PAYRETTSNSEQNO"));
+                    Label labelEleven = new Label(10,i,(String) rowslist.get(i-1).get("BUSINAME"));
+                    Label labelTwelve = new Label(11,i,(String) rowslist.get(i-1).get("CHNLNAME"));
                     sheet.addCell(labelOne);
                     sheet.addCell(labelTwo);
                     sheet.addCell(labelThree);
@@ -295,9 +289,7 @@ public class TxnsLogAction extends BaseAction {
                     sheet.addCell(labelNine);
                     sheet.addCell(labelTen);
                     sheet.addCell(labelEleven);
-                    sheet.addCell(labelTwelve);
-                    sheet.addCell(labelThirteen);
-                    sheet.addCell(labelFourteen);   
+                    sheet.addCell(labelTwelve);   
             }
           //写入数据并关闭文件 
             workbook.write(); 
@@ -599,12 +591,104 @@ public class TxnsLogAction extends BaseAction {
         variables.put("accordcommitimen",commitimen);//结束时间
         variables.put("user", getCurrentUser().getUserId());
         Map<String, Object> groupList = txnsLogsService.queryAllCrr(variables);
-        exportCrrExcel(groupList,flag);
+        if(flag.equals("1")||flag.equals("2")){
+            exportCrrExcel(groupList,flag);
+        }else if (flag.equals("4")){
+            exportCrrExcel1(groupList,flag);
+        }
+        
     }
 
 
     //***************导出结束********************
     
+    /**
+     * 按照退款表头导出退款excel
+     * 
+     */
+    private void exportCrrExcel1(Map<String, Object> groupList,String flag) throws IOException{
+        HttpServletResponse response = ServletActionContext.getResponse();   
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        OutputStream outputStream ;
+        outputStream = response.getOutputStream(); 
+        response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("退款表.xls", "UTF-8"));      
+        WritableWorkbook workbook = null;
+        try {
+            workbook  = Workbook.createWorkbook(outputStream);
+            WritableSheet sheet = workbook.createSheet("退款", 0);
+            Label label1 = new Label(0, 0, "商户名称");
+            Label label2 = new Label(1, 0, "商户编号");
+            Label label3 = new Label(2, 0, "银行卡号");
+            Label label4 = new Label(3, 0, "商户订单编号");
+            Label label5 = new Label(4, 0, "交易流水号");
+            Label label6 = new Label(5, 0, "交易时间");
+            Label label7 = new Label(6, 0, "交易金额(元)");
+            Label label8 = new Label(7, 0, "手续费(元)");
+            Label label9 = new Label(8, 0, "交易类型");
+            Label label10 =new Label(9, 0, "原交易流水号");           
+            Label label11 = new Label(10, 0, "应答流水号");
+            Label label12 = new Label(11, 0, "交易渠道");
+            try {
+                sheet.addCell(label1);
+                sheet.addCell(label2);
+                sheet.addCell(label3);
+                sheet.addCell(label4);
+                sheet.addCell(label5);           
+                sheet.addCell(label6);
+                sheet.addCell(label7);
+                sheet.addCell(label8);
+                sheet.addCell(label9);
+                sheet.addCell(label10);
+                sheet.addCell(label11);
+                sheet.addCell(label12);
+            } catch (RowsExceededException e) {
+                e.printStackTrace();
+            } catch (WriteException e) {
+                e.printStackTrace();
+            }   
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> listOfResult = (List<Map<String, Object>>) groupList.get("rows");
+            for (int i= 0 ;i<listOfResult.size();i++){
+                Label labelone = new Label(0, i+1, (String) listOfResult.get(i).get("MEMBER_NAME"));
+                Label labeltwo = new Label(1, i+1, (String) listOfResult.get(i).get("ACCSECMERNO"));
+                Label labelthree = new Label(2, i+1, (String) listOfResult.get(i).get("PAN"));
+                Label labelfour = new Label(3, i+1, (String) listOfResult.get(i).get("ACCORDNO"));
+                Label labelfive = new Label(4, i+1, (String) listOfResult.get(i).get("TXNSEQNO"));
+                Label labelsix = new Label(5, i+1, (String) listOfResult.get(i).get("ACCORDCOMMITIME"));
+                Label labelseven = new Label(6, i+1, (String) listOfResult.get(i).get("AMOUNT"));
+                Label labeleight = new Label(7, i+1, (String) listOfResult.get(i).get("TXNFEE"));
+                Label labelnine = new Label(8, i+1, (String) listOfResult.get(i).get("BUSINAME"));
+                Label labelten = new Label(9, i+1, (String) listOfResult.get(i).get("TXNSEQNO_OG"));
+                Label labeleleven = new Label(10, i+1, (String) listOfResult.get(i).get("PAYRETTSNSEQNO"));
+                Label labeltwlve = new Label(11, i+1, (String) listOfResult.get(i).get("CHNLNAME"));               
+                sheet.addCell(labelone);
+                sheet.addCell(labeltwo);
+                sheet.addCell(labelthree);
+                sheet.addCell(labelfour);
+                sheet.addCell(labelfive);
+                sheet.addCell(labelsix);
+                sheet.addCell(labelseven);
+                sheet.addCell(labeleight);
+                sheet.addCell(labelnine);
+                sheet.addCell(labelten);
+                sheet.addCell(labeleleven);
+                sheet.addCell(labeltwlve);                
+            }
+            //写入数据并关闭文件 
+            workbook.write(); 
+            workbook.close(); 
+        } catch (IOException e) { 
+            e.printStackTrace();
+        } catch (RowsExceededException e) {
+            e.printStackTrace();
+        } catch (WriteException e) {         
+            e.printStackTrace();
+        }finally{
+            if(outputStream!=null){
+                outputStream.close();
+            }
+        }
+    }
     /**
      * 按规定创建快捷消费、充值、退款的excel
      * @param groupList
@@ -619,24 +703,16 @@ public class TxnsLogAction extends BaseAction {
             response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("快捷消费表.xls", "UTF-8"));
         }else if (flag.equals("2")){
             response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("充值表.xls", "UTF-8"));
-        }else{
-            response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode("退款表.xls", "UTF-8"));
-        }
-        
-                
+        }        
         WritableWorkbook workbook = null;
         try {
             workbook  = Workbook.createWorkbook(outputStream);
-            WritableSheet sheet ;
+            WritableSheet sheet = null ;
             if(flag.equals("1")){
                 sheet  = workbook.createSheet("快捷消费", 0);
             }else if(flag.equals("2")){
                 sheet = workbook.createSheet("充值", 0);
-            }else {
-                sheet = workbook.createSheet("退款", 0);
-            }
-            
-           
+            } 
             Label label1 = new Label(0, 0, "商户名称");
             Label label2 = new Label(1, 0, "商户编号");
             Label label3 = new Label(2, 0, "银行卡号");
@@ -646,8 +722,8 @@ public class TxnsLogAction extends BaseAction {
             Label label7 = new Label(6, 0, "交易金额(元)");
             Label label8 = new Label(7, 0, "手续费(元)");
             Label label9 = new Label(8, 0, "交易类型");
-            Label label10 = new Label(9, 0, "支付流水号");
-            Label label11 = new Label(10, 0, "应答流水号");
+            Label label10 =new Label(9, 0, "支付流水号");           
+            Label label11 = new Label(10, 0, "支付应答流水号");
             Label label12 = new Label(11, 0, "交易渠道");
             try {
                 sheet.addCell(label1);
