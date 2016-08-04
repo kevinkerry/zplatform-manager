@@ -397,26 +397,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td id="status"></td>
 						<td align="center">绑定电话</td>
 						<td id="bindPhone"></td>
-					</tr>
-					
-						<tr>
+					</tr>					
+					<tr>
 						<td align="center">绑定邮箱</td>
 						<td id="bindEmail"></td>
 						<td align="center">写入人</td>
 						<td id="pInuser"></td>
 					</tr>
-						<tr>
+					<tr>
 						<td align="center">写入时间</td>
 						<td id="pIntime"></td>
 						<td align="center">更新人</td>
 						<td id="upuser"></td>
 					</tr>
-						<tr>
+					<tr>
 						<td align="center">更新时间</td>
 						<td id="uptime"></td>
 						<td align="center">是否vip</td>
 						<td id="vipflag"></td>
-					</tr>
+					</tr>					
 					 </table>
     
         </div>
@@ -482,17 +481,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					{field:'DEPT_ID',title:'操作',width:350,align:'center',
 					formatter:function(value,rec){
 						if(rec.MEMBERTYPE!="01"){
-						return 	'<a href="javascript:memberOperation(1,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">冻结</a>&nbsp;&nbsp;<a href="javascript:memberOperation(2,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">止入</a>'
+							return 	'<a href="javascript:memberOperation(1,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">冻结</a>&nbsp;&nbsp;<a href="javascript:memberOperation(2,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">止入</a>'
 							+'<a href="javascript:memberOperation(3,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">止出</a>&nbsp;&nbsp;<a href="javascript:memberOperation(4,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解止出</a>'
 							+'<a href="javascript:memberOperation(5,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解冻</a>&nbsp;&nbsp;<a href="javascript:memberOperation(6,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解止入</a>'
-														+'<a href="javascript:queryMerch(\''+rec.MEMID+'\',\''+rec.MEMBERSTAT+'\',\''+rec.MEMBERTYPE+'\',\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">详细信息</a>';
-										}else{
-											return 		'<a href="javascript:memberOperation(1,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">冻结</a>&nbsp;&nbsp;<a href="javascript:memberOperation(2,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">止入</a>'
-											+'<a href="javascript:memberOperation(3,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">止出</a>&nbsp;&nbsp;<a href="javascript:memberOperation(4,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解止出</a>'
-											+'<a href="javascript:memberOperation(5,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解冻</a>&nbsp;&nbsp;<a href="javascript:memberOperation(6,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解止入</a>'
-																						+'<a href="javascript:queryPerson(\''+rec.MEMID+'\',\''+rec.MEMBERSTAT+'\',\''+rec.MEMBERTYPE+'\',\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">详细信息</a>';
-								
-											
+							+'<a href="javascript:queryMerch(\''+rec.MEMID+'\',\''+rec.MEMBERSTAT+'\',\''+rec.MEMBERTYPE+'\',\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">详细信息</a>';
+						}else{
+							return 	'<a href="javascript:memberOperation(1,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">冻结</a>&nbsp;&nbsp;<a href="javascript:memberOperation(2,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">止入</a>'
+							+'<a href="javascript:memberOperation(3,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">止出</a>&nbsp;&nbsp;<a href="javascript:memberOperation(4,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解止出</a>'
+							+'<a href="javascript:memberOperation(5,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解冻</a>&nbsp;&nbsp;<a href="javascript:memberOperation(6,\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">解止入</a>'
+							+'<a href="javascript:queryPerson(\''+rec.MEMID+'\',\''+rec.MEMBERSTAT+'\',\''+rec.MEMBERTYPE+'\',\''+rec.MEMBERID+'\')" style="color:blue;margin-left:10px">详细信息</a>';						
 						}
 						
 					}
