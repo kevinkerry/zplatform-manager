@@ -490,9 +490,15 @@ table tr td select {
 			        return false;   
 			    },   
 			    success:function(data){  
-			    	$.messager.alert('提示',data); 
-	    			search();
-		    		closeAdd();
+			    	var a= data.split("validateUserLoginAction");
+					if(data.split("validateUserLoginAction").length>1){
+						window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+						return ;
+					}else{
+				    	$.messager.alert('提示',data); 
+		    			search();
+			    		closeAdd();
+					}
 			 
 			        
 			    }  

@@ -329,8 +329,12 @@
 			   }
 			        return false;   
 			   },   
-			  success:function(data){  
-			    	if(data=='操作成功!'){
+			  success:function(data){ 
+				    var a= data.split("validateUserLoginAction");
+					if(data.split("validateUserLoginAction").length>1){
+						window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+						return ;
+					}else if(data=='操作成功!'){
 			    		alert(data);			    		
 			    		$('#btn_submit').linkbutton('disable');
 			    		closeAdd();

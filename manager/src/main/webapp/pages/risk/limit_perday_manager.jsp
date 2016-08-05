@@ -235,15 +235,19 @@
 			}
 		        return false;   
 		    },   
-		    success:function(data){  
-		    		if(data=='添加成功!'||data=='修改成功!'){
-		    			$.messager.alert('提示', data);
-		    			closeAdd();
-		    			search();
-			    	}else{ 
-			    		$.messager.alert('提示', data);
-			    		$('#btn_submit').linkbutton('enable');		
-			    	}	        
+		    success:function(data){ 
+		    	var a= data.split("validateUserLoginAction");
+				if(data.split("validateUserLoginAction").length>1){
+					window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+					return ;
+				}else if(data=='添加成功!'||data=='修改成功!'){
+	    			$.messager.alert('提示', data);
+	    			closeAdd();
+	    			search();
+		    	}else{ 
+		    		$.messager.alert('提示', data);
+		    		$('#btn_submit').linkbutton('enable');		
+		    	}	        
 		    }   
 		});  
 		

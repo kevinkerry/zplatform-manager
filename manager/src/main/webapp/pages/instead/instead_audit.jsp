@@ -441,15 +441,21 @@ table tr td select {
 				}
 		        return false;   
 		    },   
-		    success:function(data){  
-		    	$.each(JSON.parse(data), function(key, value) {
-		    		if (key=="message") 
-		    			$.messager.alert('提示',value); 
-		    	});
-    			search();
-	    		closeAdd();
-	    		$('#btn_submit_').linkbutton('enable');
-				$("#icon-cancel_").linkbutton('enable');		
+		    success:function(data){ 
+		    	var a= data.split("validateUserLoginAction");
+				if(data.split("validateUserLoginAction").length>1){
+					window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+					return ;
+				}else{
+			    	$.each(JSON.parse(data), function(key, value) {
+			    		if (key=="message") 
+			    			$.messager.alert('提示',value); 
+			    	});
+	    			search();
+		    		closeAdd();
+		    		$('#btn_submit_').linkbutton('enable');
+					$("#icon-cancel_").linkbutton('enable');
+				}
 		    }  
 		});   
 	}
@@ -472,14 +478,20 @@ table tr td select {
 		        return false;   
 		    },   
 		    success:function(data){
-		    	$.each(JSON.parse(data), function(key, value) {
-		    		if (key=="message") 
-		    			$.messager.alert('提示',value); 
-		    	});
-    			search();
-	    		closeAdd();
-	    		$('#btn_submit').linkbutton('enable');
-				$("#icon-cancel").linkbutton('enable');		
+		    	var a= data.split("validateUserLoginAction");
+				if(data.split("validateUserLoginAction").length>1){
+					window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+					return ;
+				}else{
+			    	$.each(JSON.parse(data), function(key, value) {
+			    		if (key=="message") 
+			    			$.messager.alert('提示',value); 
+			    	});
+	    			search();
+		    		closeAdd();
+		    		$('#btn_submit').linkbutton('enable');
+					$("#icon-cancel").linkbutton('enable');	
+				}
 		    }  
 		});  
 		
@@ -514,9 +526,15 @@ table tr td select {
 			        return false;   
 			    },   
 			    success:function(data){  
-			    	$.messager.alert('提示',data); 
-	    			search();
-		    		closeAdd();
+			    	var a= data.split("validateUserLoginAction");
+					if(data.split("validateUserLoginAction").length>1){
+						window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+						return ;
+					}else{
+				    	$.messager.alert('提示',data); 
+		    			search();
+			    		closeAdd();
+					}
 			 
 			        
 			    }  

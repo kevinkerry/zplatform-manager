@@ -216,6 +216,7 @@
 						$('#btn_submit').linkbutton('enable');
 						search();
 					} else {
+						alert(data);
 						$.messager.alert('提示', data);
 						$('#btn_submit').linkbutton('enable');
 					}
