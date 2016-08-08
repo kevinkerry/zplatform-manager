@@ -250,4 +250,7 @@ public interface IMerchDetaService
      * @return
      */
     public String queryBankName(String bankNode, String bankCode);
+    public Map<String, Object> findMerchModifyByPage(Map<String, Object> variables,
+            int page,
+            int rows);
 }

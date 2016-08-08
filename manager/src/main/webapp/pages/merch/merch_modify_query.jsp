@@ -23,18 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="right" width="10%">商户名称</td>
 						<td align="left" style="padding-left: 5px" width="15%" >
 							<input  id="memberName_ins" maxlength="50"/>
-						</td>
-						<td align="right" width="10%">商户状态</td>
-						<td align="left" style="padding-left: 5px" width="15%" >
-							<select id="status_ins" class="easyui-validatebox">
-						          <option value='00'>在用</option>
-						          <option value='10'>注册待初审</option>
-						          <option value='11'>注册初审未过</option>
-						          <option value='19'>注册初审终止</option>
-						          <option value='20'>注册待复审</option>
-						          <option value='21'>注册复审未过</option>
-								  <option value='29'>注册复审终止</option>
-					        </select>
+						</td>					
 						</td>
 						<td align="right"  width="10%">
 							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
@@ -63,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					singleSelect:true,
 					nowrap: false,
 					striped: true,
-					url:'pages/merchant/queryMerchMerchantAction.action?flag='+flag,
+					url:'pages/merchant/queryMerchModifyMerchantAction.action?flag='+flag,
 					remoteSort: false,
 					columns:[
 					[
@@ -114,35 +103,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						}
 							},	
 						{field:'DEPT_ID',title:'操作',width:150,align:'center',
-						formatter:function(value,rec){
-							if(flag=='10'){
-								if(rec.STATUS=='00'){
-									return '<a href="javascript:toMerchMk('+rec.MEMBER_ID+')" style="color:blue;margin-left:10px">秘钥下载</a>&nbsp<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
-									        
-									      
-								}else{
-									return '<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
-								}
-							}else if(flag=='2'){
-								return '<a href="javascript:toMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">审核</a>';
-							}else{
-								return '<a href="javascript:toMerchAudit('+rec.MERCHID+')" style="color:blue;margin-left:10px">复核</a>';
-							}
-							
-							
-						}
-					},
-					{field:'ACTIVATE_STATUS',title:'是否激活成功',width:120,align:'center',
-						formatter:function(value,rec){
-							if(rec.STATUS!='00'){
-								return ;
-							}
-							if(rec.ACTIVATE_STATUS=='00'){
-								return "已经激活";
-							}else{
-							return '<a id="'+rec.MEMBER_ID+'"href="javascript:toActivateStatus('+rec.MEMBER_ID+')" style="color:blue;margin-left:10px" value="0">重发邮件</a>';
-							}
-							
+						formatter:function(value,rec){							
+									return '<a href="javascript:toMerchModifyEdit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">变更</a>&nbsp<a href="javascript:toMerchModifyDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';		
 						}
 					}
 					]],
@@ -169,30 +131,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//var url="pages/merchant/queryMerchMerchantAction.action?flag="+$("#flag").val();
 			var data={
 					'merchDeta.member.memberId':$('#merchId_ins').val(),
-					'merchDeta.member.memberName':$('#memberName_ins').val(),
-					'merchStatus':$('#status_ins').val()
+					'merchDeta.member.memberName':$('#memberName_ins').val(),					
 					};
 			$('#test').datagrid('load',data);
 		}
-
-		function toMerchDetail(id,isApply){
+		//详情
+		function toMerchModifyDetail(id,isApply){
 			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+id;
 			window.event.returnValue = false;
 		}
-		function toMerchMk(memberId){
-			window.location.href= "<%=basePath%>" +'/pages/merchant/loadMerchMkMerchantAction.action?memberId='+memberId;
-	    	window.event.returnValue = false;
-            
-		}
-		function toMerchModify(id){
-			window.location.href= "<%=basePath%>" +'pages/merchant/toMerchModifyMerchantAction.action?merchApplyId='+id;
+		//变更
+		function toMerchModifyEdit(id){
+			window.location.href= "<%=basePath%>" +'pages/merchant/toMerchModifyEditMerchantAction.action?merchApplyId='+id;
 			window.event.returnValue = false;
 		}
 		
-		//function toActivateStatus(memberId){
-	    //	window.event.returnValue = false;
-            
-	//	}
 		function toActivateStatus(memberId) {
 			if(($("#"+memberId).attr("value"))!=0){
 				alert("您刚刚已经申请过发送邮件了");
