@@ -906,7 +906,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		function backToMerchIndex(){
-			window.location.href= "<%=basePath%>" +'pages/merchant/showMerchantAction.action';
+			window.location.href= "<%=basePath%>" +'pages/merchant/showMerchModifyMerchantAction.action';
 		}
 	</script>
 </html>
