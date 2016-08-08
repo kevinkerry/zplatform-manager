@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$(function(){
 			flag=$('#flag_ins').val();
 			
-			if(flag=='6'){			
+			if(flag=='4'){			
 				$('#test').datagrid({
 					title:'商户信息列表',
 					iconCls:'icon-save',
@@ -173,9 +173,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							},	
 						{field:'DEPT_ID',title:'操作',width:150,align:'center',
 						formatter:function(value,rec){	
-							if(flag=='6'){
+							if(flag=='4'){
 								return '<a href="javascript:toMerchModifyEdit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:toMerchModifyDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
-							}else if(flag=='7'){
+							}else if(flag=='5'){
 								return '<a href="javascript:toMerchModifyAudit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">审核</a>';
 							}else{
 								return '<a href="javascript:toMerchModifyAudit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">复核</a>';
