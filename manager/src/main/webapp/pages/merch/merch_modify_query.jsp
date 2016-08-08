@@ -222,7 +222,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			window.event.returnValue = false;
 		}
 		//初审、复审 
-		function toMerchAudit(merchApplyId){
+		function toMerchModifyAudit(merchApplyId){
 			flag=$('#flag_ins').val();
 			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+merchApplyId+'&flag='+flag;
 			//window.event.returnValue = false;
