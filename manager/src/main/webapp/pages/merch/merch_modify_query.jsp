@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$('#test').datagrid({
 					title:'商户信息列表',
 					iconCls:'icon-save',
-					height:600,
+					height:540,	
 					singleSelect:true,
 					nowrap: false,
 					striped: true,
