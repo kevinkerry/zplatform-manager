@@ -91,10 +91,7 @@ public class MerchDetaAction extends BaseAction {
         return "merch_query_all";
     }
     
-    //商户信息变更菜单
-    public String showMerchModify(){
-        return "merch_modify_query";
-    }
+
 
     /**
      * 保存商户信息
@@ -680,7 +677,29 @@ public class MerchDetaAction extends BaseAction {
     }
 //*********************************商户信息变更*******************************************
     /**
-     * 商户信息变更菜单的查询结果列表
+     * 商户信息变更菜单
+     * @return
+     */
+    public String showMerchModify(){
+        flag="6";
+        return "merch_modify_query";
+    }
+    /**
+     * 商户变更初审
+     */
+    public String MerchModifyFirstCheck(){
+        flag="7";
+        return "merch_modify_query";
+    }
+    /**
+     * 商户变更复审
+     */
+    public String MerchModifySecondCheck(){
+        flag="8";
+        return "merch_modify_query";
+    }
+    /**
+     * 商户信息变更界面
      * @return
      */
     public String queryMerchModify(){
