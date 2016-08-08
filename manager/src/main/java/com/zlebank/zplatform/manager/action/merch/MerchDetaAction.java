@@ -384,6 +384,12 @@ public class MerchDetaAction extends BaseAction {
         } else if (flag.equals("3")) {// 复审，需要记录复审人和复审意见
             merchDeta.setCvlexaOpt(stexopt);
             merchDeta.setCvlexaUser(getCurrentUser().getUserId());
+        }else if(flag.equals("5")){//变更初审，需要记录初审人和初审意见
+            merchDeta.setStexaOpt(stexopt);
+            merchDeta.setStexaUser(getCurrentUser().getUserId());
+        }else if(flag.equals("6")){//变更复审，需要记录复审人和复审意见
+            merchDeta.setCvlexaOpt(stexopt);
+            merchDeta.setCvlexaUser(getCurrentUser().getUserId());
         }
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultlist = (List<Map<String, Object>>) serviceContainer
