@@ -681,21 +681,21 @@ public class MerchDetaAction extends BaseAction {
      * @return
      */
     public String showMerchModify(){
-        flag="6";
+        flag="4";
         return "merch_modify_query";
     }
     /**
      * 商户变更初审
      */
     public String MerchModifyFirstCheck(){
-        flag="7";
+        flag="5";
         return "merch_modify_query";
     }
     /**
      * 商户变更复审
      */
     public String MerchModifySecondCheck(){
-        flag="8";
+        flag="6";
         return "merch_modify_query";
     }
     /**
@@ -709,7 +709,7 @@ public class MerchDetaAction extends BaseAction {
             variables.put("merberId", merchDeta.getMember().getMemberId());
             variables.put("merchName", merchDeta.getMember().getMemberName());
         }
-        variables.put("flag", 4);
+        variables.put("flag", flag);
         Map<String, Object> merchList = serviceContainer.getMerchDetaService()
                 .findMerchModifyByPage(variables, getPage(), getRows());
         json_encode(merchList);
