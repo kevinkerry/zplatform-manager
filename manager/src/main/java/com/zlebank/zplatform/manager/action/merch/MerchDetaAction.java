@@ -33,7 +33,7 @@ public class MerchDetaAction extends BaseAction {
     // private UserModel user;
     private long pid;
     private String vid;
-    private String flag;// 标记流程 1商户信息管理列表 2初审查询列表 3复审查询列表 5商户初审审核页面 10商户查询页面
+    private String flag;// 标记流程 1商户信息管理列表 2初审查询列表 3复审查询列表 9商户初审审核页面(原来是5) 10商户查询页面
     private String bankName;
     private MerchDeta merchDeta;
     private Enterprise enterprise;
@@ -81,7 +81,8 @@ public class MerchDetaAction extends BaseAction {
 
     // 商户初审审核页面
     public String toMerchAudit() {
-        flag = "5";
+        //flag = "5";
+        flag = "9";
         return "merch_detail";
     }
 
@@ -91,7 +92,6 @@ public class MerchDetaAction extends BaseAction {
         return "merch_query_all";
     }
     
-
 
     /**
      * 保存商户信息
@@ -693,14 +693,14 @@ public class MerchDetaAction extends BaseAction {
     /**
      * 商户变更初审
      */
-    public String MerchModifyFirstCheck(){
+    public String merchModifyFirstCheck(){
         flag="5";
         return "merch_modify_query";
     }
     /**
      * 商户变更复审
      */
-    public String MerchModifySecondCheck(){
+    public String merchModifySecondCheck(){
         flag="6";
         return "merch_modify_query";
     }
@@ -814,9 +814,9 @@ public class MerchDetaAction extends BaseAction {
         Long userId = getCurrentUser().getUserId();
         merchMap = serviceContainer.getMerchDetaService().queryModifyMerchDeta(
                 Long.parseLong(merchApplyId), userId);
-        return "merch_detail";
-        
+        return "merch_modify_detail";  
     }
+
     public ServiceContainer getServiceContainer() {
         return serviceContainer;
     }
