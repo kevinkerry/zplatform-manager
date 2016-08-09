@@ -566,7 +566,13 @@ public class MerchDetaServiceImpl
         if (flag.equals("2")) {
             paramaters[0] = merchDeta.getStexaUser();
             paramaters[3] = merchDeta.getStexaOpt();
-        } else {
+        } else if(flag.equals("3")){
+            paramaters[0] = merchDeta.getCvlexaUser();
+            paramaters[3] = merchDeta.getCvlexaOpt();
+        } else if(flag.equals("5")){
+            paramaters[0] = merchDeta.getStexaUser();
+            paramaters[3] = merchDeta.getStexaOpt();
+        } else if(flag.equals("6")){
             paramaters[0] = merchDeta.getCvlexaUser();
             paramaters[3] = merchDeta.getCvlexaOpt();
         }
@@ -1138,12 +1144,13 @@ public class MerchDetaServiceImpl
     @Override
     public Map<String, Object> queryModifyMerchDeta(long merchApplyId, Long userId) {
         PojoMerchDetaApply pojoMerchApply = get(merchApplyId);
-        String[] columns = new String[]{"v_user", "v_merch_id"};
-        Object[] paramaters = new Object[2];
+        String[] columns = new String[]{"v_user", "v_self_id", "v_merch_id"};
+        Object[] paramaters = new Object[3];
         paramaters[0] = userId;
-        paramaters[1] = pojoMerchApply.getMerchId();
+        paramaters[1] = pojoMerchApply.getSelfId();
+        paramaters[2] = pojoMerchApply.getMerchId();
         return (Map<String, Object>) getDao().executeOracleProcedure(
-                "{CALL  PCK_MERCH.sel_t_merchant_deta(?,?,?)}",
-                columns, paramaters, "cursor0").get(0);       
+                "{CALL  PCK_MERCH.sel_t_merchant_apply_deta(?,?,?,?)}",
+                columns, paramaters, "cursor0").get(0);     
     }
 }

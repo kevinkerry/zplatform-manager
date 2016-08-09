@@ -244,7 +244,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 </td><td></td><td></td>
 					</tr>
 					
-					<s:if test="%{flag==2}">
+					<s:if test="%{flag==5}">
 					 <tr>
 					    <td align="center">初核意见</td>
 					    <td colspan="3" align="center">
@@ -252,7 +252,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </td>
 					  </tr>
 					 </s:if>
-					 <s:if test="%{flag==3}">
+					 <s:if test="%{flag==6}">
 					 <tr>
 						<td align="center">初审人</td>
 						<td>${merchMap.STEXANAME}</td>
@@ -266,7 +266,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </td>
 					  </tr>
 					 </s:if>
-					 <s:if test="%{flag==5}">
+					 <s:if test="%{flag==9}">
 					 <tr>
 					    <td align="center">初核意见</td>
 					    <td colspan="3" align="center">
@@ -286,7 +286,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	</div>
 			 <div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<s:if test="%{flag==2||flag==3}">
+				<s:if test="%{flag==5||flag==6}">
 				<a href="javascript:merchAudit('0');" id="button_ins1" class="easyui-linkbutton" iconCls="icon-ok">通过</a>
 				<a href="javascript:merchAudit('9');" id="button_ins2" class="easyui-linkbutton" iconCls="icon-cancel">否决</a>
 				<a href="javascript:merchAudit('1');" id="button_ins3" class="easyui-linkbutton" iconCls="icon-no">驳回</a>

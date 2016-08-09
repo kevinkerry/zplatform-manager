@@ -266,7 +266,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </td>
 					  </tr>
 					 </s:if>
-					 <s:if test="%{flag==5}">
+					 <s:if test="%{flag==9}">
 					 <tr>
 					    <td align="center">初核意见</td>
 					    <td colspan="3" align="center">
