@@ -1134,4 +1134,16 @@ public class MerchDetaServiceImpl
         result.add(resultMap);
         return result;
     }
+
+    @Override
+    public Map<String, Object> queryModifyMerchDeta(long merchApplyId, Long userId) {
+        PojoMerchDetaApply pojoMerchApply = get(merchApplyId);
+        String[] columns = new String[]{"v_user", "v_merch_id"};
+        Object[] paramaters = new Object[2];
+        paramaters[0] = userId;
+        paramaters[1] = pojoMerchApply.getMerchId();
+        return (Map<String, Object>) getDao().executeOracleProcedure(
+                "{CALL  PCK_MERCH.sel_t_merchant_deta(?,?,?)}",
+                columns, paramaters, "cursor0").get(0);       
+    }
 }

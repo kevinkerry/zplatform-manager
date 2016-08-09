@@ -224,7 +224,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//初审、复审 
 		function toMerchModifyAudit(merchApplyId){
 			flag=$('#flag_ins').val();
-			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+merchApplyId+'&flag='+flag;
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchModifyDetailMerchantAction.action?merchApplyId='+merchApplyId+'&flag='+flag;
 			//window.event.returnValue = false;
 		}
 		function toActivateStatus(memberId) {
