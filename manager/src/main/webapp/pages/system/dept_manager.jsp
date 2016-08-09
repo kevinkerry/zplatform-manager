@@ -66,7 +66,7 @@
 						
 						<td>备注</td>
 						<td colspan="3">
-							<textarea rows="3" cols="60" id="dept_notes" maxlength="50" name="dept.notes"></textarea>
+							<textarea rows="3" cols="60" id="dept_notes" maxlength="64" name="dept.notes"></textarea>
 						</td>
 					</tr>
 				</table>
