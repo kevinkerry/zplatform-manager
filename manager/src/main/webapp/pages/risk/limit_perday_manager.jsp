@@ -262,28 +262,30 @@
 		   }
 		});
 	}
-	function showLimitPerday(tId,riskver){		
+	function showLimitPerday(tId,riskver){
+
 		$.ajax({
 		   type: "POST",
 		   url: "pages/risk/queryOneLimitPerdayLimitAction.action",
 		   data: "riskId="+tId,
 		   dataType:"json",
 		   success: function(json){	
-			
+			$('#risk').attr('disabled','true');
+			$('#riskcase').attr('disabled','true');
 			$("#nums_id").val(json.NUMS);
 			$("#TId").val(json.T_ID);
 			$("#Notes").val(json.NOTES);
 			$('#cardtype').val(json.CARDTYPE);			
 			showRiskLevel();
 			showRisk();
-			    setTimeout(function(){ 
-				   $("#risk").val(riskver);
-				   $("#risklevel").val(json.RISKLEVEL);
-				   queryRiskCase();	
-				},500);
-			    setTimeout(function(){ 
-					   $("#riskcase").val(json.CASEID);
-			   },1000);
+		    setTimeout(function(){ 
+			   $("#risk").val(riskver);
+			   $("#risklevel").val(json.RISKLEVEL);			   
+			   queryRiskCase();	
+			},500);
+		    setTimeout(function(){ 
+				   $("#riskcase").val(json.CASEID);				  
+		   },1000);
 		   }
 		});
 		$('#w').window({
@@ -302,8 +304,10 @@
 		});
 		$("#theForm").attr("action","pages/risk/updateLimitPerdayLimitAction.action");
 		$('#btn_submit').linkbutton('enable');
-		$("#risk").attr("readonly","readonly");
-		$("#riskcase").attr("readonly","readonly");
+		//$("#risk").attr("disabled","disabled");
+		//$('#riskcase').attr('disabled','disabled');
+		//$("#risk").attr("readonly","readonly");
+		//$("#riskcase").attr("readonly","readonly");
 	}
 	function deleteLimitPerday(tid){
 		$.messager.confirm('提示','您是否想要注销此单卡单日限次?',function(r){   

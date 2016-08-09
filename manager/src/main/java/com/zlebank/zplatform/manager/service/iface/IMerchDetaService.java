@@ -250,4 +250,16 @@ public interface IMerchDetaService
      * @return
      */
     public String queryBankName(String bankNode, String bankCode);
+    public Map<String, Object> findMerchModifyByPage(Map<String, Object> variables,
+            int page,
+            int rows);
+    
+    /**
+     * commit info to modify a merchant
+     * 
+     * @param merchId
+     * @return
+     */
+    public boolean commitMerchModify(long merchpplyId);
+    public List<?> saveMerchModifyDeta(long parseLong, MerchDeta merchDeta);
 }

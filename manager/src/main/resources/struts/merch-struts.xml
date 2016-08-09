@@ -21,6 +21,8 @@
         	<result name="toUpload">/pages/merch/add/step_sec_upload.jsp</result>
         	<result name="merch_modify">/pages/merch/merch_modify.jsp</result>
         	<result name="merch_modify_query">/pages/merch/merch_modify_query.jsp</result>
+        	<result name="merch_modify_edit">/pages/merch/merch_modify_edit.jsp</result>
+        	<result name="toUploadModifyInfo">/pages/merch/add/merch_modify_commit.jsp</result>
 		</action>
 		<action name="*UploadAction" class="com.zlebank.zplatform.manager.action.merch.UploadAction" method="{1}">
 			<result name="upload_file">/pages/uploadfile/file_upload.jsp</result>

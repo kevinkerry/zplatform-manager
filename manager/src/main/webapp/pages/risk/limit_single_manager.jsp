@@ -286,6 +286,8 @@
 				data: "riskId=" + tid,
 				dataType: "json",
 				success: function(json) {
+					$("#busipack").attr("disabled","true");
+					$("#busicase").attr("disabled","true");
 					$("#TId").val(json.T_ID);
 					$("#Notes").val(json.NOTES);
 					$("#maxAmount").val(json.MAX_AMOUNT);
