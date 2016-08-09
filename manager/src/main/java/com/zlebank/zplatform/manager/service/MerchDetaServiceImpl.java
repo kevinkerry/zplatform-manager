@@ -918,4 +918,25 @@ public class MerchDetaServiceImpl
                 "{CALL PCK_MERCH.sel_t_merchant(?,?,?,?,?,?,?,?,?,?,?)}",
                 columns, paramaters, "cursor0", "v_total");
     }
+
+    @Override
+    public boolean commitMerchModify(long merchpplyId) {
+        String[] columns = new String[]{"v_self_id"};
+        Object[] paramaters = new Object[1];
+        paramaters[0] = merchpplyId;
+        List<?> result = getDao().executeOracleProcedure(
+                "{CALL  PCK_MERCH.addi_merch_deta(?,?)}", columns, paramaters,
+                "cursor0");
+        boolean isSucc = false;
+        if (result != null && !(result.get(0) == null)) {
+
+            @SuppressWarnings("unchecked")
+            Map<String, String> resultMap = (Map<String, String>) result.get(0);
+            if (resultMap.containsKey("RET")
+                    && resultMap.get("RET").equals("succ")) {
+                isSucc = true;
+            }
+        }
+        return isSucc;
+    }
 }

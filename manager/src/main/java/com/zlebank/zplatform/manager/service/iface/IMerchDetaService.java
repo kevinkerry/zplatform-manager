@@ -253,4 +253,12 @@ public interface IMerchDetaService
     public Map<String, Object> findMerchModifyByPage(Map<String, Object> variables,
             int page,
             int rows);
+    
+    /**
+     * commit info to modify a merchant
+     * 
+     * @param merchId
+     * @return
+     */
+    public boolean commitMerchModify(long merchpplyId);
 }

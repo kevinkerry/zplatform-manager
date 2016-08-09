@@ -366,7 +366,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						json = eval('(' + json + ')');
 						if (json.RET == "succ") {
 							$.messager.alert('提示', '保存成功,等待上传证件照片','info',function(){
-								window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+json.INFO;
+								window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadModifyInfoMerchantAction.action?merchApplyId='+json.INFO;
 							});
 						} else {
 							$.messager.alert('提示', json.INFO);

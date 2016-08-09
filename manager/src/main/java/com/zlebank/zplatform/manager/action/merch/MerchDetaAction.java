@@ -737,6 +737,38 @@ public class MerchDetaAction extends BaseAction {
 
         return "merch_modify_edit";    
     }
+    
+    /**
+     * 点击下一步，保存本页信息
+     * @return
+     */
+    public String toUploadModifyInfo(){
+        merchDeta = serviceContainer.getMerchDetaService().getBean(
+                Long.parseLong(merchApplyId));
+        if (merchDeta == null) {
+        }
+
+        return "toUploadModifyInfo";
+    }
+    /**
+     * 
+     * 商户变更的提交申请功能
+     * @return
+     */
+    public String commitMerchModify(){
+        Map<String, String> result = new HashMap<String, String>();
+        IMerchDetaService merchDetaService = serviceContainer
+                .getMerchDetaService();
+        boolean isSucc = merchDetaService.commitMerchModify(Long
+                .parseLong(merchApplyId));
+        if (isSucc) {
+            result.put("status", "OK");
+        } else {
+            result.put("status", "FAIL");
+        }
+        json_encode(result);
+        return null;
+    }
     public ServiceContainer getServiceContainer() {
         return serviceContainer;
     }
