@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			style="background: #fafafa;" iconCls="icon-save"
 			collapsible="false">		
 			<div style="padding-left:5px;padding-right:5px">
-		<form id="merchDetaForm" action="pages/merchant/saveChangeMerchDetaMerchantAction.action" method="post" > 
+		<form id="merchDetaForm" action="pages/merchant/saveMerchModifyDetaMerchantAction.action" method="post" > 
 		<input type="hidden" id="merchApplyId" name="merchApplyId" value="${merchApplyId}"/>
 		<input type="hidden" id="coopInstiId_old" value="${merchDeta.member.coopInstiId}"/>
 		<input type="hidden" id="enterpriseInsti" value="${merchDeta.member.enterpriseInsti}"/>

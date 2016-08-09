@@ -769,6 +769,41 @@ public class MerchDetaAction extends BaseAction {
         json_encode(result);
         return null;
     }
+    
+    /**
+     * 点击下一步，对变更商户信息做保存
+     * @return
+     */
+    public String saveMerchModifyDeta(){
+        if (merchDeta.getMember().getIsDelegation() == null) {
+            merchDeta.getMember().setIsDelegation(0L);
+        }
+
+        if (merchDeta.getMember().getIsDelegation() == null) {
+            merchDeta.getMember().setIsDelegation(0L);
+        }
+
+        if (charge == null || charge.equals("")) {
+            merchDeta.setCharge(Money.ZERO);
+        } else {
+            merchDeta.setCharge(Money.valueOf(new BigDecimal(charge)
+                    .multiply(HUNDERED)));
+        }
+
+        if (deposit == null || deposit.equals("")) {
+            merchDeta.setDeposit(Money.ZERO);
+        } else {
+            merchDeta.setDeposit(Money.valueOf(new BigDecimal(deposit)
+                    .multiply(HUNDERED)));
+        }
+
+        List<?> resultlist = serviceContainer.getMerchDetaService()
+                .saveMerchModifyDeta(Long.parseLong(merchApplyId), merchDeta);
+        merchDeta.setmInUser(getCurrentUser().getUserId());
+        json_encode(resultlist.get(0));
+        return null;
+        
+    }
     public ServiceContainer getServiceContainer() {
         return serviceContainer;
     }

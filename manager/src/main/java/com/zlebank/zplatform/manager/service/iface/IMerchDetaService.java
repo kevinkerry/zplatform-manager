@@ -261,4 +261,5 @@ public interface IMerchDetaService
      * @return
      */
     public boolean commitMerchModify(long merchpplyId);
+    public List<?> saveMerchModifyDeta(long parseLong, MerchDeta merchDeta);
 }

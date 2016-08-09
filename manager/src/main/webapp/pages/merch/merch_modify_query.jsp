@@ -214,12 +214,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//详情
 		function toMerchModifyDetail(id,isApply){
 			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+id;
-			window.event.returnValue = false;
+			//window.event.returnValue = false;
 		}
 		//变更
 		function toMerchModifyEdit(id){
 			window.location.href= "<%=basePath%>" +'pages/merchant/toMerchModifyEditMerchantAction.action?merchApplyId='+id;
-			window.event.returnValue = false;
+			//window.event.returnValue = false;
 		}
 		//初审、复审 
 		function toMerchModifyAudit(merchApplyId){
