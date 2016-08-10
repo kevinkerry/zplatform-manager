@@ -18,6 +18,7 @@
 		<property name="locations">
 			<list> 
 				<value>classpath:acc.config.properties</value>
+				<value>classpath:redis.properties</value>
 			</list>
 		</property>
 	</bean>
