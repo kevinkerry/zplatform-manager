@@ -135,9 +135,17 @@ input {
 					<td colspan="4" align="center">下载并上传微信对账文件</td>
 				</tr>
 				<tr height="26" id="fileadd1">
-					<td align="center">对账文件</td>
-					<td colspan="3">
+					<td align="center">对账日期</td>
+					<td >
 						<input name="billdate" maxlength="12"   type="text"  id="startDate"/>
+					</td>
+					<td align="center">对账类型</td>
+					<td >
+						<select name="wechatType" id="wechatType">
+							<option>--请选择对账类型--</option>
+							<option value="APP">APP支付</option>
+							<option value="QR">扫码支付</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -264,10 +272,13 @@ input {
 		if($('#startDate').datebox('getValue')==""||$('#startDate').datebox('getValue')==null){
 			$.messager.alert('提示', '请选择对账日期');
 		}
+		if($("#wechatType").val()==""||$("#wechatType").val()==null){
+			$.messager.alert('提示', '请选择对账类型');
+		}
 		$.ajax({
 			type : "POST",
 			url : "pages/merchant/dowanWeChatBillUploadAction.action",
-			data : "billDate="+ $('#startDate').datebox('getValue'),
+			data : "billDate="+ $('#startDate').datebox('getValue')+"&wechatType="+$("#wechatType").val(),
 			dataType : "json",
 			success : function(json) {
 				$.messager.alert('提示', json.info);
