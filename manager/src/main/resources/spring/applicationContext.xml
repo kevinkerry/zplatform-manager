@@ -255,7 +255,7 @@
     </bean>
 
     <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-        p:host-name="192.168.101.231" p:port="6379"  p:pool-config-ref="poolConfig"/>
+        p:host-name="192.168.101.237" p:port="6379"  p:pool-config-ref="poolConfig"/>
 
  	<!-- <bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/> -->
     
