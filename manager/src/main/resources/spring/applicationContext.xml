@@ -3,12 +3,24 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jee="http://www.springframework.org/schema/jee" 
 	xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.0.xsd">
-
+    
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="locations">  
+           <list>  
+              <!-- 推荐使用file的方式引入，这样可以将配置和代码分离   -->
+              <value>file:D:/cert/*.properties</value> 
+              <value>file:/home/web/trade/config/*.properties</value> 
+              <value>classpath:*.properties</value>  
+            </list>  
+        </property>  
+    </bean>   
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -242,4 +254,32 @@
 	<bean id="createMerIPFileJob" class="com.zlebank.zplatform.manager.job.CreateMerchantInsteadSDFileJob" /> 
 	<!-- 生成商户代付对账文件任务end-->
 	
+	
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="maxTotal" value="${redis.maxActive}" />
+        <property name="maxWaitMillis" value="${redis.maxWait}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+        p:host-name="${redis.host}" p:port="${redis.port}"  p:pool-config-ref="poolConfig"/>
+
+ 	<!-- <bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/> -->
+    
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">   
+        <property name="connectionFactory"   ref="connectionFactory" />   
+        <property name="keySerializer">   
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />   
+        </property>      
+        <property name="valueSerializer">   
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />   
+        </property>   
+        <property name="hashKeySerializer">     
+           <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>     
+        </property>   
+        <property name="hashValueSerializer">   
+           <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>     
+        </property> 
+     </bean> 
 </beans>

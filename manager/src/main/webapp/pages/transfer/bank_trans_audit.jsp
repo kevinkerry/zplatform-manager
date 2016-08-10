@@ -365,6 +365,8 @@ table tr td select {
 													return '转账成功';
 												}else if (value == '04') {
 													return '审核拒绝';
+												}else if (value == '05') {
+													return '转账失败';
 												}else {
 													return '';
 												}

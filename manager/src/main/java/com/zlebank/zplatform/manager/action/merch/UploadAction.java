@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
+import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
@@ -58,6 +59,7 @@ public class UploadAction extends BaseAction {
     private ServiceContainer serviceContainer;
     private String falg;
     private String billDate;
+    private String wechatType;
     
     @Autowired
     private IChannelFileService iChannelFileService;
@@ -274,9 +276,15 @@ public class UploadAction extends BaseAction {
     
     public void dowanWeChatBill(){
     	Map<String, Object> result = new HashMap<String, Object>();
+    	if(StringUtil.isEmpty(wechatType)){
+    		result.put("info", "微信对账文件处理失败！");
+    		json_encode(result);
+    		return ;
+    	}
+    	
     	billDate = billDate.replaceAll("-", "");
     	// 判断是否重复上传文件
-        Boolean boo = serviceContainer.getBnktxnService().upLoad(billDate);
+        Boolean boo = serviceContainer.getBnktxnService().upLoad(billDate+wechatType);
         UploadLogModel ulm = null;
         if (boo) {
             result.put("info", "此日期对账文件已经保存！");
@@ -293,7 +301,13 @@ public class UploadAction extends BaseAction {
     	
     	
     	try {
-			List<BnkTxnModel> saveWeChatBill = chatReconFileService.saveWeChatBill(billDate);
+			List<BnkTxnModel> saveWeChatBill = null;
+			if("APP".equals(wechatType)){
+				saveWeChatBill =chatReconFileService.saveWeChatBill(billDate);
+			}else if("QR".equals(wechatType)){
+				saveWeChatBill =chatReconFileService.saveWeChatQRBill(billDate);
+			}
+			
 			if (saveWeChatBill==null) {
 				result.put("info", "未获取到微信对账文件！");
 				serviceContainer.getBnktxnService().deleteFailedWechatUploadLog(billDate);
@@ -639,6 +653,18 @@ public class UploadAction extends BaseAction {
 	 */
 	public void setBillDate(String billDate) {
 		this.billDate = billDate;
+	}
+	/**
+	 * @return the wechatType
+	 */
+	public String getWechatType() {
+		return wechatType;
+	}
+	/**
+	 * @param wechatType the wechatType to set
+	 */
+	public void setWechatType(String wechatType) {
+		this.wechatType = wechatType;
 	}
 
 }
