@@ -108,6 +108,6 @@ public abstract class BaseServiceImpl<E extends Serializable, E_PK extends Seria
 	}
 	public List<Map<String, Object>> executeOracleProcedure(String queryString,String[] columns, Object[] paramaters,String cursor){
 		return getDao().executeOracleProcedure(queryString,columns, paramaters, cursor);
-	}
+	}  
 	
 }

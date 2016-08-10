@@ -64,12 +64,7 @@ public class TxnsDAOImpl
                     SimpleDateFormat format = new SimpleDateFormat(
                             "yyyyMMddHHmmss");
                     String datetimes;
-
-                    datetimes = format
-                            .format(DateUtil.convertToDate(
-                                    e.getAccordcommitimes(),
-                                    DEFAULT_TIME_STAMP_FROMAT));
-
+                    datetimes = format.format(DateUtil.convertToDate(e.getAccordcommitimes(),DEFAULT_TIME_STAMP_FROMAT));
                     crite.add(Restrictions.ge("accordcommitime", datetimes));//受理定提交时间
 
                 }

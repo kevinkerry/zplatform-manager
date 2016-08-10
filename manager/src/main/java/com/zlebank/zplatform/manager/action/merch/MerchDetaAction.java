@@ -90,6 +90,11 @@ public class MerchDetaAction extends BaseAction {
         flag = "10";
         return "merch_query_all";
     }
+    
+    //商户信息变更菜单
+    public String showMerchModify(){
+        return "merch_modify_query";
+    }
 
     /**
      * 保存商户信息
@@ -353,6 +358,17 @@ public class MerchDetaAction extends BaseAction {
         merchMap = serviceContainer.getMerchDetaService().queryApplyMerchDeta(
                 Long.parseLong(merchApplyId), userId);
         return "merch_detail";
+    }
+    /***
+     * 复审未通过，则允许变更商户申请信息
+     * 
+     * @return
+     */
+    public String toMerchModify(){
+        Long userId = getCurrentUser().getUserId();
+        merchMap = serviceContainer.getMerchDetaService().queryApplyMerchDeta(Long.parseLong(merchApplyId), userId);
+        return "merch_modify";
+        
     }
 
     /**
@@ -662,7 +678,40 @@ public class MerchDetaAction extends BaseAction {
         }
         return null;
     }
+//*********************************商户信息变更*******************************************
+    /**
+     * 商户信息变更菜单的查询结果列表
+     * @return
+     */
+    public String queryMerchModify(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("userId", getCurrentUser().getUserId());
+        if (merchDeta != null) {
+            variables.put("merberId", merchDeta.getMember().getMemberId());
+            variables.put("merchName", merchDeta.getMember().getMemberName());
+        }
+        variables.put("flag", 4);
+        Map<String, Object> merchList = serviceContainer.getMerchDetaService()
+                .findMerchModifyByPage(variables, getPage(), getRows());
+        json_encode(merchList);
+        return null;
+    }
+    
+    /**
+     * 商户信息变更列表的变更功能
+     * @return
+     */
+    public String toMerchModifyEdit(){
+        merchDeta = serviceContainer.getMerchDetaService().getBean(
+                Long.parseLong(merchApplyId));
+        oldBankName = serviceContainer.getMerchDetaService().queryBankName(
+                merchDeta.getBankNode(), merchDeta.getBankCode());
 
+        charge = merchDeta.getCharge().toString();
+        deposit = merchDeta.getDeposit().toString();
+
+        return "merch_modify_edit";    
+    }
     public ServiceContainer getServiceContainer() {
         return serviceContainer;
     }

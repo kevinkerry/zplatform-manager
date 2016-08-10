@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import com.zlebank.zplatform.manager.job.TimeUtil;
+import com.zlebank.zplatform.manager.util.TimeUtil;
 
 public class TimeUtilTest {
     

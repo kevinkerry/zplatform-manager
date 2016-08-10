@@ -73,17 +73,18 @@
 								
 							</td>
 						
-							<td align="right" width="10%">受理定单提交时间</td>
-							<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
-								至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input></td>
-						
+
 							<td align="right" width="10%">支付类型</td>
 								<td colspan="1">
 								<select name="tlb.payType"  id="paytype">
 								  <option value="">请选择</option>
 						          <option value="01">快捷</option>
 						          <option value="02">网银</option>
-						            <option value="03">账户</option>
+						          <option value="03">账户</option>
+						          <option value="04">代付</option>
+						          <option value="05">微信</option>
+						          <option value="06">手工充值</option>
+						          <option value="07">退款</option>
 					        	</select>							
 							</td>
 							
@@ -92,25 +93,26 @@
 							<input name="tlb.payordno" id="payordno" maxlength="32"/>
 						    </td>
 						    
-					    <tr>
-						    <td align="right" width="10%">交易渠道
+						     <td align="right" width="10%">交易渠道
 						    <td colspan="1">
 								<select name="tlb.payinst"  id="payinst">
-								  <option value="">请选择</option>
-						          <option value="98000001">证联支付</option>
-						          <option value="96000001">融宝快捷支付</option>
-						          <option value="93000001">民生银行批量代付</option>
-						          <option value="93000002">民生银行跨行代扣</option>
-						          <option value="93000003">民生银行本行代扣</option>
-						          <option value="90000001">畅捷网关支付</option>
-						          <option value="91000001">微信支付</option>
+								  <option value="">请选择</option>					
+								  <c:forEach items="${channel}" var="channel">								  		
+						              <option value=${channel.chnlcode }>${channel.chnlname}</option>						         
+						          </c:forEach> 			          						           
 					        	</select>
 					        </td>
+					    <tr>
+						   
 					        <td align="right" width="10%">会员号</td>
 					        <td align="left" style="padding-left:5px" width="15%">
 							<input name="tlb.accmemberid" id="accmemberid" maxlength="32"/>
 						    </td>
 						    
+						    <td align="right" width="10%">受理定单提交时间</td>
+							<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
+								至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input></td>
+						
 						    <td align="right">
 								<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
 							</td>
@@ -159,9 +161,9 @@
 <td >受理清算日期</td><td id="taccsettledate"></td> </tr>
 <tr><td >受理定提交时间</td><td id="taccordcommitime"></td> 
 <td >受理定单完成时间</td><td id="taccordfintime"></td> </tr>
-<tr><td >支付类型（01：快捷，02：网银，03：账户）</td><td id="tpaytype"></td> 
+<tr><td >支付类型(01:快捷 02:网银 03:账户 04:代付 05:微信 06:手工充值 07:退款)</td><td id="tpaytype"></td> 
 <td >支付定单号</td><td id="tpayordno"></td> </tr>
-<tr><td >支付所属机构</td><td id="tpayinst"></td> 
+<tr><td >交易渠道</td><td id="tpayinst"></td> 
 <td >支付一级商户号</td><td id="tpayfirmerno"></td> </tr>
 <tr><td >支付二级商户号</td><td id="tpaysecmerno"></td> 
 <td >支付定单提交时间</td><td id="tpayordcomtime"></td> </tr>
@@ -200,6 +202,7 @@
   <script>
   	var width = $("#continer").width();
 		$(function(){
+			
 			$('#test').datagrid({
 				title:'会员账户信息列表',
 				iconCls:'icon-save',
@@ -227,6 +230,16 @@
 								return "网银支付";
 							}else if(value=="03"){
 								return "账户支付";
+							}else if(value=="04"){
+								return "代付";
+							}else if(value=="05"){
+								return "微信";
+							}else if(value=="06"){
+								return "手工充值";
+							}else if(value=="07"){
+								return "退款";
+							}else{
+								return "";  
 							}
 							}
 					},  
@@ -278,6 +291,64 @@
 		}
 		
 		function queryTxnsLog(txnseqno){
+		 $("#ttxnseqno").html("");
+			   $("#ttxndate").html("");
+			   $("#ttxntime").html("");
+			   $("#tapptype").html("");
+			   $("#tbusitype").html("");
+			   $("#tbusicode").html("");
+			   $("#tamount").html("");
+			   $("#ttradcomm").html("");
+			   $("#ttxnfee").html("");
+			   $("#triskver").html("");
+			   $("#tsplitver").html("");
+			   $("#tfeever").html("");
+			   $("#tprdtver").html("");
+			   $("#tcheckstandver").html("");
+			   $("#troutver").html("");
+			   $("#tpan").html("");
+			   $("#tcardtype").html("");
+			   $("#tcardinstino").html("");
+			   $("#tinpan").html("");
+			   $("#tincardtype").html("");
+			   $("#tincardinstino").html("");
+			   $("#taccordno").html("");
+			   $("#taccordinst").html("");
+			   $("#taccsecmerno").html("");
+			   $("#taccfirmerno").html("");
+			   $("#taccsettledate").html("");
+			   $("#taccordcommitime").html("");
+			   $("#taccordfintime").html("");
+			   $("#tpaytype").html("");
+			   $("#tpayordno").html("");
+			   $("#tpayinst").html("");
+			   $("#tpayfirmerno").html("");
+			   $("#tpaysecmerno").html("");
+			   $("#tpayordcomtime").html("");
+			   $("#tpayordfintime").html("");
+			   $("#tpayrettsnseqno").html("");
+			   $("#tpayretcode").html("");
+			   $("#tpayretinfo").html("");
+			   $("#tappordno").html("");
+			   $("#tappinst").html("");
+			   $("#tappordcommitime").html("");
+			   $("#tappordfintime").html("");
+			   $("#ttradeseltxn").html("");
+			   $("#tretcode").html("");
+			   $("#tretinfo").html("");
+			   $("#ttradestatflag").html("");
+			   $("#ttradetxnflag").html("");
+			   $("#ttxncode").html("");
+			   $("#tcashcode").html("");
+			   $("#trelate").html("");
+			   $("#tretdatetime").html("");
+			   $("#ttxnseqno_og").html("");
+			   $("#tnotes").html("");
+			   $("#tremarks").html("");
+			   $("#taccmemberid").html("");
+			   $("#tapporderstatus").html("");
+			   $("#tapporderinfo").html("");
+			   
 			$('#w').window({
 				title: '详细信息',
 				top:90,
@@ -303,7 +374,7 @@
 					   if(date.messg!=null){
 						   
 					   }else{
-						   json=date.json;
+						   json=date.json;		   
 					   $("#ttxnseqno").html(json.TXNSEQNO);
 					   $("#ttxndate").html(json.TXNDATE);
 					   $("#ttxntime").html(json.TXNTIME);
@@ -334,7 +405,7 @@
 					   $("#taccordfintime").html(json.ACCORDFINTIME);
 					   $("#tpaytype").html(json.PAYTYPE);
 					   $("#tpayordno").html(json.PAYORDNO);
-					   $("#tpayinst").html(json.PAYINST);
+                       $("#tpayinst").html(json.CHNLNAME);
 					   $("#tpayfirmerno").html(json.PAYFIRMERNO);
 					   $("#tpaysecmerno").html(json.PAYSECMERNO);
 					   $("#tpayordcomtime").html(json.PAYORDCOMTIME);

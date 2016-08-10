@@ -895,4 +895,27 @@ public class MerchDetaServiceImpl
     public void setFtpClientFactory(FTPClientFactory ftpClientFactory) {
         this.ftpClientFactory = ftpClientFactory;
     }
+
+    @Override
+    public Map<String, Object> findMerchModifyByPage(Map<String, Object> variables,
+            int page,
+            int rows) {
+        
+        String[] columns = new String[]{"v_user", "v_member_id",
+                "v_merch_name", "v_address", "v_status", "v_coop_insti_id",
+                "v_flag", "i_no", "i_perno"};
+
+        Object[] paramaters = new Object[]{
+                variables.containsKey("userId")? variables.get("userId"): null,
+                variables.containsKey("merberId")? variables.get("merberId"): null,
+                variables.containsKey("merchName")? variables.get("merchName"): null,
+                variables.containsKey("address")? variables.get("address"): null,
+                variables.containsKey("status")? variables.get("status"): null,
+                variables.containsKey("coopInstiId") ? variables.get("coopInstiId") : null,
+                variables.containsKey("flag") ? variables.get("flag") : null,
+                page, rows};
+        return getDao().executePageOracleProcedure(
+                "{CALL PCK_MERCH.sel_t_merchant(?,?,?,?,?,?,?,?,?,?,?)}",
+                columns, paramaters, "cursor0", "v_total");
+    }
 }

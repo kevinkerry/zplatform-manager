@@ -73,10 +73,10 @@ public class LimitPerdayServiceImpl extends BaseServiceImpl<LimitPerdayModel, Lo
 		    if(limitPerday==null){
 		    	return "操作失败！";
 		    }
-			Object[] paramaters = new Object[] {limitPerday.getTId(),limitPerday.getNums(),limitPerday.getRisklevel(),limitPerday.getNotes(),limitPerday.getRemarks()};
-			String[] columns = new String[] {"v_t_id","v_nums","v_risklevel","v_notes","v_remarks"};
+			Object[] paramaters = new Object[] {limitPerday.getTId(),limitPerday.getNums(),limitPerday.getRisklevel(),limitPerday.getNotes(),limitPerday.getRemarks(),limitPerday.getCardtype()};
+			String[] columns = new String[] {"v_t_id","v_nums","v_risklevel","v_notes","v_remarks","v_cardtype"};
 			Object total =getDao().executeOracleProcedure(
-					"{CALL PCK_T_LIMIT_PERDAY.upt_t_limit_perday(?,?,?,?,?,?)}",
+					"{CALL PCK_T_LIMIT_PERDAY.upt_t_limit_perday(?,?,?,?,?,?,?)}",
 					columns,paramaters, "cursor0").get(0).get("INFO");
 			return (String) total;
 	       }      

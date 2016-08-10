@@ -131,7 +131,7 @@ table tr td select {
 							<td>计算公式</td>
 							<td><input type="hidden" id="ordform"
 								name="sr.entryAlgorithm"> <input id="ordforms"
-								disabled="true " name="organ.organName" required="true"
+								disabled="true " name="sr.elmeform" required="true"
 								type="text" class="easyui-validatebox" maxlength="20" /><span
 								style="color: red;">请点击按钮输入计算公式</span></td>
 							<td colspan="2"><a href="javascript:void(0)"

@@ -75,18 +75,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="left" style="padding-left:5px" width="25%">
 							<input name="memberId" id="memberId" maxlength="15"/>
 						</td>
+						
 						<td align="right" width="15%">会员名称</td>
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="memberName" id="memberName"/>
 						</td>
+						
 						<td align="right" width="15%">绑定手机号</td>
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="memberPhone" id="memberPhone"/>
-						</td>
-						<td align="right">
+						</td>	
+					</tr>
+					
+					<tr>											
+						<td align="right" width="15%">
 							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
 						</td>
 					</tr>
+					
+					
 					
 				</table>
 			</form>
@@ -471,7 +478,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							}
 						}
 					},
-
+					{field:'PHONE',title:'手机号',width:150,align:'center'},
 					{field:'MEMBERSTAT',title:'状态',width:100,align:'center',
 						formatter:function(value,rec){
 						if(value=="01"){
@@ -515,8 +522,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		function search(){
 			var data={'memberId':$('#memberId').val(),
-					  'memberName':$("#memberName").val(),
-					  'memberPhone':$('#memberPhone').val()
+					  'memberName':$("#memberName").val(),	
+			          'memberPhone':$("#memberPhone").val()
 					};
 			$('#test').datagrid('load',data);
 		}

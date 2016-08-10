@@ -1,10 +1,19 @@
 package com.zlebank.zplatform.manager.action.system;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream.PutField;
+import java.math.BigDecimal;
+import java.security.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.inject.Container;
+import com.sun.jdi.LongValue;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.DeptModel;
 import com.zlebank.zplatform.manager.dao.object.OrganModel;
@@ -19,7 +28,7 @@ public class DeptAction extends BaseAction{
 	private String deptCode;
 	private Long deptId;
 	private DeptModel dept;
-	
+	HttpServletRequest request = ServletActionContext.getRequest();
 
 	public String show(){
 		return SUCCESS;
@@ -89,13 +98,22 @@ public class DeptAction extends BaseAction{
 	 * 删除部门信息
 	 * @return
 	 */
-	public String delete(){
+	@SuppressWarnings("unchecked")
+    public String delete(){
 		
 		try {
-			List<?> returnList = serviceContainer.getDeptService().deleteDept(deptId);
+		    
+			List<?> returnList = serviceContainer.getDeptService().deleteDept(dept.getDeptId());			 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map = (Map<String, Object>) returnList.get(0);
+			if(map.get("RET").equals("succ")){//判断注销返回成功时，去更新备注信息
+			    dept.setCreator(getCurrentUser().getLoginName());
+			    dept.setStatus("01");
+			    List<?> returnList1 = serviceContainer.getDeptService().updateDept(dept);
+			}
 			json_encode(returnList);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null;
@@ -110,7 +128,6 @@ public class DeptAction extends BaseAction{
 		json_encode(dept);
 		return null;
 	}
-	
 
 	public ServiceContainer getServiceContainer() {
 		return serviceContainer;

@@ -5,8 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.dao.object.BlackIdnumModel;
 import com.zlebank.zplatform.manager.dao.object.BlacklistMemberModel;
 import com.zlebank.zplatform.manager.dao.object.BlacklistPanModel;
 import com.zlebank.zplatform.manager.dao.object.LimitCreditSingleModel;
@@ -439,6 +444,130 @@ public class RiskAction extends BaseAction {
 		return null;
 	}
 
+	
+	
+	//-----------------------------------------------------------------持卡人黑名单------------------------------------------------
+    private BlackIdnumModel blackIdnumModel;
+                
+    public BlackIdnumModel getBlackIdnumModel() {
+        return blackIdnumModel;
+    }
+
+    public void setBlackIdnumModel(BlackIdnumModel blackIdnumModel) {
+        this.blackIdnumModel = blackIdnumModel;
+    }
+
+    public String showCardholderBlackList(){
+        return "cardholder_black";
+    }
+    HttpServletRequest request = ServletActionContext.getRequest();
+    public final static String DEFAULT_TIME_STAMP_FROMAT2 = "yyyy-MM-dd";
+    /**
+     * 根据身份证号查询持卡人黑名单
+     * @return
+     */
+    public String queryCardHolderBlackList(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        if(blackIdnumModel == null){
+            blackIdnumModel = new BlackIdnumModel();
+        }
+        variables.put("idnum", blackIdnumModel.getIdnum());
+        
+        Map<String, Object> result = serviceContainer.getCardHolderBlackService().queryCardHolderBlackList(variables,this.getPage(),this.getRows());
+        json_encode(result);
+        return null;
+    }
+    
+    /***
+     * 保存持卡人黑名单信息
+     * @return
+     */
+    public void saveCardHolderBlack(){       
+        if(blackIdnumModel == null){
+            blackIdnumModel = new BlackIdnumModel();
+        }
+        String sdateString = blackIdnumModel.getSdate();
+        String edateString = blackIdnumModel.getEdate();
+        String[] sdate1 = sdateString.split("-");
+        String[] edate1 = edateString.split("-");
+        String sdate = "";
+        String edate = ""; 
+        for(int i=0;i<sdate1.length;i++){
+            sdate = sdate+sdate1[i];
+            edate = edate+edate1[i];
+        }        
+        blackIdnumModel.setSdate(sdate);
+        blackIdnumModel.setEdate(edate);
+        String result = serviceContainer.getCardHolderBlackService().AddOneBlackCardHolder(blackIdnumModel);
+        json_encode(result);
+    }
+    
+    /**
+     * （根据选中的记录的tid）查询一条持卡人黑名单信息
+     * @return
+     */
+    public String queryOneBlackCardHolder(){        
+        String tid = request.getParameter("tid");
+        Map<String, Object> blackCardHolder = serviceContainer.getCardHolderBlackService().queryOneBlackCardHolder(tid);
+        String sdateString = (String) blackCardHolder.get("SDATE");
+        String edateString = (String) blackCardHolder.get("EDATE");
+        String sdate = sdateString.substring(0,4)+"-"+sdateString.substring(4,6)+"-"+sdateString.substring(6,8);
+        String edate = edateString.substring(0,4)+"-"+edateString.substring(4,6)+"-"+edateString.substring(6,8);      
+        blackCardHolder.put("SDATE", sdate);
+        blackCardHolder.put("EDATE", edate);
+    
+        json_encode(blackCardHolder);
+        return null;
+    }
+    
+    /***
+     * 修改持卡人黑名单
+     */
+    
+    public String updateBlackCardHolder(){
+        String tid = request.getParameter("tid");
+        blackIdnumModel.setTid(tid);
+        if(blackIdnumModel == null){
+            blackIdnumModel = new BlackIdnumModel();
+        }
+        String sdateString = blackIdnumModel.getSdate();
+        String edateString = blackIdnumModel.getEdate();
+        String[] sdate1 = sdateString.split("-");
+        String[] edate1 = edateString.split("-");
+        String sdate = "";
+        String edate = ""; 
+        for(int i=0;i<sdate1.length;i++){
+            sdate = sdate+sdate1[i];
+            edate = edate+edate1[i];
+        }        
+        blackIdnumModel.setSdate(sdate);
+        blackIdnumModel.setEdate(edate);
+        String mark = serviceContainer.getCardHolderBlackService().updateBlackCardHolder(blackIdnumModel);
+        json_encode(mark);
+        return null;
+        
+    }
+    /**
+     * （根据选中记录的tid）注销此持卡人黑名单
+     * @return
+     */
+    public String deleteCardHolderBlack(){
+        String tid = request.getParameter("tid");
+        String mark = serviceContainer.getCardHolderBlackService().delteOneCardHolderBlack(tid);
+        json_encode(mark);
+        return null;
+    }
+    /**
+     * （根据选中记录的tid）启用此持卡人黑名单
+     * @return
+     */
+    public String startCardHolderBlack(){
+        String tid = request.getParameter("tid");
+        String mark = serviceContainer.getCardHolderBlackService().startCardHolderBlack(tid);
+        json_encode(mark);
+        return null;
+        
+    }
 	public RiskModel getRiskModel() {
 		return riskModel;
 	}

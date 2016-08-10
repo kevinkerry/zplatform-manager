@@ -8,6 +8,11 @@
 
 </style>
   <body>
+    <style type="text/css">
+  	table tr td{height:25px}
+  	table tr td input{height:15px}
+  	table tr td select{height:20px}
+    </style>
   	<div style="padding-top:5px;margin-left:5px;margin-right:5px" id="continer">
 	    <div id="p" class="easyui-panel" title="查询条件" style="height:110px;padding-top:10px;background:#fafafa;" iconCls="icon-save" collapsible="true">
 			<form action="" id="searchForm">
@@ -102,7 +107,13 @@
 							<td align="left">
 							</td>
 						</tr>
-						
+						<tr style="height: 25px">
+						    <td>备注</td>
+							<td colspan="3">
+							    <textarea  rows="3" cols="81" id="user_notes" maxlength="50" name="user.notes"></textarea>
+						    </td>
+	
+						</tr>
 					</table>
 				</form>
 			</div>
@@ -180,6 +191,7 @@
 					{field:'DEPT_NAME',title:'所属部门',width:100,align:'center'},
 					{field:'CREATOR',title:'创建者',width:100,align:'center'},
 					{field:'CREATE_DATE',title:'创建时间',width:130,align:'center'},
+					{field:'NOTES',title:'备注',width:100,align:'center'},					
 					{field:'STATUS',title:'状态',width:120,align:'center',
 						formatter:function(value,rec){
 							if(value=="00"){
@@ -418,21 +430,61 @@
 		
 
 		function deleteUser(userId){
-			$.messager.confirm('提示','您是否想要注销此用户?',function(r){   
-			    if (r){  
-			    	$.ajax({
-						type: "GET",
-					  	url: "pages/system/deleteUserAction.action",
-					  	data: "rand="+new Date().getTime()+"&userId="+userId,
-					 	dataType: "text",
-					 	success:function(text){
-			    			$.messager.alert('提示',text);   
-			    			search();
-					 	}
-					});
-			    	
-			    }   
-			});  
+			$.ajax({
+				   type: "POST",
+				   url: "pages/system/getSingleByIdUserAction.action",
+				   data: "userId="+userId,
+				   async: false,
+				   dataType:"json",
+				   success: function(json){						
+							$("#user_code").val(json.userCode);
+							$("#user_code").attr('readonly','readonly');
+							$("#user_code").css('background-color','#D2D2D2');
+							$("#user_name").val(json.userName);
+							$("#user_loginName").val(json.loginName);
+							$("#user_organId").val(json.organId);
+							$("#user_status").val(json.status);
+							$("#user_isadmin").val(json.isadmin);
+							$("#user_id").val(json.userId);
+							$("#user_notes").val(json.notes);
+							//读取职能部门信息
+							var html = '<option value="">--请选择所属部门--</option>';
+							$.ajax({
+								type: "GET",
+							  	url: "pages/system/showDeptUserAction.action",
+							  	data: "rand="+new Date().getTime()+"&organId="+json.organId,
+							 	dataType: "json",
+							 	async: false,
+							 	success:function(json){
+									$.each(json, function(key,value){
+										html += '<option value="'+value.deptId+'">'+value.deptName+'</option>';
+									})
+									$("#user_deptId").html(html);
+									
+							 	}
+							});
+							setTimeout(function(){ 
+								$("#user_deptId").val(json.deptId);
+							},1);
+							
+				   }
+				});
+				$('#w').window({
+					title: '注销用户', 
+					top:100,
+					width: 600,
+					modal: true,
+					minimizable:false,
+					collapsible:false,
+					maximizable:false,
+					shadow: false,
+					closed: false,
+					height: 220
+				});
+				$("#saveForm").attr("action","pages/system/deleteUserAction.action");
+			
+				$('#btn_submit').linkbutton('enable');
+				
 						
 		}
 		function UserPasswordReset(userId){

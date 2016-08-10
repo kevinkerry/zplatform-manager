@@ -18,7 +18,7 @@ table tr td select {
 </style>
 	<div style="margin: 5px; border:" id="continer">
 		<div id="p" class="easyui-panel" title="查询条件"
-			style="height: 70px; padding: 10px; background: #fafafa;"
+			style="height: 100px; padding: 10px; background: #fafafa;"
 			iconCls="icon-save" collapsible="true">
 			<form id="theForm" method="post">
 				<table width="100%">
@@ -33,10 +33,11 @@ table tr td select {
 							<input name="insteadPayBatchQuery.beginDate" id="beginDate" maxlength="32" />-
 							<input name="insteadPayBatchQuery.endDate" id="endDate" maxlength="32" />
 						</td>
-						
+					</tr>
+					<tr>	
 						<td align="right" width="10%">订单编号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="insteadPayBatchQuery.batchNo" id="batchno" maxlength="32" />
+							name="insteadPayBatchQuery.orderNo" id="orderNo" maxlength="32" />
 						</td>
 				
 						<td align="right" rowspan="6"><a href="javascript:search()"
@@ -376,7 +377,7 @@ table tr td select {
 				"insteadPayBatchQuery.batchNo" : $('#batchno').val(),
 				"insteadPayBatchQuery.beginDate":$("#beginDate").datebox("getValue"),
 				"insteadPayBatchQuery.endDate":$("#endDate").datebox("getValue"),
-				"insteadPayBatchQuery.status":$("#queryStatus").val()
+				"insteadPayBatchQuery.orderNo":$("#orderNo").val()
 			   }
 			$('#test').datagrid('load', data);
 	}

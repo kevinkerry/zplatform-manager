@@ -30,24 +30,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						          <option value='00'>在用</option>
 						          <option value='10'>注册待初审</option>
 						          <option value='11'>注册初审未过</option>
-						          <option value='41'>变更复审未过</option>
-						          <option value='21'>注册复审未过</option>
+						          <option value='19'>注册初审终止</option>
 						          <option value='20'>注册待复审</option>
-						          <option value='30'>变更待初审</option>
-						          <option value='40'>变更待复审</option>
-
-
-						          
- 							<!--  <option value='69'>注销审核终止</option>
- 								  <option value='60'>注销待复审</option>
- 								  <option value='61'>注销复审未过</option>
- 								  <option value='51'>注销初审未过</option>
-						          <option value='50'>注销待初审</option>
-						          <option value='29'>注册审核终止</option>
-						          <option value='49'>修改审核终止</option>
-						          <option value='19'>商户注册终止</option>
-						          <option value='99'>商户归档</option> -->
-						          
+						          <option value='21'>注册复审未过</option>
+								  <option value='29'>注册复审终止</option>
 					        </select>
 						</td>
 						<td align="right"  width="10%">
@@ -127,11 +113,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 						}
 							},	
-						{field:'DEPT_ID',title:'操作',width:120,align:'center',
+						{field:'DEPT_ID',title:'操作',width:150,align:'center',
 						formatter:function(value,rec){
 							if(flag=='10'){
 								if(rec.STATUS=='00'){
 									return '<a href="javascript:toMerchMk('+rec.MEMBER_ID+')" style="color:blue;margin-left:10px">秘钥下载</a>&nbsp<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
+									        
+									      
 								}else{
 									return '<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
 								}
@@ -146,6 +134,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					},
 					{field:'ACTIVATE_STATUS',title:'是否激活成功',width:120,align:'center',
 						formatter:function(value,rec){
+							if(rec.STATUS!='00'){
+								return ;
+							}
 							if(rec.ACTIVATE_STATUS=='00'){
 								return "已经激活";
 							}else{
@@ -193,6 +184,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	window.event.returnValue = false;
             
 		}
+		function toMerchModify(id){
+			window.location.href= "<%=basePath%>" +'pages/merchant/toMerchModifyMerchantAction.action?merchApplyId='+id;
+			window.event.returnValue = false;
+		}
+		
 		//function toActivateStatus(memberId){
 	    //	window.event.returnValue = false;
             

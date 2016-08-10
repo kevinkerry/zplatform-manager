@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="hidden" id="isDelegation_old" value="${merchDeta.member.isDelegation}"/>
 				<table width="100%">
 					<tr>
-						<td colspan="4" class="head-guide"><font class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
+					   <td colspan="4" class="head-guide"><font class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
 					</tr>	
 					<tr>
 						<td colspan="4" class="head-title"></td>
@@ -288,7 +288,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>
 							<input  class="easyui-validatebox" maxlength="50" validType="email" name="merchDeta.member.contEmail" value="${merchDeta.member.contEmail}"/>
 						</td>
-						<td colspan="2"></td>
+						
+						
+						<td align="center">备注</td>
+						<td>
+							<input  class="easyui-validatebox" maxlength="50"  name="merchDeta.notes" value="${merchDeta.notes}"/>
+						</td>
+						
 					</tr> 
 				</table>
 			</form>

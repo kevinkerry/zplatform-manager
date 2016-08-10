@@ -129,13 +129,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				}
 				}
-				
 			]],
 			pagination:true,
 			rownumbers:true
-			
 		});
-
 	});
 	
 	
@@ -161,11 +158,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			});
 		}		
-		
-
 	}
+	
 	function search(){
-		
 		var data={"startDate":$('#startDate').datebox('getValue'),"endDate":$("#endDate").datebox('getValue')};
 		$('#test').datagrid('load',data);
 	}
@@ -225,7 +220,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 
 	function exportSuccess(proid){
-		$('#check').attr("action","pages/merchant/exportCheckSuccessUploadAction.action?proid"+proid);
+		$('#check').attr("action","pages/merchant/exportCheckSuccessUploadAction.action?proid="+proid);
 		$("#check").submit();
 	}
 	function showCheckFail(proid){				
@@ -250,7 +245,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				{field:'TXNFEE',title:'手续费金额(元)',width:140,align:'center'},
 				{field:'CFEE',title:'通道手续费',width:140,align:'center'},
 				{field:'PAYINST',title:'交易渠道',width:140,align:'center'},
-				{field:'PAYINST',title:'差错原因',width:140,align:'center'}
+				{field:'MISTAKEDESC',title:'差错原因',width:140,align:'center'}
 			]],
 			pagination:true,
 			rownumbers:true,
@@ -267,7 +262,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	function exportFail(proid){
-		$('#check').attr("action","pages/merchant/exportCheckFailUploadAction.action?proid"+proid);
+		$('#check').attr("action","pages/merchant/exportCheckFailUploadAction.action?proid="+proid);
 		$("#check").submit();
 	}
 </script>

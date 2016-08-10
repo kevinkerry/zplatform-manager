@@ -96,9 +96,17 @@
 	<bean id="txnsLogsDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.TxnsLogsDAOImpl">
 	</bean>
+	<bean id="cardHolderBlackDAO" parent="hibernateDAOImpl"
+	    class="com.zlebank.zplatform.manager.dao.CardHolderBlackDAOImpl">
+	</bean>
+	<bean id="riskAnalyseLogDAO" parent="hibernateDAOImpl"
+	    class="com.zlebank.zplatform.manager.dao.RiskAnalyseLogDAOImpl">
+	</bean>
+	<bean id="channelDAO" parent="hibernateDAOImpl" 
+	class="com.zlebank.zplatform.manager.dao.ChannelDaoImpl">
+	</bean>
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
-
 		<property name="userDAO">
 			<ref bean="UserDAO" />
 		</property>
@@ -182,6 +190,15 @@
 		<property name="txnsLogsDAO">
 			<ref bean="txnsLogsDAO" />
 		</property>
+		<property name="cardHolderBlackDAO">
+        	<ref bean="cardHolderBlackDAO"/>
+        </property>
+        <property name="riskAnalyseLogDAO">
+            <ref bean="riskAnalyseLogDAO"/>
+        </property>
+        <property name="channelDAO">
+             <ref bean="channelDAO"/>
+        </property>
 		
 	</bean>
 </beans>

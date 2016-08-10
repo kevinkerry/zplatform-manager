@@ -116,9 +116,17 @@ public class RoleAction extends BaseAction{
 	 * 删除角色信息
 	 * @return
 	 */
-	public String delete(){
+	@SuppressWarnings("unchecked")
+    public String delete(){
 		try {
-			List<?> returnList = serviceContainer.getRoleService().deleteRole(roleId);
+			List<?> returnList = serviceContainer.getRoleService().deleteRole(role.getRoleId());
+			Map<String, Object> map =new HashMap<String, Object>();
+			map = (Map<String, Object>) returnList.get(0);
+			if(map.get("RET").equals("succ")){
+			    role.setCreator(getCurrentUser().getUserName());
+			    role.setStatus("01");
+			    List<?> list = serviceContainer.getRoleService().updateRole(role);
+			}			
 			json_encode(returnList);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

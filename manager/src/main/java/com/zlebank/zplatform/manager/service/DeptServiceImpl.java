@@ -3,6 +3,8 @@ package com.zlebank.zplatform.manager.service;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Session;
+
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.object.DeptModel;
@@ -99,5 +101,14 @@ public class DeptServiceImpl extends BaseServiceImpl<DeptModel, Long> implements
 				"{CALL PCK_T_DEPT.del_t_dept(?,?)}", columns,
 				paramaters, "cursor0");
 	}
+
+    @Override
+    public List<?> updateDeptNotes(String deptCode, String notes) {
+
+        return daoContainer.getDeptDAO().updateDeptNotes(deptCode,notes);
+        
+        
+        
+    }
 
 }

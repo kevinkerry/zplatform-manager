@@ -211,7 +211,9 @@ table tr td select {
 												return '退款成功';
 											} else if (rec.STATUS == '39') {
 												return '自行终止';
-											} else {
+											}else if (rec.STATUS == '49') {
+												return '交易失败';
+											}else {
 												return rec.STATUS;
 											}
 										}
@@ -348,6 +350,10 @@ table tr td select {
 		$("#REFUNDDESC").html(c[4]=="NaN"?"":c[4]);
 		$("#stexaopt").val("");
 		$("#refundordernoA").val(c[0]);
+		isok = true;
+		if (isok == true) {
+			showAdds();
+		}
 		/*$.ajax( { 
 				type: "POST",
 		         url: "pages/withdraw/queryTrialWithdraTriaAction.action?falg=first",
@@ -376,11 +382,9 @@ table tr td select {
 		       
 		        }
 		         }
-		})*/
-		isok = true;
-		if (isok == true) {
-			showAdds();
-		}
+		})
+		*/
+
 	}
 </script>
 </html>

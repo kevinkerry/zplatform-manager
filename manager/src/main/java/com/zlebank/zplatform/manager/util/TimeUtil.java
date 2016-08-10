@@ -1,4 +1,4 @@
-package com.zlebank.zplatform.manager.job;
+package com.zlebank.zplatform.manager.util;
 import java.io.InputStream;
 import java.net.Socket;
  

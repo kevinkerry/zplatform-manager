@@ -19,23 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 					    <td align="right" width="10%">交易流水号</td>
 						<td align="left" style="padding-left:5px" width="15%">
-						    <input name="tlb.txnseqno" id="txnseqno" maxlength="32"/>					    
+						    <input name="txnsLogModel.txnseqno" id="txnseqno" maxlength="32"/>					    
 						</td>
 						
-						
-					<!--  	<td align="right" width="10%">交易类型</td>
-						<td colspan="1">
-								<select name="tlb.busicode" class="easyui-validatebox validatebox-text" id="busicode">
-								  <option value="">请选择</option>
-						
-								  <c:forEach items="${bus}" var="bus">
-								  		<c:if test="${bus.busiCode!='10000003'}">
-						          <option value=${bus.busiCode }>${bus.busiName}</option>
-						          </c:if>
-						          </c:forEach> 
-					        	</select>
-						</td>
-					-->	
 						<td align="right" width="10%">银行卡号</td>
 						<td align="left" style="padding-left:5px" width="15%">
 						    <input name="txnsLogModel.pan" id="pan" maxlength="32"/>
@@ -55,10 +41,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   <tr>
 				        <td align="right" width="10%">受理二级商户号</td>
 						<td align="left" style="padding-left:5px" width="15%">
-						    <input name="txnsLogModel.accsecmerno" id="accsecmerno " maxlength="32"/>
+						    <input name="txnsLogModel.accsecmerno" id="accsecmerno" maxlength="32"/>
 						</td>
 						
-						<td align="right" width="10%">支付流水号</td>
+						<td align="right" width="10%">应答流水号</td>
 						<td align="left" style="padding-left:5px" width="15%">
 						    <input name="txnsLogModel.payrettsnseqno" id="payrettsnseqno" maxlength="32"/>
 						</td>
@@ -95,7 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		  $('#test').datagrid({
   				title:'交易流水信息列表',
   				iconCls:'icon-save',
-  				height:400,
+  				height:450,
   				singleSelect:true,
   				nowrap: false,
   				striped: true,
@@ -106,13 +92,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				[
   					{field:'MEMBER_NAME',title:'商户名称',width:120,align:'center'},
   					{field:'ACCSECMERNO',title:'商户编号',width:120,align:'center'},
-  					{field:'ACCMEMBERID',title:'会员编号',width:120,align:'center'},
+  					
   					{field:'PAN',title:'银行卡号',width:130,align:'center'}, 				
-  					{field:'ACCORDNO',title:'商户订单编号',width:130,align:'center'},
+  					{field:'ACCORDNO',title:'商户订单号',width:130,align:'center'},
   					{field:'TXNSEQNO',title:'交易流水号',width:120,align:'center'},
-  					{field:'RETDATETIME',title:'交易时间',width:120,align:'center'},
+  					{field:'ACCORDCOMMITIME',title:'交易时间',width:120,align:'center'},
   					{field:'AMOUNT',title:'交易金额(元)',width:120,align:'center'},
-  					{field:'FEEVER',title:'扣率版本号',width:120,align:'center'},
+  					
   					{field:'TXNFEE',title:'手续费(元)',width:120,align:'center'},
   					{field:'TXNSEQNO_OG',title:'原交易流水号',width:120,align:'center'},
   					{field:'PAYRETTSNSEQNO',title:'应答流水号',width:120,align:'center'},
@@ -136,8 +122,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var data={
 			    "txnsLogModel.txnseqno":$('#txnseqno').val(),//交易流水号
 			    "txnsLogModel.pan":$('#pan').val(),//银行卡号
-			    "txnsLogModel.accmemberid":$('#accmemberid').val(),//（个人）会员号		    
-		    }
+			    "txnsLogModel.accordno":$('#accordno').val(),//商户订单号
+			    "txnsLogModel.accmemberid":$('#accmemberid').val(),//（个人）会员号	
+			    "txnsLogModel.accsecmerno":$('#accsecmerno').val(),//受理二级商户号
+			    "txnsLogModel.payrettsnseqno":$('#payrettsnseqno').val(),//应答流水号
+			    "txnsLogModel.retcode":$('#retcode').val()//中心应答码			    
+		    }		
 			$('#test').datagrid('load',data);
 		}
 		function exports(){

@@ -78,6 +78,7 @@
 			</div>
 		</div>
 	</div>
+	
   </body>
   
   <script>
@@ -100,6 +101,7 @@
 					{field:'DEPT_NAME',title:'部门名称',width:150,align:'center'},
 					{field:'ORGAN_ID',title:'所属机构',width:100,align:'center'},
 					{field:'CREATOR',title:'创建者',width:100,align:'center'},
+					{field:'NOTES',title:'备注',width:100,align:'center'}, 
 					{field:'STATUS',title:'状态',width:100,align:'center',
 						formatter:function(value,rec){
 						if(value=="00"){
@@ -248,19 +250,18 @@
 			   data: "deptId="+deptId,
 			   dataType:"json",
 			   success: function(json){
-				
-		   		//alert(json.creator);
-				$("#dept_code").val(json.deptCode);
-				$('#dept_code').attr('disabled','disabled');
-				$("#dept_name").val(json.deptName);
-				$("#dept_organId").val(json.organId);
-				$("#dept_notes").val(json.notes);
-				$("#dept_id").val(json.deptId);
-				$("#dept_status").val(json.status);
-				
+			   				
+		   		    //alert(json.creator);
+					$("#dept_code").val(json.deptCode);
+					$('#dept_code').attr('disabled','disabled');
+					$("#dept_name").val(json.deptName);					
+					$("#dept_organId").val(json.organId);						
+					$("#dept_notes").val(json.notes);
+					$("#dept_id").val(json.deptId);
+					$("#dept_status").val(json.status);
 			   }
-			});
-			$('#dept_code').removeAttr('class')
+		   });
+			$('#dept_code').removeAttr('class');
 			$('#w').window({
 				title: '修改部门',
 				top:100,
@@ -276,6 +277,38 @@
 			$("#deptForm").attr("action","pages/system/updateDeptAction.action");
 			$('#btn_submit').linkbutton('enable');		
 		}
-					
+		//注销部门 
+		function deleteDept(deptId){
+			$.ajax({
+				   type: "POST",
+				   url: "pages/system/getSingleByIdDeptAction.action",
+				   data: "deptId="+deptId,
+				   dataType:"json",
+				   success: function(json){
+					$("#dept_code").val(json.deptCode);			
+					$("#dept_name").val(json.deptName);		
+					$("#dept_organId").val(json.organId);					
+					$("#dept_notes").val(json.notes);
+					$("#dept_id").val(json.deptId);
+					$("#dept_status").val(json.status);
+				   }
+			});
+				$('#dept_code').removeAttr('class');
+				$('#w').window({
+					title: '注销部门', 
+					top:100,
+					width: 500,
+					collapsible:false,
+					minimizable:false,
+					maximizable:false,
+					modal: true,
+					shadow: false,
+					closed: false,
+					height: 220
+				});				
+				$("#deptForm").attr("action","pages/system/deleteDeptAction.action");
+				$('#btn_submit').linkbutton('enable');
+				
+		}			
 	</script>
 </html>
