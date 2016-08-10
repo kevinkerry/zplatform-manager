@@ -30,6 +30,7 @@ import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.exception.IllegalEntryRequestException;
 import com.zlebank.zplatform.commons.bean.PagedResult;
+import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.action.upload.AbstractFileContentHandler;
 import com.zlebank.zplatform.manager.bean.CmbcResfileBean;
@@ -298,27 +299,32 @@ public class UploadAction extends BaseAction {
         return formatDate + random + extension;
     }
     
-    public void dowanWeChatBill(){
+    public void downWeChatBill(){
     	Map<String, Object> result = new HashMap<String, Object>();
-    	billDate = billDate.replaceAll("-", "");
-    	// 判断是否重复上传文件
-        Boolean boo = serviceContainer.getBnktxnService().upLoad(billDate);
-        if (boo) {
-            result.put("info", "此日期对账文件已经保存！");
-            json_encode(result);
-            return;
-        } else {
-            UploadLogModel ulm = new UploadLogModel();
-            ulm.setLogid(1l);
-            ulm.setFilename(billDate);
-            ulm.setUploaderid(getCurrentUser().getUserId());
-            ulm.setUploadername(getCurrentUser().getUserName());
-            serviceContainer.getUploadlogService().save(ulm); // 保存任务
-        }
-    	
-    	
     	try {
-			List<BnkTxnModel> saveWeChatBill = chatReconFileService.saveWeChatBill(billDate);
+    		log.info("微信对账,日期:"+billDate+"机构："+instiid);
+    		if(StringUtil.isEmpty(billDate)||StringUtil.isEmpty(instiid)){
+    			 result.put("info", "对账日期或机构有误！");
+                 json_encode(result);
+                 return;
+    		}
+        	billDate = billDate.replaceAll("-", "");
+        	String fileName= billDate.concat("_").concat(instiid);
+        	// 判断是否重复上传文件
+            Boolean boo = serviceContainer.getBnktxnService().upLoad(fileName);
+            if (boo) {
+                result.put("info", "此日期对账文件已经保存！");
+                json_encode(result);
+                return;
+            } else {
+                UploadLogModel ulm = new UploadLogModel();
+                ulm.setLogid(1l);
+                ulm.setFilename(fileName);
+                ulm.setUploaderid(getCurrentUser().getUserId());
+                ulm.setUploadername(getCurrentUser().getUserName());
+                serviceContainer.getUploadlogService().save(ulm); // 保存任务
+            }
+			List<BnkTxnModel> saveWeChatBill = chatReconFileService.saveWeChatBill(billDate,instiid);
 			if (saveWeChatBill==null) {
 				result.put("info", "未获取到微信对账文件！");
 				serviceContainer.getBnktxnService().deleteFailedWechatUploadLog(billDate);
@@ -331,6 +337,9 @@ public class UploadAction extends BaseAction {
 				result.put("info", "微信对账文件处理成功！");
 			}			
 		} catch (ParseException e) {			
+			e.printStackTrace();
+			result.put("info", "微信对账文件处理失败！");
+		}catch(Exception e){
 			e.printStackTrace();
 			result.put("info", "微信对账文件处理失败！");
 		}
