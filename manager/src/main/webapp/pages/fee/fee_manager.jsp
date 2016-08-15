@@ -197,6 +197,7 @@
 		}
 	
 		function saveFee() {
+			$("#routver").removeAttr("disable");
 			$('#theForm').form('submit', {
 				onSubmit: function() {
 					if ($('#theForm').form('validate')) {
