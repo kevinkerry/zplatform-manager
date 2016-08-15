@@ -176,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				dataType: "json",
 				success: function(json) {
 					if (json.status == "OK") {
-						$.messager.alert('提示','开通申请提交成功','info',function(){
+						$.messager.alert('提示','变更申请提交成功','info',function(){ 
 							window.location.href = '<%=basePath%>pages/merchant/showMerchModifyMerchantAction.action';
 						});
 					} else {
