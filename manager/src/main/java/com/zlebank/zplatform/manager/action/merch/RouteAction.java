@@ -120,6 +120,9 @@ public class RouteAction extends BaseAction{
         }
         routeModel.setUpuser(getCurrentUser().getUserId());
         mark = serviceContainer.getRouteService().updateRoute(routeModel);
+        if(mark != ""||mark!= null){
+            mark ="修改成功!";
+        }
         json_encode(mark);
         return null;
         
