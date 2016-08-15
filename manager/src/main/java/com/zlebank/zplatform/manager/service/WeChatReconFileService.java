@@ -25,6 +25,7 @@ import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
 import com.zlebank.zplatform.manager.service.iface.IBnkTxnService;
+import com.zlebank.zplatform.trade.bean.enums.ChannelEnmu;
 import com.zlebank.zplatform.wechat.qr.service.WeChatQRService;
 import com.zlebank.zplatform.wechat.service.WeChatService;
 import com.zlebank.zplatform.wechat.wx.bean.QueryBillBean;
@@ -59,13 +60,17 @@ public class WeChatReconFileService {
 			e.printStackTrace();
 		}
 		List<String[]> dowanWeChatBill = null;
+		//微信对账机构
+		String wechatInistId=null;
 		//根据类型调不同的接口
 		if(instiid.equals(INSTIID_WECHAT_APP)){
+			wechatInistId= ChannelEnmu.WEBCHAT.getChnlcode();
 			QueryBillBean queryBillBean = new QueryBillBean();
 			queryBillBean.setBill_date(date);
 			queryBillBean.setBill_type("ALL");
 			dowanWeChatBill = weChatService.dowanWeChatBill(queryBillBean);
 		}else if(instiid.equals(INSTIID_WECHAT_CODE)){
+			wechatInistId= ChannelEnmu.WEBCHAT_QR.getChnlcode();
 			com.zlebank.zplatform.wechat.qr.wx.bean.QueryBillBean queryBillBean = new com.zlebank.zplatform.wechat.qr.wx.bean.QueryBillBean();
 			queryBillBean.setBill_date(date);
 			queryBillBean.setBill_type("ALL");
@@ -103,7 +108,7 @@ public class WeChatReconFileService {
             bnk.setTxndatetime(DateUtil.formatDateTime("yyyyMMddHHmmss", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(bills[0])));
             bnk.setSystrcno(payretorderno);
             bnk.setPayordno(payorderno);
-            bnk.setInstiid("91000001");
+            bnk.setInstiid(wechatInistId);
             if (amount != null && !amount.equals("")) {
                 bnk.setAmount(Money.yuanValueOf(new BigDecimal(amount)).getAmount().longValue());
             }
