@@ -70,7 +70,12 @@
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="routeModel.note" id="notes" maxlength="64"/>
 						</td>
+						
+						<td align="right" width="15%">提示:请在备注处填写注销理由<font color="red">*</font></td>
+						</td>
 					</tr>
+					
+					
 				</table>
 				</form>
 			</div>
@@ -108,15 +113,20 @@
 				    	formatter: function(value, rec){
 				    		if(value == 0){
 				    			return "在用";
-				    		}else if(value == 1){
-				    			return "停用";
+				    		}else if(value == 9){
+				    			return "失效";
 				    		}
 				    	}
 				    },
 				    {field: 'NOTES',title: '备注',width: 100,align: 'center'},				
 				    {field: 'ROUTID',title: '操作',width: 150,align: 'center', 
 						formatter: function(value, rec) {
-							return '<a href="javascript:showRoute(' + value + ')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:toMakeFEECase(' + '\'' + rec.FEEVER + '\'' + ')" style="color:blue;margin-left:10px">配置</a>';
+							if(rec.STATUS ==0){
+								return '<a href="javascript:showRoute(' + value + ')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:deleteRoute('+ value + ')" style="color:blue;margin-left:10px">注销</a>';
+							}else if(rec.STATUS ==9){
+								return ;
+							}
+							
 					}
 				}]],
 				pagination: true,
@@ -189,7 +199,7 @@
 					return false;
 				},
 				success: function(data) {
-					if (data == '添加成功!' || data == '修改成功!') {
+					if (data == '添加成功!' || data == '修改成功!' ||data == '注销成功!') {
 						$.messager.alert('提示', data);
 						closeAdd();
 						$('#btn_submit').linkbutton('enable');
@@ -238,8 +248,38 @@
 			$("#theForm").attr("action", "pages/route/updateRouteRouteAction.action");
 			$('#btn_submit').linkbutton('enable');
 		}
-	
-
+	    //注销 
+		function deleteRoute(routid){
+			$.ajax({
+				type: "POST",
+				url: "pages/route/queryOneRouteRouteAction.action",
+				data: "routid=" + routid,
+				dataType: "json",
+				success: function(json) {
+					$("#routid").val(routid);
+					$("#routver").val(json.ROUTVER);
+					$("#routver").attr("readonly","readonly");
+					$("#routname").val(json.ROUTNAME);
+					$("#routname").attr("readonly","readonly");
+					$("#notes").val(json.NOTES);										
+				}	
+			});
+			$('#w').window({
+				title: '注销路由版本', 
+				top: panelVertFloat,
+		  		left: panelHoriFloat,
+		  		width: panelWidth,
+		  		height: panelHeight,
+				collapsible: false,
+				minimizable: false,
+				maximizable: false,
+				modal: true,
+				shadow: false,
+				closed: false
+			});
+			$("#theForm").attr("action", "pages/route/deleteRouteRouteAction.action"); 
+			$('#btn_submit').linkbutton('enable');
+	    }
 		
 	
 

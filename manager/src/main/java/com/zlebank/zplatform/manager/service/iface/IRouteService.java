@@ -15,7 +15,9 @@ public interface IRouteService extends IBaseService<RouteModel, Long>{
 
     String AddRouteEdition(RouteModel routeModel);
 
-    Map<String, Object> queryOneRoute(String routid);
+    Map<String, Object> queryOneRoute(String routid);   
+
+    String deleteRoute(int routid);
 
     String updateRoute(RouteModel routeModel);
 

@@ -120,12 +120,41 @@ public class RouteAction extends BaseAction{
         }
         routeModel.setUpuser(getCurrentUser().getUserId());
         mark = serviceContainer.getRouteService().updateRoute(routeModel);
-        if(mark != ""||mark!= null){
+        if(mark .equals("succ")){
             mark ="修改成功!";
         }
         json_encode(mark);
         return null;
         
+    }
+    /**
+     * 注销路由版本信息
+     */
+    public String deleteRoute(){
+        String mark = "";
+        if (routeModel  == null||StringUtil.isEmpty(routeModel.getNote().trim())) {
+            mark = "请在备注处填写注销理由";
+            json_encode(mark);
+            return null;
+        }
+        routeModel.setUpuser(getCurrentUser().getUserId());//记录修改人
+        mark = serviceContainer.getRouteService().updateRoute(routeModel);
+        if(mark.equals("succ")){//表示修改成功，下一步需要注销
+            mark = serviceContainer.getRouteService().deleteRoute(routeModel.getRoutid());
+            if(mark.equals("succ")){
+                mark ="注销成功!";
+            }
+        }else{
+            mark="注销失败!";
+        }       
+        json_encode(mark);
+        return null;
+        
+    }
+    
+    //****************************************单条路由配置**********************************************
+    public String showRouteConfig(){
+        return "routeconfig";
     }
 
 }

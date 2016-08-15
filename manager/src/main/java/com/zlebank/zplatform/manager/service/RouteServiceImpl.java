@@ -105,8 +105,20 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
         Map<String, Object> map =  getDao().executeOracleProcedure(
                 "{CALL PCK_T_ROUTE.UPT_T_ROUTE(?,?,?,?,?,?,?)}", columns, paramaters,
                 "cursor0").get(0);
-        String info = (String) map.get("INFO");
+        String info = (String) map.get("RET");
         return info;
+    }
+
+    @Override
+    public String deleteRoute(int routid) {
+        Object[] paramaters = new Object[]{routid};
+        String[] columns = new String[]{"v_routid"};
+        
+        Map<String, Object> resultMap =    getDao().executeOracleProcedure("{CALL PCK_T_ROUTE.DEL_T_ROUTE(?,?)}", 
+                columns, paramaters, "cursor0").get(0);
+        String info = (String) resultMap.get("RET");
+         return info;
+       
     }
 
 
