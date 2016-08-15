@@ -41,6 +41,9 @@ public class FeeAction extends BaseAction {
         return "showbusiRate";
     }
 
+    public String showAccumulate(){
+        return "showAccumulate";
+    }
     // 扣率版本分页查询
     public String queryFee() {
         Map<String, Object> variables = new HashMap<String, Object>();
