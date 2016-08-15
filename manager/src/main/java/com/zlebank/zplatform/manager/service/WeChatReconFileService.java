@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
-import com.zlebank.zplatform.manager.service.iface.IBnkTxnService;
 import com.zlebank.zplatform.trade.bean.enums.ChannelEnmu;
 import com.zlebank.zplatform.wechat.qr.service.WeChatQRService;
 import com.zlebank.zplatform.wechat.service.WeChatService;
