@@ -415,18 +415,6 @@ public class HibernateDAOImpl<E extends Serializable, E_PK extends Serializable>
             if(connection!=null)
             connection.close();
         } catch (SQLException e) {
-            /*try {
-                if(rs!=null)
-                rs.close();
-                
-                if(connection!=null)
-                connection.close();
-            } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }   
-            */
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }finally{
             try {

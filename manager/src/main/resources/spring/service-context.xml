@@ -130,7 +130,15 @@
             <ref bean="DAOContainer"/>
         </property>
     </bean>
+    <bean id="routeService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.RouteServiceImpl">
+        <property name="daoContainer">
+            <ref bean="DAOContainer"/>
+        </property>
+    </bean>
 	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
+	    <property name="routeService">
+	        <ref bean="routeService"/>
+	    </property>
 		<property name="operLogService">
 			<ref bean="operLogService" />
 		</property>

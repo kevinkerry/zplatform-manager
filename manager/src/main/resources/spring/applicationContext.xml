@@ -88,6 +88,7 @@
 				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDeta</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoTradeEntryEventMapping</value>
 				<value>com.zlebank.zplatform.manager.dao.object.CmbcResfileModel</value>
+				<value>com.zlebank.zplatform.manager.dao.object.RouteModel</value>
 				</list>
 		</property>
 		<property name="packagesToScan">
