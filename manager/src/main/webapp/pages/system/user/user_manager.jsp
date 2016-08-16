@@ -376,8 +376,7 @@
 			   data: "userId="+userId,
 			   async: false,
 			   dataType:"json",
-			   success: function(json){
-					
+			   success: function(json){					
 						$("#user_code").val(json.userCode);
 						$("#user_code").attr('readonly','readonly');
 						$("#user_code").css('background-color','#D2D2D2');
@@ -387,6 +386,7 @@
 						$("#user_status").val(json.status);
 						$("#user_isadmin").val(json.isadmin);
 						$("#user_id").val(json.userId);
+						$("#user_notes").val(json.notes);
 						//读取职能部门信息
 						var html = '<option value="">--请选择所属部门--</option>';
 						$.ajax({
