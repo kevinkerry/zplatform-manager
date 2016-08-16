@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="center">地址</td>
 						<td>
-							<input  class="easyui-validatebox" maxlength="256"  name="enterprise.address"  style="width:300px" />
+							<input  class="easyui-validatebox" maxlength="128"  name="enterprise.address"  style="width:300px" />
 						</td>
 						<td align="center">邮编编码</td>
 						<td>
