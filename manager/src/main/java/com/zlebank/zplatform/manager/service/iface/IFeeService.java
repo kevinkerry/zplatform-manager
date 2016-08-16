@@ -40,5 +40,6 @@ public interface IFeeService extends IBaseService<FeeModel, Long>{
  	  public Map<String, Object> findStpeRateByPage(Map<String, Object> variables, int page,int rows);
 	  public String AddOneStpeRate(StepRateModel steprate);
 	  public String UpdateStpeRate(StepRateModel steprate) ;
-	  public Map<String, Object> queryOneStpeRate(String tid);      
+	  public Map<String, Object> queryOneStpeRate(String tid);
+    public Map<String, Object> queryFeever(Map<String, Object> variables);      
 }

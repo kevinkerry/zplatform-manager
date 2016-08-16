@@ -173,7 +173,18 @@
 	
 		function showAdd() {
 			$('#theForm').clearForm();
-			$("#feeCode").removeAttr("readonly");
+			//$("#feeCode").removeAttr("readonly");
+			$.ajax({
+		  		type: "POST",
+		  		url: "pages/fee/queryFeeverFeeAction.action",
+		  		data:"",
+		  		async: false,
+		  		dataType: "json",
+		  		success: function(json) {
+		  			$("#feeCode").val(json.FEEVER);
+                    $("#feeCode").attr("disabled","disabled");
+		  		}
+		  	});
 			$('#w').window({
 				title: '扣率版本信息',
 				top: panelVertFloat,

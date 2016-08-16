@@ -44,6 +44,14 @@ public class FeeAction extends BaseAction {
     public String showAccumulate(){
         return "showAccumulate";
     }
+    //查询扣率版本
+    public String queryFeever(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("table_name", "T_FEE");
+        Map<String,Object> map = (Map<String, Object>) serviceContainer.getFeeService().queryFeever(variables);
+        json_encode(map);
+        return null;
+    }
     // 扣率版本分页查询
     public String queryFee() {
         Map<String, Object> variables = new HashMap<String, Object>();

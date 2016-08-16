@@ -504,4 +504,15 @@ public class FeeServiceImpl extends BaseServiceImpl<FeeModel, Long>
                 "{CALL PCK_T_STEP_RATE.sel_t_step_date(?,?)}", columns,
                 paramaters, "cursor0").get(0);
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> queryFeever(Map<String, Object> variables) {       
+        List<Map<String, Object>> list =  (List<Map<String, Object>>) getDao().executeBySQL("select GET_BROK (?) as feever from dual ", 
+                new Object[]{variables.get("table_name")});
+        Map<String, Object> resultMap = list.get(0);
+        return    resultMap;      
+    }
+    
+    
 }
