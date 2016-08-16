@@ -121,6 +121,21 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
        
     }
 
+    @Override
+    public Map<String, Object> queryRouteConfig(Map<String, Object> variables,
+            int page,
+            int rows) {
+        Object[] paramaters = new Object[]{
+                variables.containsKey("rid")?variables.get("rid"):null,
+                variables.containsKey("routname")?variables.get("routname"):null,
+                page,rows
+        };
+        String[] columns = new String[]{"v_rid","v_routname","i_no","i_perno"};        
+        return getDao().executePageOracleProcedure(
+                "{CALL PCK_T_ROUTE_CONFIG.SEL_T_ROUTE_CONFIG(?,?,?,?,?,?)}",
+                columns,paramaters,"cursor0","v_total");   
+    }
+
 
 
    

@@ -11,30 +11,48 @@
 	</head>
 	<body>
 		<div style="margin: 5px; border: " id="continer">
-			<div id="p" class="easyui-panel" title="路由查询"
+			<div id="p" class="easyui-panel" title="路由配置信息查询"			
 				style="height: 100px; padding: 10px; background: #fafafa;"
 				iconCls="icon-save" collapsible="true">
 				<form id="dedurateForm" method="post">
 					<table width="100%">
+						<tr>						
+							<td align="right" width="15%">路由版本名称</td>
+							<td align="left" style="padding-left: 5px" width="25%">
+								<input name="routeModel.routname" id="routname_qid" class="easyui-validatebox"/>
+							</td>
+							<td align="right" width="15%">路由版本代码</td>
+							<td align="left" style="padding-left: 5px" width="25%">
+								<input name="routeConfigModel.merchRoutver" id="merchRoutver_qid" class="easyui-validatebox"/>
+							</td>
+						</tr>
 						<tr>
-							<td align="right">
-								路由版本代码
+						    <td align="right" width="15%">交易渠道</td>
+						    <td align="left" style="padding-left:5px" width="25%">
+								<select id="routver_qid"  name="routeConfigModel.routver" class="easyui-validatebox" >
+								    <option value="">--请选择--</option>
+								    <option value="10000001">消费</option>
+								    <option value="20000001">充值</option>								    
+								</select>
+						   </td>
+			
+							<td align="right" width="15%">状态</td>
+							<td align="left" style="padding-left: 5px" width="25%">
+							    <select id="status_qid" name="routeConfigModel.status" class="easyui-validatebox" >
+								    <option value="">--请选择--</option>
+								    <option value="0">在用</option>
+								    <option value="1">停用</option>								    
+								</select>					
 							</td>
-							<td align="left" style="padding-left: 5px">
-								<input name="routeModel.routver" id="routver_qid" maxlength="8"/>
-							</td>
-							<td align="right">
-								路由版本名称
-							</td>
-							<td align="left" style="padding-left: 5px">
-								<input name="routeModel.routname" id="routname_qid" maxlength="128"/>
-							</td>
+						
+						</tr>
+						<tr>
 							<td align="right" colspan=2>
 								<a href="javascript:search()" class="easyui-linkbutton"
 									iconCls="icon-search">查询</a>
 								
 							</td>
-							</tr>
+						</tr>
 							
 
 					</table>
@@ -57,18 +75,16 @@
 							<input name="routeModel.routver" id="routver" required="true" validType="minLength[8,8]" maxlength="8" class="easyui-validatebox" />
 						    <font color="red">*</font></td>
 						</td>
-						<td align="right" width="15%">路由版本名称</td>
 						
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeModel.routname" id="routname" required="true" missingMessage="请输入路由版本名称"/>
-							<font color="red">*</font></td>
-						</td>
 					</tr>
 					<tr></tr>
 					<tr>						
 						<td align="right" width="15%">备注</td>
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="routeModel.note" id="notes" maxlength="64"/>
+						</td>
+						
+						<td align="right" width="15%">提示:请在备注处填写注销理由<font color="red">*</font></td>
 						</td>
 					</tr>
 					
@@ -101,27 +117,46 @@
 				nowrap: false,
 				striped: true,
 				sortName: 'ROUTVER',
-				url: 'pages/route/queryRouteEditionRouteAction.action',
+				url: 'pages/route/queryRouteConfigRouteAction.action',
 				remoteSort: false,
 				columns: [[				    
-					{field: 'ROUTVER',title: '路由版本代码',width: 150,align: 'center'},
-				    {field: 'ROUTNAME',title: '路由版本名称',width: 220,align: 'center'},
-				    {field: 'STATUS',title: '状态',width: 100,align: 'center',
+					{field: 'MERCHROUTVER',title: '路由版本代码',width: 100,align: 'center'},
+				    {field: 'ROUTNAME',title: '路由版本名称',width: 100,align: 'center'},
+				    {field: 'STIME',title: '开始时间',width: 100,align: 'center'},
+				    {field: 'ETIME',title: '结束时间',width: 100,align: 'center'},
+				    {field: 'MINAMT',title: '最小金额',width: 100,align: 'center'},
+				    {field: 'MAXAMT',title: '最大金额',width: 100,align: 'center'},
+				    {field: 'BANKCODE',title: '发卡行',width: 150,align: 'center'},
+				    {field: 'BUSICODE',title: '交易类型',width: 150,align: 'center'},
+				    {field: 'CARDTYPE',title: '卡类型',width: 100,align: 'center'},
+				    {field: 'INTIME',title: '写入时间',width: 100,align: 'center'},
+				    {field: 'UPTIME',title: '更新时间',width: 100,align: 'center'},
+				    {field: 'ORDERS',title: '优先级',width: 100,align: 'center'},
+				    {field: 'ISDEF',title: '是否为默认路由',width: 100,align: 'center',
 				    	formatter: function(value, rec){
 				    		if(value == 0){
+				    			return "默认路由";
+				    		}else if(value == 1){
+				    			return "非默认路由";
+				    		}
+				    	}
+				    }, 				    
+				    {field: 'STATUS',title: '状态',width: 100,align: 'center',
+				    	formatter: function(value, rec){
+				    		if(value == 00){
 				    			return "在用";
-				    		}else if(value == 9){
-				    			return "失效";
+				    		}else if(value == 01){
+				    			return "停用";
 				    		}
 				    	}
 				    },
 				    {field: 'NOTES',title: '备注',width: 100,align: 'center'},				
 				    {field: 'ROUTID',title: '操作',width: 150,align: 'center', 
 						formatter: function(value, rec) {
-							if(rec.STATUS ==0){
-								return '<a href="javascript:showRoute(' + value + ')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:deleteRoute('+ value + ')" style="color:blue;margin-left:10px">注销</a>';
-							}else if(rec.STATUS ==9){
-								return ;
+							if(rec.STATUS ==00){
+								return '<a href="javascript:showRouteConfig(' + value + ')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:deleteRouteConfig('+ value + ')" style="color:blue;margin-left:10px">注销</a>';
+							}else if(rec.STATUS ==01){
+								return '<a href="javascript:startRouteConfig(' + value + ')" style="color:blue;margin-left:10px">启用</a>';
 							}
 							
 					}
@@ -147,12 +182,13 @@
 	
 		function search() {
 			var data = {
-				'routeModel.routver': $('#routver_qid').val(),
 				'routeModel.routname': $("#routname_qid").val()
 			};
 			$('#test').datagrid('load', data);
 		}
 	
+
+		
 		//新增路由版本 
 		function showAdd() {
 			$('#theForm').clearForm();

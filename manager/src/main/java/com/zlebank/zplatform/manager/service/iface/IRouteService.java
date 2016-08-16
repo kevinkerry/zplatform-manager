@@ -21,4 +21,6 @@ public interface IRouteService extends IBaseService<RouteModel, Long>{
 
     String updateRoute(RouteModel routeModel);
 
+    Map<String, Object> queryRouteConfig(Map<String, Object> variables,int page,int rows);
+
 }

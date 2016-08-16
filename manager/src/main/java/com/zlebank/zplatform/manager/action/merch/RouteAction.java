@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.dao.object.RouteConfigModel;
 import com.zlebank.zplatform.manager.dao.object.RouteModel;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 
@@ -23,9 +24,15 @@ public class RouteAction extends BaseAction{
     private RouteModel routeModel;
     private ServiceContainer serviceContainer;
     private String routid;
+    private RouteConfigModel routeConfigModel;
     
     
-    
+    public RouteConfigModel getRouteConfigModel() {
+        return routeConfigModel;
+    }
+    public void setRouteConfigModel(RouteConfigModel routeConfigModel) {
+        this.routeConfigModel = routeConfigModel;
+    }
     public String getRoutid() {
         return routid;
     }
@@ -157,4 +164,15 @@ public class RouteAction extends BaseAction{
         return "routeconfig";
     }
 
+    public String queryRouteConfig(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("userId", getCurrentUser().getUserId());
+        if (routeModel == null) {
+            routeModel = new RouteModel();
+        }
+        variables.put("routname", routeModel.getRoutname());
+        Map<String, Object> groupList = serviceContainer.getRouteService().queryRouteConfig(variables, getPage(), getRows());
+        json_encode(groupList);
+        return null; 
+    }
 }
