@@ -173,7 +173,7 @@
 	
 		function showAdd() {
 			$('#theForm').clearForm();
-			//$("#feeCode").removeAttr("readonly");
+			$("#feeCode").removeAttr("readonly");
 			$.ajax({
 		  		type: "POST",
 		  		url: "pages/fee/queryFeeverFeeAction.action",
@@ -182,7 +182,7 @@
 		  		dataType: "json",
 		  		success: function(json) {
 		  			$("#feeCode").val(json.FEEVER);
-                    $("#feeCode").attr("disabled","disabled");
+                    $("#feeCode").attr("readonly","readonly");
 		  		}
 		  	});
 			$('#w').window({
