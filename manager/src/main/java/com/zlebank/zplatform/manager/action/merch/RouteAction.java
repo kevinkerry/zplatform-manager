@@ -1,14 +1,18 @@
 package com.zlebank.zplatform.manager.action.merch;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.dao.object.ParaDicModel;
 import com.zlebank.zplatform.manager.dao.object.RouteConfigModel;
 import com.zlebank.zplatform.manager.dao.object.RouteModel;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
+
 
 /**
  * 
@@ -25,8 +29,44 @@ public class RouteAction extends BaseAction{
     private ServiceContainer serviceContainer;
     private String routid;
     private RouteConfigModel routeConfigModel;
-    
-    
+    private ParaDicModel paraDicModel;
+    @SuppressWarnings("rawtypes")
+    private List bankcodeList; 
+    @SuppressWarnings("rawtypes")
+    private List busicodeList;
+    @SuppressWarnings("rawtypes")
+    private List cradtypeList;
+
+    @SuppressWarnings("rawtypes")
+    public List getBankcodeList() {
+        return bankcodeList;
+    }
+    @SuppressWarnings("rawtypes")
+    public void setBankcodeList(List bankcodeList) {
+        this.bankcodeList = bankcodeList;
+    }
+    @SuppressWarnings("rawtypes")
+    public List getBusicodeList() {
+        return busicodeList;
+    }
+    @SuppressWarnings("rawtypes")
+    public void setBusicodeList(List busicodeList) {
+        this.busicodeList = busicodeList;
+    }
+    @SuppressWarnings("rawtypes")
+    public List getCradtypeList() {
+        return cradtypeList;
+    }
+    @SuppressWarnings("rawtypes")
+    public void setCradtypeList(List cradtypeList) {
+        this.cradtypeList = cradtypeList;
+    }
+    public ParaDicModel getParaDicModel() {
+        return paraDicModel;
+    }
+    public void setParaDicModel(ParaDicModel paraDicModel) {
+        this.paraDicModel = paraDicModel;
+    }
     public RouteConfigModel getRouteConfigModel() {
         return routeConfigModel;
     }
@@ -76,7 +116,7 @@ public class RouteAction extends BaseAction{
     }
     
     /**
-     * 查询路由版本代码
+     * 查询路由版本代码(路由版本代码要求按照规则生成，不能让用户自己填写、修改)
      * @throws IOException 
      */
     public String queryRoutver() throws IOException{
@@ -164,15 +204,105 @@ public class RouteAction extends BaseAction{
         return "routeconfig";
     }
 
+    @SuppressWarnings("unchecked")
     public String queryRouteConfig(){
         Map<String, Object> variables = new HashMap<String, Object>();
         variables.put("userId", getCurrentUser().getUserId());
-        if (routeModel == null) {
-            routeModel = new RouteModel();
+        if (routeConfigModel == null) {
+            routeConfigModel = new RouteConfigModel();
         }
-        variables.put("routname", routeModel.getRoutname());
+        variables.put("routver", routeConfigModel.getRoutver());//交易渠道
+        variables.put("status", routeConfigModel.getStatus());
+        variables.put("merchroutver", routeConfigModel.getMerchroutver());
         Map<String, Object> groupList = serviceContainer.getRouteService().queryRouteConfig(variables, getPage(), getRows());
         json_encode(groupList);
         return null; 
     }
+    /**
+     * 查询交易渠道
+     */
+    @SuppressWarnings("unchecked")
+    public String queryChnlcode(){
+        
+        List<Map<String, Object>> groupList = serviceContainer.getRouteService().queryChnlcode(); 
+        List<ParaDicModel> list = new ArrayList<ParaDicModel>();
+        for(int i=0;i<groupList.size();i++){
+            String paracodeString = groupList.get(i).get("PARA_CODE").toString();
+            String paranameString  = groupList.get(i).get("PARA_NAME").toString();
+            ParaDicModel paraDicModel = new ParaDicModel();
+            paraDicModel.setParaCode(paracodeString);
+            paraDicModel.setParaName(paranameString);          
+            list.add(paraDicModel);
+        }   
+       try {
+          json_encode(list);
+       } catch (IOException e) {
+        
+          e.printStackTrace();
+       }
+        
+        return null;
+    }
+    
+    /**
+     * 查询发卡行对应的银行代码
+     */
+    @SuppressWarnings("unchecked")
+    public String queryBankCode(){
+        List<Map<String, Object>> resultList =(List<Map<String, Object>>) serviceContainer.getRouteService().getAllBank();
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        for(int i= 0; i<resultList.size();i++){
+            String bankcodeString = resultList.get(i).get("BANKCODE").toString();
+            String banknameString = resultList.get(i).get("BANKNAME").toString();
+            Map<String, Object>  map = new HashMap<String, Object>();
+            map.put("bankcode", bankcodeString);
+            map.put("bankname", banknameString);
+            list.add(map);           
+        }
+        try {
+            json_encode(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * 增加一条路由配置信息
+     */
+    public String addRouteConfig(){
+        String result = "";
+        if (routeConfigModel == null||StringUtil.isEmpty(routeConfigModel.getStime().trim())||
+            StringUtil.isEmpty(routeConfigModel.getEtime().trim()) ) {
+            result = "开始时间或结束时间不能为空";
+            json_encode(result);
+            return null;
+        }
+        routeConfigModel.setInuser(getCurrentUser().getUserId());
+        result=serviceContainer.getRouteService().addRouteConfig(routeConfigModel, bankcodeList,busicodeList,cradtypeList);
+        json_encode(result);
+        return null;
+    }
+    /**
+     *得到所有的路由版本
+     */
+    public String queryAllRoutver(){
+        List<Map<String, Object>> resultList =(List<Map<String, Object>>) serviceContainer.getRouteService().queryAllRoutver();
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        for(int i= 0; i<resultList.size();i++){
+            String routverString = resultList.get(i).get("ROUTVER").toString();
+            String routnameString = resultList.get(i).get("ROUTNAME").toString();
+            Map<String, Object>  map = new HashMap<String, Object>();
+            map.put("routver", routverString);
+            map.put("routname", routnameString);
+            list.add(map);           
+        }
+        try {
+            json_encode(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
 }

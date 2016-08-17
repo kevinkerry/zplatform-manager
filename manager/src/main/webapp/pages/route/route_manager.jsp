@@ -108,19 +108,19 @@
 				    {field: 'ROUTNAME',title: '路由版本名称',width: 220,align: 'center'},
 				    {field: 'STATUS',title: '状态',width: 100,align: 'center',
 				    	formatter: function(value, rec){
-				    		if(value == 0){
+				    		if(value == 00){
 				    			return "在用";
-				    		}else if(value == 9){
-				    			return "失效";
+				    		}else if(value == 01){
+				    			return "停用";
 				    		}
 				    	}
 				    },
 				    {field: 'NOTES',title: '备注',width: 100,align: 'center'},				
 				    {field: 'ROUTID',title: '操作',width: 150,align: 'center', 
 						formatter: function(value, rec) {
-							if(rec.STATUS ==0){
+							if(rec.STATUS ==00){
 								return '<a href="javascript:showRoute(' + value + ')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:deleteRoute('+ value + ')" style="color:blue;margin-left:10px">注销</a>';
-							}else if(rec.STATUS ==9){
+							}else if(rec.STATUS ==01){
 								return ;
 							}
 							

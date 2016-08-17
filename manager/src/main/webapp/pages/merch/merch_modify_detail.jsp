@@ -348,10 +348,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				success: function(json) {
 					$.each(json,
 					function(key, value) {
-						alert(value.INFO);
-						if (value.INFO == "操作成功!") {
-							history.back( - 1);
-						}
+						if(value.FLAG == "复审通过"){ 
+							alert("操作成功,变更信息下一日生效");
+							if (value.INFO == "操作成功!") {
+								history.back( - 1);
+							}
+						}else{
+							alert(value.INFO);	
+							if (value.INFO == "操作成功!") {
+								history.back( - 1);
+							}
+						}						
+						
 					})
 		
 				}

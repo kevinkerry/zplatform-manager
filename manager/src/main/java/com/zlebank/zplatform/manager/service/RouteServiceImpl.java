@@ -3,13 +3,26 @@ package com.zlebank.zplatform.manager.service;
 import java.util.List;
 import java.util.Map;
 
+import com.zlebank.zplatform.manager.bean.ParaDic;
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
+import com.zlebank.zplatform.manager.dao.object.RouteConfigModel;
 import com.zlebank.zplatform.manager.dao.object.RouteModel;
 import com.zlebank.zplatform.manager.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.manager.service.iface.IRouteService;
 
 public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implements IRouteService {
+
+    private ParaDic paraDic;
+    
+    
+    public ParaDic getParaDic() {
+        return paraDic;
+    }
+
+    public void setParaDic(ParaDic paraDic) {
+        this.paraDic = paraDic;
+    }
 
     private DAOContainer daoContainer;
 
@@ -126,15 +139,99 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
             int page,
             int rows) {
         Object[] paramaters = new Object[]{
-                variables.containsKey("rid")?variables.get("rid"):null,
-                variables.containsKey("routname")?variables.get("routname"):null,
+                null,null,
+                variables.containsKey("routver")?variables.get("routver"):null,
+                variables.containsKey("status")?variables.get("status"):null,
+                variables.containsKey("merchroutver")?variables.get("merchroutver"):null,
                 page,rows
         };
-        String[] columns = new String[]{"v_rid","v_routname","i_no","i_perno"};        
+        String[] columns = new String[]{"v_rid","v_routname","v_routver","v_status",
+                "v_merchroutver","i_no","i_perno"};        
         return getDao().executePageOracleProcedure(
-                "{CALL PCK_T_ROUTE_CONFIG.SEL_T_ROUTE_CONFIG(?,?,?,?,?,?)}",
+                "{CALL PCK_T_ROUTE_CONFIG.SEL_T_ROUTE_CONFIG(?,?,?,?,?,?,?,?,?)}",
                 columns,paramaters,"cursor0","v_total");   
     }
+
+    @Override
+    public List<Map<String, Object>> queryChnlcode() {        
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>>  resultList = (List<Map<String, Object>>) getDao().executeBySQL("select * from t_para_dic t where t.para_type='CHNLCODE' ", null);
+
+        return resultList ;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Map<String, Object>> getAllBank() {
+        List<Map<String, Object>>  resultList = (List<Map<String, Object>>) getDao().executeBySQL("select distinct (t.bankcode),t.bankname from t_cash_bank t  ", null);
+        return resultList;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public String addRouteConfig(RouteConfigModel routeConfigModel,
+            List bankcodeList,
+            List busicodeList,
+            List cradtypeList) {
+        
+        String  bankcodeStr ="";
+        String  busicodeStr =""; 
+        String  cardtypeStr ="";                 
+        if(routeConfigModel==null){
+            return "产品不能为空";
+        }
+        if(bankcodeList!=null&&bankcodeList.size()>0){
+             for(int i=0;i<bankcodeList.size();i++){
+                 bankcodeStr = bankcodeStr+bankcodeList.get(i).toString()+",";
+             }
+        }
+        if(busicodeList!=null&&busicodeList.size()>0){
+            for(int i=0;i<busicodeList.size();i++){
+                busicodeStr = busicodeStr+busicodeList.get(i).toString()+",";
+            }
+        }
+        if(cradtypeList!=null&&cradtypeList.size()>0){
+            for(int i=0;i<cradtypeList.size();i++){
+                cardtypeStr = cardtypeStr+cradtypeList.get(i).toString()+",";
+            }
+        }
+        Object[] paramaters = new Object[] {
+                null,
+                routeConfigModel.getStime(),
+                routeConfigModel.getEtime(),
+                routeConfigModel.getMinamt(),
+                routeConfigModel.getMaxamt(),
+                bankcodeStr,
+                busicodeStr,
+                cardtypeStr,
+                routeConfigModel.getRoutver(),
+                "00",
+                routeConfigModel.getInuser(),
+                routeConfigModel.getOrdertype(),
+                routeConfigModel.getOrders(),
+                routeConfigModel.getIsdef(),
+                routeConfigModel.getNotes(),
+                routeConfigModel.getRemarks(),
+                routeConfigModel.getMerchroutver()
+        };
+        String[] columns = new String[] {"v_cashcode","v_stime","v_etime","v_minamt","v_maxamt",
+                "v_bankcode","v_busicode","v_cardtype","v_routver","v_status","v_inuser","v_ordertype","v_orders",
+                "v_isdef","v_notes","v_remarks","v_merchroutver"};//总共18个参数
+        Object total =getDao().executeOracleProcedure(
+                "{CALL PCK_T_PRODUCT.ins_t_product(?,?,?,?,?,?.?,?,?,?,?,?,?,?,?,?,?,?)}",
+                columns,paramaters, "cursor0").get(0).get("INFO");
+        return (String) total;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Map<String, Object>> queryAllRoutver() {
+        
+        List<Map<String, Object>>  resultList = (List<Map<String, Object>>) getDao().executeBySQL("select distinct (t.routver),t.routname from t_route t  ", null);
+        return resultList;
+    }
+
+
 
 
 
