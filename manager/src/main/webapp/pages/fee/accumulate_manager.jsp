@@ -21,11 +21,7 @@
 						<td align="left" style="padding-left:5px" width="25%">
 							<select id="busiPack_ins" class="easyui-validatebox"   onchange="showFeeCase_query()">
 							</select>
-						</td>
-						<!-- <td align="right" width="15%">业务版本号</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input id="busiPackName" >
-						</td> -->
+						</td>						
 						<td align="right">
 							 
 						</td>

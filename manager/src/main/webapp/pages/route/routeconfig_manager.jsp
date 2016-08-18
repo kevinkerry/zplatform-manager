@@ -32,10 +32,8 @@
 							<td align="left" style="padding-left: 5px" width="25%">
 								<input name="routeConfigModel.merchroutver" id="merchRoutver_qid" class="easyui-validatebox"/>
 							</td>
-							<td align="right" width="15%">交易渠道</td>
 							
-							
-							
+							<td align="right" width="15%">交易渠道</td>					
 						    <td align="left" style="padding-left:5px" width="25%">
 								<select id="routver_qid"  name="routeConfigModel.routver" class="easyui-validatebox" >								    								    								  
 								<option value="">--请选择交易渠道--</option>
@@ -71,23 +69,35 @@
 			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
 				<form id="theForm"   method="post" action="pages/route/saveRouteConfigRouteAction.action" >
 				<input name="routeConfigModel.rid" id="rid" type="hidden"/>
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
+				<input name="routeConfigModel.status" id="status1" type="hidden"/>
+				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="groupinfo">
 					
 					<tr>
 					    <td align="right" width="15%" height="20px" >路由版本</td>						
 						<td align="left" style="padding-left:5px" width="25%">
 							<select id="merchroutver"   name="routeConfigModel.merchroutver" required="true" missingMessage="请选择路由版本"   class="easyui-validatebox" />
-						       <option value="">--请选择路由版本--</option>
-						    <font color="red">*</font></td>
-						    </select>			
+						       <option value="">--请选择路由版本--</option>						    
+						    </select>	
+						    <font color="red">*</font>		
 						</td>
+						
+						<td align="right" width="15%" height="20px" >交易渠道</td>						
+						<td align="left" style="padding-left:5px" width="25%">
+							<select id="routver"   name="routeConfigModel.routver" required="true" missingMessage="请选择交易渠道"   class="easyui-validatebox" />
+						       <option value="">--请选择交易渠道--</option>						    
+						    </select>	
+						    <font color="red">*</font></td>		
+						</td>
+					
 					</tr>
+					
 					<tr>
 					    <td align="right" width="15%" height="20px" >开始时间</td>						
 						<td align="left" style="padding-left:5px" width="25%">
 							<input name="routeConfigModel.stime" id="stime" required="true" missingMessage="请填写开始时间"  maxlength="6" class="easyui-validatebox" />
 						    <font color="red">*</font></td>
 						</td>
+						
 						<td align="right" width="15%" height="20px" >结束时间</td>						
 						<td align="left" style="padding-left:5px" width="25%">
 							<input name="routeConfigModel.etime" id="etime" required="true" missingMessage="请填写结束时间" maxlength="6" class="easyui-validatebox" />
@@ -101,6 +111,7 @@
 							<input name="routeConfigModel.minamt" id="minamt" required="true" missingMessage="请填写最小金额" maxlength="12" class="easyui-validatebox" />
 						    <font color="red">*</font></td>
 						</td>
+						
 						<td align="right" width="15%" height="20px" >最大金额</td>						
 						<td align="left" style="padding-left:5px" width="25%">
 							<input name="routeConfigModel.maxamt" id="maxamt" required="true"  missingMessage="请填写最大金额" maxlength="12" class="easyui-validatebox" />
@@ -108,42 +119,13 @@
 						</td>
 					</tr>
 					
-					<tr style="height: 60px">					
-					    <td>选择发卡行</td>
-						<td  align="left"  id="bankcode"  style="height: 60px"> 						     							
-	                	</td>
-					</tr>
-					<tr>
-					    <td>选择卡种类</td>
-					    <td align="left"  id="cardtype">
-					    
-					    </td>
-					</tr>
-	
-					<tr style="height: 60px">					
-					    <td>选择交易类型</td>
-						<td  align="left"  id="busicode"  style="height: 60px"> 						     							
-	                	</td>
-					</tr>
-					
-					
-				    <tr>
-				        <td align="right" width="15%" height="20px" >交易渠道</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<select id="routver"   name="routeConfigModel.routver" required="true" missingMessage="请选择交易渠道"   class="easyui-validatebox" />
-						       <option value="">--请选择交易渠道--</option>
-						    <font color="red">*</font></td>
-						    </select>			
-						</td>
-				    </tr>
-				    
-				    
 					<tr>
 					    <td align="right" width="15%" height="20px" >优先类型</td>						
 						<td align="left" style="padding-left:5px" width="25%">
 							<input name="routeConfigModel.ordertype" id="ordertype" required="true" missingMessage="请填写优先类型" maxlength="12" class="easyui-validatebox" />
 						    <font color="red">*</font></td>
 						</td>
+						
 						<td align="right" width="15%" height="20px" >优先级</td>						
 						<td align="left" style="padding-left:5px" width="25%">
 							<input name="routeConfigModel.orders" id="orders" required="true"  missingMessage="请填写优先级" maxlength="12" class="easyui-validatebox" />
@@ -160,12 +142,34 @@
 								<option value="1">非默认路由</option>
 						    </select>
 							<font color="red">*</font></td>
-						</td>	 					   					
+						</td>
+							 					   					
 						<td align="right" width="15%">备注</td>
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="routeConfigModel.notes" id="notes" maxlength="64"/>
-						</td>					
+						</td>									
 					</tr>
+					
+					
+						<tr style="height: 60px">					
+						    <td>选择发卡行</td>
+							<td  align="left"  id="bankcode"  style="height: 60px" colspan="3"> 						     							
+		                	</td>
+						</tr>
+						<tr>
+						    <td>选择卡种类</td>
+						    <td align="left"  id="cardtype" colspan="3">
+						    
+						    </td>
+						</tr>		
+						<tr style="height: 60px">					
+						    <td>选择交易类型</td>
+							<td  align="left"  id="busicode"  style="height: 60px" colspan="3"> 						     							
+		                	</td>
+						</tr>
+			    
+				    
+					
 					
 					
 				</table>
@@ -301,7 +305,7 @@
 		  			function(key, value) {
 		  				html += '<input type="checkbox" id="bankcodeList" name="bankcodeList" style="align:left" value="' + value.bankcode + '" /><label class="activeflag_label">' + value.bankname + '</label>';		  			
 		  				if (mark == 3 || mark == 7|| mark == 11 ) {
-		  					html += '</br>';
+		  					html += '<br/>';
 		  				}
 		  				mark = mark + 1;
 		  			});
@@ -349,7 +353,7 @@
 		  			function(key, value) {
 		  				html += '<input type="checkbox" id="busicodeList" name="busicodeList" style="align:left" value="' + value.busiCode + '" /><label class="activeflag_label">' + value.busiName + '</label>';		  			
 		  				if (mark2 == 3 || mark2 == 7|| mark2 == 11 ) {
-		  					html += '</br>';
+		  					html += '<br/>';
 		  				}
 		  				mark2 = mark2 + 1;
 		  			});
@@ -391,12 +395,12 @@
 		}
 		//新增路由版本 
 		function showAdd() {
-			$('#theForm').clearForm();			
+			$('#theForm').clearForm();					
 			loadBank();	
 			loadCradtype();
 			queryAllRoutver();
 			queryBusicode();
-			queryChannelcode(); 
+			queryChannelcode();
 			$('#w').window({
 				title: '路由配置信息',
 				top: panelVertFloat,
@@ -471,7 +475,8 @@
 				maximizable: false,
 				modal: true,
 				shadow: false,
-				closed: false
+				closed: false,
+				
 			});
 			$("#theForm").attr("action", "pages/route/updateRouteRouteAction.action");
 			$('#btn_submit').linkbutton('enable');
@@ -549,13 +554,19 @@
 	
 	    //修改 
 	    function showRouteConfig(rid){
+			loadBank();	
+			loadCradtype();
+			queryAllRoutver();
+			queryBusicode();
+			queryChannelcode();
 	    	$.ajax({
 				type: "POST",
-				url: "pages/risk/queryOneRouteConfigRouteAction.action",
+				url: "pages/route/queryOneRouteConfigRouteAction.action",
 				data: "rid=" + rid,
 				dataType: "json",
-				success: function(json) {
-					//merchroutver   stime   etime minamt maxamt bankcode cardtype busicode routver ordertype orders  isdef notes
+				success: function(json) {					
+					
+					
 					$("#merchroutver").val(json.MERCHROUTVER);
 					$("#stime").val(json.STIME);
 					$("#etime").val(json.ETIME);
@@ -569,10 +580,15 @@
 					$("#orders").val(json.ORDERS);
 					$("#isdef").val(json.ISDEF);
 					$("#notes").val(json.NOTES);
+					$("#status1").val(json.STATUS);
 					setTimeout(function() {
-						$("#risklevel").val(json.RISKLEVEL);
+						$("#rid").val(json.RID);
 					},
 					500);
+					containBusicode(rid);
+					containBank(rid);
+					containCardtype(rid);
+					
 				}
 	
 			});
@@ -587,12 +603,115 @@
 				maximizable: false,
 				modal: true,
 				shadow: false,
-				closed: false 
+				closed: false,
+				height: 500
 			});
 			$("#theForm").attr("action", "pages/route/updateOneRouteConfigRouteAction.action");
 			$('#btn_submit').linkbutton('enable');
 	    }
-
+	    
+	    //包含的发卡行  
+	    function containBank(rid) {
+	        var mark4 = 0;
+	        var html = '';
+	        $.ajax({
+	            type: "GET",
+	            url: "pages/route/queryContainBankRouteAction.action?rid=" + rid,
+	            dataType: "json",
+	            success: function(json) {
+	                $.each(json,
+	                function(key, value) {
+	                    if (value.FLAG == 'n') {
+	                        html += '<input type="checkbox" id="bankcodeList" name="bankcodeList" style="width:40px" value="' + value.BANKCODE + '" /><label class="activeflag_label">' + value.BANKNAME + '</label>' ;
+	                    } else {
+	                        html += '<input type="checkbox" id="bankcodeList" name="bankcodeList" checked="checked"   style="width:40px" value="' + value.BANKCODE + '" /><label class="activeflag_label">' + value.BANKNAME + '</label>' ;
+	                    }
+	                    if (mark4 == 3 || mark4 == 7) {
+	                        html += '</br>'
+	                    }
+	                    mark4 = mark4 + 1;
+	                });
+	                $("#bankcode").html(html);
+	                $('#bankcode').hcheckbox();			
+	                $('#bankcode').children('#bankcodeList').each(function() {
+	                    if ($(this).attr("checked") == "checked") {	                       
+	                    } else {
+	                        $(this).removeAttr("disabled");
+	                    }
+	                });
+	            }
+	        });
+	    }
+	    
+	    //包含的卡种类 
+	    function containCardtype(rid) {
+	        var mark5 = 0;
+	        var html = '';
+	        $.ajax({
+	            type: "GET",
+	            url: "pages/route/queryContainCardtypeRouteAction.action?rid=" + rid,
+	            dataType: "json",
+	            success: function(json) {
+	                $.each(json,
+	                function(key, value) {
+	                    if (value.CONTAIN1 == 'NO') {
+	                        html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" style="width:40px" value="'+ 1 +'" /><label class="activeflag_label">借记卡</label>' ;
+	                    } else if(value.CONTAIN1 == 'YES'){
+	                        html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" checked="checked"   style="width:40px" value="' + 1 + '" /><label class="activeflag_label"> 借记卡</label>' ;
+	                    }
+	                    if (value.CONTAIN2 == 'NO') {
+	                        html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" style="width:40px" value="' + 2 +'" /><label class="activeflag_label">贷记卡</label>' ;
+	                    } else if(value.CONTAIN1 == 'YES'){
+	                        html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" checked="checked"   style="width:40px" value="'+ 2 +'" /><label class="activeflag_label">贷记卡</label>' ;
+	                    }
+	                    if (mark5 == 3 || mark5 == 7) {
+	                        html += '</br>'
+	                    }
+	                    mark5 = mark5 + 1;
+	                });
+	                $("#cardtype").html(html);
+	                $('#cardtype').hcheckbox();			
+	                $('#cardtype').children('#cradtypeList').each(function() {
+	                    if ($(this).attr("checked") == "checked") {	                       
+	                    } else {
+	                        $(this).removeAttr("disabled");
+	                    }
+	                });
+	            }
+	        });
+	    }
+	    
+	    function containBusicode(rid){
+	        var mark = 0;
+	        var html = '';
+	        $.ajax({
+	            type: "GET",
+	            url: "pages/route/queryContainBusicodeRouteAction.action?rid=" + rid,
+	            dataType: "json",
+	            success: function(json) {
+	                $.each(json,
+	                function(key, value) {
+	                    if (value.FLAG == 'n') {
+	                        html += '<input type="checkbox" id="busicodeList" name="busicodeList" style="width:40px" value="' + value.BUSICODE + '" /><label class="activeflag_label">' + value.BUSINAME + '</label>' ;
+	                    } else {
+	                        html += '<input type="checkbox" id="busicodeList" name="busicodeList" checked="checked"   style="width:40px" value="' + value.BUSICODE + '" /><label class="activeflag_label">' + value.BUSINAME + '</label>' ;
+	                    }
+	                    if (mark == 3 || mark== 7) {
+	                        html += '</br>'
+	                    }
+	                    mark = mark + 1;
+	                });
+	                $("#busicode").html(html);
+	                $('#busicode').hcheckbox();			
+	                $('#busicode').children('#busicodeList').each(function() {
+	                    if ($(this).attr("checked") == "checked") {	                       
+	                    } else {
+	                        $(this).removeAttr("disabled");
+	                    }
+	                });
+	            }
+	        });
+	    }
 </script>
 </html>
 

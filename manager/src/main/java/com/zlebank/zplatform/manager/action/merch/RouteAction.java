@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.tools.apt.resources.apt;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.ParaDicModel;
@@ -30,7 +31,16 @@ public class RouteAction extends BaseAction{
     private String routid;
     private RouteConfigModel routeConfigModel;
     private ParaDicModel paraDicModel;
+    private String rid;
     
+    
+    public String getRid() {
+        return rid;
+    }
+    public void setRid(String rid) {
+        this.rid = rid;
+    }
+
     @SuppressWarnings("rawtypes")
     private List bankcodeList; //发卡行
     @SuppressWarnings("rawtypes")
@@ -294,6 +304,9 @@ public class RouteAction extends BaseAction{
         routeConfigModel.setInuser(getCurrentUser().getUserId());
         //发卡行  交易类型  卡种类  交易渠道
         result=serviceContainer.getRouteService().addRouteConfig(routeConfigModel, bankcodeList,busicodeList,cradtypeList);
+        if(result.equals("操作成功!")){
+            result = "添加成功!";
+        }
         json_encode(result);
         return null;
     }
@@ -350,13 +363,30 @@ public class RouteAction extends BaseAction{
         json_encode(mark);
         return null;   
     }
+    
+    /**
+     * 查询一条路由配置信息
+     */
+    @SuppressWarnings("unchecked")
+    public String queryOneRouteConfig(){
+       List<?>groupList = serviceContainer.getRouteService().queryOneRouteConfig(rid);
+       Map<String, Object> resultMap = new HashMap<String, Object>();
+       if(groupList!=null && groupList.size()!=0){
+           resultMap = (Map<String, Object>) groupList.get(0);
+       }
+       json_encode(resultMap);
+        return null;  
+    }
     /**
      * 启用路由配置
      * 
      */
-//    pulbic String startRouteConfig(){
-//        
-//    }
+    public String startRouteConfig(){
+        Long upuserId = getCurrentUser().getUserId();
+        String mark = serviceContainer.getRouteService().startRouteConfig(routid,upuserId);
+        json_encode(mark);
+        return null; 
+    }
     
     /**
      * 修改路由配置信息
@@ -368,9 +398,84 @@ public class RouteAction extends BaseAction{
             json_encode(result);
             return null;
         }
-        routeConfigModel.setInuser(getCurrentUser().getUserId());
-        String mark = serviceContainer.getRouteService().updateOneRouteConfig(routeConfigModel);
+        routeConfigModel.setUpuser(getCurrentUser().getUserId());
+        String mark = serviceContainer.getRouteService().updateOneRouteConfig(routeConfigModel,bankcodeList,busicodeList,cradtypeList);
+        if(mark.equals("操作成功!") ){
+            mark = "修改成功!";
+        }
         json_encode(mark);
         return null;
     }
+    /**
+     * 根据t_route_configde的主键查询此记录包含的发卡行
+     */
+    @SuppressWarnings({"unchecked"})
+    public  String queryContainBank(){
+      
+        List<Map<String, Object>> containList = null;
+        if(rid!=null&&!rid.equals("")){
+            containList =(List<Map<String, Object>>) serviceContainer.getRouteService().queryContainBank(rid);    
+        }
+        try {
+            json_encode(containList);
+        } catch (IOException e) {            
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public String queryContainBusicode(){
+        List<Map<String, Object>> containList = null;
+        if(rid!=null&&!rid.equals("")){
+            containList =(List<Map<String, Object>>) serviceContainer.getRouteService().queryContainBusicode(rid);    
+        }
+        try {
+            json_encode(containList);
+        } catch (IOException e) {            
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * 根据t_route_configde的主键查询此记录包含的卡种类
+     */
+    public String queryContainCardtype(){
+        if(rid!=null&&!rid.equals("")){
+            List<Map<String, Object>> cardtypeList = new ArrayList<Map<String, Object>>();
+            List<Map<String, Object>> containList =(List<Map<String, Object>>) serviceContainer.getRouteService().queryContainCardtype(rid);
+            
+            if(containList == null || containList.size()==0){
+                Map<String,Object> map = new HashMap<String, Object>();
+                map.put("CONTAIN1", "NO");
+                map.put("CONTAIN2", "NO");
+                map.put("1", "借记卡");                
+                map.put("2", "贷记卡");  
+                cardtypeList.add(map);
+            }else{
+                String cardtype =  (String) containList.get(0).get("CARDTYPE");
+                String[] cardtypeArray = cardtype.split(";");
+                for(int i=0;i<cardtypeArray.length;i++){
+                    if(cardtypeArray[i].equals("1")){
+                        Map<String,Object> map = new HashMap<String, Object>();
+                        map.put("CONTAIN1", "YES");                      
+                        map.put("1", "借记卡");  
+                        cardtypeList.add(map);
+                    }else if (cardtypeArray[i].equals("2")){
+                        Map<String,Object> map = new HashMap<String, Object>();
+                        map.put("CONTAIN2", "YES");               
+                        map.put("2", "贷记卡");
+                        cardtypeList.add(map);
+                    }
+                }
+            }
+            try {
+                json_encode(cardtypeList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+         }
+        return null;
+        
+    }
+    
 }
