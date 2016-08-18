@@ -395,6 +395,11 @@ public class MerchDetaAction extends BaseAction {
         List<Map<String, Object>> resultlist = (List<Map<String, Object>>) serviceContainer
                 .getMerchDetaService().merchAudit(Long.parseLong(merchApplyId),
                         merchDeta, flag, isAgree);
+        if(flag.equals("6")){
+            resultlist.get(0).put("FLAG", "复审通过");
+        }else{
+           resultlist.get(0).put("FLAG", ""); 
+        }
         json_encode(resultlist);
         return null;
     }

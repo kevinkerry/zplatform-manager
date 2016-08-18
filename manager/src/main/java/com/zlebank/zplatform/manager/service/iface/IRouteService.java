@@ -6,6 +6,10 @@ import java.util.Map;
 
 
 
+
+
+
+
 import com.zlebank.zplatform.manager.dao.object.RouteConfigModel;
 import com.zlebank.zplatform.manager.dao.object.RouteModel;
 
@@ -39,5 +43,11 @@ public interface IRouteService extends IBaseService<RouteModel, Long>{
             List cradtypeList);
 
     List<Map<String, Object>> queryAllRoutver();
+
+    List<Map<String, Object>> queryAllBusicode();
+
+    String deleteRouteConfig(String routid, Long upuserId);
+
+    String updateOneRouteConfig(RouteConfigModel routeConfigModel);
 
 }

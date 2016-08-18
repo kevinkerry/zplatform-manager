@@ -33,6 +33,9 @@
 								<input name="routeConfigModel.merchroutver" id="merchRoutver_qid" class="easyui-validatebox"/>
 							</td>
 							<td align="right" width="15%">交易渠道</td>
+							
+							
+							
 						    <td align="left" style="padding-left:5px" width="25%">
 								<select id="routver_qid"  name="routeConfigModel.routver" class="easyui-validatebox" >								    								    								  
 								<option value="">--请选择交易渠道--</option>
@@ -74,7 +77,7 @@
 					    <td align="right" width="15%" height="20px" >路由版本</td>						
 						<td align="left" style="padding-left:5px" width="25%">
 							<select id="merchroutver"   name="routeConfigModel.merchroutver" required="true" missingMessage="请选择路由版本"   class="easyui-validatebox" />
-						       <option value="">--请选择产品--</option>
+						       <option value="">--请选择路由版本--</option>
 						    <font color="red">*</font></td>
 						    </select>			
 						</td>
@@ -116,19 +119,52 @@
 					    
 					    </td>
 					</tr>
+	
+					<tr style="height: 60px">					
+					    <td>选择交易类型</td>
+						<td  align="left"  id="busicode"  style="height: 60px"> 						     							
+	                	</td>
+					</tr>
 					
 					
-					<tr>	
-					    <td align="right" width="15%">交易类型</td>
+				    <tr>
+				        <td align="right" width="15%" height="20px" >交易渠道</td>						
+						<td align="left" style="padding-left:5px" width="25%">
+							<select id="routver"   name="routeConfigModel.routver" required="true" missingMessage="请选择交易渠道"   class="easyui-validatebox" />
+						       <option value="">--请选择交易渠道--</option>
+						    <font color="red">*</font></td>
+						    </select>			
+						</td>
+				    </tr>
+				    
+				    
+					<tr>
+					    <td align="right" width="15%" height="20px" >优先类型</td>						
+						<td align="left" style="padding-left:5px" width="25%">
+							<input name="routeConfigModel.ordertype" id="ordertype" required="true" missingMessage="请填写优先类型" maxlength="12" class="easyui-validatebox" />
+						    <font color="red">*</font></td>
+						</td>
+						<td align="right" width="15%" height="20px" >优先级</td>						
+						<td align="left" style="padding-left:5px" width="25%">
+							<input name="routeConfigModel.orders" id="orders" required="true"  missingMessage="请填写优先级" maxlength="12" class="easyui-validatebox" />
+						    <font color="red">*</font></td>
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="right" width="15%">是否为默认路由</td>
 						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeConfigModel.busicode" id="busicode" maxlength="64"/>
-						</td>			 					   					
+							<select name="routeConfigModel.isdef" id="isdef" />
+								<option value="">--请选择是否为默认路由--</option>
+								<option value="0">默认路由</option>
+								<option value="1">非默认路由</option>
+						    </select>
+							<font color="red">*</font></td>
+						</td>	 					   					
 						<td align="right" width="15%">备注</td>
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="routeConfigModel.notes" id="notes" maxlength="64"/>
-						</td>
-											
-						</td>
+						</td>					
 					</tr>
 					
 					
@@ -192,9 +228,9 @@
 				    		}
 				    	}
 				    },				
-				    {field: 'ROUTID',title: '操作',width: 150,align: 'center', 
+				    {field: 'RID',title: '操作',width: 150,align: 'center', 
 						formatter: function(value, rec) {
-							if(rec.STATUS ==00){
+							if(rec.STATUS ==00){                                                                                                   
 								return '<a href="javascript:showRouteConfig(' + value + ')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:deleteRouteConfig('+ value + ')" style="color:blue;margin-left:10px">注销</a>';
 							}else if(rec.STATUS ==01){
 								return '<a href="javascript:startRouteConfig(' + value + ')" style="color:blue;margin-left:10px">启用</a>';
@@ -265,7 +301,7 @@
 		  			function(key, value) {
 		  				html += '<input type="checkbox" id="bankcodeList" name="bankcodeList" style="align:left" value="' + value.bankcode + '" /><label class="activeflag_label">' + value.bankname + '</label>';		  			
 		  				if (mark == 3 || mark == 7|| mark == 11 ) {
-		  					html += '<br/>';
+		  					html += '</br>';
 		  				}
 		  				mark = mark + 1;
 		  			});
@@ -276,7 +312,7 @@
 		  }
 		//卡类型复选框 
 		function loadCradtype(){
-			var mark1 = 0;
+			//var mark1 = 0;
 			var html = '';
 			html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" style="align:left" value="' + 1 + '" /><label class="activeflag_label"> 借记卡 </label>';
 			html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" style="align:left" value="' + 2 + '" /><label class="activeflag_label"> 贷记卡 </label>';
@@ -294,10 +330,50 @@
 					$.each(json,function(key, value) {
 						html += '<option value="' + value.paraCode + '">' + value.paraName + '</option>';
 					});
-					$("#routver_qid").html(html);
+					$("#routver").html(html);
 				}
 			});
 		}
+		
+		//得到所有交易类型 
+		function queryBusicode() {
+			var mark2 = 0;
+		  	var html = '';
+		  	$.ajax({
+		  		type: "GET",
+		  		url: "pages/route/queryAllBusicodeRouteAction.action",
+		  		data: "",
+		  		dataType: "json",
+		  		success: function(json) {
+		  			$.each(json,
+		  			function(key, value) {
+		  				html += '<input type="checkbox" id="busicodeList" name="busicodeList" style="align:left" value="' + value.busiCode + '" /><label class="activeflag_label">' + value.busiName + '</label>';		  			
+		  				if (mark2 == 3 || mark2 == 7|| mark2 == 11 ) {
+		  					html += '</br>';
+		  				}
+		  				mark2 = mark2 + 1;
+		  			});
+		  			$("#busicode").html(html);
+		  			$("#busicode").hcheckbox();
+		  		}
+		  	});		
+		}
+		//交易渠道复选框的显示　
+		function queryChannelcode() {			
+			$.ajax({
+				type: "POST",
+				url: "pages/route/queryChnlcodeRouteAction.action",
+				dataType: "json",
+				success: function(json) {
+					var html = "<option value=''>--请选择交易渠道--</option>";
+					$.each(json,function(key, value) {
+						html += '<option value="' + value.paraCode + '">' + value.paraName + '</option>';
+					});
+					$("#channelcode").html(html);
+				}
+			});			
+		}
+		
 		//得到所有 路由版本代码
 		function queryAllRoutver(){
 			$.ajax({
@@ -316,10 +392,11 @@
 		//新增路由版本 
 		function showAdd() {
 			$('#theForm').clearForm();			
-			loadBank();	//发卡行
-			queryChnlcode();// 交易渠道 
-			loadCradtype();//卡种类  
-			queryAllRoutver();//路由版本 
+			loadBank();	
+			loadCradtype();
+			queryAllRoutver();
+			queryBusicode();
+			queryChannelcode(); 
 			$('#w').window({
 				title: '路由配置信息',
 				top: panelVertFloat,
@@ -431,8 +508,90 @@
 			$("#theForm").attr("action", "pages/route/deleteRouteRouteAction.action"); 
 			$('#btn_submit').linkbutton('enable');
 	    }
-		
+	    //注销 
+		function deleteRouteConfig(routid){
+			$.messager.confirm('提示', '您是否想要注销此路由配置?',
+					function(r) {
+						if (r) {
+							$.ajax({
+								type: "GET",
+								url: "pages/route/deleteRouteConfigRouteAction.action",
+								data: "routid=" + routid,
+								dataType: "text",
+								success: function(text) {
+									$.messager.alert('提示', text);
+									search();
+								}
+							});
+			
+						}
+					});
+		}
+	    //启用 
+	    function startRouteConfig(routid){
+	    	$.messager.confirm('提示', '您是否想要启用此路由配置?', 
+					function(r) {
+						if (r) {
+							$.ajax({
+								type: "GET",
+								url: "pages/route/startRouteConfigRouteAction.action",
+								data: "routid=" + routid,
+								dataType: "text",
+								success: function(text) {
+									$.messager.alert('提示', text);
+									search();
+								}
+							});
+			
+						}
+					});
+	    }
 	
+	    //修改 
+	    function showRouteConfig(rid){
+	    	$.ajax({
+				type: "POST",
+				url: "pages/risk/queryOneRouteConfigRouteAction.action",
+				data: "rid=" + rid,
+				dataType: "json",
+				success: function(json) {
+					//merchroutver   stime   etime minamt maxamt bankcode cardtype busicode routver ordertype orders  isdef notes
+					$("#merchroutver").val(json.MERCHROUTVER);
+					$("#stime").val(json.STIME);
+					$("#etime").val(json.ETIME);
+					$("#minamt").val(json.MINAMT);
+					$("#maxamt").val(json.MAXAMT);
+					$("#bankcode").val(json.BANKCODE);
+					$("#cardtype").val(json.CARDTYPE);
+					$("#busicode").val(json.BUSICODE);
+					$("#routver").val(json.ROUTVER);
+					$("#ordertype").val(json.ORDERTYPE);
+					$("#orders").val(json.ORDERS);
+					$("#isdef").val(json.ISDEF);
+					$("#notes").val(json.NOTES);
+					setTimeout(function() {
+						$("#risklevel").val(json.RISKLEVEL);
+					},
+					500);
+				}
+	
+			});
+			$('#w').window({
+				title: '修改路由配置信息',
+				top: panelVertFloat, 
+		  		width: panelWidth,
+		  		left:panelHoriFloat,
+		  		height: panelHeight,
+				collapsible: false,
+				minimizable: false,
+				maximizable: false,
+				modal: true,
+				shadow: false,
+				closed: false 
+			});
+			$("#theForm").attr("action", "pages/route/updateOneRouteConfigRouteAction.action");
+			$('#btn_submit').linkbutton('enable');
+	    }
 
 </script>
 </html>

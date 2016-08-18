@@ -30,13 +30,26 @@ public class RouteAction extends BaseAction{
     private String routid;
     private RouteConfigModel routeConfigModel;
     private ParaDicModel paraDicModel;
+    
     @SuppressWarnings("rawtypes")
-    private List bankcodeList; 
+    private List bankcodeList; //发卡行
     @SuppressWarnings("rawtypes")
-    private List busicodeList;
+    private List busicodeList;//交易类型
     @SuppressWarnings("rawtypes")
-    private List cradtypeList;
+    private List cradtypeList;//卡种类   
+    @SuppressWarnings("rawtypes")
+    private List channelcodeList;//交易渠道
 
+    
+    
+    @SuppressWarnings("rawtypes")
+    public List getChannelcodeList() {
+        return channelcodeList;
+    }
+    @SuppressWarnings("rawtypes")
+    public void setChannelcodeList(List channelcodeList) {
+        this.channelcodeList = channelcodeList;
+    }
     @SuppressWarnings("rawtypes")
     public List getBankcodeList() {
         return bankcodeList;
@@ -279,6 +292,7 @@ public class RouteAction extends BaseAction{
             return null;
         }
         routeConfigModel.setInuser(getCurrentUser().getUserId());
+        //发卡行  交易类型  卡种类  交易渠道
         result=serviceContainer.getRouteService().addRouteConfig(routeConfigModel, bankcodeList,busicodeList,cradtypeList);
         json_encode(result);
         return null;
@@ -305,4 +319,58 @@ public class RouteAction extends BaseAction{
         return null;
     }
     
+    /**
+     * 得到所有的交易类型
+     */
+    public String queryAllBusicode(){
+        List<Map<String, Object>> resultList =(List<Map<String, Object>>) serviceContainer.getRouteService().queryAllBusicode();
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        for(int i= 0; i<resultList.size();i++){
+            String busicodeString = resultList.get(i).get("BUSICODE").toString();
+            String businameString = resultList.get(i).get("BUSINAME").toString();
+            Map<String, Object>  map = new HashMap<String, Object>();
+            map.put("busiCode", busicodeString);
+            map.put("busiName", businameString);
+            list.add(map);           
+        }
+        try {
+            json_encode(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * 注销路由配置
+     */
+    public String deleteRouteConfig(){
+        Long upuserId = getCurrentUser().getUserId();
+        String mark = serviceContainer.getRouteService().deleteRouteConfig(routid,upuserId);
+        json_encode(mark);
+        return null;   
+    }
+    /**
+     * 启用路由配置
+     * 
+     */
+//    pulbic String startRouteConfig(){
+//        
+//    }
+    
+    /**
+     * 修改路由配置信息
+     */
+    public String updateOneRouteConfig(){
+        String result = "";
+        if (routeConfigModel == null||StringUtil.isEmpty(routeConfigModel.getRoutver().trim())) {
+            result = "交易渠道不能为空";
+            json_encode(result);
+            return null;
+        }
+        routeConfigModel.setInuser(getCurrentUser().getUserId());
+        String mark = serviceContainer.getRouteService().updateOneRouteConfig(routeConfigModel);
+        json_encode(mark);
+        return null;
+    }
 }
