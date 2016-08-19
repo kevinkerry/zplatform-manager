@@ -159,18 +159,25 @@
 					
 					<tr style="height: 60px">					
 					    <td>选择发卡行</td>
-						<td  align="left"  id="bankcode"  style="height: 60px" colspan="3"> 						     							
+						<td  align="left"  id="bankcode"  style="height: 150px" colspan="3"> 						     							
 	                	</td>
+					</tr>
+					    					
+					<tr>
+					    <td>
+					    </td>
+					    <td>
+					    </td>
 					</tr>
 					<tr>
 					    <td>选择卡种类</td>
-					    <td align="left"  id="cardtype" colspan="3">
+					    <td align="left"  id="cardtype"   colspan="3">
 					    
 					    </td>
 					</tr>		
 					<tr style="height: 60px">					
 					    <td>选择交易类型</td>
-						<td  align="left"  id="busicode"  style="height: 60px" colspan="3"> 						     							
+						<td  align="left"  id="busicode"  style="height: 60px"   colspan="3"> 						     							
 	                	</td>
 					</tr>
 							
@@ -306,7 +313,9 @@
 		  			$.each(json,
 		  			function(key, value) {
 		  				html += '<input type="checkbox" id="bankcodeList" name="bankcodeList" style="align:left" value="' + value.bankcode + '" /><label class="activeflag_label">' + value.bankname + '</label>';		  			
-		  				if (mark == 3 || mark == 7|| mark == 11 ) {
+		  				if (mark == 3 || mark == 7|| mark == 11 || mark == 15||mark == 19 ||mark == 23 ||mark == 27||mark == 31) {
+		  					html += '<br/>';
+		  					html += '<br/>';
 		  					html += '<br/>';
 		  				}
 		  				mark = mark + 1;

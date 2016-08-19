@@ -164,7 +164,9 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
     @SuppressWarnings("unchecked")
     @Override
     public List<Map<String, Object>> getAllBank() {
-        List<Map<String, Object>>  resultList = (List<Map<String, Object>>) getDao().executeBySQL("select distinct (t.bankcode),t.bankname from t_cash_bank t  ", null);
+        //select distinct bankcode ,bankname from t_cash_bank  order by bankname
+        //select distinct bankname||'('||bankcode||')' as bankname,bankcode from t_cash_bank order by bankname
+        List<Map<String, Object>>  resultList = (List<Map<String, Object>>) getDao().executeBySQL("select distinct bankname||'('||bankcode||')' as bankname,bankcode from t_cash_bank order by bankname", null);
         return resultList;
     }
 
