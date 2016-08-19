@@ -453,20 +453,30 @@ public class RouteAction extends BaseAction{
                 cardtypeList.add(map);
             }else{
                 String cardtype =  (String) containList.get(0).get("CARDTYPE");
-                String[] cardtypeArray = cardtype.split(";");
-                for(int i=0;i<cardtypeArray.length;i++){
-                    if(cardtypeArray[i].equals("1")){
-                        Map<String,Object> map = new HashMap<String, Object>();
-                        map.put("CONTAIN1", "YES");                      
-                        map.put("1", "借记卡");  
-                        cardtypeList.add(map);
-                    }else if (cardtypeArray[i].equals("2")){
-                        Map<String,Object> map = new HashMap<String, Object>();
-                        map.put("CONTAIN2", "YES");               
-                        map.put("2", "贷记卡");
-                        cardtypeList.add(map);
+                if(cardtype == null || cardtype==""){
+                    Map<String,Object> map = new HashMap<String, Object>();
+                    map.put("CONTAIN1", "NO");
+                    map.put("CONTAIN2", "NO");
+                    map.put("1", "借记卡");                
+                    map.put("2", "贷记卡");  
+                    cardtypeList.add(map);
+                }else{
+                    String[] cardtypeArray = cardtype.split(";");
+                    for(int i=0;i<cardtypeArray.length;i++){
+                        if(cardtypeArray[i].equals("1")){
+                            Map<String,Object> map = new HashMap<String, Object>();
+                            map.put("CONTAIN1", "YES");                      
+                            map.put("1", "借记卡");  
+                            cardtypeList.add(map);
+                        }else if (cardtypeArray[i].equals("2")){
+                            Map<String,Object> map = new HashMap<String, Object>();
+                            map.put("CONTAIN2", "YES");               
+                            map.put("2", "贷记卡");
+                            cardtypeList.add(map);
+                        }
                     }
                 }
+                
             }
             try {
                 json_encode(cardtypeList);

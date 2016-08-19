@@ -19,7 +19,7 @@
 				<tr>
 						<td align="right" width="15%">扣率版本</td>
 						<td align="left" style="padding-left:5px" width="25%">
-							<select id="busiPack_ins" class="easyui-validatebox"   onchange="showFeeCase_query()">
+							<select id="feever_ins" class="easyui-validatebox"   onchange="showFeeCase_query()">
 							</select>
 						</td>						
 						<td align="right">
@@ -42,98 +42,114 @@
 	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="txnRateForm" action="pages/fee/saveStepRateFeeAction.action" method="post" >
+				<form id="accumulateRateForm" action="pages/fee/saveAccumulateRateFeeAction.action" method="post" >
 				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left">
 					<tr>
 						<td width="15%">扣率版本</td>
 						<td width="30%">
-						<select id="busipack" class="easyui-validatebox"  required="true" name="steprateModel.feever" onchange="showFeeCase()">
+						    <select id="busipack" class="easyui-validatebox"  required="true" name="accumulateRate.feever" onchange="showFeeCase()" missingMessage="请选择扣率版本">
 							</select>
+							<font color="red">*</font></td>
 						</td>
 						<td width="15%" >业务</td>
 						<td>
-							<select id="busicase" class="easyui-validatebox"  required="true" name="steprateModel.busicode" >
-							<option value="">--请选择业务--</option>
+							<select id="busicase" class="easyui-validatebox"  required="true" name="accumulateRate.busicode" missingMessage="请选择业务" >
+							    <option value="">--请选择业务--</option>
 							</select>
+							<font color="red">*</font></td>
 						</td>
 					</tr>
 					<tr>
 						<td>扣率类型</td>
 						<td>
-							<select id="feeRateType" class="easyui-validatebox"  required="true"  name="steprateModel.rateType" onchange="showRateDetail()">
-							<option value="04">--分段计费--</option>
+							<select id="feeRateType" class="easyui-validatebox"  required="true"  name="accumulateRate.rateType" onchange="showRateDetail()" missingMessage="请选择扣率类型">
+	                            <option value="">--请选择扣率类型--</option>
+								<option value="0">免费</option>
+								<option value="1">固定金额</option>
+								<option value="2">免费</option>
+								<option value="3">固定比例+限额</option>
+								<option value="4">分段计费</option>
 							</select>
+							<font color="red">*</font></td>
 						</td>
-					<td width="15%" >扣率(百分比)</td>
+						
+						<td width="15%" >固定费用</td>
 						<td>
-							<input id="feeRate" name="steprateModel.feeRateStr" validType="percent"   type="text" class="easyui-validatebox" maxlength="5"/>
+							<input id="servicefee" name="accumulateRate.servicefee" validType="percent"   type="text" class="easyui-validatebox" maxlength="5"/>
+						</td>
+					</tr>
+					<tr>	
+						
+					    <td width="15%" >扣率(万分比)</td>
+						<td>
+							<input id="feerate" name="accumulateRate.feerate" validType="percent"   type="text" class="easyui-validatebox" maxlength="5"/>
 						</td>
 					</tr>
 					<tr>
 						<td>最低收费额(单位:元)</td>
 						<td>
-							<input id="minFee" name="steprateModel.minFeeStr" validType="amount" maxlength="12"  type="text"  class="easyui-validatebox"  />
+							<input id="minfee" name="accumulateRate.minfee" validType="amount" maxlength="12"  type="text"  class="easyui-validatebox"  />
 						</td>
 						<td width="15%">最高收费额(单位:元)</td>
 						<td>
-							<input id="maxFee" name="steprateModel.maxFeeStr" validType="amount" maxlength="12"  type="text"  class="easyui-validatebox" />
+							<input id="maxfee" name="accumulateRate.maxfee" validType="amount" maxlength="12"  type="text"  class="easyui-validatebox" />
 						</td>
 					</tr>
 	
 					<tr>
-						<td>分界线1(单位：元)</td>
+						<td>阶梯1(单位：元)</td>
 						<td>
-						   <input id="limit1" name="steprateModel.limit1Str" validType="amount"  type="text" class="easyui-validatebox" maxlength="12"/>
+						   <input id="limit1" name="accumulateRate.limit1" validType="amount"  type="text" class="easyui-validatebox" maxlength="12"/>
 
 						</td>
-						<td width="15%" >扣率(百分比)</td>
+						<td width="15%" >扣率(万分比)</td>
 						<td>
-							<input id="feeRate2" name="steprateModel.feeRate2Str" validType="percent"  type="text" class="easyui-validatebox" maxlength="5"/>
+							<input id="feerate2" name="accumulateRate.feerate2" validType="percent"  type="text" class="easyui-validatebox" maxlength="5"/>
 						</td>
 					</tr>
 					<tr>
 						<td>最低收费额(单位:元)</td>
 						<td>
-							<input id="minFee2" name="steprateModel.minFee2Str" maxlength="12" validType="amount"  type="text"  class="easyui-validatebox"  />
+							<input id="minfee2" name="accumulateRate.minfee2" maxlength="12" validType="amount"  type="text"  class="easyui-validatebox"  />
 						</td>
 						<td width="15%">最高收费额(单位:元)</td>
 						<td>
-							<input id="maxFee2" name="steprateModel.maxFee2Str"  maxlength="12" validType="amount" type="text"  class="easyui-validatebox" />
+							<input id="maxfee2" name="accumulateRate.maxfee2"  maxlength="12" validType="amount" type="text"  class="easyui-validatebox" />
 						</td>
 					</tr>
 		
 					<tr>
-						<td>分界线2(单位：元)</td>
+						<td>阶梯2(单位：元)</td>
 						<td>
-						   <input id="limit2" name="steprateModel.limit2Str" validType="amount" type="text" class="easyui-validatebox" maxlength="12"/>
+						   <input id="limit2" name="accumulateRate.limit2" validType="amount" type="text" class="easyui-validatebox" maxlength="12"/>
 
 						</td>
-						<td width="15%" >扣率(百分比)</td>
+						<td width="15%" >扣率(万分比)</td>
 						<td>
-							<input id="feeRate3" name="steprateModel.feeRate3Str" validType="percent"   type="text" class="easyui-validatebox" maxlength="5"/>
+							<input id="feerate3" name="accumulateRate.feerate3" validType="percent"   type="text" class="easyui-validatebox" maxlength="5"/>
 						</td>
 					</tr>
 					<tr>
 						<td>最低收费额(单位:元)</td>
 						<td>
-							<input id="minFee3" name="steprateModel.minFee3Str" maxlength="12" validType="amount"  type="text"  class="easyui-validatebox"  />
+							<input id="minfee3" name="accumulateRate.minfee3" maxlength="12" validType="amount"  type="text"  class="easyui-validatebox"  />
 						</td>
 						<td width="15%">最高收费额(单位:元)</td>
 						<td>
-							<input id="maxFee3" name="steprateModel.maxFee3Str"  maxlength="12" validType="amount" type="text"  class="easyui-validatebox" />
+							<input id="maxfee3" name="accumulateRate.maxfee3"  maxlength="12" validType="amount" type="text"  class="easyui-validatebox" />
 						</td>
 					</tr>
 					<tr>						
 						<td>备注</td>
 						<td colspan="3">
-							<textarea id="notes" rows="3" cols="75" name="steprateModel.notes" maxlength="32"></textarea>
+							<textarea id="notes" rows="3" cols="75" name="accumulateRate.notes" maxlength="32"></textarea>
 						</td>
 					</tr>
 				</table>
 				</form>
 			</div>
 			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" id="save_button" iconCls="icon-ok" href="javascript:saveTxnRate()" onclick="">保存</a>
+				<a class="easyui-linkbutton" id="save_button" iconCls="icon-ok" href="javascript:saveAccumulateRate()" onclick="">保存</a>
 				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
@@ -158,20 +174,20 @@
 					function(key, value) {
 						html += '<option value="' + value.FEEVER + '">' + value.FEENAME + '</option>';
 					});
-					$("#busiPack_ins").html(html);
+					$("#feever_ins").html(html);
 				}
 			});
 		});
 		var width = $("#continer").width();
 		$(function() {
 			$('#test').datagrid({
-				title: '分段扣率列表',
+				title: '累计扣率列表',
 				iconCls: 'icon-save',
 				height: gridHeight,
 				singleSelect: true,
 				nowrap: false,
 				striped: true,
-				url: 'pages/fee/queryStepRateFeeAction.action',
+				url: 'pages/fee/queryAccumulateRateFeeAction.action',
 	
 				remoteSort: false,
 				columns: [[{
@@ -187,8 +203,8 @@
 					align: 'center'
 				},
 				{
-					field: 'CARDTYPE',
-					title: '计费方式',
+					field: 'RATETYPE',
+					title: '扣率类型',
 					width: 150,
 					align: 'center',
 					formatter: function(value, rec) {
@@ -197,30 +213,90 @@
 					}
 				},
 				{
+					field: 'SERVICEFEE',
+					title: '固定费用',
+					width: 100,
+					align: 'center'
+				},
+				{
 					field: 'FEE_RATE',
-					title: '扣率(百分比)',
+					title: '扣率(万分比)',
 					width: 100,
 					align: 'center'
 				},
 				{
 					field: 'MIN_FEE',
-					title: '最低额(元)',
+					title: '最低收费额',
 					width: 100,
 					align: 'center'
 				},
 				{
 					field: 'MAX_FEE',
-					title: '最高额(元)',
+					title: '最高收费额',
 					width: 100,
 					align: 'center'
 				},
 				{
-					field: 'BUSIID',
+					field: 'LIMIT1',
+					title: '阶梯1',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'FEE_RATE2',
+					title: '扣率',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'MIN_FEE2',
+					title: '最低收费额',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'MAX_FEE2',
+					title: '最高收费额',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'LIMIT2',
+					title: '阶梯2',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'FEE_RATE3',
+					title: '扣率',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'MIN_FEE3',
+					title: '最低收费额',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'MAX_FEE3',
+					title: '最高收费额',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'NOTES',
+					title: '备注',
+					width: 100,
+					align: 'center'
+				},
+				{
+					field: 'TID',
 					title: '操作',
 					width: 100,
 					align: 'center',
 					formatter: function(value, rec) {
-						return '<a href="javascript:showTxnRate(\'' + rec.TID + '\')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp<a href="javascript:showTxnRateDetail(\'' + rec.TID + '\')" style="color:blue;margin-left:10px">详情</a>';
+						return '<a href="javascript:showAccumulateRate(\'' + rec.TID + '\')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp<a href="javascript:showAccumulateRateDetail(\'' + rec.TID + '\')" style="color:blue;margin-left:10px">详情</a>';
 					}
 				}
 	
@@ -229,7 +305,7 @@
 				rownumbers: true,
 				toolbar: [{
 					id: 'btnadd',
-					text: '分段类型扣率',
+					text: '累计类型扣率',
 					iconCls: 'icon-add',
 					handler: function() {
 						showAdd(false);
@@ -247,8 +323,8 @@
 				$("#busicase").attr("disabled","disabled");
 			}
 			$("#save_button").linkbutton('enable');
-			$('#txnRateForm').clearForm();
-			$("#txnRateForm").attr("action", "pages/fee/saveStepRateFeeAction.action");
+			$('#accumulateRateForm').clearForm();
+			$("#accumulateRateForm").attr("action", "pages/fee/saveStepRateFeeAction.action");
 			$('#w').window({
 				title: '分段扣率信息',
 				top: panelVertFloat,
@@ -264,15 +340,16 @@
 			});
 			showFee();
 		}
-		function saveTxnRate() {
+		//保存 
+		function saveAccumulateRate() {
 	
-			if ($('#txnRateForm').form("validate")) {
+			if ($('#accumulateRateForm').form("validate")) {
 				$("#save_button").linkbutton('disable');
-				$('#txnRateForm').form('submit', {
+				$('#accumulateRateForm').form('submit', {
 					onSubmit: function() {
 						$("#busipack").removeAttr("disabled");
 						$("#busicase").removeAttr("disabled");
-						return $('#txnRateForm').form('validate');
+						return $('#accumulateRateForm').form('validate');
 					},
 					success: function(data) {
 						if (data == '添加成功!') {
@@ -356,7 +433,7 @@
 	
 				}
 			});
-			$("#txnRateForm").attr("action", "pages/fee/updateStepRateFeeAction.action");
+			$("#accumulateRateForm").attr("action", "pages/fee/updateStepRateFeeAction.action");
 	
 		}
 		function showFeeCase2(feever) {
@@ -400,7 +477,7 @@
 		}
 		function search() {
 			var data = {
-				'steprateModel.feever': $('#busiPack_ins').val()
+				'accumulateRate.feever': $('#feever_ins').val()
 			};
 			$('#test').datagrid('load', data);
 		}
@@ -461,7 +538,7 @@
 					500);
 				}
 			});
-			$("#txnRateForm").attr("action", "pages/fee/updateStepRateFeeAction.action");
+			$("#accumulateRateForm").attr("action", "pages/fee/updateStepRateFeeAction.action");
 			$("#save_button").linkbutton('disable');
 		}
 	</script>

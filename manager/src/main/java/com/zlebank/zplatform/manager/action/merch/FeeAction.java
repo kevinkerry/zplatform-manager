@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.dao.object.AccumulateRate;
 import com.zlebank.zplatform.manager.dao.object.BusiRateModel;
 import com.zlebank.zplatform.manager.dao.object.CardRateModel;
 import com.zlebank.zplatform.manager.dao.object.FeeCaseModel;
@@ -28,6 +29,8 @@ public class FeeAction extends BaseAction {
     private String caseid;
     private FeeCaseModel feecaseModel;
     private ServiceContainer serviceContainer;
+    private AccumulateRate accumulateRate;
+    
     public String show() {
         return "success";
     }
@@ -531,6 +534,54 @@ public class FeeAction extends BaseAction {
         json_encode(feecase);
         return null;
     }
+    //************************************************累计扣率*************************************************************
+    /**
+     * 保存累计扣率信息
+     * @return
+     */
+    public String saveAccumulateRate(){
+        if (accumulateRate == null) {
+            accumulateRate = new AccumulateRate();
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRate.getMinfeeStr())){
+            accumulateRate.setMinfee(new BigDecimal(accumulateRate.getMinfeeStr()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRate.getMaxfeeStr())){
+            accumulateRate.setMaxfee(new BigDecimal(accumulateRate.getMaxfeeStr()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRate.getLimit1Str())){
+            accumulateRate.setLimit1(new BigDecimal(accumulateRate.getLimit1Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRate.getMinfee2Str())){
+            accumulateRate.setMinfee2(new BigDecimal(accumulateRate.getMinfee2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRate.getMaxfee2Str())){
+            accumulateRate.setMaxfee2(new BigDecimal(accumulateRate.getMaxfee2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRate.getLimit2Str())){
+            accumulateRate.setLimit2(new BigDecimal(accumulateRate.getLimit2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRate.getMinfee2Str())){
+            accumulateRate.setMinfee2(new BigDecimal(accumulateRate.getMinfee2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRate.getMaxfee2Str())){
+            accumulateRate.setMaxfee2(new BigDecimal(accumulateRate.getMaxfee2Str()));
+        }
+     
+        accumulateRate.setInuser(getCurrentUser().getUserId());
+        String mark = serviceContainer.getFeeService().AddOneStpeRate(
+                steprateModel);
+        json_encode(mark);
+        return null;
+    }
     public FeeModel getFeeModel() {
         return feeModel;
     }
@@ -584,6 +635,12 @@ public class FeeAction extends BaseAction {
     }
     public void setSteprateModel(StepRateModel steprateModel) {
         this.steprateModel = steprateModel;
+    }
+    public AccumulateRate getAccumulateRate() {
+        return accumulateRate;
+    }
+    public void setAccumulateRate(AccumulateRate accumulateRate) {
+        this.accumulateRate = accumulateRate;
     }
 
 }
