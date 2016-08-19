@@ -88,13 +88,12 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
             return "操作失败！";
         }
 
-        Object[] paramaters = new Object[]{routeModel.getRoutname(),routeModel.getRoutver(),routeModel.getStatus(),
+        Object[] paramaters = new Object[]{routeModel.getRoutname(),routeModel.getRoutver(),
                 routeModel.getInuser(),routeModel.getNote(),routeModel.getRemarks()};
-        String[] columns = new String[]{"v_routname", "v_routver", " v_status",
-                "v_inuser", "v_notes", "v_remarks"};
+        String[] columns = new String[]{"v_routname", "v_routver","v_inuser", "v_notes", "v_remarks"};
         Object total = getDao()
                 .executeOracleProcedure(
-                        "{CALL PCK_T_ROUTE.INS_T_ROUTE(?,?,?,?,?,?,?)}", columns,
+                        "{CALL PCK_T_ROUTE.INS_T_ROUTE(?,?,?,?,?,?)}", columns,
                         paramaters, "cursor0").get(0).get("INFO");
         return (String) total;
         
@@ -236,7 +235,7 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
     @Override
     public List<Map<String, Object>> queryAllRoutver() {
         
-        List<Map<String, Object>>  resultList = (List<Map<String, Object>>) getDao().executeBySQL("select distinct (t.routver),t.routname from t_route t  ", null);
+        List<Map<String, Object>>  resultList = (List<Map<String, Object>>) getDao().executeBySQL("select distinct (t.routver),t.routname from t_route t where t.status='00' ", null);
         return resultList;
     }
 

@@ -71,6 +71,10 @@
 				<input name="routeConfigModel.rid" id="rid" type="hidden"/>
 				<input name="routeConfigModel.status" id="status1" type="hidden"/>
 				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="groupinfo">
+					<tr style="height: 10px">
+					    <td align="left" colspan="2">
+					    <font color="red">提示：开始时间、结束时间请按照HHmmss格式输入</font></td>					    
+					</tr>
 					
 					<tr>
 					    <td align="right" width="15%" height="20px" >路由版本</td>						
@@ -104,6 +108,8 @@
 						    <font color="red">*</font></td>
 						</td>		
 					</tr>
+					
+					
 					
 					<tr>
 					    <td align="right" width="15%" height="20px" >最小金额</td>						
@@ -151,27 +157,23 @@
 					</tr>
 					
 					
-						<tr style="height: 60px">					
-						    <td>选择发卡行</td>
-							<td  align="left"  id="bankcode"  style="height: 60px" colspan="3"> 						     							
-		                	</td>
-						</tr>
-						<tr>
-						    <td>选择卡种类</td>
-						    <td align="left"  id="cardtype" colspan="3">
-						    
-						    </td>
-						</tr>		
-						<tr style="height: 60px">					
-						    <td>选择交易类型</td>
-							<td  align="left"  id="busicode"  style="height: 60px" colspan="3"> 						     							
-		                	</td>
-						</tr>
-			    
-				    
-					
-					
-					
+					<tr style="height: 60px">					
+					    <td>选择发卡行</td>
+						<td  align="left"  id="bankcode"  style="height: 60px" colspan="3"> 						     							
+	                	</td>
+					</tr>
+					<tr>
+					    <td>选择卡种类</td>
+					    <td align="left"  id="cardtype" colspan="3">
+					    
+					    </td>
+					</tr>		
+					<tr style="height: 60px">					
+					    <td>选择交易类型</td>
+						<td  align="left"  id="busicode"  style="height: 60px" colspan="3"> 						     							
+	                	</td>
+					</tr>
+							
 				</table>
 				</form>
 			</div>
@@ -335,6 +337,7 @@
 						html += '<option value="' + value.paraCode + '">' + value.paraName + '</option>';
 					});
 					$("#routver").html(html);
+					$("#routver_qid").html(html);
 				}
 			});
 		}

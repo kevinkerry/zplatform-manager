@@ -60,7 +60,7 @@
 						<td align="right" width="15%">路由版本名称</td>
 						
 						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeModel.routname" id="routname" required="true" missingMessage="请输入路由版本名称"/>
+							<input name="routeModel.routname" id="routname" required="true" maxlength="32" missingMessage="请输入路由版本名称"/>
 							<font color="red">*</font></td>
 						</td>
 					</tr>
