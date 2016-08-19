@@ -84,13 +84,13 @@ public class AccumulateRateModel implements Serializable {
     
     
     
-    public AccumulateRate() {
+    public AccumulateRateModel() {
         super();
     }
 
 
 
-    public AccumulateRate(String feever, String busicode, String ratetype,
+    public AccumulateRateModel(String feever, String busicode, String ratetype,
             String notes, String remarks, Long inuser, Date intime, Long tid,
             Long servicefee, BigDecimal feerate, BigDecimal minfee,
             BigDecimal maxfee, BigDecimal limit1, BigDecimal feerate2,
