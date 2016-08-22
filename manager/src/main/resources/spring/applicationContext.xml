@@ -76,6 +76,7 @@
 				<value>com.zlebank.zplatform.manager.dao.object.CmbcResfileModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.RouteModel</value>
 				<!-- value>com.zlebank.zplatform.manager.dao.object.RouteConfigModel</value> -->
+				<value>com.zlebank.zplatform.manager.dao.object.AccumulateRateModel</value>
 				</list>
 		</property>
 		<property name="packagesToScan">

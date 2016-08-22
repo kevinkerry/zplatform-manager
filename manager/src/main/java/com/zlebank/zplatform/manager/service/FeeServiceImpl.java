@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
+import com.zlebank.zplatform.manager.dao.object.AccumulateRateModel;
 import com.zlebank.zplatform.manager.dao.object.BusiRateModel;
 import com.zlebank.zplatform.manager.dao.object.CardRateModel;
 import com.zlebank.zplatform.manager.dao.object.FeeCaseModel;
@@ -512,6 +513,112 @@ public class FeeServiceImpl extends BaseServiceImpl<FeeModel, Long>
                 new Object[]{variables.get("table_name")});
         Map<String, Object> resultMap = list.get(0);
         return    resultMap;      
+    }
+
+    @Override
+    public String AddOneAccumulateRate(AccumulateRateModel accumulateRateModel) {
+        if (accumulateRateModel == null) {
+            return "操作失败！";
+        }
+        Object[] paramaters = new Object[]{
+                accumulateRateModel.getFeever(),
+                accumulateRateModel.getBusicode(),
+                accumulateRateModel.getRatetype(),
+                accumulateRateModel.getServicefee(),
+                accumulateRateModel.getFeerate(),
+                accumulateRateModel.getMinfee().doubleValue(),
+                accumulateRateModel.getMaxfee().doubleValue(),
+                        
+                accumulateRateModel.getLimit1().doubleValue(),
+                accumulateRateModel.getFeerate2(),
+                accumulateRateModel.getMinfee2().doubleValue(),
+                accumulateRateModel.getMaxfee2().doubleValue(),                        
+                accumulateRateModel.getLimit2().doubleValue(),
+                accumulateRateModel.getFeerate3(),
+                accumulateRateModel.getMinfee3().doubleValue(),
+                accumulateRateModel.getMaxfee3().doubleValue(), accumulateRateModel.getInuser(),
+                accumulateRateModel.getNotes(), accumulateRateModel.getRemarks()};
+
+        String[] columns = new String[]{"v_feever", "v_busicode",
+                "v_rate_type", " v_servicefee", "v_fee_rate", "v_min_fee",
+                "v_max_fee", "v_limit1", "v_fee_rate2", "v_min_fee2",
+                "v_max_fee2", "v_limit2", "v_fee_rate3", "v_min_fee3",
+                "v_max_fee3", "v_inuser", "v_notes", "v_remarks"};
+        Object total = getDao()
+                .executeOracleProcedure(
+                        "{CALL PCK_T_ACCUMLATE_RATE.ins_t_accumulate_rate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}",
+                        columns, paramaters, "cursor0").get(0).get("INFO");
+        return (String) total;
+    }
+
+    @Override
+    public Map<String, Object> findAccumulateRateByPage(Map<String, Object> variables,
+            int page,
+            int rows) {
+        String[] columns = new String[]{"v_feever", "v_feename", "v_rate_type",
+                "i_no", "i_perno"};
+        Object[] paramaters = new Object[]{
+                variables.containsKey("feever")
+                        ? variables.get("feever")
+                        : null, null, null, page, rows};
+        return getDao().executePageOracleProcedure(
+                "{CALL PCK_T_ACCUMLATE_RATE.sel_t_accumulate_rate(?,?,?,?,?,?,?)}",
+                columns, paramaters, "cursor0", "v_total");
+    }
+
+    @Override
+    public Map<String, Object> queryOneAccumulateRate(String caseid) {
+        
+        String[] columns = new String[]{"v_in"};
+        Object[] paramaters = new Object[]{caseid};
+        return getDao().executeOracleProcedure(
+                "{CALL PCK_T_ACCUMLATE_RATE.sel_t_accumulate_rate_detail(?,?)}", columns,
+                paramaters, "cursor0").get(0);
+    }
+
+    @Override
+    public String updateAccumulateRate(AccumulateRateModel accumulateRateModel) {
+        if (accumulateRateModel == null) {
+            return "操作失败！";
+        }
+        Object[] paramaters = new Object[]{
+                accumulateRateModel.getFeever(),
+                accumulateRateModel.getBusicode(),
+                accumulateRateModel.getRatetype(),
+//                accumulateRateModel.getServicefee(),
+                accumulateRateModel.getServicefee() == null ? null : accumulateRateModel.getServicefee()
+                        .doubleValue(),
+                accumulateRateModel.getFeerate(),               
+                accumulateRateModel.getMinfee() == null ? null : accumulateRateModel.getMinfee()
+                        .doubleValue(),
+                accumulateRateModel.getMaxfee()== null ? null : accumulateRateModel.getMaxfee()
+                        .doubleValue(),
+                accumulateRateModel.getLimit1() == null ? null : accumulateRateModel.getLimit1()
+                        .doubleValue(),
+                accumulateRateModel.getFeerate2(),
+                accumulateRateModel.getMinfee2() == null ? null : accumulateRateModel.getMinfee2() 
+                        .doubleValue(),
+                accumulateRateModel.getMaxfee2() == null ? null : accumulateRateModel.getMaxfee2()
+                        .doubleValue(),
+                accumulateRateModel.getLimit2() == null ? null : accumulateRateModel.getLimit2()
+                        .doubleValue(),
+                accumulateRateModel.getFeerate3(),
+                accumulateRateModel.getMinfee3()== null ? null : accumulateRateModel.getMinfee3()
+                        .doubleValue(),
+                accumulateRateModel.getMaxfee3() == null ? null : accumulateRateModel.getMaxfee3()
+                        .doubleValue(), accumulateRateModel.getInuser(),
+                accumulateRateModel.getNotes(), accumulateRateModel.getRemarks()};
+
+        String[] columns = new String[]{"v_feever", "v_busicode",
+                "v_rate_type", " v_servicefee", "v_fee_rate", "v_min_fee",
+                "v_max_fee", "v_limit1", "v_fee_rate2", "v_min_fee2",
+                "v_max_fee2", "v_limit2", "v_fee_rate3", "v_min_fee3",
+                "v_max_fee3", "v_inuser", "v_notes", "v_remarks"};
+        Object total = getDao()
+                .executeOracleProcedure(
+                        "{CALL PCK_T_ACCUMLATE_RATE.upt_t_accumulate_rate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}",
+                        columns, paramaters, "cursor0").get(0).get("INFO");
+        return (String) total;
     }
     
     

@@ -8,6 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 /**
@@ -45,7 +48,7 @@ public class AccumulateRateModel implements Serializable {
     /**写入时间**/
     private Date intime;
     /**固定费用**/
-    private Long servicefee; 
+    private BigDecimal servicefee; 
     /**扣率（万分比）**/
     private BigDecimal feerate;
     /**最低收费额**/
@@ -92,7 +95,7 @@ public class AccumulateRateModel implements Serializable {
 
     public AccumulateRateModel(String feever, String busicode, String ratetype,
             String notes, String remarks, Long inuser, Date intime, Long tid,
-            Long servicefee, BigDecimal feerate, BigDecimal minfee,
+            BigDecimal servicefee, BigDecimal feerate, BigDecimal minfee,
             BigDecimal maxfee, BigDecimal limit1, BigDecimal feerate2,
             BigDecimal minfee2, BigDecimal maxfee2, BigDecimal limit2,
             BigDecimal feerate3, BigDecimal minfee3, BigDecimal maxfee3) {
@@ -143,7 +146,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "BUSICODE", nullable = false, length = 4)
     public String getBusicode() {
         return busicode;
     }
@@ -155,7 +158,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "RATE_TYPE", nullable = false, length = 2)
     public String getRatetype() {
         return ratetype;
     }
@@ -167,7 +170,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "NOTES", length = 128)
     public String getNotes() {
         return notes;
     }
@@ -179,7 +182,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "REMARKS", length = 128)
     public String getRemarks() {
         return remarks;
     }
@@ -191,7 +194,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "INUSER", precision = 10, scale = 0)
     public Long getInuser() {
         return inuser;
     }
@@ -203,7 +206,8 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Temporal(TemporalType.DATE)
+    @Column(name = "INTIME", length = 7)
     public Date getIntime() {
         return intime;
     }
@@ -218,19 +222,19 @@ public class AccumulateRateModel implements Serializable {
 
 
 
-
-    public Long getServicefee() {
+    @Column(name = "SERVICEFEE", precision = 12, scale = 0)
+    public BigDecimal getServicefee() {
         return servicefee;
     }
 
 
 
-    public void setServicefee(Long servicefee) {
+    public void setServicefee(BigDecimal servicefee) {
         this.servicefee = servicefee;
     }
 
 
-
+    @Column(name = "FEE_RATE", precision = 4, scale = 0)
     public BigDecimal getFeerate() {
         return feerate;
     }
@@ -242,7 +246,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "MIN_FEE", precision = 12, scale = 0)
     public BigDecimal getMinfee() {
         return minfee;
     }
@@ -254,7 +258,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "MAX_FEE", precision = 12, scale = 0)
     public BigDecimal getMaxfee() {
         return maxfee;
     }
@@ -266,7 +270,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "LIMIT1", precision = 12, scale = 0)
     public BigDecimal getLimit1() {
         return limit1;
     }
@@ -278,7 +282,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "FEE_RATE2", precision = 4, scale = 0)
     public BigDecimal getFeerate2() {
         return feerate2;
     }
@@ -290,7 +294,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "MIN_FEE2", precision = 12, scale = 0)
     public BigDecimal getMinfee2() {
         return minfee2;
     }
@@ -302,7 +306,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "MAX_FEE2", precision = 12, scale = 0)
     public BigDecimal getMaxfee2() {
         return maxfee2;
     }
@@ -314,7 +318,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "LIMIT2", precision = 12, scale = 0)
     public BigDecimal getLimit2() {
         return limit2;
     }
@@ -326,7 +330,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "FEE_RATE3", precision = 4, scale = 0)
     public BigDecimal getFeerate3() {
         return feerate3;
     }
@@ -338,7 +342,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "MIN_FEE3", precision = 12, scale = 0)
     public BigDecimal getMinfee3() {
         return minfee3;
     }
@@ -350,7 +354,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Column(name = "MAX_FEE3", precision = 12, scale = 0)
     public BigDecimal getMaxfee3() {
         return maxfee3;
     }
@@ -362,7 +366,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getFeerateStr() {
         return feerateStr;
     }
@@ -374,7 +378,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getMinfeeStr() {
         return minfeeStr;
     }
@@ -386,7 +390,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getMaxfeeStr() {
         return maxfeeStr;
     }
@@ -398,7 +402,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getLimit1Str() {
         return limit1Str;
     }
@@ -410,7 +414,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getFeerate2Str() {
         return feerate2Str;
     }
@@ -422,7 +426,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getMinfee2Str() {
         return minfee2Str;
     }
@@ -434,7 +438,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getMaxfee2Str() {
         return maxfee2Str;
     }
@@ -446,7 +450,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getLimit2Str() {
         return limit2Str;
     }
@@ -458,7 +462,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getFeerate3Str() {
         return feerate3Str;
     }
@@ -470,7 +474,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getMinfee3Str() {
         return minfee3Str;
     }
@@ -482,7 +486,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getMaxfee3Str() {
         return maxfee3Str;
     }
@@ -494,7 +498,7 @@ public class AccumulateRateModel implements Serializable {
     }
 
 
-
+    @Transient
     public String getServicefeeStr() {
         return servicefeeStr;
     }
