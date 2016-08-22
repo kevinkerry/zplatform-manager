@@ -70,8 +70,7 @@
 						<td align="left" style="padding-left: 5px" width="25%">
 							<input name="routeModel.note" id="notes" maxlength="64"/>
 						</td >	
-						
-						
+				
 						<td align="center" colspan="2"><font color="red">提示:请于启用、注销前在备注处填写理由</font></td>
 										
 					</tr>	
