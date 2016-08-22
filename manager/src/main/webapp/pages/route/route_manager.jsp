@@ -49,6 +49,7 @@
 			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
 				<form id="theForm"   method="post" action="pages/route/saveRouteRouteAction.action" >
 				<input name="routeModel.routidStr" id="routid" type="hidden"/>
+				
 				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
 					<tr>
 						<td align="right" width="15%" height="50px" >路由版本代码</td>
@@ -160,7 +161,8 @@
 		//新增路由版本 
 		function showAdd() {
 			$('#theForm').clearForm();
-			
+			$('#routname').removeAttr('readonly');
+			$("#routname").css("background-color","#FFFFFF");
 		  	$.ajax({
 		  		type: "POST",
 		  		url: "pages/route/queryRoutverRouteAction.action",
@@ -221,6 +223,8 @@
 
 		//修改
 		function showRoute(routid){
+			$('#routname').removeAttr('readonly');
+			$("#routname").css("background-color","#FFFFFF");
 			$.ajax({
 				type: "POST",
 				url: "pages/route/queryOneRouteRouteAction.action",
@@ -229,7 +233,7 @@
 				success: function(json) {
 					$("#routid").val(routid);
 					$("#routver").val(json.ROUTVER);
-					$("#routver").attr("readonly","readonly");
+					$("#routver").attr("disabled","disabled");
 					$("#routname").val(json.ROUTNAME);
 					$("#notes").val(json.NOTES);										
 				}	
@@ -259,10 +263,15 @@
 				dataType: "json",
 				success: function(json) {
 					$("#routid").val(routid);
+					
 					$("#routver").val(json.ROUTVER);
 					$("#routver").attr("readonly","readonly");
+					$("#routver").css("background-color","#BEBEBE");
+					
 					$("#routname").val(json.ROUTNAME);
-					$("#routname").attr("readonly","readonly");
+					$("#routname").attr("readonly","BEBEBE");
+					$("#routname").css("background-color","#BEBEBE");
+					
 					$("#notes").val(json.NOTES);										
 				}	
 			});

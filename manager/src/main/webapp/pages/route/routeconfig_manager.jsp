@@ -73,9 +73,12 @@
 				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="groupinfo">
 					<tr style="height: 10px">
 					    <td align="left" colspan="2">
-					    <font color="red">提示：开始时间、结束时间请按照HHmmss格式输入</font></td>					    
+					    <font color="red">提示1：开始时间、结束时间请按照HHmmss格式输入</font></td>					    
 					</tr>
-					
+					<tr style="height: 10px">
+					    <td align="left" colspan="2">
+					    <font color="red">提示2：优先类型、优先级均需手动输入正整数</font></td>					    
+					</tr>
 					<tr>
 					    <td align="right" width="15%" height="20px" >路由版本</td>						
 						<td align="left" style="padding-left:5px" width="25%">

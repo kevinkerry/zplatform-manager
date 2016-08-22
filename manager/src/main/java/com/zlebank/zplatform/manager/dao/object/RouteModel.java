@@ -33,7 +33,6 @@ public class RouteModel implements java.io.Serializable{
     private String remarks;
     
     private String routidStr;
-    
     public RouteModel() {
         super();
     }
@@ -152,6 +151,8 @@ public class RouteModel implements java.io.Serializable{
     public void setRoutidStr(String routidStr) {
         this.routidStr = routidStr;
     }
+
+
     
     
     
