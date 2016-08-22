@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class RouteModel implements java.io.Serializable{
 
     /**标识**/
-    private int routid;
+    private String routid;
     /**路由号**/
     private String routver;
     /**路由名称**/
@@ -32,11 +32,13 @@ public class RouteModel implements java.io.Serializable{
     /**操作**/
     private String remarks;
     
+    private String routidStr;
+    
     public RouteModel() {
         super();
     }
 
-    public RouteModel(int routid, String routver, String routname,
+    public RouteModel(String routid, String routver, String routname,
             int status, Date intime, Long inuser, Date uptime,
             Long upuser, String note, String remarks) {
         super();
@@ -54,11 +56,11 @@ public class RouteModel implements java.io.Serializable{
 
     @Id
     @Column(name="ROUTID",unique = true, nullable = false,length=10)
-    public int getRoutid() {
+    public String getRoutid() {
         return routid;
     }
 
-    public void setRoutid(int routid) {
+    public void setRoutid(String routid) {
         this.routid = routid;
     }
 
@@ -141,6 +143,14 @@ public class RouteModel implements java.io.Serializable{
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public String getRoutidStr() {
+        return routidStr;
+    }
+
+    public void setRoutidStr(String routidStr) {
+        this.routidStr = routidStr;
     }
     
     

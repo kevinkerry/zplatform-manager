@@ -17,6 +17,8 @@ import java.util.Map;
 
 
 
+
+
 import com.zlebank.zplatform.manager.dao.object.RouteConfigModel;
 import com.zlebank.zplatform.manager.dao.object.RouteModel;
 
@@ -33,7 +35,7 @@ public interface IRouteService extends IBaseService<RouteModel, Long>{
 
     Map<String, Object> queryOneRoute(String routid);   
 
-    String deleteRoute(int routid);
+    String deleteRoute(String string);
 
     String updateRoute(RouteModel routeModel);
 
@@ -66,5 +68,7 @@ public interface IRouteService extends IBaseService<RouteModel, Long>{
     List<Map<String, Object>> queryContainCardtype(String rid);
 
     List<Map<String, Object>> queryContainBusicode(String rid);
+
+    String startRoute(String routid);
 
 }

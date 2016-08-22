@@ -48,7 +48,7 @@
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
 				<form id="theForm"   method="post" action="pages/route/saveRouteRouteAction.action" >
-				<input name="routeModel.routid" id="routid" type="hidden"/>
+				<input name="routeModel.routidStr" id="routid" type="hidden"/>
 				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
 					<tr>
 						<td align="right" width="15%" height="50px" >路由版本代码</td>
@@ -121,7 +121,7 @@
 							if(rec.STATUS ==00){
 								return '<a href="javascript:showRoute(' + value + ')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:deleteRoute('+ value + ')" style="color:blue;margin-left:10px">注销</a>';
 							}else if(rec.STATUS ==01){
-								return ;
+								return '<a href="javascript:startRoute(' + value + ')" style="color:blue;margin-left:10px">启用</a>';
 							}
 							
 					}
@@ -196,7 +196,7 @@
 					return false;
 				},
 				success: function(data) {
-					if (data == '添加成功!' || data == '修改成功!' ||data == '注销成功!') {
+					if (data == '添加成功!' || data == '修改成功!' ||data == '注销成功!'||data=='启用成功!') {
 						$.messager.alert('提示', data);
 						closeAdd();
 						$('#btn_submit').linkbutton('enable');
@@ -277,7 +277,37 @@
 			$("#theForm").attr("action", "pages/route/deleteRouteRouteAction.action"); 
 			$('#btn_submit').linkbutton('enable');
 	    }
-		
+		function startRoute(routid){
+			$.ajax({
+				type: "POST",
+				url: "pages/route/queryOneRouteRouteAction.action",
+				data: "routid=" + routid,
+				dataType: "json",
+				success: function(json) {
+					$("#routid").val(routid);
+					$("#routver").val(json.ROUTVER);
+					$("#routver").attr("readonly","readonly");
+					$("#routname").val(json.ROUTNAME);
+					$("#routname").attr("readonly","readonly");
+					$("#notes").val(json.NOTES);										
+				}	
+			});
+			$('#w').window({
+				title: '启用路由版本', 
+				top: panelVertFloat,
+		  		left: panelHoriFloat,
+		  		width: panelWidth,
+		  		height: panelHeight,
+				collapsible: false,
+				minimizable: false,
+				maximizable: false,
+				modal: true,
+				shadow: false,
+				closed: false
+			});
+			$("#theForm").attr("action", "pages/route/startRouteRouteAction.action"); 
+			$('#btn_submit').linkbutton('enable');
+		}
 	
 
 </script>

@@ -210,7 +210,7 @@ public class RouteAction extends BaseAction{
         routeModel.setUpuser(getCurrentUser().getUserId());//记录修改人
         mark = serviceContainer.getRouteService().updateRoute(routeModel);
         if(mark.equals("succ")){//表示修改成功，下一步需要注销
-            mark = serviceContainer.getRouteService().deleteRoute(routeModel.getRoutid());
+            mark = serviceContainer.getRouteService().deleteRoute(routeModel.getRoutidStr());
             if(mark.equals("succ")){
                 mark ="注销成功!";
             }
@@ -221,7 +221,29 @@ public class RouteAction extends BaseAction{
         return null;
         
     }
-    
+    /**
+     * 启用路由版本
+     */
+    public String startRoute(){
+        String mark = "";
+        if (routeModel  == null||StringUtil.isEmpty(routeModel.getNote().trim())) {
+            mark = "请在备注处填写启用理由";
+            json_encode(mark);
+            return null;
+        }
+        routeModel.setUpuser(getCurrentUser().getUserId());//记录修改人
+        mark = serviceContainer.getRouteService().updateRoute(routeModel);
+        if(mark.equals("succ")){//表示修改成功，下一步需要注销
+            mark = serviceContainer.getRouteService().startRoute(routeModel.getRoutidStr());
+            if(mark.equals("succ")){
+                mark ="启用成功!";
+            }
+        }else{
+            mark="启用失败!";
+        }       
+        json_encode(mark);
+        return null;
+    }
     //****************************************单条路由配置**********************************************
     public String showRouteConfig(){
         return "routeconfig";

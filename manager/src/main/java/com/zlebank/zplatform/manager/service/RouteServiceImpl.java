@@ -114,7 +114,7 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
     public String updateRoute(RouteModel routeModel) {
         String[] columns = new String[]{"v_routid", "v_routname", "v_status",
         "v_upuser","v_notes","v_remarks"};
-        Object[] paramaters = new Object[]{routeModel.getRoutid(), routeModel.getRoutname(),
+        Object[] paramaters = new Object[]{routeModel.getRoutidStr(), routeModel.getRoutname(),
         routeModel.getStatus(),routeModel.getUpuser(),routeModel.getNote(),routeModel.getRemarks()};
         Map<String, Object> map =  getDao().executeOracleProcedure(
                 "{CALL PCK_T_ROUTE.UPT_T_ROUTE(?,?,?,?,?,?,?)}", columns, paramaters,
@@ -124,7 +124,7 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
     }
 
     @Override
-    public String deleteRoute(int routid) {
+    public String deleteRoute(String routid) {
         Object[] paramaters = new Object[]{routid};
         String[] columns = new String[]{"v_routid"};
         
@@ -352,6 +352,18 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
         String[] columns = new String[]{"v_rid"};        
         return getDao().executeOracleProcedure(
                 "{CALL PCK_T_ROUTE_CONFIG.SEL_BUCICODE(?,?)}",columns, paramaters, "cursor0"); 
+    }
+
+    @Override
+    public String startRoute(String routid) {
+        
+        Object[] paramaters = new Object[]{routid};
+        String[] columns = new String[]{"v_routid"};
+        
+        Map<String, Object> resultMap =    getDao().executeOracleProcedure("{CALL PCK_T_ROUTE.START_T_ROUTE(?,?)}", 
+                columns, paramaters, "cursor0").get(0);
+        String info = (String) resultMap.get("RET");
+         return info;
     }
 
 
