@@ -72,19 +72,11 @@
 							</select>
 							<font color="red">*</font></td>
 						</td>
-						<td>
-						</td>
-						
-					</tr>
-					<tr>	
-						<td width="15%" >固定费用</td>
-						<td>
-							<input id="servicefee" name="accumulateRateModel.servicefeeStr" validType="percent"   type="text" class="easyui-validatebox" maxlength="12"/>
-						</td>
-					    <td width="15%" >扣率(万分比)</td>
+						<td width="15%" >扣率(万分比)</td>
 						<td>
 							<input id="feerate" name="accumulateRateModel.feerateStr" validType="percent"   type="text" class="easyui-validatebox" maxlength="4"/>
 						</td>
+						
 					</tr>
 					<tr>
 						<td>最低收费额(单位:元)</td>
@@ -225,12 +217,6 @@
 						
 	
 					}
-				},
-				{
-					field: 'SERVICEFEE',
-					title: '固定费用',
-					width: 100,
-					align: 'center'
 				},
 				{
 					field: 'FEE_RATE',
