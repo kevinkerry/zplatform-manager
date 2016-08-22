@@ -252,7 +252,6 @@ public class RouteAction extends BaseAction{
     @SuppressWarnings("unchecked")
     public String queryRouteConfig(){
         Map<String, Object> variables = new HashMap<String, Object>();
-        variables.put("userId", getCurrentUser().getUserId());
         if (routeConfigModel == null) {
             routeConfigModel = new RouteConfigModel();
         }

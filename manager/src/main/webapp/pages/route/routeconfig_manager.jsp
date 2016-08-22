@@ -226,6 +226,16 @@
 				    {field: 'BANKCODE',title: '发卡行',width: 150,align: 'center'},
 				    {field: 'ROUTVER',title: '交易渠道',width: 150,align: 'center'},
 				    {field: 'CARDTYPE',title: '卡类型',width: 100,align: 'center'},
+				    	/* formatter: function(value, rec){
+				    		if(value.equals("1;")){
+				    			return "借记卡";
+				    		}else if(value.equals("2;")){
+				    			return "贷记卡";
+				    		}else if(value.equals("1;2;")){
+				    			return "借记卡;贷记卡";
+				    		}
+				    	} */
+				    
 				    {field: 'ISDEF',title: '是否为默认路由',width: 100,align: 'center',
 				    	formatter: function(value, rec){
 				    		if(value == 0){
@@ -411,7 +421,7 @@
 		//新增路由版本 
 		function showAdd() {
 			$('#theForm').clearForm();					
-			loadBank();	
+			loadBank();	//加载所有的发卡行  
 			loadCradtype();
 			queryAllRoutver();
 			queryBusicode();
@@ -579,12 +589,10 @@
 				url: "pages/route/queryOneRouteConfigRouteAction.action",
 				data: "rid=" + rid,
 				dataType: "json",
-				success: function(json) {					
-					
-					
-					$("#merchroutver").val(json.MERCHROUTVER);
+				success: function(json) {										
 					$("#stime").val(json.STIME);
 					$("#etime").val(json.ETIME);
+					$("#merchroutver").val(json.MERCHROUTVER);
 					$("#minamt").val(json.MINAMT);
 					$("#maxamt").val(json.MAXAMT);
 					$("#bankcode").val(json.BANKCODE);

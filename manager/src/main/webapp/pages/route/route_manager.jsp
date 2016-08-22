@@ -61,7 +61,7 @@
 						<td align="right" width="15%">路由版本名称</td>
 						
 						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeModel.routname" id="routname" required="true" maxlength="32" missingMessage="请输入路由版本名称"/>
+							<input name="routeModel.routname" id="routname" required="true" missingMessage="请输入路由版本名称"  maxlength="32" class="easyui-validatebox"/>
 							<font color="red">*</font></td>
 						</td>
 					</tr>
@@ -69,7 +69,7 @@
 					<tr>						
 						<td align="right" width="15%">备注</td>
 						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeModel.note" id="notes" maxlength="64"/>
+							<input name="routeModel.note" id="notes" maxlength="64" class="easyui-validatebox"/>
 						</td >	
 				
 						<td align="center" colspan="2"><font color="red">提示:请于启用、注销前在备注处填写理由</font></td>
@@ -194,6 +194,9 @@
 		//保存 
 		function saveRoute(){
 			$("#routver").removeAttr("disabled");
+			$('#routname').removeAttr('readonly');
+			$("#routname").css("background-color","#FFFFFF");
+			
 			$('#theForm').form('submit', {
 				onSubmit: function() {
 					if ($('#theForm').form('validate')) {
@@ -269,7 +272,7 @@
 					$("#routver").css("background-color","#BEBEBE");
 					
 					$("#routname").val(json.ROUTNAME);
-					$("#routname").attr("readonly","BEBEBE");
+					$("#routname").attr("readonly","readonly");
 					$("#routname").css("background-color","#BEBEBE");
 					
 					$("#notes").val(json.NOTES);										
@@ -288,8 +291,8 @@
 				shadow: false,
 				closed: false
 			});
-			$("#theForm").attr("action", "pages/route/deleteRouteRouteAction.action"); 
 			$('#btn_submit').linkbutton('enable');
+			$("#theForm").attr("action", "pages/route/deleteRouteRouteAction.action"); 			
 	    }
 		function startRoute(routid){
 			$.ajax({
