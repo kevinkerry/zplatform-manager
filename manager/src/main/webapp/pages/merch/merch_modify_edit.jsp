@@ -764,7 +764,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}) ;
 					$("#coop_insti_ins").html(html);
 					refreshProduct(merCoopInstiId);
-					$('#coop_insti_ins').attr('disabled','disabled');
+					 /* $('#coop_insti_ins').attr('disabled','disabled'); */
 				}
 			});
 		}
