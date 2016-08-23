@@ -168,10 +168,6 @@
   </body>
   <script>
   	var width = $("#continer").width();
-
-  	function selecRole(){
-  	  	
-  	}
 		$(function(){
 			showOrgan();
 			$('#userList').datagrid({
@@ -665,7 +661,6 @@
 			closeView();
 			var w =$("#authMenu").width();
 			$("#menu_div").css("margin-left",w/2.5+"px");
-			//alert(w);
 		}
 		function invokeFunction(){
 			
