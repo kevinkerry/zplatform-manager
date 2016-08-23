@@ -18,7 +18,7 @@ public class RouteModel implements java.io.Serializable{
     /**路由名称**/
     private String routname;
     /**状态**/
-    private int status;
+    private String status;
     /**写入时间**/
     private Date intime;
     /**写入人**/
@@ -38,7 +38,7 @@ public class RouteModel implements java.io.Serializable{
     }
 
     public RouteModel(String routid, String routver, String routname,
-            int status, Date intime, Long inuser, Date uptime,
+            String status, Date intime, Long inuser, Date uptime,
             Long upuser, String note, String remarks) {
         super();
         this.routid = routid;
@@ -81,12 +81,12 @@ public class RouteModel implements java.io.Serializable{
         this.routname = routname;
     }
 
-    @Column(name="STATUS",nullable=false,length=1)
-    public int getStatus() {
+    @Column(name="STATUS",nullable=false,length=2)
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

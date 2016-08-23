@@ -50,6 +50,7 @@
 				<form id="theForm"   method="post" action="pages/route/saveRouteRouteAction.action" >
 				<input name="routeModel.routidStr" id="routid" type="hidden"/>
 				
+				
 				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
 					<tr>
 						<td align="right" width="15%" height="50px" >路由版本代码</td>
@@ -109,8 +110,8 @@
 				url: 'pages/route/queryRouteEditionRouteAction.action',
 				remoteSort: false,
 				columns: [[				    
-					{field: 'ROUTVER',title: '路由版本代码',width: 150,align: 'center'},
-				    {field: 'ROUTNAME',title: '路由版本名称',width: 220,align: 'center'},
+					{field: 'ROUTVER',title: '路由版本代码',width: 200,align: 'center'},
+				    {field: 'ROUTNAME',title: '路由版本名称',width: 250,align: 'center'},
 				    {field: 'STATUS',title: '状态',width: 100,align: 'center',
 				    	formatter: function(value, rec){
 				    		if(value == 00){
@@ -275,7 +276,7 @@
 					$("#routname").attr("readonly","readonly");
 					$("#routname").css("background-color","#BEBEBE");
 					
-					$("#notes").val(json.NOTES);										
+					$("#notes").val(json.NOTES);					
 				}	
 			});
 			$('#w').window({

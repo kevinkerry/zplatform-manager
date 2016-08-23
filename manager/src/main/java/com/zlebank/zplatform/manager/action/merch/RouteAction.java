@@ -207,16 +207,20 @@ public class RouteAction extends BaseAction{
             json_encode(mark);
             return null;
         }
-        routeModel.setUpuser(getCurrentUser().getUserId());//记录修改人
-        mark = serviceContainer.getRouteService().updateRoute(routeModel);
-        if(mark.equals("succ")){//表示修改成功，下一步需要注销
+        routeModel.setUpuser(getCurrentUser().getUserId());
+        routeModel.setStatus("00");
+        String succOrFail = serviceContainer.getRouteService().updateRoute(routeModel);
+        if(succOrFail.equals("succ")){//表示修改成功，下一步需要注销
+            
             mark = serviceContainer.getRouteService().deleteRoute(routeModel.getRoutidStr());
             if(mark.equals("succ")){
                 mark ="注销成功!";
+            }else {
+                mark="注销失败!";
             }
         }else{
             mark="注销失败!";
-        }       
+        }      
         json_encode(mark);
         return null;
         
@@ -232,11 +236,14 @@ public class RouteAction extends BaseAction{
             return null;
         }
         routeModel.setUpuser(getCurrentUser().getUserId());//记录修改人
-        mark = serviceContainer.getRouteService().updateRoute(routeModel);
-        if(mark.equals("succ")){//表示修改成功，下一步需要注销
+        routeModel.setStatus("01");
+        String succOrFail = serviceContainer.getRouteService().updateRoute(routeModel);
+        if(succOrFail.equals("succ")){//表示修改成功，下一步需要注销
             mark = serviceContainer.getRouteService().startRoute(routeModel.getRoutidStr());
             if(mark.equals("succ")){
                 mark ="启用成功!";
+            }else{
+                mark="启用失败!";
             }
         }else{
             mark="启用失败!";
@@ -327,6 +334,8 @@ public class RouteAction extends BaseAction{
         result=serviceContainer.getRouteService().addRouteConfig(routeConfigModel, bankcodeList,busicodeList,cradtypeList);
         if(result.equals("操作成功!")){
             result = "添加成功!";
+        }else if(result.equals("执行出错!已存在默认路由")){
+            result = "该路由版本下已存在默认路由，每个路由版本下默认路由有且仅有一条";
         }
         json_encode(result);
         return null;
@@ -423,6 +432,8 @@ public class RouteAction extends BaseAction{
         String mark = serviceContainer.getRouteService().updateOneRouteConfig(routeConfigModel,bankcodeList,busicodeList,cradtypeList);
         if(mark.equals("操作成功!") ){
             mark = "修改成功!";
+        }else if(mark.equals("执行出错!默认路由不能修改为非默认路由")){
+            mark ="默认路由不能修改为非默认路由";
         }
         json_encode(mark);
         return null;
@@ -464,7 +475,8 @@ public class RouteAction extends BaseAction{
         if(rid!=null&&!rid.equals("")){
             List<Map<String, Object>> cardtypeList = new ArrayList<Map<String, Object>>();
             List<Map<String, Object>> containList =(List<Map<String, Object>>) serviceContainer.getRouteService().queryContainCardtype(rid);
-            
+            Map<String,Object> map1 = new HashMap<String, Object>();
+            Map<String,Object> map2 = new HashMap<String, Object>();
             if(containList == null || containList.size()==0){
                 Map<String,Object> map = new HashMap<String, Object>();
                 map.put("CONTAIN1", "NO");
@@ -473,32 +485,33 @@ public class RouteAction extends BaseAction{
                 map.put("2", "贷记卡");  
                 cardtypeList.add(map);
             }else{
-                String cardtype =  (String) containList.get(0).get("CARDTYPE");
-                if(cardtype == null || cardtype==""){
-                    Map<String,Object> map = new HashMap<String, Object>();
-                    map.put("CONTAIN1", "NO");
-                    map.put("CONTAIN2", "NO");
-                    map.put("1", "借记卡");                
-                    map.put("2", "贷记卡");  
-                    cardtypeList.add(map);
-                }else{
-                    String[] cardtypeArray = cardtype.split(";");
-                    for(int i=0;i<cardtypeArray.length;i++){
-                        if(cardtypeArray[i].equals("1")){
-                            Map<String,Object> map = new HashMap<String, Object>();
-                            map.put("CONTAIN1", "YES");                      
-                            map.put("1", "借记卡");  
-                            cardtypeList.add(map);
-                        }else if (cardtypeArray[i].equals("2")){
-                            Map<String,Object> map = new HashMap<String, Object>();
-                            map.put("CONTAIN2", "YES");               
-                            map.put("2", "贷记卡");
-                            cardtypeList.add(map);
+                String cardtype =  (String) containList.get(0).get("CARDTYPE");               
+                String[] cardtypeArray = cardtype.split(";");
+                    if(cardtypeArray.length ==1 ){
+                        if(cardtypeArray[0].equals("1")){                            
+                            map1.put("CONTAIN1", "YES");                      
+                            map1.put("1", "借记卡");                            
+                            cardtypeList.add(map1);
+                            map2.put("CONTAIN2", "NO");
+                            map2.put("2", "贷记卡");
+                            cardtypeList.add(map2);
+                        }else if (cardtypeArray[0].equals("2")){
+                            map1.put("CONTAIN1", "NO");                      
+                            map1.put("1", "借记卡");                            
+                            cardtypeList.add(map1);
+                            map2.put("CONTAIN2", "YES");               
+                            map2.put("2", "贷记卡");
+                            cardtypeList.add(map2);
                         }
+                    }else{ 
+                        map1.put("CONTAIN1", "YES");                      
+                        map1.put("1", "借记卡");
+                        cardtypeList.add(map1);
+                        map2.put("CONTAIN2", "YES");                      
+                        map2.put("2", "贷记卡");
+                        cardtypeList.add(map2);
                     }
                 }
-                
-            }
             try {
                 json_encode(cardtypeList);
             } catch (IOException e) {

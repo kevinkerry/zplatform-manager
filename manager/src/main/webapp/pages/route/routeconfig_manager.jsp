@@ -174,10 +174,17 @@
 					</tr>
 					<tr>
 					    <td>选择卡种类</td>
-					    <td align="left"  id="cardtype"   colspan="3">
-					    
+					    <td align="left"  id="cardtype"   colspan="3">					    
 					    </td>
-					</tr>		
+					</tr>
+					
+					<tr>
+					    <td>
+					    </td>
+					    <td>
+					    </td>
+					</tr>
+							
 					<tr style="height: 60px">					
 					    <td>选择交易类型</td>
 						<td  align="left"  id="busicode"  style="height: 60px"   colspan="3"> 						     							
@@ -340,7 +347,6 @@
 		  }
 		//卡类型复选框 
 		function loadCradtype(){
-			//var mark1 = 0;
 			var html = '';
 			html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" style="align:left" value="' + 1 + '" /><label class="activeflag_label"> 借记卡 </label>';
 			html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" style="align:left" value="' + 2 + '" /><label class="activeflag_label"> 贷记卡 </label>';
@@ -577,13 +583,14 @@
 					});
 	    }
 	
-	    //修改 
+	    //修改 路由配置 
 	    function showRouteConfig(rid){
-			loadBank();	
-			loadCradtype();
+			//loadBank();	
+			//loadCradtype();		
+			//queryBusicode();
 			queryAllRoutver();
-			queryBusicode();
 			queryChannelcode();
+			
 	    	$.ajax({
 				type: "POST",
 				url: "pages/route/queryOneRouteConfigRouteAction.action",
@@ -608,13 +615,12 @@
 						$("#rid").val(json.RID);
 					},
 					500);
-					containBusicode(rid);
-					containBank(rid);
-					containCardtype(rid);
-					
-				}
-	
+				}	
 			});
+	    	
+			containBusicode(rid);
+			containBank(rid);
+			containCardtype(rid);
 			$('#w').window({
 				title: '修改路由配置信息',
 				top: panelVertFloat, 
@@ -649,8 +655,10 @@
 	                    } else {
 	                        html += '<input type="checkbox" id="bankcodeList" name="bankcodeList" checked="checked"   style="width:40px" value="' + value.BANKCODE + '" /><label class="activeflag_label">' + value.BANKNAME + '</label>' ;
 	                    }
-	                    if (mark4 == 3 || mark4 == 7) {
-	                        html += '</br>'
+	                    if (mark4 == 3 || mark4 == 7|| mark4 == 11 || mark4 == 15||mark4 == 19 ||mark4 == 23 ||mark4 == 27||mark4 == 31) {
+	                    	html += '<br/>';
+		  					html += '<br/>';
+		  					html += '<br/>';
 	                    }
 	                    mark4 = mark4 + 1;
 	                });
@@ -684,7 +692,7 @@
 	                    }
 	                    if (value.CONTAIN2 == 'NO') {
 	                        html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" style="width:40px" value="' + 2 +'" /><label class="activeflag_label">贷记卡</label>' ;
-	                    } else if(value.CONTAIN1 == 'YES'){
+	                    } else if(value.CONTAIN2 == 'YES'){
 	                        html += '<input type="checkbox" id="cradtypeList" name="cradtypeList" checked="checked"   style="width:40px" value="'+ 2 +'" /><label class="activeflag_label">贷记卡</label>' ;
 	                    }
 	                    if (mark5 == 3 || mark5 == 7) {
