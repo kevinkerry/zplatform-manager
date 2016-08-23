@@ -424,7 +424,7 @@
 				}
 			});
 		}
-		//新增路由版本 
+		//新增路由配置信息  
 		function showAdd() {
 			$('#theForm').clearForm();					
 			loadBank();	//加载所有的发卡行  
@@ -583,12 +583,11 @@
 					});
 	    }
 	
-	    //修改 路由配置 
+	    //修改 路由配置信息 
 	    function showRouteConfig(rid){
-			//loadBank();	
-			//loadCradtype();		
-			//queryBusicode();
+	    	//查询所有的路由版本 
 			queryAllRoutver();
+	    	//查询所有的交易渠道 
 			queryChannelcode();
 			
 	    	$.ajax({
@@ -596,10 +595,11 @@
 				url: "pages/route/queryOneRouteConfigRouteAction.action",
 				data: "rid=" + rid,
 				dataType: "json",
-				success: function(json) {										
+				success: function(json) {
+					$("#merchroutver").val(json.MERCHROUTVER);
 					$("#stime").val(json.STIME);
 					$("#etime").val(json.ETIME);
-					$("#merchroutver").val(json.MERCHROUTVER);
+					
 					$("#minamt").val(json.MINAMT);
 					$("#maxamt").val(json.MAXAMT);
 					$("#bankcode").val(json.BANKCODE);

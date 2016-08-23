@@ -366,5 +366,12 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
          return info;
     }
 
+    @Override
+    public List<Map<String, Object>> selecRoutnameAndRouver(String routver) {
+        List<Map<String, Object>> list =  (List<Map<String, Object>>) getDao().executeBySQL("select routname  from t_route where routver=? ", 
+                new Object[]{routver});        
+        return    list;
+    }
+
 
 }
