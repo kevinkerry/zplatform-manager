@@ -272,12 +272,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">联系人姓名</td>
 						<td><input name="merchDeta.member.contact" maxlength="16" type="text" class="easyui-validatebox"  value="${merchDeta.member.contact}"/>
 						<td align="center">联系人地址</td>
-						<td><input name="merchDeta.member.contAddress" maxlength="40" style="width:250px"  type="text" class="easyui-validatebox"  value="${merchDeta.member.contAddress}"/>
+						<td><input name="merchDeta.member.contAddress" maxlength="16" style="width:250px"  type="text" class="easyui-validatebox"  value="${merchDeta.member.contAddress}"/>
 						    </td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td><input  class="easyui-validatebox" maxlength="20"  validType="chinesetest"   name="merchDeta.member.contPhone" value="${merchDeta.member.contPhone}"/>
+						<td><input  class="easyui-validatebox" maxlength="16"  validType="chinesetest"   name="merchDeta.member.contPhone" value="${merchDeta.member.contPhone}"/>
 						    </td>
 						<td align="center">联系人职位</td>
 						<td><input name="merchDeta.member.contTitle" maxlength="32"  type="text" value="${merchDeta.member.contTitle}"/>
@@ -286,7 +286,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="center">联系人邮箱</td>
 						<td>
-							<input  class="easyui-validatebox" maxlength="50" validType="email" name="merchDeta.member.contEmail" value="${merchDeta.member.contEmail}"/>
+							<input  class="easyui-validatebox" maxlength="16" validType="email" name="merchDeta.member.contEmail" value="${merchDeta.member.contEmail}"/>
 						</td>
 						
 						
@@ -319,7 +319,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showCounty('city_ins');
 			 
 			showMccList();
-			showCoopInsti() ;
+			showCoopInsti();
 			//showProduct();
 			queryDistType($('#prdtver_old').val());
 			queryFee($('#prdtver_old').val());
@@ -754,8 +754,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				success: function(json) {
 					var merCoopInstiId = $('#coopInstiId_old').val();
 					var html = "<option value=''>--请选择合作机构--</option>";
-					$.each(json,
-					function(key, value) {
+					$.each(json,function(key, value) {
 						if(value.id==merCoopInstiId){
 							html += '<option value="' + value.id + '" selected="selected">' + value.instiName + '</option>';
 						}else{
