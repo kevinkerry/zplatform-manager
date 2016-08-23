@@ -63,12 +63,7 @@
 						<td>扣率类型</td>
 						<td>
 							<select id="ratetype" class="easyui-validatebox"  required="true"  name="accumulateRateModel.ratetype" onchange="showRateDetail()" missingMessage="请选择扣率类型">
-	                            <option value="">--请选择扣率类型--</option>
-								<option value="0">免费</option>
-								<option value="1">固定金额</option>
-								<option value="2">固定比例</option>
-								<option value="3">固定比例+限额</option>
-								<option value="4">分段计费(最多3段)</option>
+								<option value="04">--分段计费--</option>
 							</select>
 							<font color="red">*</font></td>
 						</td>
@@ -77,6 +72,17 @@
 							<input id="feerate" name="accumulateRateModel.feerateStr" validType="percent"   type="text" class="easyui-validatebox" maxlength="4"/>
 						</td>
 						
+					</tr>
+					
+					<tr>
+						<td>交易累计类型</td>
+						<td>
+							<select id="accmode" class="easyui-validatebox"  required="true"  name="steprateModel.accmode" onchange="showAccmodeDetail()">
+								<option value="0">--日--</option>
+								<option value="1">--月--</option>
+								<option value="2">--年--</option>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<td>最低收费额(单位:元)</td>
@@ -358,19 +364,7 @@
 				dataType: "json",
 				success: function(json) {	
 					showFeeCase2(json.FEEVER);
-					if(json.RATE_TYPE == 0){
-						$("#ratetype").val(0);
-					}else if(json.RATE_TYPE == 1){
-						$("#ratetype").val(1);
-					}else if(json.RATE_TYPE == 2){
-						$("#ratetype").val(2);
-					}else if(json.RATE_TYPE == 3){
-						$("#ratetype").val(3);
-					}else if(json.RATE_TYPE == 4){
-						$("#ratetype").val(4);
-					}
-					
-					
+					$("#ratetype").val(json.RATE_TYPE);
 					$("#servicefee").val(json.SERVICEFEE);
 					$("#feerate").val(json.FEE_RATE);					
 					$("#minfee").val(json.MIN_FEE);
@@ -479,20 +473,8 @@
 				url: "pages/fee/queryOneAccumulateRateFeeAction.action?caseid=" + tid,
 				dataType: "json",
 				success: function(json) {	
-					showFeeCase2(json.FEEVER);
-					if(json.RATE_TYPE == 0){
-						$("#ratetype").val(0);
-					}else if(json.RATE_TYPE == 1){
-						$("#ratetype").val(1);
-					}else if(json.RATE_TYPE == 2){
-						$("#ratetype").val(2);
-					}else if(json.RATE_TYPE == 3){
-						$("#ratetype").val(3);
-					}else if(json.RATE_TYPE == 4){
-						$("#ratetype").val(4);
-					}
-					
-					
+					showFeeCase2(json.FEEVER);						
+					$("#ratetype").val(json.RATE_TYPE);
 					$("#servicefee").val(json.SERVICEFEE);
 					
 					$("#feerate").val(json.FEE_RATE);	
