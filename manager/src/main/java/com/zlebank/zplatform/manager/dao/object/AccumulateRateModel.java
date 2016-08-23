@@ -47,6 +47,8 @@ public class AccumulateRateModel implements Serializable {
     private Long inuser;
     /**写入时间**/
     private Date intime;
+    /**0-日 1-月 2-年**/
+    private int accmode;
     /**固定费用**/
     private BigDecimal servicefee; 
     /**扣率（万分比）**/
@@ -98,7 +100,7 @@ public class AccumulateRateModel implements Serializable {
             BigDecimal servicefee, BigDecimal feerate, BigDecimal minfee,
             BigDecimal maxfee, BigDecimal limit1, BigDecimal feerate2,
             BigDecimal minfee2, BigDecimal maxfee2, BigDecimal limit2,
-            BigDecimal feerate3, BigDecimal minfee3, BigDecimal maxfee3) {
+            BigDecimal feerate3, BigDecimal minfee3, BigDecimal maxfee3,int accmode) {
         super();
         this.feever = feever;
         this.busicode = busicode;
@@ -120,6 +122,7 @@ public class AccumulateRateModel implements Serializable {
         this.feerate3 = feerate3;
         this.minfee3 = minfee3;
         this.maxfee3 = maxfee3;
+        this.accmode = accmode;
     }
 
     @Id
@@ -507,6 +510,17 @@ public class AccumulateRateModel implements Serializable {
 
     public void setServicefeeStr(String servicefeeStr) {
         this.servicefeeStr = servicefeeStr;
+    }
+
+
+
+    @Column(name="ACCMODE",length=1)
+    public int getAccmode() {
+        return accmode;
+    }
+
+    public void setAccmode(int accmode) {
+        this.accmode = accmode;
     }
 
 
