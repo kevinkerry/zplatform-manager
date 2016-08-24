@@ -34,13 +34,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						          <option value='20'>注册待复审</option>
 						          <option value='21'>注册复审未过</option>
 								  <option value='29'>注册复审终止</option>
-						<!--  	  <option value='30'>变更待初审</option>
-						          <option value='11'>变更初审未过</option>
-						          <option value='19'>变更初审终止</option>
+						  	      <option value='30'>变更待初审</option>
+						          <option value='31'>变更初审未过</option>
+						          <option value='39'>变更初审终止</option>
 						          <option value='40'>变更待复审</option>
 						          <option value='41'>变更复审未过</option>
-								  <option value='29'>变更复审终止</option>
-						-->			  
+								  <option value='49'>变更复审终止</option>		  
 					        </select>
 						</td>
 						<td align="right"  width="10%">

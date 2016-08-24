@@ -1,3 +1,4 @@
+
 package com.zlebank.zplatform.manager.service;
 
 import java.io.File;
@@ -242,36 +243,7 @@ public class MerchDetaServiceImpl
 
     }
 
-    public long findMerchByPageCount(Map<String, Object> variables) {
-        String[] columns = new String[]{"v_user", "v_memberid", "v_merch_name",
-                "v_address", "v_status", "v_flag",};
-
-        Object[] paramaters = new Object[]{
-                variables.containsKey("userId")
-                        ? variables.get("userId")
-                        : null,
-                variables.containsKey("merberId")
-                        ? variables.get("merberId")
-                        : null,
-                variables.containsKey("merchName")
-                        ? variables.get("merchName")
-                        : null,
-                variables.containsKey("address")
-                        ? variables.get("address")
-                        : null,
-                variables.containsKey("status")
-                        ? variables.get("status")
-                        : null,
-                variables.containsKey("coopInstiId") ? variables
-                        .get("coopInstiId") : null,
-                variables.containsKey("flag") ? variables.get("flag") : null,};
-
-        Object total = getDao()
-                .executeOracleProcedure(
-                        "{CALL PCK_MERCH.sel_t_merchant_foract_num(?,?,?,?,?,?,?)}",
-                        columns, paramaters, "cursor0").get(0).get("TOTAL");
-        return Long.valueOf(total.toString());
-    }
+    
 
     @Override
     public MerchDeta getBean(long merchDetaApplyId) {
@@ -896,28 +868,7 @@ public class MerchDetaServiceImpl
         this.ftpClientFactory = ftpClientFactory;
     }
 
-    @Override
-    public Map<String, Object> findMerchModifyByPage(Map<String, Object> variables,
-            int page,
-            int rows) {
-        
-        String[] columns = new String[]{"v_user", "v_member_id",
-                "v_merch_name", "v_address", "v_status", "v_coop_insti_id",
-                "v_flag", "i_no", "i_perno"};
-
-        Object[] paramaters = new Object[]{
-                variables.containsKey("userId")? variables.get("userId"): null,
-                variables.containsKey("merberId")? variables.get("merberId"): null,
-                variables.containsKey("merchName")? variables.get("merchName"): null,
-                variables.containsKey("address")? variables.get("address"): null,
-                variables.containsKey("status")? variables.get("status"): null,
-                variables.containsKey("coopInstiId") ? variables.get("coopInstiId") : null,
-                variables.containsKey("flag") ? variables.get("flag") : null,
-                page, rows};
-        return getDao().executePageOracleProcedure(
-                "{CALL PCK_MERCH.sel_t_merchant(?,?,?,?,?,?,?,?,?,?,?)}",
-                columns, paramaters, "cursor0", "v_total");
-    }
+   
 
     @Override
     public boolean commitMerchModify(long merchpplyId) {
@@ -1134,4 +1085,19 @@ public class MerchDetaServiceImpl
         result.add(resultMap);
         return result;
     }
+
+    @Override
+    public long findMerchByPageCount(Map<String, Object> variables) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public Map<String, Object> findMerchModifyByPage(Map<String, Object> variables,
+            int page,
+            int rows) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
+
