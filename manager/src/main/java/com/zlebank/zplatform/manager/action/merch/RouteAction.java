@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.tools.apt.resources.apt;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.dao.object.ParaDicModel;
@@ -189,6 +188,7 @@ public class RouteAction extends BaseAction{
             return null;
         }
         routeModel.setUpuser(getCurrentUser().getUserId());
+        routeModel.setStatus("00");
         mark = serviceContainer.getRouteService().updateRoute(routeModel);
         if(mark .equals("succ")){
             mark ="修改成功!";
