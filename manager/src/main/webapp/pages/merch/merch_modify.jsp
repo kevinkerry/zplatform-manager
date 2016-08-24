@@ -330,6 +330,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showSetlcycleAll();
 			showSetClearType();
 			$('#startDate,#endDate').datebox({required: false});
+			$("#startDate,#endDate").datebox({ editable:false});
 			//$('#startDate').datebox('setValue',$('#agreemtStart_old').val());
 			//$('#endDate').datebox('setValue',$('#agreemtEnd_old').val());
 			initDelegation();

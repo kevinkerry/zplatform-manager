@@ -318,6 +318,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showSetClearType();
 			showMccList();
 			$('#startDate,#endDate').datebox({});
+			$("#startDate,#endDate").datebox({ editable:false});
 			queryBankNode();
 			checkIsDelegation();
 		});

@@ -250,15 +250,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">合约开始日期</td>
-						<td><input name="merchDeta.agreemtStart" maxlength="12"   type="text"  id="startDate" value="${merchDeta.agreemtStart}"/>
+						<td><input name="merchDeta.agreemtStart" editable="false" maxlength="12"   type="text"  id="startDate" value="${merchDeta.agreemtStart}"/>
 						</td>
 						<td align="center">合约终止日期</td>
-						<td><input  class="easyui-validatebox" maxlength="32"  name="merchDeta.agreemtEnd"  id="endDate" value="${merchDeta.agreemtEnd}"/>
+						<td><input  class="easyui-validatebox" editable="false" maxlength="32"  name="merchDeta.agreemtEnd"  id="endDate" value="${merchDeta.agreemtEnd}"/>
 						    </td>
 					</tr>
 					<tr>
 						<td align="center">保证金</td>
-						<td><input  class="easyui-validatebox" maxlength="10"  validType="amount" name="deposit" value="${deposit}"/><font color="red">元</font>
+						<td><input  class="easyui-validatebox" onkeyup="value=value.replace(/[^[0-9]{1,8}([.][0-9]{1,2})?$]/g,'')"  maxlength="10"  validType="amount" name="deposit" value="${deposit}"/> <font color="red">元</font>
 						</td>
 						<td align="center">服务费</td>
 						<td><input name="charge" maxlength="10"  validType="amount"  class="easyui-validatebox" type="text" value="${charge}"/><font color="red">元</font>
@@ -330,6 +330,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showSetlcycleAll();
 			showSetClearType();
 			$('#startDate,#endDate').datebox({required: false});
+			$("#startDate,#endDate").datebox({ editable:false});
 			//$('#startDate').datebox('setValue',$('#agreemtStart_old').val());
 			//$('#endDate').datebox('setValue',$('#agreemtEnd_old').val());
 			initDelegation();
