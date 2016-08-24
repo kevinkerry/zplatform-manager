@@ -12,6 +12,7 @@
             <result name="showMemberRate">/pages/fee/merch_rate_manager.jsp</result>
             <result name="showCardRate">/pages/fee/card_rate_manager.jsp</result>
             <result name="showStepRate">/pages/fee/stpe_rate_manager.jsp</result>
+            <result name="showAccumulate">/pages/fee/accumulate_manager.jsp</result>
 		</action>
 
     </package>

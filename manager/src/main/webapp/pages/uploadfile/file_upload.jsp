@@ -132,14 +132,23 @@ input {
 	 <div style="padding-left: 5px; padding-right: 5px">
 			<table width="100%" border="1">
 				<tr>
-					<td colspan="4" align="center">下载并上传微信对账文件</td>
+					<td colspan="4" align="center">微信对账</td>
 				</tr>
 				<tr height="26" id="fileadd1">
-					<td align="center">对账文件</td>
+					<td align="center">对账日期</td>
 					<td colspan="3">
 						<input name="billdate" maxlength="12"   type="text"  id="startDate"/>
 					</td>
 				</tr>
+				<tr height="26" id="fileadd1">
+						<td align="center">对账机构</td>
+						<td colspan="3"><select id="instiid_wechat"
+							class="easyui-validatebox" >
+							  <option value=''>请选择</option>
+								<option value='app_wechat'>App支付</option>
+								<option value='code_wechat'>扫码支付</option>
+						</select></td>
+					</tr>
 				<tr>
 					<td align="center" colspan="4" id="uploadbutton"><a
 						class="easyui-linkbutton" iconCls="icon-ok"
@@ -263,11 +272,16 @@ input {
 	function billFileUpload(){
 		if($('#startDate').datebox('getValue')==""||$('#startDate').datebox('getValue')==null){
 			$.messager.alert('提示', '请选择对账日期');
+			return;
+		}
+		if ($("#instiid_wechat").val() == ""||$("#instiid_wechat").val() == null) {
+			$.messager.alert('提示', '请选择对账机构');
+			return;
 		}
 		$.ajax({
 			type : "POST",
-			url : "pages/merchant/dowanWeChatBillUploadAction.action",
-			data : "billDate="+ $('#startDate').datebox('getValue'),
+			url : "pages/merchant/downWeChatBillUploadAction.action",
+			data : "billDate="+ $('#startDate').datebox('getValue')+"&instiid="+$("#instiid_wechat").val(),
 			dataType : "json",
 			success : function(json) {
 				$.messager.alert('提示', json.info);

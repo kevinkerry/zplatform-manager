@@ -395,6 +395,11 @@ public class MerchDetaAction extends BaseAction {
         List<Map<String, Object>> resultlist = (List<Map<String, Object>>) serviceContainer
                 .getMerchDetaService().merchAudit(Long.parseLong(merchApplyId),
                         merchDeta, flag, isAgree);
+        if(flag.equals("6")){
+            resultlist.get(0).put("FLAG", "复审通过");
+        }else{
+           resultlist.get(0).put("FLAG", ""); 
+        }
         json_encode(resultlist);
         return null;
     }
@@ -771,7 +776,7 @@ public class MerchDetaAction extends BaseAction {
     }
     
     /**
-     * 点击下一步，对变更商户信息做保存
+     * 点击下一步，对商户变更信息做保存更新
      * @return
      */
     public String saveMerchModifyDeta(){
@@ -803,6 +808,17 @@ public class MerchDetaAction extends BaseAction {
         json_encode(resultlist.get(0));
         return null;
         
+    }
+    /**
+     * 变更信息的审核（初审、复审）
+     * @return
+     */
+    
+    public String toMerchModifyDetail(){
+        Long userId = getCurrentUser().getUserId();
+        merchMap = serviceContainer.getMerchDetaService().queryModifyMerchDeta(
+                Long.parseLong(merchApplyId), userId);
+        return "merch_modify_detail";  
     }
     public ServiceContainer getServiceContainer() {
         return serviceContainer;

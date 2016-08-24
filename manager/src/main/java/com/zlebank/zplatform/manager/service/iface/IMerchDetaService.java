@@ -1,4 +1,3 @@
-
 package com.zlebank.zplatform.manager.service.iface;
 
 import java.io.File;
@@ -263,6 +262,8 @@ public interface IMerchDetaService
      */
     public boolean commitMerchModify(long merchpplyId);
     public List<?> saveMerchModifyDeta(long parseLong, MerchDeta merchDeta);
+    public Map<String, Object> queryModifyMerchDeta(long merchApply, Long userId);
 }
+
 
 

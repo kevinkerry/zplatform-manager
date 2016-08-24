@@ -106,11 +106,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							},	
 						{field:'DEPT_ID',title:'操作',width:150,align:'center',
 						formatter:function(value,rec){							
-<<<<<<< HEAD
-							return '<a href="javascript:toMerchModifyEdit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">变更</a>&nbsp<a href="javascript:toMerchModifyDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';						
-=======
-									return '<a href="javascript:toMerchModifyEdit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">变更</a>&nbsp<a href="javascript:toMerchModifyDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';		
->>>>>>> branch 'develop' of ssh://root@192.168.101.11/zplatform-manager
+if(flag=='4'){
+								return '<a href="javascript:toMerchModifyEdit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">修改</a>&nbsp;&nbsp;<a href="javascript:toMerchModifyDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
+							}else if(flag=='5'){
+								return '<a href="javascript:toMerchModifyAudit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">审核</a>';
+							}else{
+								return '<a href="javascript:toMerchModifyAudit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">复核</a>';
+							}
 						}
 					}
 					]],
@@ -223,22 +225,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//变更
 		function toMerchModifyEdit(id){
 			window.location.href= "<%=basePath%>" +'pages/merchant/toMerchModifyEditMerchantAction.action?merchApplyId='+id;
-<<<<<<< HEAD
 			//window.event.returnValue = false;
 		}
 		//初审、复审 
 		function toMerchModifyAudit(merchApplyId){
 			flag=$('#flag_ins').val();
-			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+merchApplyId+'&flag='+flag;
-			//window.event.returnValue = false;
-=======
-			window.event.returnValue = false;
->>>>>>> branch 'develop' of ssh://root@192.168.101.11/zplatform-manager
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchModifyDetailMerchantAction.action?merchApplyId='+merchApplyId+'&flag='+flag;
+			//window.event.returnValue = false;		
 		}
-<<<<<<< HEAD
-=======
-		
->>>>>>> branch 'develop' of ssh://root@192.168.101.11/zplatform-manager
 		function toActivateStatus(memberId) {
 			if(($("#"+memberId).attr("value"))!=0){
 				alert("您刚刚已经申请过发送邮件了");
