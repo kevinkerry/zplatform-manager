@@ -193,12 +193,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr> 
 						<td align="center">产品</td>
 						<td>
-							<select id="prdtver_ins" class="easyui-validatebox" required="true"  name="merchDeta.prdtVer" style="width:150px"  onchange="showThreeVersion()"/></select>
+							<select id="prdtver_ins"  name="merchDeta.prdtVer" class="easyui-validatebox" required="true"   style="width:150px"  onchange="showThreeVersion()"/></select>
 					        <font color="red">*</font>
 				        </td>
 				        <td align="center">风控版本</td>
 						<td>
-							<select name="merchDeta.riskVer" maxlength="8" required="true"  id="riskver"  /></select>
+							<select id="riskver"  class="easyui-validatebox" name="merchDeta.riskVer" required="true" /></select>
 							<font color="red">*</font>
 						</td>
 					</tr>
@@ -206,7 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">扣率版本</td>
 						<td><select id="feever_ins" class="easyui-validatebox"  required="true" name="merchDeta.feeVer"   /></select>
 					    <font color="red">*</font>
-						   </td>
+						</td>
 						<td align="center">分润版本</td>
 						<td>
 						<select name="merchDeta.spiltVer" maxlength="8"  id="spiltver"  /></select>
