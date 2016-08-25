@@ -55,6 +55,8 @@ import com.zlebank.zplatform.trade.bean.enums.BusinessEnum;
 import com.zlebank.zplatform.trade.bean.gateway.SplitAcctBean;
 import com.zlebank.zplatform.trade.exception.TradeException;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
+import com.zlebank.zplatform.trade.model.TxnsOrderinfoModel;
+import com.zlebank.zplatform.trade.service.IGateWayService;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 import com.zlebank.zplatform.trade.utils.OrderNumber;
 import com.zlebank.zplatform.trade.utils.UUIDUtil;
@@ -93,6 +95,8 @@ public class ChargeServiceImpl
     private ITxnsLogService txnsLogService;
     @Autowired
     private MerchService merchService;
+    @Autowired
+    private IGateWayService gateWayService;
     /**
      *
      * @param example
@@ -288,6 +292,12 @@ public class ChargeServiceImpl
         txnsLog.setAccmemberid(charge.getMemberid().getMemberId());
         txnsLogService.save(txnsLog);
         
+        TxnsOrderinfoModel orderinfo = gateWayService.getOrderinfoByOrderNoAndMemberId(txnsLog.getAccordno(), txnsLog.getAccsecmerno());
+        if(orderinfo!=null){
+        	orderinfo.setStatus("00");
+        	orderinfo.setRelatetradetxn(txnsLog.getTxnseqno());
+        	gateWayService.update(orderinfo);
+        }
         // 调用分录规则
         TradeInfo tradeInfo = new TradeInfo();
         tradeInfo.setAmount(charge.getAmount() == null ? new BigDecimal(0) : charge
