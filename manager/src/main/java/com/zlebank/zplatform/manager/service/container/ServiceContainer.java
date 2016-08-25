@@ -20,6 +20,7 @@ import com.zlebank.zplatform.manager.service.iface.IRiskAnalyseLogService;
 import com.zlebank.zplatform.manager.service.iface.IRiskService;
 import com.zlebank.zplatform.manager.service.iface.IRoleFunctService;
 import com.zlebank.zplatform.manager.service.iface.IRoleService;
+import com.zlebank.zplatform.manager.service.iface.IRouteService;
 import com.zlebank.zplatform.manager.service.iface.ITaskService;
 import com.zlebank.zplatform.manager.service.iface.ITxnsLogsService;
 import com.zlebank.zplatform.manager.service.iface.IUploadLogService;
@@ -56,7 +57,7 @@ public class ServiceContainer {
 	private ICardHolderBlackService cardHolderBlackService;
 	private IRiskAnalyseLogService riskAnalyseLogService;
     private IChannelService channelService;
-
+    private IRouteService routeService;
 
  
 
@@ -267,5 +268,14 @@ public class ServiceContainer {
     public void setParaDicService(IParaDicService paraDicService) {
         this.paraDicService = paraDicService;
     }
+
+    public IRouteService getRouteService() {
+        return routeService;
+    }
+
+    public void setRouteService(IRouteService routeService) {
+        this.routeService = routeService;
+    }
+    
     
 }

@@ -49,8 +49,8 @@ public class UploadAction extends BaseAction {
     private static final Log log = LogFactory.getLog(UploadAction.class);
     
     /**
-	 * 
-	 */
+     * 
+     */
     private static final long serialVersionUID = -3963094287299215112L;
     private File[] upload;
     private String[] uploadFileName;
@@ -66,7 +66,6 @@ public class UploadAction extends BaseAction {
     private ServiceContainer serviceContainer;
     private String falg;
     private String billDate;
-    private String wechatType;
     
     @Autowired
     private IChannelFileService iChannelFileService;
@@ -229,7 +228,7 @@ public class UploadAction extends BaseAction {
             channelFileMode = iChannelFileService
                     .getLikeInstiid(uploadFileName[0].split("_")[2]);
             if(channelFileMode==null){
-            	channelFileMode = iChannelFileService
+                channelFileMode = iChannelFileService
                         .getLikeInstiid(uploadFileName[0].split("_")[0]);
             }
         } else {
@@ -299,88 +298,81 @@ public class UploadAction extends BaseAction {
         return formatDate + random + extension;
     }
     
-    public void dowanWeChatBill(){
-    	Map<String, Object> result = new HashMap<String, Object>();
-    	if(StringUtil.isEmpty(wechatType)){
-    		result.put("info", "微信对账文件处理失败！");
-    		json_encode(result);
-    		return ;
-    	}
-    	
-    	billDate = billDate.replaceAll("-", "");
-    	// 判断是否重复上传文件
-
-        Boolean boo = serviceContainer.getBnktxnService().upLoad(billDate+wechatType);
-        UploadLogModel ulm = null;
-
-        //Boolean boo = serviceContainer.getBnktxnService().upLoad(billDate);
-        if (boo) {
-            result.put("info", "此日期对账文件已经保存！");
-            json_encode(result);
-            return;
-        } else {
-            ulm = new UploadLogModel();
-            ulm.setLogid(1l);
-            ulm.setFilename(billDate);
-            ulm.setUploaderid(getCurrentUser().getUserId());
-            ulm.setUploadername(getCurrentUser().getUserName());
-            serviceContainer.getUploadlogService().save(ulm); // 保存任务
+    public void downWeChatBill(){
+        Map<String, Object> result = new HashMap<String, Object>();
+        try {
+            log.info("微信对账,日期:"+billDate+"机构："+instiid);
+            if(StringUtil.isEmpty(billDate)||StringUtil.isEmpty(instiid)){
+                 result.put("info", "对账日期或机构有误！");
+                 json_encode(result);
+                 return;
+            }
+            billDate = billDate.replaceAll("-", "");
+            String fileName= billDate.concat("_").concat(instiid);
+            // 判断是否重复上传文件
+            Boolean boo = serviceContainer.getBnktxnService().upLoad(fileName);
+            if (boo) {
+                result.put("info", "此日期对账文件已经保存！");
+                json_encode(result);
+                return;
+            } else {
+                UploadLogModel ulm = new UploadLogModel();
+                ulm.setLogid(1l);
+                ulm.setFilename(fileName);
+                ulm.setUploaderid(getCurrentUser().getUserId());
+                ulm.setUploadername(getCurrentUser().getUserName());
+                serviceContainer.getUploadlogService().save(ulm); // 保存任务
+            }
+            List<BnkTxnModel> saveWeChatBill = chatReconFileService.saveWeChatBill(billDate,instiid);
+            if (saveWeChatBill==null) {
+                result.put("info", "未获取到微信对账文件！");
+                serviceContainer.getBnktxnService().deleteFailedWechatUploadLog(billDate);
+            }else{
+                for (BnkTxnModel bnktxn : saveWeChatBill) {
+                    serviceContainer.getBnktxnService().saveBnkTxn(bnktxn);
+                }
+                // 等对账数据保存成功后，更新UPload表的上传数据状态
+                serviceContainer.getBnktxnService().updateUploadLog(billDate);
+                result.put("info", "微信对账文件处理成功！");
+            }           
+        } catch (ParseException e) {            
+            e.printStackTrace();
+            result.put("info", "微信对账文件处理失败！");
+        }catch(Exception e){
+            e.printStackTrace();
+            result.put("info", "微信对账文件处理失败！");
         }
-    	
-    	
-    	try {
-			List<BnkTxnModel> saveWeChatBill = null;
-			if("APP".equals(wechatType)){
-				saveWeChatBill =chatReconFileService.saveWeChatBill(billDate);
-			}else if("QR".equals(wechatType)){
-				saveWeChatBill =chatReconFileService.saveWeChatQRBill(billDate);
-			}
-			
-			if (saveWeChatBill==null) {
-				result.put("info", "未获取到微信对账文件！");
-				serviceContainer.getBnktxnService().deleteFailedWechatUploadLog(billDate);
-			}else{
-				for (BnkTxnModel bnktxn : saveWeChatBill) {
-	                serviceContainer.getBnktxnService().saveBnkTxn(bnktxn);
-	            }
-				// 等对账数据保存成功后，更新UPload表的上传数据状态
-	            serviceContainer.getBnktxnService().updateUploadLog(billDate);
-				result.put("info", "微信对账文件处理成功！");
-			}			
-		} catch (ParseException e) {			
-			e.printStackTrace();
-			result.put("info", "微信对账文件处理失败！");
-		}
-    	json_encode(result);
+        json_encode(result);
     }
+
     
     
     
     /////////////////////////////////////////////////结算///////////////////////////////////////////////////////////
     
     public String showSetted(){
-    	return "setted";
+        return "setted";
     }
     
     public String startSetted(){
-    	try {
-			txnsLogService.excuteSetted();
-			json_encode("结算完成");
-		} catch (AccBussinessException e) {			
-			e.printStackTrace();
-			json_encode("结算失败");
-		} catch (AbstractBusiAcctException e) {
-			e.printStackTrace();
-			json_encode("结算失败");
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			json_encode("结算失败");
-		} catch (IllegalEntryRequestException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    	return null;
+        try {
+            txnsLogService.excuteSetted();
+            json_encode("结算完成");
+        } catch (AccBussinessException e) {         
+            e.printStackTrace();
+            json_encode("结算失败");
+        } catch (AbstractBusiAcctException e) {
+            e.printStackTrace();
+            json_encode("结算失败");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            json_encode("结算失败");
+        } catch (IllegalEntryRequestException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return null;
     }
     //-----------------------------------------------导出对账表、差错表--------------------------------------
     /**
@@ -696,32 +688,18 @@ public class UploadAction extends BaseAction {
     public String getMerch() {
         return "merch";
     }
-	/**
-	 * @return the billDate
-	 */
-	public String getBillDate() {
-		return billDate;
-	}
-	/**
-	 * @param billDate the billDate to set
-	 */
-	public void setBillDate(String billDate) {
-		this.billDate = billDate;
-	}
-
-	/**
-	 * @return the wechatType
-	 */
-	public String getWechatType() {
-		return wechatType;
-	}
-	/**
-	 * @param wechatType the wechatType to set
-	 */
-	public void setWechatType(String wechatType) {
-		this.wechatType = wechatType;
-	}
-
+    /**
+     * @return the billDate
+     */
+    public String getBillDate() {
+        return billDate;
+    }
+    /**
+     * @param billDate the billDate to set
+     */
+    public void setBillDate(String billDate) {
+        this.billDate = billDate;
+    }
     public String getMemberPhone() {
         return memberPhone;
     }
@@ -729,5 +707,5 @@ public class UploadAction extends BaseAction {
         this.memberPhone = memberPhone;
     }
 
-	
+    
 }

@@ -103,10 +103,16 @@
 	    class="com.zlebank.zplatform.manager.dao.RiskAnalyseLogDAOImpl">
 	</bean>
 	<bean id="channelDAO" parent="hibernateDAOImpl" 
-	class="com.zlebank.zplatform.manager.dao.ChannelDaoImpl">
+	    class="com.zlebank.zplatform.manager.dao.ChannelDaoImpl">
+	</bean>
+	<bean id="routeDAO" parent="hibernateDAOImpl"
+	    class="com.zlebank.zplatform.manager.dao.RouteDAOImpl">
 	</bean>
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
+		<property name="routeDAO">
+		    <ref bean="routeDAO"/>
+		</property>
 		<property name="userDAO">
 			<ref bean="UserDAO" />
 		</property>

@@ -1,3 +1,4 @@
+
 /* 
  * WeChatReconFileService.java  
  * 
@@ -24,11 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.manager.dao.object.BnkTxnModel;
-import com.zlebank.zplatform.manager.service.iface.IBnkTxnService;
+import com.zlebank.zplatform.trade.bean.enums.ChannelEnmu;
+import com.zlebank.zplatform.wechat.qr.service.WeChatQRService;
 import com.zlebank.zplatform.wechat.qr.service.WeChatQRService;
 import com.zlebank.zplatform.wechat.service.WeChatService;
 import com.zlebank.zplatform.wechat.wx.bean.QueryBillBean;
-
 /**
  * Class Description
  *
@@ -39,16 +40,18 @@ import com.zlebank.zplatform.wechat.wx.bean.QueryBillBean;
  */
 @Service
 public class WeChatReconFileService {
-
+	/** 微信支付-APP支付*/
+	public static String INSTIID_WECHAT_APP="app_wechat";
+	/** 微信支付-扫码支付*/
+	public static String INSTIID_WECHAT_CODE="code_wechat";
 	@Autowired
 	private WeChatService weChatService;
 	@Autowired
 	private WeChatQRService weChatQRService;
 	
 	
-	
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
-	public List<BnkTxnModel> saveWeChatBill(String date) throws ParseException{
+	public List<BnkTxnModel> saveWeChatBill(String date, String instiid) throws ParseException{
 		//校验订单日期
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat(DateUtil.SIMPLE_DATE_FROMAT);
@@ -57,11 +60,23 @@ public class WeChatReconFileService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		QueryBillBean queryBillBean = new QueryBillBean();
-		queryBillBean.setBill_date(date);
-		queryBillBean.setBill_type("ALL");
-		List<String[]> dowanWeChatBill = weChatService.dowanWeChatBill(queryBillBean);
-		
+		List<String[]> dowanWeChatBill = null;
+		//微信对账机构
+		String wechatInistId=null;
+		//根据类型调不同的接口
+		if(instiid.equals(INSTIID_WECHAT_APP)){
+			wechatInistId= ChannelEnmu.WEBCHAT.getChnlcode();
+			QueryBillBean queryBillBean = new QueryBillBean();
+			queryBillBean.setBill_date(date);
+			queryBillBean.setBill_type("ALL");
+			dowanWeChatBill = weChatService.dowanWeChatBill(queryBillBean);
+		}else if(instiid.equals(INSTIID_WECHAT_CODE)){
+			wechatInistId= ChannelEnmu.WEBCHAT_QR.getChnlcode();
+			com.zlebank.zplatform.wechat.qr.wx.bean.QueryBillBean queryBillBean = new com.zlebank.zplatform.wechat.qr.wx.bean.QueryBillBean();
+			queryBillBean.setBill_date(date);
+			queryBillBean.setBill_type("ALL");
+			dowanWeChatBill =weChatQRService.dowanWeChatBill(queryBillBean);
+		}
 		if(dowanWeChatBill==null){
 			return null;
 		}
@@ -84,28 +99,21 @@ public class WeChatReconFileService {
 				 payretorderno = bills[5];
 				 amount =  bills[12];
 				 bnk.setCfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
-				 bnk.setRetcode("00");
 			}else if("REFUND".equals(tradeType)){
 				//支付订单号（证联） 6
 				 payorderno = bills[15];
 				 payretorderno = bills[14];
 				 amount =  bills[16];
 				 bnk.setDfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
-				 String refundStatus = bills[19];
-				 if(refundStatus.equals("SUCCESS")){
-					 bnk.setRetcode("00");
-				 }else{
-					 bnk.setRetcode("01");
-				 }
 			}
             bnk.setTxndatetime(DateUtil.formatDateTime("yyyyMMddHHmmss", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(bills[0])));
             bnk.setSystrcno(payretorderno);
             bnk.setPayordno(payorderno);
-            bnk.setInstiid("91000001");
+            bnk.setInstiid(wechatInistId);
             if (amount != null && !amount.equals("")) {
                 bnk.setAmount(Money.yuanValueOf(new BigDecimal(amount)).getAmount().longValue());
             }
-            
+            bnk.setRetcode("00");
             bnkTxnList.add(bnk);
 		}
 		
@@ -150,19 +158,12 @@ public class WeChatReconFileService {
 				 payretorderno = bills[5];
 				 amount =  bills[12];
 				 bnk.setCfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
-				 bnk.setRetcode("00");
 			}else if("REFUND".equals(tradeType)){
 				//支付订单号（证联） 6
 				 payorderno = bills[15];
 				 payretorderno = bills[14];
 				 amount =  bills[16];
 				 bnk.setDfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
-				 String refundStatus = bills[19];
-				 if(refundStatus.equals("SUCCESS")){
-					 bnk.setRetcode("00");
-				 }else{
-					 bnk.setRetcode("01");
-				 }
 			}
             bnk.setTxndatetime(DateUtil.formatDateTime("yyyyMMddHHmmss", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(bills[0])));
             bnk.setSystrcno(payretorderno);
@@ -171,7 +172,7 @@ public class WeChatReconFileService {
             if (amount != null && !amount.equals("")) {
                 bnk.setAmount(Money.yuanValueOf(new BigDecimal(amount)).getAmount().longValue());
             }
-            
+            bnk.setRetcode("00");
             bnkTxnList.add(bnk);
 		}
 		

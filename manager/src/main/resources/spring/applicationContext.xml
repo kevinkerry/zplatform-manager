@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:jee="http://www.springframework.org/schema/jee" 
 	xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.0.xsd">
-    
-	
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -20,44 +19,32 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.zlebank.zplatform.manager.dao.object.UserModel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.FunctionModel
-				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.FunctionModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.CityModel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.ProvinceModel
-				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.ProvinceModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.OrganModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.DeptModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.RoleModel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.RoleFunctModel
-				</value>
-				<value>com.zlebank.zplatform.manager.dao.object.UserFunctModel
-				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.RoleFunctModel</value>
+				<value>com.zlebank.zplatform.manager.dao.object.UserFunctModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.ParaDicModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.ParaDicModel</value>
-
 				<value>com.zlebank.zplatform.manager.dao.object.NoticeModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.TaskModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.OperLogModel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.UserRoleModel
-				</value>
-				 
+				<value>com.zlebank.zplatform.manager.dao.object.UserRoleModel</value>				 
 				<value>com.zlebank.zplatform.manager.dao.object.FTPModel</value>
-
-				<value>com.zlebank.zplatform.manager.dao.object.UploadLogModel
-				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.UploadLogModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.BnkTxnModel</value>
 				<value>com.zlebank.zplatform.commons.dao.pojo.ProductModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.FeeModel</value>
-
 				<value>com.zlebank.zplatform.acc.pojo.PojoAbstractSubject</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoSubject</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoAccount</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoAccFrozenTask</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoBusiAcct</value>
-				<value>com.zlebank.zplatform.acc.pojo.PojoBusiAcctSubjectMapping
-				</value>
-				<value>com.zlebank.zplatform.acc.pojo.PojoSubjectRuleConfigure
-				</value>
+				<value>com.zlebank.zplatform.acc.pojo.PojoBusiAcctSubjectMapping</value>
+				<value>com.zlebank.zplatform.acc.pojo.PojoSubjectRuleConfigure</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoAccEntry</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoMemberBase</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoMerchDeta</value>
@@ -67,10 +54,8 @@
 				<value>com.zlebank.zplatform.member.pojo.PojoMerchMK</value> 
 				<value>com.zlebank.zplatform.commons.dao.pojo.PojoCounty</value>
 				<value>com.zlebank.zplatform.commons.dao.pojo.PojoBankInfo</value> 
-				<value>com.zlebank.zplatform.acc.pojo.PojoBusiness</value>
-				
-				<value>com.zlebank.zplatform.manager.dao.object.PojoTxnsLog</value>
-				
+				<value>com.zlebank.zplatform.acc.pojo.PojoBusiness</value>				
+				<value>com.zlebank.zplatform.manager.dao.object.PojoTxnsLog</value>				
 				<value>com.zlebank.zplatform.manager.dao.object.ChargeModel</value>
 				<value>com.zlebank.zplatform.commons.dao.pojo.PojoChannel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.TradeStatModel</value>
@@ -89,6 +74,9 @@
 				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDeta</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoTradeEntryEventMapping</value>
 				<value>com.zlebank.zplatform.manager.dao.object.CmbcResfileModel</value>
+				<value>com.zlebank.zplatform.manager.dao.object.RouteModel</value>
+				<!-- value>com.zlebank.zplatform.manager.dao.object.RouteConfigModel</value> -->
+				<value>com.zlebank.zplatform.manager.dao.object.AccumulateRateModel</value>
 				</list>
 		</property>
 		<property name="packagesToScan">
@@ -244,6 +232,8 @@
 		<property name="concurrent" value="false" />
 	</bean>
 	<bean id="createMerIPFileJob" class="com.zlebank.zplatform.manager.job.CreateMerchantInsteadSDFileJob" /> 
+	<!-- 生成商户代付对账文件任务end-->
+
 	
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${redis.maxIdle}" />

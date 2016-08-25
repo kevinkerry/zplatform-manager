@@ -19,4 +19,5 @@ public interface IProductService extends IBaseService<ProductModel, Long>{
 	public Map<String, Object> queryOneCase(String cashver) ;
 	public String UpdateCash(CashModel cash,List listbusicode);
 
+
 }

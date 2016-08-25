@@ -24,6 +24,7 @@ import com.zlebank.zplatform.manager.dao.iface.IRiskAnalyseLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRiskDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRoleDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRoleFunctDAO;
+import com.zlebank.zplatform.manager.dao.iface.IRouteDAO;
 import com.zlebank.zplatform.manager.dao.iface.ITaskDAO;
 import com.zlebank.zplatform.manager.dao.iface.ITxnsLogsDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUploadLogDAO;
@@ -69,7 +70,18 @@ public class DAOContainer {
     private ICardHolderBlackDAO cardHolderBlackDAO;
     private IRiskAnalyseLogDAO riskAnalyseLogDAO;
     private IChannelDAO channelDAO;
+    private IRouteDAO routeDAO;
 	
+    
+    
+    public IRouteDAO getRouteDAO() {
+        return routeDAO;
+    }
+
+    public void setRouteDAO(IRouteDAO routeDAO) {
+        this.routeDAO = routeDAO;
+    }
+
     public IChannelDAO getChannelDAO() {
         return channelDAO;
     }

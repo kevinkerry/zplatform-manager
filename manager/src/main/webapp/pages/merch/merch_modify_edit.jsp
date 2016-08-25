@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			style="background: #fafafa;" iconCls="icon-save"
 			collapsible="false">		
 			<div style="padding-left:5px;padding-right:5px">
-		<form id="merchDetaForm" action="pages/merchant/saveChangeMerchDetaMerchantAction.action" method="post" > 
+		<form id="merchDetaForm" action="pages/merchant/saveMerchModifyDetaMerchantAction.action" method="post" > 
 		<input type="hidden" id="merchApplyId" name="merchApplyId" value="${merchApplyId}"/>
 		<input type="hidden" id="coopInstiId_old" value="${merchDeta.member.coopInstiId}"/>
 		<input type="hidden" id="enterpriseInsti" value="${merchDeta.member.enterpriseInsti}"/>
@@ -206,7 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">扣率版本</td>
 						<td><select id="feever_ins" class="easyui-validatebox"  required="true" name="merchDeta.feeVer"   /></select>
 					    <font color="red">*</font>
-						   </td>
+						</td>
 						<td align="center">分润版本</td>
 						<td>
 						<select name="merchDeta.spiltVer" maxlength="8"  id="spiltver"  /></select>
@@ -258,7 +258,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">保证金</td>
-						<td><input  class="easyui-validatebox" maxlength="10"  validType="amount" name="deposit" value="${deposit}"/><font color="red">元</font>
+						<td><input  class="easyui-validatebox" onkeyup="value=value.replace(/[^[0-9]{1,8}([.][0-9]{1,2})?$]/g,'')"  maxlength="10"  validType="amount" name="deposit" value="${deposit}"/> <font color="red">元</font>
 						</td>
 						<td align="center">服务费</td>
 						<td><input name="charge" maxlength="10"  validType="amount"  class="easyui-validatebox" type="text" value="${charge}"/><font color="red">元</font>
@@ -272,12 +272,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">联系人姓名</td>
 						<td><input name="merchDeta.member.contact" maxlength="16" type="text" class="easyui-validatebox"  value="${merchDeta.member.contact}"/>
 						<td align="center">联系人地址</td>
-						<td><input name="merchDeta.member.contAddress" maxlength="40" style="width:250px"  type="text" class="easyui-validatebox"  value="${merchDeta.member.contAddress}"/>
+						<td><input name="merchDeta.member.contAddress" maxlength="16" style="width:250px"  type="text" class="easyui-validatebox"  value="${merchDeta.member.contAddress}"/>
 						    </td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td><input  class="easyui-validatebox" maxlength="20"  validType="chinesetest"   name="merchDeta.member.contPhone" value="${merchDeta.member.contPhone}"/>
+						<td><input  class="easyui-validatebox" maxlength="11"  validType="chinesetest"   name="merchDeta.member.contPhone" value="${merchDeta.member.contPhone}"/>
 						    </td>
 						<td align="center">联系人职位</td>
 						<td><input name="merchDeta.member.contTitle" maxlength="32"  type="text" value="${merchDeta.member.contTitle}"/>
@@ -286,7 +286,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="center">联系人邮箱</td>
 						<td>
-							<input  class="easyui-validatebox" maxlength="50" validType="email" name="merchDeta.member.contEmail" value="${merchDeta.member.contEmail}"/>
+							<input  class="easyui-validatebox" maxlength="16" validType="email" name="merchDeta.member.contEmail" value="${merchDeta.member.contEmail}"/>
 						</td>
 						
 						
@@ -330,6 +330,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showSetlcycleAll();
 			showSetClearType();
 			$('#startDate,#endDate').datebox({required: false});
+			$("#startDate,#endDate").datebox({ editable:false});
 			//$('#startDate').datebox('setValue',$('#agreemtStart_old').val());
 			//$('#endDate').datebox('setValue',$('#agreemtEnd_old').val());
 			initDelegation();
@@ -366,7 +367,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						json = eval('(' + json + ')');
 						if (json.RET == "succ") {
 							$.messager.alert('提示', '保存成功,等待上传证件照片','info',function(){
-								window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+json.INFO;
+								window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadModifyInfoMerchantAction.action?merchApplyId='+json.INFO;
 							});
 						} else {
 							$.messager.alert('提示', json.INFO);
@@ -754,8 +755,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				success: function(json) {
 					var merCoopInstiId = $('#coopInstiId_old').val();
 					var html = "<option value=''>--请选择合作机构--</option>";
-					$.each(json,
-					function(key, value) {
+					$.each(json,function(key, value) {
 						if(value.id==merCoopInstiId){
 							html += '<option value="' + value.id + '" selected="selected">' + value.instiName + '</option>';
 						}else{
@@ -765,7 +765,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}) ;
 					$("#coop_insti_ins").html(html);
 					refreshProduct(merCoopInstiId);
-					$('#coop_insti_ins').attr('disabled','disabled');
+					 /* $('#coop_insti_ins').attr('disabled','disabled'); */
 				}
 			});
 		}

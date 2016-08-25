@@ -242,6 +242,268 @@ public class MerchDetaServiceImpl
 
     }
 
+
+ 
+
+
+
+
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+
+
+
+ 
+
+ 
+
+
+
+    public MemberService getMemberServiceImpl() {
+        return memberServiceImpl;
+    }
+
+    public void setMemberServiceImpl(MemberService memberServiceImpl) {
+        this.memberServiceImpl = memberServiceImpl;
+    }
+
+    public FTPClientFactory getFtpClientFactory() {
+        return ftpClientFactory;
+    }
+
+    public void setFtpClientFactory(FTPClientFactory ftpClientFactory) {
+        this.ftpClientFactory = ftpClientFactory;
+    }
+
+   
+
+    @Override
+    public boolean commitMerchModify(long merchpplyId) {
+        String[] columns = new String[]{"v_self_id"};
+        Object[] paramaters = new Object[1];
+        paramaters[0] = merchpplyId;
+        List<?> result = getDao().executeOracleProcedure(
+                "{CALL  PCK_MERCH.addi_merch_deta(?,?)}", columns, paramaters,
+                "cursor0");
+        boolean isSucc = false;
+        if (result != null && !(result.get(0) == null)) {
+
+            @SuppressWarnings("unchecked")
+            Map<String, String> resultMap = (Map<String, String>) result.get(0);
+            if (resultMap.containsKey("RET")
+                    && resultMap.get("RET").equals("succ")) {
+                isSucc = true;
+            }
+        }
+        return isSucc;
+    }
+
+    @Override
+    public List<?> saveMerchModifyDeta(long merchApplyId, MerchDeta merchDeta) {
+        boolean hasSame = getDaoContainer().getMerchDetaDAO().hasSame(
+                merchDeta.getMemberId(), merchDeta.getMember().getEmail(),
+                merchDeta.getMember().getPhone(),
+                merchDeta.getMember().getCoopInstiId());
+        List<Map<String, String>> result = new ArrayList<Map<String, String>>();
+        Map<String, String> resultMap = new HashMap<String, String>();
+        if (hasSame) {
+            resultMap.put("RET", "fail");
+            resultMap.put("INFO", "手机号或邮箱重复");
+            result.add(resultMap);
+            return result;
+        }
+
+        PojoMerchDetaApply oldMerchApplyInfo = daoContainer.getMerchDetaDAO()
+                .get(merchApplyId);
+
+        if (merchDeta.getBankNode() == null
+                || merchDeta.getBankNode().equals("")) {
+            merchDeta.setBankCode(oldMerchApplyInfo.getBankCode());
+            merchDeta.setBankNode(oldMerchApplyInfo.getBankNode());
+        } else {
+            Object[] paramaters = merchDeta.getBankNode().split(",");
+            merchDeta.setBankCode(paramaters[0].toString());
+            merchDeta.setBankNode(paramaters[1].toString());
+        }
+        MccListModel mccList = daoContainer.getMccListDAO().get(
+                merchDeta.getMember().getMccList());
+        merchDeta.getMember().setMcc(mccList.getMcc());
+        merchDeta.setmInUser(oldMerchApplyInfo.getmInUser());
+        merchDeta.getMember().setMemId(
+                oldMerchApplyInfo.getMemberApply().getMemId());
+        merchDeta.setMerchId(oldMerchApplyInfo.getMerchId());
+        merchDeta.setMemberId(oldMerchApplyInfo.getMemberId());
+        String[] columns = new String[]{"v_self_id", "v_merch_id", "v_mem_id",
+                "v_member_id", "v_parent", "v_setlcycle", "v_setltype",
+                "v_bankcode", "v_banknode", "v_accnum", "v_accname",
+                "v_charge", "v_deposit", "v_agreemt_start", "v_agreemt_end",
+                "v_prdtver", "v_feever", "v_spiltver", "v_riskver",
+                "v_routver", "v_inuser", "v_notes", "v_remarks",
+                "v_merch_name_e", "v_coop_insti_id_e", "v_cellphoneno",
+                "v_mcc_e", "v_mcclist_e", "v_merchinsti_e", "v_province_e",
+                "v_city_e", "v_street_e", "v_postcode_e", "v_address_e",
+                "v_email_e", "v_website_e", "v_cardtype_e", "v_taxno_e",
+                "v_licenceno_e", "v_orgcode_e", "v_corporation_e",
+                "v_corpno_e", "v_contact_e", "v_contphone_e", "v_conttitle_e",
+                "v_contemail_e", "v_contaddress_e", "v_contpost_e",
+                "v_custfrom_e", "v_custmgr_e", "v_custmgrdept_e",
+                "v_isdelegation_e", "v_signatory_e", "v_signcertno_e",
+                "v_notes_e", "v_remarks_e"};
+        Object[] paramaters = new Object[]{
+                merchApplyId,
+                merchDeta.getMerchId(),
+                merchDeta.getMember().getMemId(),
+                merchDeta.getMemberId(),
+                "".equals(merchDeta.getParent()) ? null : "".equals(merchDeta
+                        .getParent()),
+                "".equals(merchDeta.getSetlCycle()) ? null : merchDeta
+                        .getSetlCycle(),
+                "".equals(merchDeta.getSetlType()) ? null : merchDeta
+                        .getSetlType(),
+                "".equals(merchDeta.getBankCode()) ? null : merchDeta
+                        .getBankCode(),
+                "".equals(merchDeta.getBankNode()) ? null : merchDeta
+                        .getBankNode(),
+                "".equals(merchDeta.getAccNum()) ? null : merchDeta.getAccNum(),
+                "".equals(merchDeta.getAccName()) ? null : merchDeta
+                        .getAccName(),
+                merchDeta.getCharge().toYuan(),
+                merchDeta.getDeposit().toYuan(),
+                merchDeta.getAgreemtStart()==null? null : new Timestamp(merchDeta.getAgreemtStart().getTime()),
+                merchDeta.getAgreemtEnd()==null ? null : new Timestamp(merchDeta.getAgreemtEnd().getTime()),
+                "".equals(merchDeta.getPrdtVer()) ? null : merchDeta
+                        .getPrdtVer(),
+                "".equals(merchDeta.getFeeVer()) ? null : merchDeta.getFeeVer(),
+                "".equals(merchDeta.getSpiltVer()) ? null : merchDeta
+                        .getSpiltVer(),
+                "".equals(merchDeta.getRiskVer()) ? null : merchDeta
+                        .getRiskVer(),
+                "".equals(merchDeta.getRoutVer()) ? null : merchDeta
+                        .getRoutVer(),
+                "".equals(merchDeta.getMember().getInUser()) ? null : merchDeta
+                        .getMember().getInUser(),
+                "".equals(merchDeta.getNotes()) ? null : merchDeta.getNotes(),
+                "".equals(merchDeta.getRemarks()) ? null : merchDeta
+                        .getRemarks(),
+                "".equals(merchDeta.getMember().getEnterpriseName())
+                        ? null
+                        : merchDeta.getMember().getEnterpriseName(),
+                "".equals(merchDeta.getMember().getCoopInstiId())
+                        ? null
+                        : merchDeta.getMember().getCoopInstiId(),
+                "".equals(merchDeta.getMember().getPhone()) ? null : merchDeta
+                        .getMember().getPhone(),
+
+                "".equals(merchDeta.getMember().getMcc()) ? null : merchDeta
+                        .getMember().getMcc(),
+                "".equals(merchDeta.getMember().getMccList())
+                        ? null
+                        : merchDeta.getMember().getMccList(),
+                "".equals(merchDeta.getMember().getEnterpriseInsti())
+                        ? null
+                        : merchDeta.getMember().getEnterpriseInsti(),
+                "".equals(merchDeta.getMember().getProvince())
+                        ? null
+                        : merchDeta.getMember().getProvince(),
+                "".equals(merchDeta.getMember().getCity()) ? null : merchDeta
+                        .getMember().getCity(),
+                "".equals(merchDeta.getMember().getStreet()) ? null : merchDeta
+                        .getMember().getStreet(),
+                "".equals(merchDeta.getMember().getPostCode())
+                        ? null
+                        : merchDeta.getMember().getPostCode(),
+                "".equals(merchDeta.getMember().getAddress())
+                        ? null
+                        : merchDeta.getMember().getAddress(),
+                "".equals(merchDeta.getMember().getEmail()) ? null : merchDeta
+                        .getMember().getEmail(),
+                "".equals(merchDeta.getMember().getWebsite())
+                        ? null
+                        : merchDeta.getMember().getWebsite(),
+                "".equals(merchDeta.getMember().getCardType())
+                        ? null
+                        : merchDeta.getMember().getCardType(),
+                "".equals(merchDeta.getMember().getTaxno()) ? null : merchDeta
+                        .getMember().getTaxno(),
+                "".equals(merchDeta.getMember().getLicenceNo())
+                        ? null
+                        : merchDeta.getMember().getLicenceNo(),
+                "".equals(merchDeta.getMember().getOrgCode())
+                        ? null
+                        : merchDeta.getMember().getOrgCode(),
+                "".equals(merchDeta.getMember().getCorporation())
+                        ? null
+                        : merchDeta.getMember().getCorporation(),
+                "".equals(merchDeta.getMember().getCorpNo()) ? null : merchDeta
+                        .getMember().getCorpNo(),
+                "".equals(merchDeta.getMember().getContact())
+                        ? null
+                        : merchDeta.getMember().getContact(),
+                "".equals(merchDeta.getMember().getContPhone())
+                        ? null
+                        : merchDeta.getMember().getContPhone(),
+                "".equals(merchDeta.getMember().getContTitle())
+                        ? null
+                        : merchDeta.getMember().getContTitle(),
+                "".equals(merchDeta.getMember().getContEmail())
+                        ? null
+                        : merchDeta.getMember().getContEmail(),
+                "".equals(merchDeta.getMember().getContAddress())
+                        ? null
+                        : merchDeta.getMember().getContAddress(),
+                "".equals(merchDeta.getMember().getContPost())
+                        ? null
+                        : merchDeta.getMember().getContPost(),
+                "".equals(merchDeta.getMember().getCustFrom())
+                        ? null
+                        : merchDeta.getMember().getCustFrom(),
+                "".equals(merchDeta.getMember().getCustMgr())
+                        ? null
+                        : merchDeta.getMember().getCustMgr(),
+                "".equals(merchDeta.getMember().getCustMgrDept())
+                        ? null
+                        : merchDeta.getMember().getCustMgrDept(),
+                "".equals(merchDeta.getMember().getIsDelegation())
+                        ? null
+                        : merchDeta.getMember().getIsDelegation(),
+                "".equals(merchDeta.getMember().getSignatory())
+                        ? null
+                        : merchDeta.getMember().getSignatory(),
+                "".equals(merchDeta.getMember().getSignCertNo())
+                        ? null
+                        : merchDeta.getMember().getSignCertNo(),
+                "".equals(merchDeta.getMember().getNotes()) ? null : merchDeta
+                        .getMember().getNotes(),
+                "".equals(merchDeta.getMember().getRemarks())
+                        ? null
+                        : merchDeta.getMember().getRemarks()};
+        List<?> dbResult = getDao()
+                .executeOracleProcedure(
+                        "{CALL PCK_MERCH.pro_u_t_merch_deta(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}",
+                        columns, paramaters, "cursor0");
+        if (dbResult == null || dbResult.get(0) == null) {
+            resultMap.clear();
+            resultMap.put("RET", "fail");
+            resultMap.put("INFO", "操作失败,请联系技术人员");
+            result.add(resultMap);
+        } else {
+            resultMap = (Map<String, String>) dbResult.get(0);
+        }
+        result.add(resultMap);
+        return result;
+    }
+
+    @Override
     public long findMerchByPageCount(Map<String, Object> variables) {
         String[] columns = new String[]{"v_user", "v_memberid", "v_merch_name",
                 "v_address", "v_status", "v_flag",};
@@ -566,7 +828,13 @@ public class MerchDetaServiceImpl
         if (flag.equals("2")) {
             paramaters[0] = merchDeta.getStexaUser();
             paramaters[3] = merchDeta.getStexaOpt();
-        } else {
+        } else if(flag.equals("3")){
+            paramaters[0] = merchDeta.getCvlexaUser();
+            paramaters[3] = merchDeta.getCvlexaOpt();
+        } else if(flag.equals("5")){
+            paramaters[0] = merchDeta.getStexaUser();
+            paramaters[3] = merchDeta.getStexaOpt();
+        } else if(flag.equals("6")){
             paramaters[0] = merchDeta.getCvlexaUser();
             paramaters[3] = merchDeta.getCvlexaOpt();
         }
@@ -865,7 +1133,6 @@ public class MerchDetaServiceImpl
     public String queryBankName(String bankNode, String bankCode) {
         return daoContainer.getMerchDetaDAO().queryBankName(bankNode, bankCode);
     }
-
     private boolean checkLocalExist(String dirPath, String fileName) {
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
@@ -879,28 +1146,10 @@ public class MerchDetaServiceImpl
         }
         return false;
     }
-
-    public MemberService getMemberServiceImpl() {
-        return memberServiceImpl;
-    }
-
-    public void setMemberServiceImpl(MemberService memberServiceImpl) {
-        this.memberServiceImpl = memberServiceImpl;
-    }
-
-    public FTPClientFactory getFtpClientFactory() {
-        return ftpClientFactory;
-    }
-
-    public void setFtpClientFactory(FTPClientFactory ftpClientFactory) {
-        this.ftpClientFactory = ftpClientFactory;
-    }
-
     @Override
     public Map<String, Object> findMerchModifyByPage(Map<String, Object> variables,
             int page,
             int rows) {
-        
         String[] columns = new String[]{"v_user", "v_member_id",
                 "v_merch_name", "v_address", "v_status", "v_coop_insti_id",
                 "v_flag", "i_no", "i_perno"};
@@ -918,4 +1167,19 @@ public class MerchDetaServiceImpl
                 "{CALL PCK_MERCH.sel_t_merchant(?,?,?,?,?,?,?,?,?,?,?)}",
                 columns, paramaters, "cursor0", "v_total");
     }
+
+
+    @Override
+    public Map<String, Object> queryModifyMerchDeta(long merchApplyId, Long userId) {
+        PojoMerchDetaApply pojoMerchApply = get(merchApplyId);
+        String[] columns = new String[]{"v_user", "v_self_id", "v_merch_id"};
+        Object[] paramaters = new Object[3];
+        paramaters[0] = userId;
+        paramaters[1] = pojoMerchApply.getSelfId();
+        paramaters[2] = pojoMerchApply.getMerchId();
+        return (Map<String, Object>) getDao().executeOracleProcedure(
+                "{CALL  PCK_MERCH.sel_t_merchant_apply_deta(?,?,?,?)}",
+                columns, paramaters, "cursor0").get(0);         
+       }   
 }
+
