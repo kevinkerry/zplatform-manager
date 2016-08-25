@@ -99,12 +99,19 @@ public class WeChatReconFileService {
 				 payretorderno = bills[5];
 				 amount =  bills[12];
 				 bnk.setCfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
+				 bnk.setRetcode("00");
 			}else if("REFUND".equals(tradeType)){
 				//支付订单号（证联） 6
 				 payorderno = bills[15];
 				 payretorderno = bills[14];
 				 amount =  bills[16];
 				 bnk.setDfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
+				 String refundStatus = bills[19];
+				 if("SUCCESS".equals(refundStatus)){
+					 bnk.setRetcode("00");
+				 }else{
+					 bnk.setRetcode("00");
+				 }
 			}
             bnk.setTxndatetime(DateUtil.formatDateTime("yyyyMMddHHmmss", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(bills[0])));
             bnk.setSystrcno(payretorderno);
@@ -113,7 +120,7 @@ public class WeChatReconFileService {
             if (amount != null && !amount.equals("")) {
                 bnk.setAmount(Money.yuanValueOf(new BigDecimal(amount)).getAmount().longValue());
             }
-            bnk.setRetcode("00");
+            
             bnkTxnList.add(bnk);
 		}
 		
@@ -158,12 +165,19 @@ public class WeChatReconFileService {
 				 payretorderno = bills[5];
 				 amount =  bills[12];
 				 bnk.setCfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
+				 bnk.setRetcode("00");
 			}else if("REFUND".equals(tradeType)){
 				//支付订单号（证联） 6
 				 payorderno = bills[15];
 				 payretorderno = bills[14];
 				 amount =  bills[16];
 				 bnk.setDfee(Money.yuanValueOf(new BigDecimal(fee)).getAmount().longValue());
+				 String refundStatus = bills[19];
+				 if("SUCCESS".equals(refundStatus)){
+					 bnk.setRetcode("00");
+				 }else{
+					 bnk.setRetcode("00");
+				 }
 			}
             bnk.setTxndatetime(DateUtil.formatDateTime("yyyyMMddHHmmss", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(bills[0])));
             bnk.setSystrcno(payretorderno);
@@ -172,7 +186,7 @@ public class WeChatReconFileService {
             if (amount != null && !amount.equals("")) {
                 bnk.setAmount(Money.yuanValueOf(new BigDecimal(amount)).getAmount().longValue());
             }
-            bnk.setRetcode("00");
+           
             bnkTxnList.add(bnk);
 		}
 		
