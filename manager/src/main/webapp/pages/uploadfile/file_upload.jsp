@@ -295,13 +295,8 @@ input {
 		}
 		$.ajax({
 			type : "POST",
-<<<<<<< HEAD
-			url : "pages/merchant/dowanWeChatBillUploadAction.action",
-			data : "billDate="+ $('#startDate').datebox('getValue')+"&wechatType="+$("#wechatType").val(),
-=======
 			url : "pages/merchant/downWeChatBillUploadAction.action",
 			data : "billDate="+ $('#startDate').datebox('getValue')+"&instiid="+$("#instiid_wechat").val(),
->>>>>>> branch 'develop' of root@192.168.101.11:zplatform-manager
 			dataType : "json",
 			success : function(json) {
 				$.messager.alert('提示', json.info);
