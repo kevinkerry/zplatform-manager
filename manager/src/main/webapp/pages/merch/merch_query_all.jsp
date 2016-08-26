@@ -39,7 +39,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						          <option value='39'>变更初审终止</option>
 						          <option value='40'>变更待复审</option>
 						          <option value='41'>变更复审未过</option>
-								  <option value='49'>变更复审终止</option>		  
+								  <option value='49'>变更复审终止</option>
+								  <option value="02">变更待生效</option>			  
 					        </select>
 						</td>
 						<td align="right"  width="10%">
@@ -118,6 +119,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									return "注销复审未过";
 								}else if(value=="69"){
 									return "注销审核终止";
+								}else if(value=="02"){
+									return "变更待生效"; 
 								}
 						   }
 					    },	

@@ -41,6 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="hidden" id="agreemtEnd_old" value="${merchDeta.agreemtEnd}"/>
 		<input type="hidden" id="mcclist_old" value="${merchDeta.member.mccList}"/>
 		<input type="hidden" id="isDelegation_old" value="${merchDeta.member.isDelegation}"/>
+		<input type="hidden" id="bankname_old" value="${oldBankName}"/>
 				<table width="100%">
 					<tr>
 					   <td colspan="4" class="head-guide"><font class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
@@ -113,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</td>
 						<td align="center">所属行业</td>
 						<td>
-							<select id="mcclist_ins" class="easyui-validatebox"  name="merchDeta.member.mccList" value="${merchDeta.member.mccList}"/></select>
+							<select id="mcclist_ins" class="easyui-validatebox"  name="merchDeta.member.mccList" value="${merchDeta.member.mccList}"  required="true"/></select>
 						</td>
 					</tr>
 					<tr>
@@ -160,7 +161,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					     
 						<td align="center">开户行</td>
 						<td colspan="3"> 
-							${oldBankName} <a id="a_bank_info" href="javascript:modifyBank()" style="color:blue">修改</a>
+							<input id="oldBankName_input" readonly="true" required="true"> 
+							<a id="a_bank_info" href="javascript:modifyBank()" style="color:blue">修改</a>
 							<span id="bank_info">
 							<select id="banknode_ins" class="easyui-validatebox" required="true"  name="merchDeta.bankNode" style="width:150px"/></select>
 					    	<font color="red">*</font>
@@ -250,10 +252,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">合约开始日期</td>
-						<td><input name="merchDeta.agreemtStart" maxlength="12"   type="text"  id="startDate" value="${merchDeta.agreemtStart}"/>
+						<td><input name="merchDeta.agreemtStart" maxlength="12"  editable="false"  type="text"  id="startDate" value="${merchDeta.agreemtStart}"/>
 						</td>
 						<td align="center">合约终止日期</td>
-						<td><input  class="easyui-validatebox" maxlength="32"  name="merchDeta.agreemtEnd"  id="endDate" value="${merchDeta.agreemtEnd}"/>
+						<td><input  class="easyui-validatebox" maxlength="32" editable="false"  name="merchDeta.agreemtEnd"  id="endDate" value="${merchDeta.agreemtEnd}"/>
 						    </td>
 					</tr>
 					<tr>
@@ -314,6 +316,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		});
 		
 	  	function init(){
+	  		var oldbankname = $("#bankname_old").val();
+	  		$("#oldBankName_input").val(oldbankname);
 	  		showProvince();
 			showCity('province_ins');
 			showCounty('city_ins');
@@ -476,6 +480,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		function queryBankNode() {
+		$("#oldBankName_input").attr("hidden","true");
 			var pid = $("#banknode_key").val();
 			if(pid==null||pid==''){
 				$("#banknode_key").val('输入关键字检索开户行');
@@ -883,11 +888,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$('#delegation').show();
 				$('#corpno').validatebox({required: true});
 				$('#signatory').validatebox({required: true});
+				$('#signCertNo').validatebox({required: true});
 			}else{
 				$('#isDelegation').val(0);
 				$('#delegation').hide();
 				$('#corpno').validatebox({required: false});
 				$('#signatory').validatebox({required: false});
+			    $('#signCertNo').validatebox({required: false});
 			}
 		}
 		

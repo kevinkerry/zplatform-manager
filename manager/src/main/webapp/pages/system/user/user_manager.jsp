@@ -837,7 +837,7 @@
 						<tr style="height: 25px">
 						    <td>备注</td>
 							<td colspan="3">
-							    <textarea  rows="3" cols="81" id="user_notes" maxlength="64" name="user.notes"></textarea>
+							    <textarea  rows="3" cols="81" id="user_notes" maxlength="64" name="user.notes" style="resize:none;"></textarea>
 						    </td>
 	
 						</tr>
