@@ -136,32 +136,20 @@ input {
 				</tr>
 				<tr height="26" id="fileadd1">
 					<td align="center">对账日期</td>
-<<<<<<< HEAD
-					<td >
-=======
 					<td colspan="3">
->>>>>>> branch 'develop' of root@192.168.101.11:zplatform-manager
 						<input name="billdate" maxlength="12"   type="text"  id="startDate"/>
-					</td>
-					<td align="center">对账类型</td>
-					<td >
-						<select name="wechatType" id="wechatType">
-							<option>--请选择对账类型--</option>
-							<option value="APP">APP支付</option>
-							<option value="QR">扫码支付</option>
-						</select>
 					</td>
 				</tr>
 				<tr height="26" id="fileadd1">
-						<td align="center">对账机构</td>
-						<td colspan="3"><select id="instiid_wechat"
+					<td align="center">对账类型</td>
+					<td colspan="3"><select id="instiid_wechat"
 							class="easyui-validatebox" >
 							  <option value=''>请选择</option>
 								<option value='app_wechat'>App支付</option>
 								<option value='code_wechat'>扫码支付</option>
 						</select></td>
-					</tr>
-				<tr>
+				</tr>
+				
 					<td align="center" colspan="4" id="uploadbutton"><a
 						class="easyui-linkbutton" iconCls="icon-ok"
 						href="javascript:billFileUpload()">开始</a> <a
@@ -281,6 +269,16 @@ input {
 		form.submit();
 	}
 	
+	/**补0**/
+	function pad(num, n) {  
+	    var len = num.toString().length;  
+	    while(len < n) {  
+	        num = "0" + num;  
+	        len++;  
+	    }  
+	    return num;  
+	}  
+	
 	function billFileUpload(){
 		if($('#startDate').datebox('getValue')==""||$('#startDate').datebox('getValue')==null){
 			$.messager.alert('提示', '请选择对账日期');
@@ -290,13 +288,15 @@ input {
 			$.messager.alert('提示', '请选择对账机构');
 			return;
 		}
-		if($("#wechatType").val()==""||$("#wechatType").val()==null){
-			$.messager.alert('提示', '请选择对账类型');
-		}
+		var date=$('#startDate').datebox('getValue');
+		var startDate = new Date(date);
+		var day = startDate.getTime() - 1 * 24 * 60 * 60 * 1000;
+		var datefm = new Date(day);
+		var billDate=datefm.getFullYear() + "-" + pad((datefm.getMonth() + 1), 2) + "-" +pad( datefm.getDate(),2);
 		$.ajax({
 			type : "POST",
 			url : "pages/merchant/downWeChatBillUploadAction.action",
-			data : "billDate="+ $('#startDate').datebox('getValue')+"&instiid="+$("#instiid_wechat").val(),
+			data : "billDate="+billDate+"&instiid="+$("#instiid_wechat").val(),
 			dataType : "json",
 			success : function(json) {
 				$.messager.alert('提示', json.info);
