@@ -237,10 +237,10 @@
 			}
 		        return false;   
 		    },   
-		    success:function(data){ 
-		    		if(data.split("validateUserLoginAction").length>1){
+		    success:function(data){  
+			    	if(data.split("validateUserLoginAction").length>1){
 			    		window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
-			    	} 
+			    	}
 		    		if(data=='添加成功!'||data=='修改成功!'){
 		    			$.messager.alert('提示', data);
 		    			closeAdd();
@@ -248,9 +248,9 @@
 			    	}else{ 
 			    		$.messager.alert('提示', data);
 			    		$('#btn_submit').linkbutton('enable');		
-			    	}	       
+			    	}	        
 		    }   
-		});  
+		}); 
 		
 	}
 	function showRiskLevel(){	
