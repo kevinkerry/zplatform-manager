@@ -5,6 +5,7 @@ import com.zlebank.zplatform.manager.service.iface.ICardHolderBlackService;
 import com.zlebank.zplatform.manager.service.iface.IChannelService;
 import com.zlebank.zplatform.manager.service.iface.ICityService;
 import com.zlebank.zplatform.manager.service.iface.IDeptService;
+import com.zlebank.zplatform.manager.service.iface.IEnterpriseRealNameService;
 import com.zlebank.zplatform.manager.service.iface.IFeeService;
 import com.zlebank.zplatform.manager.service.iface.IFunctionService;
 import com.zlebank.zplatform.manager.service.iface.ILimitPerdayService;
@@ -27,6 +28,7 @@ import com.zlebank.zplatform.manager.service.iface.IUploadLogService;
 import com.zlebank.zplatform.manager.service.iface.IUserFunctService;
 import com.zlebank.zplatform.manager.service.iface.IUserRoleService;
 import com.zlebank.zplatform.manager.service.iface.IUserService;
+import com.zlebank.zplatform.member.service.EnterpriseRealnameApplyService;
 
 
 public class ServiceContainer {
@@ -58,10 +60,28 @@ public class ServiceContainer {
 	private IRiskAnalyseLogService riskAnalyseLogService;
     private IChannelService channelService;
     private IRouteService routeService;
+    private IEnterpriseRealNameService enterpriseRealnamService;
+    
+    
+    
+    
+    
 
  
+   
 
-    public IChannelService getChannelService() {
+
+
+	public IEnterpriseRealNameService getEnterpriseRealnamService() {
+		return enterpriseRealnamService;
+	}
+
+	public void setEnterpriseRealnamService(
+			IEnterpriseRealNameService enterpriseRealnamService) {
+		this.enterpriseRealnamService = enterpriseRealnamService;
+	}
+
+	public IChannelService getChannelService() {
         return channelService;
     }
 

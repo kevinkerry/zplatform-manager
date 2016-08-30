@@ -135,7 +135,15 @@
             <ref bean="DAOContainer"/>
         </property>
     </bean>
+      <bean id="enterpriseRealnamService" parent="baseServiceImpl" class=" com.zlebank.zplatform.manager.service.EnterpriseRealNameServiceImpl">
+        <property name="daoContainer">
+            <ref bean="DAOContainer"/>
+        </property>
+    </bean>
 	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
+	    <property name="enterpriseRealnamService">
+	        <ref bean="enterpriseRealnamService"/>
+	    </property>
 	    <property name="routeService">
 	        <ref bean="routeService"/>
 	    </property>
@@ -212,4 +220,9 @@
 	<bean id="ftpClientFactory" class="com.zlebank.zplatform.manager.util.net.FTPClientFactory">
 	</bean>
 
+	<bean id="enterpriseRealnameService" class=" com.zlebank.zplatform.manager.service.EnterpriseRealNameServiceImpl" >
+		<property name="daoContainer">
+	            <ref bean="DAOContainer"/>
+	        </property>
+	</bean>
 </beans>

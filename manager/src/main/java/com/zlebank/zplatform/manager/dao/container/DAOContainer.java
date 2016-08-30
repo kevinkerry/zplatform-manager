@@ -1,5 +1,6 @@
 package com.zlebank.zplatform.manager.dao.container;
 
+import com.zlebank.zplatform.manager.dao.EnterpriseRealNameDAOImpl;
 import com.zlebank.zplatform.manager.dao.iface.IBnkTxnDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICardHolderBlackDAO;
 import com.zlebank.zplatform.manager.dao.iface.IChannelDAO;
@@ -7,6 +8,7 @@ import com.zlebank.zplatform.manager.dao.iface.ICityDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICountyDAO;
 import com.zlebank.zplatform.manager.dao.iface.IDeptDAO;
 import com.zlebank.zplatform.manager.dao.iface.IEnterpriseDetaDAO;
+import com.zlebank.zplatform.manager.dao.iface.IEnterpriseRealNameDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFTPDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFeeDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFunctionDAO;
@@ -71,10 +73,19 @@ public class DAOContainer {
     private IRiskAnalyseLogDAO riskAnalyseLogDAO;
     private IChannelDAO channelDAO;
     private IRouteDAO routeDAO;
+    private IEnterpriseRealNameDAO enterpriseRealnameDAO;
 	
     
     
-    public IRouteDAO getRouteDAO() {
+    public IEnterpriseRealNameDAO getEnterpriseRealnameDAO() {
+		return enterpriseRealnameDAO;
+	}
+
+	public void setEnterpriseRealnameDAO(IEnterpriseRealNameDAO enterpriseRealnameDAO) {
+		this.enterpriseRealnameDAO = enterpriseRealnameDAO;
+	}
+
+	public IRouteDAO getRouteDAO() {
         return routeDAO;
     }
 
