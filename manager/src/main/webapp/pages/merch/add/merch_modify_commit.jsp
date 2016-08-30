@@ -175,65 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				data: "rand=" + new Date().getTime()+"&merchApplyId="+$('#merchApplyId').val(),
 				dataType: "json",
 				success: function(json) {
-					if (json.status == "OK") {
-						$.messager.alert('提示','开通申请提交成功','info',function(){
-							window.location.href = '<%=basePath%>pages/merchant/showMerchModifyMerchantAction.action';
-						});
-					} else {
-						$.messager.alert('提示', '开通申请提交失败'); 
-					}
-				}
-			});
-	}
-	
-	function initCertUrl(){
-		$("input[id*='_old']").each(function(){
-			var _this = $(this);
-			if(_this.val()==''){
-				return;
-			}
-			var id = _this.attr('id');
-			var certType = id.substring(0,id.indexOf('_old'));
-			var certSpan = $('#'+certType+'_span');
-			$.ajax({
-				type: "POST",
-				url: "pages/merchant/downloadImgUrlMerchantAction.action",
-				data: "merchApplyId=" + $('#merchApplyId').val()+"&certTypeCode="+certType,
-				dataType: "json",
-				success: function(json) {
-					 if(json.status=='OK'){
-						 certSpan.html('<a href="<%=basePath%>'+json.url+'" target="view_window" style="font-size: 12px;color:blue">点击查看</a>');
-					 }else if(json.status=='notExist'){
-						 certSpan.html('暂无可查看文件');
-					 } else{
-						 certSpan.html('查询失败');
-					 }
-				}
-			}); 
-		});
-	}
-	
-	function updateFileUrl(certType){
-		var certSpan = $('#'+certType+'_span');
-		$.ajax({
-			type: "POST",
-			url: "pages/merchant/downloadImgUrlMerchantAction.action",
-			data: "merchApplyId=" + $('#merchApplyId').val()+"&certTypeCode="+certType+"&fouceDownload=fouce",
-			dataType: "json",
-			success: function(json) {
-				 if(json.status=='OK'){
-					 certSpan.html('<a href="<%=basePath%>'+json.url+'" target="view_window" style="font-size: 12px;color:blue">点击查看</a>');
-				 }else if(json.status=='notExist'){
-					 certSpan.html('暂无可查看文件');
-				 } else{
-					 certSpan.html('查询失败');
-				 }
-			}
-		});  
-	}
-	</script>
-</html>
-
+					if (json.status == "OK") {					
 						$.messager.alert('提示','变更申请提交成功','info',function(){ 
 							window.location.href = '<%=basePath%>pages/merchant/showMerchModifyMerchantAction.action';
 						});

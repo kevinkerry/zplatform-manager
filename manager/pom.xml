@@ -178,7 +178,7 @@
 		<dependency>
 			<groupId>com.zlebank.zplatform</groupId>
 			<artifactId>zplatform-trade-core</artifactId>
-			<version>1.5.0-SNAPSHOT</version> 
+			<version>1.4.0</version> 
 			<exclusions>
 				<exclusion>
 					<groupId>com.zlebank.zplatform</groupId>
@@ -189,7 +189,7 @@
 		<dependency>
 			<groupId>com.zlebank.zplatform</groupId>
 			<artifactId>zplatform-member</artifactId>
-			<version>1.6.0-SNAPSHOT</version>
+			<version>1.5.7</version>
 		</dependency> 
 		<dependency>
 			<groupId>com.zlebank.zplatform</groupId>
