@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.zlebank.zplatform.commons.dao.impl.HibernateBaseDAOImpl;
 import com.zlebank.zplatform.manager.dao.iface.IEnterpriseRealNameDAO;
 import com.zlebank.zplatform.manager.dao.object.scan.EnterpriseRealnameMode;
-import com.zlebank.zplatform.member.pojo.PojoEnterpriseRealnameApply;
 import com.zlebank.zplatform.trade.common.page.PageVo;
 @Repository("enterRealNameDao")
 public class EnterpriseRealNameDAOImpl  extends HibernateBaseDAOImpl<EnterpriseRealnameMode>   implements

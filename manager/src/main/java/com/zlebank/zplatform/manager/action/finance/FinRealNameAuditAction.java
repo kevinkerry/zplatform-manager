@@ -1,9 +1,7 @@
 package com.zlebank.zplatform.manager.action.finance;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,21 +11,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 
-import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.FinRealNameBean;
-import com.zlebank.zplatform.manager.dao.object.DeptModel;
 import com.zlebank.zplatform.manager.dao.object.scan.EnterpriseRealnameMode;
 import com.zlebank.zplatform.manager.enums.ReviewEnum;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
-import com.zlebank.zplatform.member.bean.EnterpriseRealNameBean;
-import com.zlebank.zplatform.member.bean.EnterpriseRealNameQueryBean;
-import com.zlebank.zplatform.member.pojo.PojoEnterpriseRealnameApply;
-import com.zlebank.zplatform.member.service.EnterpriseRealnameApplyService;
 import com.zlebank.zplatform.trade.common.page.PageVo;
-import com.zlebank.zplatform.trade.service.impl.UpdateInsteadServiceImpl;
-import com.zlebank.zplatform.trade.utils.TimeUtil;
 
 public class FinRealNameAuditAction extends BaseAction{
 	

@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.zlebank.zplatform.commons.dao.BaseDAO;
 import com.zlebank.zplatform.manager.dao.object.scan.EnterpriseRealnameMode;
-import com.zlebank.zplatform.member.pojo.PojoEnterpriseRealnameApply;
 import com.zlebank.zplatform.trade.common.page.PageVo;
 
 public interface IEnterpriseRealNameDAO  extends BaseDAO<EnterpriseRealnameMode>{

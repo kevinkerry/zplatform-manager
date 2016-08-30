@@ -28,7 +28,6 @@ import com.zlebank.zplatform.manager.service.iface.IUploadLogService;
 import com.zlebank.zplatform.manager.service.iface.IUserFunctService;
 import com.zlebank.zplatform.manager.service.iface.IUserRoleService;
 import com.zlebank.zplatform.manager.service.iface.IUserService;
-import com.zlebank.zplatform.member.service.EnterpriseRealnameApplyService;
 
 
 public class ServiceContainer {
