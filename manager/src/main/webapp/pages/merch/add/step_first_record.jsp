@@ -196,7 +196,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 						<td align="center">路由版本</td>
 						<td>
-							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px"/></select>
+							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px" requried="true"/></select>
+							<font color="red">*</font>
 						</td>
 						<td align="center"></td>
 						<td>
