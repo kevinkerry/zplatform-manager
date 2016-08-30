@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
+import com.zlebank.zplatform.manager.dao.object.AccumulateRateModel;
 import com.zlebank.zplatform.manager.dao.object.BusiRateModel;
 import com.zlebank.zplatform.manager.dao.object.CardRateModel;
 import com.zlebank.zplatform.manager.dao.object.FeeCaseModel;
@@ -28,6 +29,8 @@ public class FeeAction extends BaseAction {
     private String caseid;
     private FeeCaseModel feecaseModel;
     private ServiceContainer serviceContainer;
+    private AccumulateRateModel accumulateRateModel;
+    
     public String show() {
         return "success";
     }
@@ -41,6 +44,17 @@ public class FeeAction extends BaseAction {
         return "showbusiRate";
     }
 
+    public String showAccumulate(){
+        return "showAccumulate";
+    }
+    //查询扣率版本
+    public String queryFeever(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("table_name", "T_FEE");
+        Map<String,Object> map = (Map<String, Object>) serviceContainer.getFeeService().queryFeever(variables);
+        json_encode(map);
+        return null;
+    }
     // 扣率版本分页查询
     public String queryFee() {
         Map<String, Object> variables = new HashMap<String, Object>();
@@ -520,6 +534,146 @@ public class FeeAction extends BaseAction {
         json_encode(feecase);
         return null;
     }
+    //************************************************累计扣率*************************************************************
+    /**
+     * 保存累计扣率信息
+     * @return
+     */
+    public String saveAccumulateRate(){
+        if (accumulateRateModel == null) {
+            accumulateRateModel = new AccumulateRateModel();
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getServicefeeStr())){
+            accumulateRateModel.setServicefee(new BigDecimal(accumulateRateModel.getServicefeeStr()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getFeerateStr())){
+            accumulateRateModel.setFeerate(new BigDecimal(accumulateRateModel.getFeerateStr()));
+        }
+        if(!StringUtils.isEmpty(accumulateRateModel.getMinfeeStr())){
+            accumulateRateModel.setMinfee(new BigDecimal(accumulateRateModel.getMinfeeStr()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMaxfeeStr())){
+            accumulateRateModel.setMaxfee(new BigDecimal(accumulateRateModel.getMaxfeeStr()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getLimit1Str())){
+            accumulateRateModel.setLimit1(new BigDecimal(accumulateRateModel.getLimit1Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMinfee2Str())){
+            accumulateRateModel.setMinfee2(new BigDecimal(accumulateRateModel.getMinfee2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMaxfee2Str())){
+            accumulateRateModel.setMaxfee2(new BigDecimal(accumulateRateModel.getMaxfee2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getLimit2Str())){
+            accumulateRateModel.setLimit2(new BigDecimal(accumulateRateModel.getLimit2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMinfee2Str())){
+            accumulateRateModel.setMinfee3(new BigDecimal(accumulateRateModel.getMinfee3Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMaxfee2Str())){
+            accumulateRateModel.setMaxfee3(new BigDecimal(accumulateRateModel.getMaxfee3Str()));
+        }
+     
+        accumulateRateModel.setInuser(getCurrentUser().getUserId());
+        String mark = serviceContainer.getFeeService().AddOneAccumulateRate(accumulateRateModel);
+        json_encode(mark);
+        return null;
+    }
+    /**
+     * 累计扣率分页查询
+     * @return
+     */
+    public String queryAccumulateRate(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        if (accumulateRateModel == null) {
+            accumulateRateModel = new AccumulateRateModel();
+        }
+        variables.put("userId", getCurrentUser().getUserId());       
+        variables.put("feever", accumulateRateModel.getFeever());
+        Map<String, Object> resultList = serviceContainer.getFeeService()
+                .findAccumulateRateByPage(variables, getPage(), getRows());
+        json_encode(resultList);
+        return null;     
+    }
+    /**
+     * 查询一条累计扣率的信息进行修改前的反显
+     * @return
+     */
+    public String queryOneAccumulateRate(){
+        Map<String, Object> resultMap  = serviceContainer.getFeeService().queryOneAccumulateRate(caseid);
+        json_encode(resultMap);
+        return null;
+    }
+    /**
+     * 更改累计扣率信息
+     * @return
+     */
+    public String updateAccumulateRate(){
+        if (accumulateRateModel == null) {
+            accumulateRateModel = new AccumulateRateModel();
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getServicefeeStr())){
+            accumulateRateModel.setServicefee(new BigDecimal(accumulateRateModel.getServicefeeStr()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getFeerateStr())){
+            accumulateRateModel.setFeerate(new BigDecimal(accumulateRateModel.getFeerateStr()));
+        }
+        if(!StringUtils.isEmpty(accumulateRateModel.getMinfeeStr())){
+            accumulateRateModel.setMinfee(new BigDecimal(accumulateRateModel.getMinfeeStr()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMaxfeeStr())){
+            accumulateRateModel.setMaxfee(new BigDecimal(accumulateRateModel.getMaxfeeStr()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getLimit1Str())){
+            accumulateRateModel.setLimit1(new BigDecimal(accumulateRateModel.getLimit1Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getFeerate2Str())){
+            accumulateRateModel.setFeerate2(new BigDecimal(accumulateRateModel.getFeerate2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMinfee2Str())){
+            accumulateRateModel.setMinfee2(new BigDecimal(accumulateRateModel.getMinfee2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMaxfee2Str())){
+            accumulateRateModel.setMaxfee2(new BigDecimal(accumulateRateModel.getMaxfee2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getLimit2Str())){
+            accumulateRateModel.setLimit2(new BigDecimal(accumulateRateModel.getLimit2Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getFeerate3Str())){
+            accumulateRateModel.setFeerate3(new BigDecimal(accumulateRateModel.getFeerate3Str()));
+        }
+              
+        if(!StringUtils.isEmpty(accumulateRateModel.getMinfee2Str())){
+            accumulateRateModel.setMinfee3(new BigDecimal(accumulateRateModel.getMinfee3Str()));
+        }
+        
+        if(!StringUtils.isEmpty(accumulateRateModel.getMaxfee2Str())){
+            accumulateRateModel.setMaxfee3(new BigDecimal(accumulateRateModel.getMaxfee3Str()));
+        }
+     
+        accumulateRateModel.setInuser(getCurrentUser().getUserId());
+        String mark = serviceContainer.getFeeService().updateAccumulateRate(accumulateRateModel);
+        json_encode(mark);
+        return null;
+    }
     public FeeModel getFeeModel() {
         return feeModel;
     }
@@ -574,5 +728,12 @@ public class FeeAction extends BaseAction {
     public void setSteprateModel(StepRateModel steprateModel) {
         this.steprateModel = steprateModel;
     }
+    public AccumulateRateModel getAccumulateRateModel() {
+        return accumulateRateModel;
+    }
+    public void setAccumulateRateModel(AccumulateRateModel accumulateRateModel) {
+        this.accumulateRateModel = accumulateRateModel;
+    }
+ 
 
 }

@@ -10,7 +10,7 @@ table tr td {
 	padding-left: 4px;
 	border-style: solid;
 	border-color: #000000;
-	height: 26px;
+	height: 20px; 
 }
 
 table tr td input {
@@ -71,7 +71,7 @@ input {
 					</tr>
 					<tr height="26"  id="fileadd1">
 						<td align="center">对账日期</td>
-						<td colspan="3"><input name="billDate" class=''  maxlength="12"   type="text"  id="billDate"/>
+						<td colspan="3"><input name="billDate"   maxlength="12"    id="billDate"/>
 					    </td>
 					</tr>
 					<tr>
@@ -132,15 +132,24 @@ input {
 	 <div style="padding-left: 5px; padding-right: 5px">
 			<table width="100%" border="1">
 				<tr>
-					<td colspan="4" align="center">下载并上传微信对账文件</td>
+					<td colspan="4" align="center">微信对账</td>
 				</tr>
 				<tr height="26" id="fileadd1">
-					<td align="center">对账文件</td>
+					<td align="center">对账日期</td>
 					<td colspan="3">
 						<input name="billdate" maxlength="12"   type="text"  id="startDate"/>
 					</td>
 				</tr>
-				<tr>
+				<tr height="26" id="fileadd1">
+					<td align="center">对账类型</td>
+					<td colspan="3"><select id="instiid_wechat"
+							class="easyui-validatebox" >
+							  <option value=''>请选择</option>
+								<option value='app_wechat'>App支付</option>
+								<option value='code_wechat'>扫码支付</option>
+						</select></td>
+				</tr>
+				
 					<td align="center" colspan="4" id="uploadbutton"><a
 						class="easyui-linkbutton" iconCls="icon-ok"
 						href="javascript:billFileUpload()">开始</a> <a
@@ -178,6 +187,7 @@ input {
 		});
 	}
 	$(document).ready(function() {
+	$("#billDate").datebox();
 		queryChannel();
 		$("#button").click(function() {
 			$("#upload").trigger('click');
@@ -260,14 +270,34 @@ input {
 		form.submit();
 	}
 	
+	/**补0**/
+	function pad(num, n) {  
+	    var len = num.toString().length;  
+	    while(len < n) {  
+	        num = "0" + num;  
+	        len++;  
+	    }  
+	    return num;  
+	}  
+	
 	function billFileUpload(){
 		if($('#startDate').datebox('getValue')==""||$('#startDate').datebox('getValue')==null){
 			$.messager.alert('提示', '请选择对账日期');
+			return;
 		}
+		if ($("#instiid_wechat").val() == ""||$("#instiid_wechat").val() == null) {
+			$.messager.alert('提示', '请选择对账机构');
+			return;
+		}
+		var date=$('#startDate').datebox('getValue');
+		var startDate = new Date(date);
+		var day = startDate.getTime() - 1 * 24 * 60 * 60 * 1000;
+		var datefm = new Date(day);
+		var billDate=datefm.getFullYear() + "-" + pad((datefm.getMonth() + 1), 2) + "-" +pad( datefm.getDate(),2);
 		$.ajax({
 			type : "POST",
-			url : "pages/merchant/dowanWeChatBillUploadAction.action",
-			data : "billDate="+ $('#startDate').datebox('getValue'),
+			url : "pages/merchant/downWeChatBillUploadAction.action",
+			data : "billDate="+billDate+"&instiid="+$("#instiid_wechat").val(),
 			dataType : "json",
 			success : function(json) {
 				$.messager.alert('提示', json.info);

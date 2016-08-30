@@ -13,12 +13,20 @@
 	<context:component-scan base-package="com.zlebank.zplatform">
 	</context:component-scan>
 
-	<bean id="propertyFileConfig"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list> 
-				<value>classpath:acc.config.properties</value>
-			</list>
-		</property>
-	</bean>
+
+	<!-- 生成商户代付对账文件任务end-->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="locations">  
+           <list>  
+              <!-- 推荐使用file的方式引入，这样可以将配置和代码分离   -->
+              <value>file:E:/home/web/trade/*.properties</value>	
+              <value>file:D:/cert/*.properties</value> 
+              <value>file:/home/web/trade/config/*.properties</value> 
+              <value>classpath:*.properties</value>  
+              <value>classpath:acc.config.properties</value>
+            </list>  
+        </property>  
+    </bean>   
+
+
 </beans>

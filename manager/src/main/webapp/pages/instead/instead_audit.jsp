@@ -377,7 +377,8 @@ table tr td select {
 				"insteadPayBatchQuery.batchNo" : $('#batchno').val(),
 				"insteadPayBatchQuery.beginDate":$("#beginDate").datebox("getValue"),
 				"insteadPayBatchQuery.endDate":$("#endDate").datebox("getValue"),
-				"insteadPayBatchQuery.orderNo":$("#orderNo").val()
+				"insteadPayBatchQuery.orderNo":$("#orderNo").val(),
+				"insteadPayBatchQuery.status":$("#queryStatus").val()
 			   }
 			$('#test').datagrid('load', data);
 	}

@@ -31,6 +31,9 @@ public class StepRateModel implements java.io.Serializable {
     private String busicode;
     private String rateType;
     private Long servicefee;
+    
+    
+    
     private BigDecimal feeRate;
     private BigDecimal minFee;
     private BigDecimal maxFee;

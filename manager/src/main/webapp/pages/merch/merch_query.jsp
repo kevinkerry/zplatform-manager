@@ -1,3 +1,4 @@
+
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="../../top.jsp"></jsp:include>
 <%
@@ -140,7 +141,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					striped: true,
 					url:'pages/merchant/queryMerchMerchantAction.action?flag='+flag,
 					remoteSort: false,
-				//	idField:'ORGAN_ID',
 					columns:[
 					[
 						{field:'MEMBER_ID',title:' 会员编号',align:'center',width:120},

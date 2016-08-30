@@ -110,7 +110,7 @@
 						<tr style="height: 25px">
 						    <td>备注</td>
 							<td colspan="3">
-							    <textarea  rows="3" cols="81" id="user_notes" maxlength="50" name="user.notes"></textarea>
+							    <textarea  rows="3" cols="81" id="user_notes" maxlength="64" name="user.notes" style="resize:none;" onkeyup="value=value.replace(/<[^<]+>/g,'')" ></textarea>
 						    </td>
 	
 						</tr>
@@ -168,10 +168,6 @@
   </body>
   <script>
   	var width = $("#continer").width();
-
-  	function selecRole(){
-  	  	
-  	}
 		$(function(){
 			showOrgan();
 			$('#userList').datagrid({
@@ -376,8 +372,7 @@
 			   data: "userId="+userId,
 			   async: false,
 			   dataType:"json",
-			   success: function(json){
-					
+			   success: function(json){					
 						$("#user_code").val(json.userCode);
 						$("#user_code").attr('readonly','readonly');
 						$("#user_code").css('background-color','#D2D2D2');
@@ -387,6 +382,7 @@
 						$("#user_status").val(json.status);
 						$("#user_isadmin").val(json.isadmin);
 						$("#user_id").val(json.userId);
+						$("#user_notes").val(json.notes);
 						//读取职能部门信息
 						var html = '<option value="">--请选择所属部门--</option>';
 						$.ajax({
@@ -665,7 +661,6 @@
 			closeView();
 			var w =$("#authMenu").width();
 			$("#menu_div").css("margin-left",w/2.5+"px");
-			//alert(w);
 		}
 		function invokeFunction(){
 			

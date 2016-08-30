@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="center">地址</td>
 						<td>
-							<input  class="easyui-validatebox" maxlength="256"  name="enterprise.address"  style="width:300px" />
+							<input  class="easyui-validatebox" maxlength="128"  name="enterprise.address"  style="width:300px" />
 						</td>
 						<td align="center">邮编编码</td>
 						<td>
@@ -253,21 +253,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">联系人姓名</td>
 						<td><input name="enterprise.contact" maxlength="16" type="text" class="easyui-validatebox"  />
 						<td align="center">联系人地址</td>
-						<td><input name="enterprise.contAddress" maxlength="40" style="width:250px"  type="text" class="easyui-validatebox"  />
+						<td><input name="enterprise.contAddress" maxlength="16" style="width:250px"  type="text" class="easyui-validatebox"  />
 						    </td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td><input  class="easyui-validatebox" maxlength="20"  validType="chinesetest"   name="enterprise.contPhone" />
+						<td><input  class="easyui-validatebox" maxlength="16"  validType="chinesetest"   name="enterprise.contPhone" />
 						    </td>
 						<td align="center">联系人职位</td>
-						<td><input name="enterprise.contTitle" maxlength="32"  type="text"  />
+						<td><input name="enterprise.contTitle" maxlength="16"  type="text"  />
 						    </td>
 					</tr>
 					<tr>
 						<td align="center">联系人邮箱</td>
 						<td>
-							<input  class="easyui-validatebox" maxlength="50" validType="email" name="enterprise.contEmail" />
+							<input  class="easyui-validatebox" maxlength="16" validType="email" name="enterprise.contEmail" />
 						</td>
 						<td colspan="2"></td>
 					</tr>
@@ -318,6 +318,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showSetClearType();
 			showMccList();
 			$('#startDate,#endDate').datebox({});
+			$("#startDate,#endDate").datebox({ editable:false});
 			queryBankNode();
 			checkIsDelegation();
 		});

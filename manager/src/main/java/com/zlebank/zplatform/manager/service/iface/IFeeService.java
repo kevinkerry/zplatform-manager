@@ -3,6 +3,7 @@ package com.zlebank.zplatform.manager.service.iface;
 import java.util.List;
 import java.util.Map;
 
+import com.zlebank.zplatform.manager.dao.object.AccumulateRateModel;
 import com.zlebank.zplatform.manager.dao.object.BusiRateModel;
 import com.zlebank.zplatform.manager.dao.object.CardRateModel;
 import com.zlebank.zplatform.manager.dao.object.FeeCaseModel;
@@ -41,4 +42,11 @@ public interface IFeeService extends IBaseService<FeeModel, Long>{
 	  public String AddOneStpeRate(StepRateModel steprate);
 	  public String UpdateStpeRate(StepRateModel steprate) ;
 	  public Map<String, Object> queryOneStpeRate(String tid);
+      public Map<String, Object> queryFeever(Map<String, Object> variables);
+      public String AddOneAccumulateRate(AccumulateRateModel accumulateRateModel);
+      public Map<String, Object> findAccumulateRateByPage(Map<String, Object> variables,
+            int page,
+            int rows);
+      public Map<String, Object> queryOneAccumulateRate(String caseid);
+    public String updateAccumulateRate(AccumulateRateModel accumulateRateModel);      
 }

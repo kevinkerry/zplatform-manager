@@ -18,7 +18,8 @@ public class ProductAction extends BaseAction{
 	private ProductModel productModel;
 	private CashModel cashModel;
 	private String pid;
-	private List checkboxList;
+	@SuppressWarnings("rawtypes")
+    private List checkboxList;
 	private List<ProductModel> groupList;
 	private Map<String, Object> cashMap;
 	
@@ -168,10 +169,12 @@ public class ProductAction extends BaseAction{
 		this.serviceContainer = serviceContainer;
 	}
 
-	public List getCheckboxList() {
+	@SuppressWarnings("rawtypes")
+    public List getCheckboxList() {
 		return checkboxList;
 	}
-	public void setCheckboxList(List checkboxList) {
+	@SuppressWarnings("rawtypes")
+    public void setCheckboxList(List checkboxList) {
 		this.checkboxList = checkboxList;
 	}
 	public List<ProductModel> getGroupList() {

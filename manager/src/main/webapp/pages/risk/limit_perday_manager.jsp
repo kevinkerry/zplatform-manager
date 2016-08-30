@@ -201,7 +201,9 @@
 		}
 		
 		function showAdd(){	
-			//$('#theForm').clearForm();
+			$('#theForm').clearForm();
+			$('#risk').removeAttr('disabled','disabled');
+			$('#riskcase').removeAttr('disabled','disabled');
 			$('#w').window({
 				title: '单卡单日限次信息',
 				top: panelVertFloat, 
@@ -236,18 +238,17 @@
 		        return false;   
 		    },   
 		    success:function(data){ 
-		    	var a= data.split("validateUserLoginAction");
-				if(data.split("validateUserLoginAction").length>1){
-					window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
-					return ;
-				}else if(data=='添加成功!'||data=='修改成功!'){
-	    			$.messager.alert('提示', data);
-	    			closeAdd();
-	    			search();
-		    	}else{ 
-		    		$.messager.alert('提示', data);
-		    		$('#btn_submit').linkbutton('enable');		
-		    	}	        
+		    		if(data.split("validateUserLoginAction").length>1){
+			    		window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+			    	} 
+		    		if(data=='添加成功!'||data=='修改成功!'){
+		    			$.messager.alert('提示', data);
+		    			closeAdd();
+		    			search();
+			    	}else{ 
+			    		$.messager.alert('提示', data);
+			    		$('#btn_submit').linkbutton('enable');		
+			    	}	       
 		    }   
 		});  
 		
@@ -266,28 +267,30 @@
 		   }
 		});
 	}
-	function showLimitPerday(tId,riskver){		
+	function showLimitPerday(tId,riskver){
+
 		$.ajax({
 		   type: "POST",
 		   url: "pages/risk/queryOneLimitPerdayLimitAction.action",
 		   data: "riskId="+tId,
 		   dataType:"json",
 		   success: function(json){	
-			
+			$('#risk').attr('disabled','true');
+			$('#riskcase').attr('disabled','true');
 			$("#nums_id").val(json.NUMS);
 			$("#TId").val(json.T_ID);
 			$("#Notes").val(json.NOTES);
 			$('#cardtype').val(json.CARDTYPE);			
 			showRiskLevel();
 			showRisk();
-			    setTimeout(function(){ 
-				   $("#risk").val(riskver);
-				   $("#risklevel").val(json.RISKLEVEL);
-				   queryRiskCase();	
-				},500);
-			    setTimeout(function(){ 
-					   $("#riskcase").val(json.CASEID);
-			   },1000);
+		    setTimeout(function(){ 
+			   $("#risk").val(riskver);
+			   $("#risklevel").val(json.RISKLEVEL);			   
+			   queryRiskCase();	
+			},500);
+		    setTimeout(function(){ 
+				   $("#riskcase").val(json.CASEID);				  
+		   },1000);
 		   }
 		});
 		$('#w').window({
@@ -306,8 +309,10 @@
 		});
 		$("#theForm").attr("action","pages/risk/updateLimitPerdayLimitAction.action");
 		$('#btn_submit').linkbutton('enable');
-		$("#risk").attr("readonly","readonly");
-		$("#riskcase").attr("readonly","readonly");
+		//$("#risk").attr("disabled","disabled");
+		//$('#riskcase').attr('disabled','disabled');
+		//$("#risk").attr("readonly","readonly");
+		//$("#riskcase").attr("readonly","readonly");
 	}
 	function deleteLimitPerday(tid){
 		$.messager.confirm('提示','您是否想要注销此单卡单日限次?',function(r){   

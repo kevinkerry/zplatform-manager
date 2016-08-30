@@ -249,11 +249,6 @@
 						return false;
 					},
 					success: function(data) {
-						var a= data.split("validateUserLoginAction");
-						if(data.split("validateUserLoginAction").length>1){
-							window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
-							return ;
-						}
 						if (data == '添加成功!' || data == '修改成功!') {
 							alert(data);
 							closeAdd();
@@ -291,6 +286,8 @@
 				data: "riskId=" + tid,
 				dataType: "json",
 				success: function(json) {
+					$("#busipack").attr("disabled","true");
+					$("#busicase").attr("disabled","true");
 					$("#TId").val(json.T_ID);
 					$("#Notes").val(json.NOTES);
 					$("#maxAmount").val(json.MAX_AMOUNT);

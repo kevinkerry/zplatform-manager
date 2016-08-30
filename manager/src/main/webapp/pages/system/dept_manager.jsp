@@ -43,10 +43,11 @@
 						<td width="15%">部门代码</td>
 						<td width="30%">
 							<input id="dept_code" name="dept.deptCode" required="true" missingMessage="请输入部门代码"   type="text" class="easyui-validatebox" maxlength="4" validType="minLength[4,4]"/>
+						    <font color="red">*</font>
 						</td>
 						<td width="15%">部门名称</td>
 						<td>
-							<input id="dept_name" name="dept.deptName" required="true" missingMessage="请输入部门名称"   type="text" class="easyui-validatebox" maxlength="20"/>
+							<input id="dept_name" name="dept.deptName" required="true" missingMessage="请输入部门名称"   type="text" class="easyui-validatebox" maxlength="20" onkeyup="value=value.replace(/^[\s]*$/g,'')"/>
 						</td>
 					</tr>
 					<tr>
@@ -66,7 +67,7 @@
 						
 						<td>备注</td>
 						<td colspan="3">
-							<textarea rows="3" cols="60" id="dept_notes" maxlength="50" name="dept.notes"></textarea>
+							<textarea rows="3" cols="60" id="dept_notes" maxlength="64" name="dept.notes" style="resize:none;" onkeyup="value=value.replace(/<[^<]+>/g,'')" ></textarea>
 						</td>
 					</tr>
 				</table>
@@ -165,7 +166,6 @@
 				closed: false,
 				height: 220
 			});
-			$('#dept_code').attr('class','easyui-validatebox');
 			$("#deptForm").attr("action","pages/system/saveDeptAction.action");
 			$('#btn_submit').linkbutton('enable');		
 		}

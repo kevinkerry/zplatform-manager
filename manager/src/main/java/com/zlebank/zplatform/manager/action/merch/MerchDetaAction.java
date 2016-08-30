@@ -91,10 +91,7 @@ public class MerchDetaAction extends BaseAction {
         return "merch_query_all";
     }
     
-    //商户信息变更菜单
-    public String showMerchModify(){
-        return "merch_modify_query";
-    }
+
 
     /**
      * 保存商户信息
@@ -387,11 +384,22 @@ public class MerchDetaAction extends BaseAction {
         } else if (flag.equals("3")) {// 复审，需要记录复审人和复审意见
             merchDeta.setCvlexaOpt(stexopt);
             merchDeta.setCvlexaUser(getCurrentUser().getUserId());
+        }else if(flag.equals("5")){//变更初审，需要记录初审人和初审意见
+            merchDeta.setStexaOpt(stexopt);
+            merchDeta.setStexaUser(getCurrentUser().getUserId());
+        }else if(flag.equals("6")){//变更复审，需要记录复审人和复审意见
+            merchDeta.setCvlexaOpt(stexopt);
+            merchDeta.setCvlexaUser(getCurrentUser().getUserId());
         }
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultlist = (List<Map<String, Object>>) serviceContainer
                 .getMerchDetaService().merchAudit(Long.parseLong(merchApplyId),
                         merchDeta, flag, isAgree);
+        if(flag.equals("6")){
+            resultlist.get(0).put("FLAG", "复审通过");
+        }else{
+           resultlist.get(0).put("FLAG", ""); 
+        }
         json_encode(resultlist);
         return null;
     }
@@ -678,7 +686,140 @@ public class MerchDetaAction extends BaseAction {
         }
         return null;
     }
+//*********************************商户信息变更*******************************************
+    /**
+     * 商户信息变更菜单
+     * @return
+     */
+    public String showMerchModify(){
+        flag="4";
+        return "merch_modify_query";
+    }
+    /**
+     * 商户变更初审
+     */
+    public String MerchModifyFirstCheck(){
+        flag="5";
+        return "merch_modify_query";
+    }
+    /**
+     * 商户变更复审
+     */
+    public String MerchModifySecondCheck(){
+        flag="6";
+        return "merch_modify_query";
+    }
+    /**
+     * 商户信息变更界面
+     * @return
+     */
+    public String queryMerchModify(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("userId", getCurrentUser().getUserId());
+        if (merchDeta != null) {
+            variables.put("merberId", merchDeta.getMember().getMemberId());
+            variables.put("merchName", merchDeta.getMember().getMemberName());
+        }
+        variables.put("flag", flag);
+        Map<String, Object> merchList = serviceContainer.getMerchDetaService()
+                .findMerchModifyByPage(variables, getPage(), getRows());
+        json_encode(merchList);
+        return null;
+    }
+    
+    /**
+     * 商户信息变更列表的变更功能
+     * @return
+     */
+    public String toMerchModifyEdit(){
+        merchDeta = serviceContainer.getMerchDetaService().getBean(
+                Long.parseLong(merchApplyId));
+        oldBankName = serviceContainer.getMerchDetaService().queryBankName(
+                merchDeta.getBankNode(), merchDeta.getBankCode());
 
+        charge = merchDeta.getCharge().toString();
+        deposit = merchDeta.getDeposit().toString();
+
+        return "merch_modify_edit";    
+    }
+    
+    /**
+     * 点击下一步，保存本页信息
+     * @return
+     */
+    public String toUploadModifyInfo(){
+        merchDeta = serviceContainer.getMerchDetaService().getBean(
+                Long.parseLong(merchApplyId));
+        if (merchDeta == null) {
+        }
+
+        return "toUploadModifyInfo";
+    }
+    /**
+     * 
+     * 商户变更的提交申请功能
+     * @return
+     */
+    public String commitMerchModify(){
+        Map<String, String> result = new HashMap<String, String>();
+        IMerchDetaService merchDetaService = serviceContainer
+                .getMerchDetaService();
+        boolean isSucc = merchDetaService.commitMerchModify(Long
+                .parseLong(merchApplyId));
+        if (isSucc) {
+            result.put("status", "OK");
+        } else {
+            result.put("status", "FAIL");
+        }
+        json_encode(result);
+        return null;
+    }
+    
+    /**
+     * 点击下一步，对商户变更信息做保存更新
+     * @return
+     */
+    public String saveMerchModifyDeta(){
+        if (merchDeta.getMember().getIsDelegation() == null) {
+            merchDeta.getMember().setIsDelegation(0L);
+        }
+
+        if (merchDeta.getMember().getIsDelegation() == null) {
+            merchDeta.getMember().setIsDelegation(0L);
+        }
+
+        if (charge == null || charge.equals("")) {
+            merchDeta.setCharge(Money.ZERO);
+        } else {
+            merchDeta.setCharge(Money.valueOf(new BigDecimal(charge)
+                    .multiply(HUNDERED)));
+        }
+
+        if (deposit == null || deposit.equals("")) {
+            merchDeta.setDeposit(Money.ZERO);
+        } else {
+            merchDeta.setDeposit(Money.valueOf(new BigDecimal(deposit)
+                    .multiply(HUNDERED)));
+        }
+
+        List<?> resultlist = serviceContainer.getMerchDetaService()
+                .saveMerchModifyDeta(Long.parseLong(merchApplyId), merchDeta);
+        merchDeta.setmInUser(getCurrentUser().getUserId());
+        json_encode(resultlist.get(0));
+        return null;
+        
+    }
+    /**
+     * 变更信息的审核（初审、复审）
+     * @return
+     */
+    
+    public String toMerchModifyDetail(){
+        Long userId = getCurrentUser().getUserId();
+        merchMap = serviceContainer.getMerchDetaService().queryModifyMerchDeta(
+                Long.parseLong(merchApplyId), userId);
+        return "merch_modify_detail";  
+    }
     public ServiceContainer getServiceContainer() {
         return serviceContainer;
     }
