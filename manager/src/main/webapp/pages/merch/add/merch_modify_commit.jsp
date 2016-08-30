@@ -165,7 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   });
 	
 	function toFirstStep(){
-		window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchChangeMerchantAction.action?merchApplyId='+$('#merchApplyId').val();
+		window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchModifyEditMerchantAction.action?merchApplyId='+$('#merchApplyId').val();
 	}
 	
 	function commitMerch(){
