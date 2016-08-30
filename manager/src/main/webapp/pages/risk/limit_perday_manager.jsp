@@ -248,7 +248,7 @@
 			    	}else{ 
 			    		$.messager.alert('提示', data);
 			    		$('#btn_submit').linkbutton('enable');		
-			    	}	        
+			    	}	       
 		    }   
 		});  
 		

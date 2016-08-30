@@ -297,6 +297,7 @@ public class LimitAction extends BaseAction{
                     variables.put("userId", getCurrentUser().getUserId());
                     if(limitSingleModel==null){
                         limitSingleModel=new LimitSingleModel();
+                        
                     }
                     variables.put("caseid", limitSingleModel.getCaseid());
                     variables.put("riskver", riskver);
