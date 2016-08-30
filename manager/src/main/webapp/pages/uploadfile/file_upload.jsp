@@ -10,7 +10,7 @@ table tr td {
 	padding-left: 4px;
 	border-style: solid;
 	border-color: #000000;
-	height: 26px;
+	height: 20px; 
 }
 
 table tr td input {
@@ -71,7 +71,7 @@ input {
 					</tr>
 					<tr height="26"  id="fileadd1">
 						<td align="center">对账日期</td>
-						<td colspan="3"><input name="billDate" class=''  maxlength="12"   type="text"  id="billDate"/>
+						<td colspan="3"><input name="billDate"   maxlength="12"    id="billDate"/>
 					    </td>
 					</tr>
 					<tr>
@@ -187,6 +187,7 @@ input {
 		});
 	}
 	$(document).ready(function() {
+	$("#billDate").datebox();
 		queryChannel();
 		$("#button").click(function() {
 			$("#upload").trigger('click');

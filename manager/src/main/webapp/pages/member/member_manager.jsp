@@ -1248,11 +1248,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        return $('#saveForm').form('validate');   
 				    },   
 				    success:function(messg){    
-				    	
+				    	var a= messg.split("validateUserLoginAction");
+						if(messg.split("validateUserLoginAction").length>1){
+							window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+							return ;
+						}else{
 				    		$.messager.alert('提示',messg);  
 				    		search();
 				    		closeAdd();
 				    		$("#button_id").linkbutton('enable');
+						}
 				    }   
 				});  
 			 }

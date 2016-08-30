@@ -205,15 +205,19 @@
 			}
 		        return false;   
 		    },   
-		    success:function(data){  
-		    		if(data=='添加成功!'||data=='修改成功!'){
-		    			alert(data);
-		    			closeAdd();
-		    			search();
-			    	}else{
-			    		alert(data);
-			    		$('#btn_submit').linkbutton('enable');		
-			    	}
+		    success:function(data){
+		    	var a= data.split("validateUserLoginAction");
+				if(data.split("validateUserLoginAction").length>1){
+					window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
+					return ;
+				}else if(data=='添加成功!'||data=='修改成功!'){
+	    			alert(data);
+	    			closeAdd();
+	    			search();
+			    }else{
+		    		alert(data);
+		    		$('#btn_submit').linkbutton('enable');		
+			    }
 		    }   
 		});  
 		
@@ -277,9 +281,10 @@
 				  	url: "pages/risk/deleteLimitMemDayLimitAction.action",
 				  	data: "rand="+new Date().getTime()+"&riskId="+tid,
 				 	dataType: "text",
-				 	success:function(text){
+				 	success:function(text){				 		
 		    			$.messager.alert('提示',text);   
 		    			search();
+						
 				 	}
 				});
 		    }   
