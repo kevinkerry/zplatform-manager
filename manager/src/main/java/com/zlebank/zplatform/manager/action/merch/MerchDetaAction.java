@@ -698,14 +698,14 @@ public class MerchDetaAction extends BaseAction {
     /**
      * 商户变更初审
      */
-    public String MerchModifyFirstCheck(){
+    public String merchModifyFirstCheck(){
         flag="5";
         return "merch_modify_query";
     }
     /**
      * 商户变更复审
      */
-    public String MerchModifySecondCheck(){
+    public String merchModifySecondCheck(){
         flag="6";
         return "merch_modify_query";
     }
