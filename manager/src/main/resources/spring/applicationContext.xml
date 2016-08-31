@@ -232,7 +232,9 @@
 		<property name="concurrent" value="false" />
 	</bean>
 	<bean id="createMerIPFileJob" class="com.zlebank.zplatform.manager.job.CreateMerchantInsteadSDFileJob" /> 
-	<!-- 生成商户代付对账文件任务end-->	
+	<!-- 生成商户代付对账文件任务end-->
+	
+		
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${redis.maxIdle}" />
         <property name="maxTotal" value="${redis.maxActive}" />

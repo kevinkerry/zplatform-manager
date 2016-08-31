@@ -537,16 +537,19 @@ public class FeeServiceImpl extends BaseServiceImpl<FeeModel, Long>
                 accumulateRateModel.getFeerate3(),
                 accumulateRateModel.getMinfee3()==null? 0.00f:accumulateRateModel.getMinfee3().doubleValue(),
                 accumulateRateModel.getMaxfee3()==null? 0.00f:accumulateRateModel.getMaxfee3().doubleValue(), accumulateRateModel.getInuser(),
-                accumulateRateModel.getNotes(), accumulateRateModel.getRemarks()};
+                accumulateRateModel.getNotes(), 
+                accumulateRateModel.getRemarks(),
+                accumulateRateModel.getAccmode()
+        };
 
         String[] columns = new String[]{"v_feever", "v_busicode",
                 "v_rate_type", " v_servicefee", "v_fee_rate", "v_min_fee",
                 "v_max_fee", "v_limit1", "v_fee_rate2", "v_min_fee2",
                 "v_max_fee2", "v_limit2", "v_fee_rate3", "v_min_fee3",
-                "v_max_fee3", "v_inuser", "v_notes", "v_remarks"};
+                "v_max_fee3", "v_inuser", "v_notes", "v_remarks","v_accmode"};
         Object total = getDao()
                 .executeOracleProcedure(
-                        "{CALL PCK_T_ACCUMLATE_RATE.ins_t_accumulate_rate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}",
+                        "{CALL PCK_T_ACCUMLATE_RATE.ins_t_accumulate_rate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}",
                         columns, paramaters, "cursor0").get(0).get("INFO");
         return (String) total;
     }
@@ -607,16 +610,19 @@ public class FeeServiceImpl extends BaseServiceImpl<FeeModel, Long>
                         .doubleValue(),
                 accumulateRateModel.getMaxfee3() == null ? null : accumulateRateModel.getMaxfee3()
                         .doubleValue(), accumulateRateModel.getInuser(),
-                accumulateRateModel.getNotes(), accumulateRateModel.getRemarks()};
+                accumulateRateModel.getNotes(), 
+                accumulateRateModel.getRemarks(),
+                accumulateRateModel.getAccmode()
+                };
 
         String[] columns = new String[]{"v_feever", "v_busicode",
                 "v_rate_type", " v_servicefee", "v_fee_rate", "v_min_fee",
                 "v_max_fee", "v_limit1", "v_fee_rate2", "v_min_fee2",
                 "v_max_fee2", "v_limit2", "v_fee_rate3", "v_min_fee3",
-                "v_max_fee3", "v_inuser", "v_notes", "v_remarks"};
+                "v_max_fee3", "v_inuser", "v_notes", "v_remarks","v_accmode"};
         Object total = getDao()
                 .executeOracleProcedure(
-                        "{CALL PCK_T_ACCUMLATE_RATE.upt_t_accumulate_rate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}",
+                        "{CALL PCK_T_ACCUMLATE_RATE.upt_t_accumulate_rate(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}",
                         columns, paramaters, "cursor0").get(0).get("INFO");
         return (String) total;
     }

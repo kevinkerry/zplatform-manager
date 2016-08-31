@@ -91,6 +91,7 @@
 	</body>
 
 	<script>
+	
 		var width = $("#continer").width();
 	  	var gridHeight = 540;
 		var panelWidth = 640;
