@@ -80,6 +80,14 @@ table tr td select {
 								class="easyui-validatebox" maxlength="32" required="true" /></td>
 						</tr>
 						<tr align="center">
+							<td align="right" width="45%">充值码:</td>
+							<td align="left"><input  placeholder="请输入充值码"
+								name="cb.chargecode" required="true" type="text"
+								class="easyui-validatebox" maxlength="20"
+								required="true" /></td>
+						</tr>
+						
+						<tr align="center">
 							<td align="right" width="45%">充值金额:</td>
 							<td align="left"><input id="amount" placeholder="请输入充值金额"
 								name="cb.amount" required="true" type="text"
@@ -96,7 +104,7 @@ table tr td select {
 
 							</select></td>
 						</tr>
-
+						
 					</table>
 				</form>
 			</div>
@@ -157,7 +165,14 @@ table tr td select {
 						return '';
 					}
 				}
-			}, {
+			},
+			{
+				field : 'chargecode',
+				title : '充值码',
+				width : 120,
+				align : 'center'
+			},
+			{
 				field : 'amount',
 				title : '充值金额(元)',
 				width : 120,

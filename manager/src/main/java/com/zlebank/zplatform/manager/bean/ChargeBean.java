@@ -62,8 +62,17 @@ public class ChargeBean implements Bean {
     
     private String usage;
     
+    private String chargecode;
     
-    public String getUsage() {
+    
+    
+    public String getChargecode() {
+		return chargecode;
+	}
+	public void setChargecode(String chargecode) {
+		this.chargecode = chargecode;
+	}
+	public String getUsage() {
         return usage;
     }
     public void setUsage(String usage) {

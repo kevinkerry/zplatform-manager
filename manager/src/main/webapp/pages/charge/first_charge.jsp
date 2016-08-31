@@ -76,10 +76,14 @@ table tr td select {
 						<td whdth="40px" align="center" id="tintime"></td>
 					</tr>
 					<tr>
-						<td whdth="40px" align="center">充值类型</td>
-						<td whdth="40px" align="center" id="tchargetype"></td>
+						<td whdth="40px" align="center">充值码</td>
+						<td whdth="40px" align="center" id="tchargecode"></td>
 						<td whdth="40px" align="center">金额</td>
 						<td whdth="40px" align="center" id="tamount"></td>
+					</tr>
+					<tr>
+						<td whdth="40px" align="center">充值类型</td>
+						<td whdth="40px" align="center" id="tchargetype"></td>
 					</tr>
 				</table>
 			<br>
@@ -147,6 +151,7 @@ table tr td select {
 										width : 120,
 										align : 'center'
 									},
+									
 									{
 										field : 'chargetype',
 										title : '充值类型',
@@ -161,6 +166,12 @@ table tr td select {
 												return '';
 											}
 										}
+									},
+									{
+										field : 'chargecode',
+										title : '充值码',
+										width : 120,
+										align : 'center'
 									},
 									{
 										field : 'amount',
@@ -320,6 +331,8 @@ table tr td select {
 
 					$.messager.alert('提示', "数据不正确，请刷新后重试");
 				} else {
+					
+					$("#tchargecode").html(json.chargecode);
 					$("#tchargeno").html(json.chargeno);
 					$("#tmemberid").html(json.memberid);
 					$("#memberName").html(json.memberName);
