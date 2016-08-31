@@ -55,7 +55,6 @@ public class RouteConfigModel implements java.io.Serializable{
     private String remarks;
     /**商户路由版本**/
     private String merchroutver;
- 
 
 
     public RouteConfigModel() {
