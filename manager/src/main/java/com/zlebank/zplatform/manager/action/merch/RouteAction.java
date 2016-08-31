@@ -323,9 +323,8 @@ public class RouteAction extends BaseAction{
      */
     public String addRouteConfig(){
         String result = "";
-        if (routeConfigModel == null||StringUtil.isEmpty(routeConfigModel.getStime().trim())||
-            StringUtil.isEmpty(routeConfigModel.getEtime().trim()) ) {
-            result = "开始时间或结束时间不能为空";
+        if (routeConfigModel == null||StringUtil.isEmpty(routeConfigModel.getRoutver()) || StringUtil.isEmpty(routeConfigModel.getIsdef())) {
+            result = "交易渠道或是否为默认路由不能为空";
             json_encode(result);
             return null;
         }
@@ -335,7 +334,11 @@ public class RouteAction extends BaseAction{
         if(result.equals("操作成功!")){
             result = "添加成功!";
         }else if(result.equals("执行出错!已存在默认路由")){
-            result = "该路由版本下已存在默认路由，每个路由版本下默认路由有且仅有一条";
+            result = "该路由版本下已存在默认路由";
+        }else if(result.equals("执行出错!请先设置默认路由")){
+            result= "请先对该路由版本设置默认路由";
+        }else if(result.equals("执行出错!设置默认路由参数错误")){
+            result="请设置是否为默认路由";
         }
         json_encode(result);
         return null;
@@ -432,8 +435,6 @@ public class RouteAction extends BaseAction{
         String mark = serviceContainer.getRouteService().updateOneRouteConfig(routeConfigModel,bankcodeList,busicodeList,cradtypeList);
         if(mark.equals("操作成功!") ){
             mark = "修改成功!";
-        }else if(mark.equals("执行出错!默认路由不能修改为非默认路由")){
-            mark ="默认路由不能修改为非默认路由";
         }
         json_encode(mark);
         return null;
@@ -485,8 +486,16 @@ public class RouteAction extends BaseAction{
                 map.put("2", "贷记卡");  
                 cardtypeList.add(map);
             }else{
-                String cardtype =  (String) containList.get(0).get("CARDTYPE");               
-                String[] cardtypeArray = cardtype.split(";");
+                String cardtype =  (String) containList.get(0).get("CARDTYPE");
+                if(cardtype == null || cardtype==""){
+                    map1.put("CONTAIN1", "NO");                      
+                    map1.put("1", "借记卡");                            
+                    cardtypeList.add(map1);
+                    map2.put("CONTAIN2", "NO");               
+                    map2.put("2", "贷记卡");
+                    cardtypeList.add(map2);
+                }else{
+                    String[] cardtypeArray = cardtype.split(";");
                     if(cardtypeArray.length ==1 ){
                         if(cardtypeArray[0].equals("1")){                            
                             map1.put("CONTAIN1", "YES");                      
@@ -511,6 +520,7 @@ public class RouteAction extends BaseAction{
                         map2.put("2", "贷记卡");
                         cardtypeList.add(map2);
                     }
+                }
                 }
             try {
                 json_encode(cardtypeList);

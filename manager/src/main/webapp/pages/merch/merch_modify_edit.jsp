@@ -200,7 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        </td>
 				        <td align="center">风控版本</td>
 						<td>
-							<select name="merchDeta.riskVer" maxlength="8" required="true"  id="riskver"  /></select>
+							<select id="riskver"  class="easyui-validatebox" name="merchDeta.riskVer" required="true" /></select>
 							<font color="red">*</font>
 						</td>
 					</tr>
@@ -217,7 +217,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="center">路由版本</td>
 						<td>
-							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px"/></select>
+							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px" required="true"/></select>
+							<font color="red">*</font>
 						</td>
 						<td align="center"></td>
 						<td>

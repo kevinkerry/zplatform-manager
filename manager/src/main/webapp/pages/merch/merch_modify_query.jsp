@@ -107,8 +107,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						}
 							},	
 						{field:'DEPT_ID',title:'操作',width:150,align:'center',
-						formatter:function(value,rec){							
-	                        if(rec.STATUS=='32'){
+						formatter:function(value,rec){	
+							if(rec.STATUS=='32'){
 								return '<a href="javascript:toUpload('+rec.SELF_ID+')" style="color:blue;margin-left:10px">上传证件照片</a>';
 							}else{
 								return '<a href="javascript:toMerchModifyEdit('+rec.SELF_ID+')" style="color:blue;margin-left:10px">变更</a>&nbsp<a href="javascript:toMerchModifyDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';	
@@ -232,7 +232,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function toMerchModifyAudit(merchApplyId){
 			flag=$('#flag_ins').val();
 			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchModifyDetailMerchantAction.action?merchApplyId='+merchApplyId+'&flag='+flag;
-			//window.event.returnValue = false;		
+			//window.event.returnValue = false;
 		}
 		function toActivateStatus(memberId) {
 			if(($("#"+memberId).attr("value"))!=0){
