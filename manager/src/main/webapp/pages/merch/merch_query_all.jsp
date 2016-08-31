@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						          <option value='40'>变更待复审</option>
 						          <option value='41'>变更复审未过</option>
 								  <option value='49'>变更复审终止</option>
-								  <option value="02">变更待生效</option>			  
+								  <option value="02">变更待生效</option>									  
 					        </select>
 						</td>
 						<td align="right"  width="10%">

@@ -145,11 +145,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">分润版本</td>
 						<td>${merchMap.SPLITNAME}</td>
 					</tr>
-					<tr>
-						<td align="center">收银台版本<font color="red">*</font></td>
-						<td>${merchMap.CASHNAME}</td>
+					<tr>						
 						<td align="center">路由版本</td>
 						<td>${merchMap.ROUTNAME}</td>
+						<td></td>
+						<td></td>
 					</tr>
 					
 					<tr>
