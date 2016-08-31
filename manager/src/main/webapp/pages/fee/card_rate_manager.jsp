@@ -454,7 +454,8 @@
 				}
 			});
 			$("#txnRateForm").attr("action", "pages/fee/updateCardRateFeeAction.action");
-			$("#save_button").linkbutton('disable');
+			$("#save_button").hide();
+			$("#cancel_button").hide();
 		}
 	</script>
 </html>

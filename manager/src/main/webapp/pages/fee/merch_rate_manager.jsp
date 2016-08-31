@@ -428,7 +428,8 @@
 				}
 			});
 			$("#txnRateForm").attr("action", "pages/fee/updateMemberRateFeeAction.action");
-			$("#save_button").linkbutton('disable');
+			$("#save_button").hide();
+			$("#cancel_button").hide();
 			$("#save_button").hide();
 			$("#cancel_button").hide();
 		}
