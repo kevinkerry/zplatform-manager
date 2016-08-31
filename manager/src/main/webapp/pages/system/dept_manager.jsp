@@ -155,7 +155,8 @@
 		});
 		
 		function showAdd(){	
-			$('#w').window({
+			showOgan();
+			$('#w').window({				
 				title: '新增部门',
 				top:100,
 				width: 500,

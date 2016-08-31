@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</td>
 						<td align="center">所属行业</td>
 						<td>
-							<select id="mcclist_ins" class="easyui-validatebox"  name="enterprise.mccList" required="true"/></select><font color="red">*</font>
+							<select id="mcclist_ins" class="easyui-validatebox" name="enterprise.mccList" required="true"/></select><font color="red">*</font>					
 						</td>
 					</tr>
 					<tr>
@@ -196,7 +196,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 						<td align="center">路由版本</td>
 						<td>
-							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px"/></select>
+							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px" required="true"/></select>
+						    <font color="red">*</font>
 						</td>
 						<td align="center"></td>
 						<td>
@@ -239,10 +240,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">保证金</td>
-						<td><input  class="easyui-validatebox" maxlength="10"  validType="amount" name="deposit" /><font color="red">元</font>
+						<td><input  class="easyui-validatebox" maxlength="8"  validType="amount" name="deposit" /><font color="red">元</font>
 						</td>
 						<td align="center">服务费</td>
-						<td><input name="charge" maxlength="10"  validType="amount"  class="easyui-validatebox" type="text"  /><font color="red">元</font>
+						<td><input name="charge" maxlength="8"  validType="amount"  class="easyui-validatebox" type="text"  /><font color="red">元</font>
 						</td>
 					</tr>
 					
@@ -253,12 +254,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">联系人姓名</td>
 						<td><input name="enterprise.contact" maxlength="16" type="text" class="easyui-validatebox"  />
 						<td align="center">联系人地址</td>
-						<td><input name="enterprise.contAddress" maxlength="16" style="width:250px"  type="text" class="easyui-validatebox"  />
+						<td><input name="enterprise.contAddress" maxlength="120" style="width:250px"  type="text" class="easyui-validatebox"  />
 						    </td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td><input  class="easyui-validatebox" maxlength="16"  validType="chinesetest"   name="enterprise.contPhone" />
+						<td><input  class="easyui-validatebox" maxlength="11"  validType="chinesetest"   name="enterprise.contPhone" />
 						    </td>
 						<td align="center">联系人职位</td>
 						<td><input name="enterprise.contTitle" maxlength="16"  type="text"  />
@@ -316,7 +317,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//showMerchParent(); 
 			showSetlcycleAll();
 			showSetClearType();
-			showMccList();
+			//showMccList();
 			$('#startDate,#endDate').datebox({});
 			$("#startDate,#endDate").datebox({ editable:false});
 			queryBankNode();
@@ -340,7 +341,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 		}
 		
-		function savemerchDate() {
+		function savemerchDate() {				
 			var jp = $("#banknode_ins").val(); 
 			if ($('#merchDetaForm').form("validate")) {
 				$("#button_id").linkbutton('disable');
@@ -351,8 +352,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					success: function(json) {
 						json = eval('(' + json + ')');
 						if (json.RET == "succ") {
-							$.messager.alert('提示', '保存成功,等待上传证件照片','info',function(){
-								window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+json.INFO;
+							$("#button_id").linkbutton('enable');
+							$.messager.confirm('提示', '保存成功,等待上传证件照片',function(data){
+								if(data){
+									window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+json.INFO;
+								}
+								
 							});
 						} else {
 							$.messager.alert('提示', json.INFO);
@@ -530,7 +535,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.ajax({
 				type: "POST",
 				url: "pages/merchant/queryMccListMccAction.action",
-				data: "rand=" + new Date().getTime(),
 				dataType: "json",
 				success: function(json) {
 					var html = "<option value=''>--商户所属行业--</option>";

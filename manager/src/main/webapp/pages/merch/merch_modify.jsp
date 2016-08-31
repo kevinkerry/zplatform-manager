@@ -113,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</td>
 						<td align="center">所属行业</td>
 						<td>
-							<select id="mcclist_ins" class="easyui-validatebox"  name="merchDeta.member.mccList" value="${merchDeta.member.mccList}"/></select>
+							<select id="mcclist_ins" class="easyui-validatebox"  name="merchDeta.member.mccList" value="${merchDeta.member.mccList}" required="true"/></select><font color="red">*</font>	
 						</td>
 					</tr>
 					<tr>
@@ -258,10 +258,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">保证金</td>
-						<td><input  class="easyui-validatebox" maxlength="10"  validType="amount" name="deposit" value="${deposit}"/><font color="red">元</font>
+						<td><input  class="easyui-validatebox" maxlength="8"  validType="amount" name="deposit" value="${deposit}"/><font color="red">元</font>
 						</td>
 						<td align="center">服务费</td>
-						<td><input name="charge" maxlength="10"  validType="amount"  class="easyui-validatebox" type="text" value="${charge}"/><font color="red">元</font>
+						<td><input name="charge" maxlength="8"  validType="amount"  class="easyui-validatebox" type="text" value="${charge}"/><font color="red">元</font>
 						</td>
 					</tr>
 					
@@ -272,12 +272,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">联系人姓名</td>
 						<td><input name="merchDeta.member.contact" maxlength="16" type="text" class="easyui-validatebox"  value="${merchDeta.member.contact}"/>
 						<td align="center">联系人地址</td>
-						<td><input name="merchDeta.member.contAddress" maxlength="16" style="width:250px"  type="text" class="easyui-validatebox"  value="${merchDeta.member.contAddress}"/>
+						<td><input name="merchDeta.member.contAddress" maxlength="128" style="width:250px"  type="text" class="easyui-validatebox"  value="${merchDeta.member.contAddress}"/>
 						    </td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td><input  class="easyui-validatebox" maxlength="16"  validType="chinesetest"   name="merchDeta.member.contPhone" value="${merchDeta.member.contPhone}"/>
+						<td><input  class="easyui-validatebox" maxlength="11"  validType="chinesetest"   name="merchDeta.member.contPhone" value="${merchDeta.member.contPhone}"/>
 						    </td>
 						<td align="center">联系人职位</td>
 						<td><input name="merchDeta.member.contTitle" maxlength="16"  type="text" value="${merchDeta.member.contTitle}"/>
@@ -366,8 +366,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					success: function(json) {
 						json = eval('(' + json + ')');
 						if (json.RET == "succ") {
-							$.messager.alert('提示', '保存成功,等待上传证件照片','info',function(){
-								window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+json.INFO;
+							$("#button_id").linkbutton('enable');
+							$.messager.confirm('提示', '保存成功,等待上传证件照片',function(data){
+								if(data){
+									window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+json.INFO;
+								}
+								
 							});
 						} else {
 							$.messager.alert('提示', json.INFO);

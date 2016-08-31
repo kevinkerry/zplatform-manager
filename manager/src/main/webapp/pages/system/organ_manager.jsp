@@ -78,7 +78,7 @@
 						
 						<td>备注</td>
 						<td colspan="3">
-							<textarea rows="3" cols="60" id="org_notes" name="organ.notes" maxlength="60"></textarea>
+							<textarea rows="3" cols="60" id="org_notes" name="organ.notes" maxlength="60" style="resize:none;"></textarea>
 						</td>
 					</tr>
 				</table>
