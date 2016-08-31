@@ -181,6 +181,8 @@ public class ChargeServiceImpl
          cm.setStatus(status.getParaCode());
       
          cm.setChargenoinstid(changeno.getParaCode());
+         //充值码
+         cm.setChargecode(cb.getChargecode());
          charge.saveA(cm);
     }
 

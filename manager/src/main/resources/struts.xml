@@ -26,4 +26,5 @@
 	<include file="struts/refund-struts.xml"></include>
 	<include file="struts/active-struts.xml"></include>
 	<include file="struts/route-struts.xml"></include>
+	<include file="struts/finance-struts.xml"></include>
 </struts>
