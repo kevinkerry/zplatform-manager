@@ -5,6 +5,7 @@
 <body>
 	<link href='js/checkboxbeautify/css.css' rel="stylesheet"
 		type="text/css" />
+	<script type="text/javascript" src="js/extendsValidator_1.0_20151215.js"></script>
 	<style type="text/css">
 #groupinfo {
 	height: 25px;
@@ -64,42 +65,6 @@
 		</div>
 	</div>
 
-	<div id="idAdd" class="easyui-window" closed="true">
-		<div style="margin: 5px; border:" id="continer">
-			<div id="p" class="easyui-panel" title="查询条件"
-				style="height: 100px; padding: 10px; background: #fafafa;"
-				iconCls="icon-save" collapsible="true">
-				<form action="pages/paradic/queryGroupGrouAction.action"
-					id="searchForm">
-					<table width="80%">
-						<tr>
-							<td align="right">交易流水号</td>
-							<td align="left" style="padding-left: 5px"><input
-								id="code_ins" maxlength="16" /></td>
-						</tr>
-						<tr>
-						</tr>
-						<tr>
-							<td align="right"></td>
-							<td style="padding-left: 500px"></td>
-							<td align="center"><a href="javascript:searchAdd()"
-								class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
-								href="javascript:resizeAdd()" class="easyui-linkbutton"
-								iconCls="icon-redo">清空</a></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-
-		</div>
-
-		<div style="margin-top: 5px">
-			<table id="realNameTable">
-			</table>
-		</div>
-
-		
-	</div>
 	
 	
 	
@@ -127,7 +92,7 @@
 						style="text-align: left" id="inputForm">
 						<tr>
 							<td align="center">打款金额:</td>
-							<td><input name="bean.amount" id="amount" maxlength="32" validType="amount"  class="easyui-validatebox" />元</td>
+							<td><input name="bean.amount" id="amount" maxlength="20"  precision="2" class="easyui-numberbox" />元</td>
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
