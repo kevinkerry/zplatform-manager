@@ -251,10 +251,6 @@
 						return $('#txnRateForm').form('validate');
 					},
 					success: function(data) {
-						if(data.split("validateUserLoginAction").length>1){
-							window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
-							return ;
-						}
 						if (data == '执行成功') {
 							closeAdd();
 							search();
@@ -428,8 +424,6 @@
 				}
 			});
 			$("#txnRateForm").attr("action", "pages/fee/updateMemberRateFeeAction.action");
-			$("#save_button").hide();
-			$("#cancel_button").hide();
 			$("#save_button").hide();
 			$("#cancel_button").hide();
 		}

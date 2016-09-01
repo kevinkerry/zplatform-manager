@@ -824,6 +824,30 @@ public class MerchDetaAction extends BaseAction {
         return serviceContainer;
     }
 
+ //------------------------------------企业审核和查询----------------------------------------------------   
+    /**
+     * 企业初审
+     * @param serviceContainer
+     */
+    public String enterpriseFirstExam(){
+        return "enterpriseFirstExam";       
+    }
+    
+    /***
+     * 企业复审
+     * @param serviceContainer
+     */
+    public String enterpriseSecondExam(){
+        return "enterpriseSecondExam";
+    }
+    
+    /**
+     * 企业查询
+     * @param serviceContainer
+     */
+    public String enterpriseQuery(){
+        return "enterpriseQuery";
+    }
     public void setServiceContainer(ServiceContainer serviceContainer) {
         this.serviceContainer = serviceContainer;
     }
