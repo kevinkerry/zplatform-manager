@@ -7,6 +7,7 @@ import com.zlebank.zplatform.manager.service.iface.ICityService;
 import com.zlebank.zplatform.manager.service.iface.IDeptService;
 import com.zlebank.zplatform.manager.service.iface.IEnterpriseRealNameService;
 import com.zlebank.zplatform.manager.service.iface.IFeeService;
+import com.zlebank.zplatform.manager.service.iface.IFinProductService;
 import com.zlebank.zplatform.manager.service.iface.IFunctionService;
 import com.zlebank.zplatform.manager.service.iface.ILimitPerdayService;
 import com.zlebank.zplatform.manager.service.iface.IMccListService;
@@ -60,6 +61,10 @@ public class ServiceContainer {
     private IChannelService channelService;
     private IRouteService routeService;
     private IEnterpriseRealNameService enterpriseRealnamService;
+    private IFinProductService finProductService;
+    
+    
+    
     
     
     
@@ -68,8 +73,16 @@ public class ServiceContainer {
 
  
    
+    
 
 
+	public IFinProductService getFinProductService() {
+		return finProductService;
+	}
+
+	public void setFinProductService(IFinProductService finProductService) {
+		this.finProductService = finProductService;
+	}
 
 	public IEnterpriseRealNameService getEnterpriseRealnamService() {
 		return enterpriseRealnamService;

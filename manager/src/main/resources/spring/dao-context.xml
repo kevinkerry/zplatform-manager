@@ -110,10 +110,14 @@
 	</bean>
 	<bean id="enterpriseRealnameDAO"  parent="hibernateDAOImpl"
 		 class="com.zlebank.zplatform.manager.dao.EnterpriseRealNameDAOImpl"></bean>
+	<bean id="finProductDAO"  parent="hibernateDAOImpl"
+		 class="com.zlebank.zplatform.manager.dao.FinProductDAOImpl"></bean>
 	
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
-		
+		<property name="finProductDAO">
+		    <ref bean="finProductDAO"/>
+		</property>
 		<property name="enterpriseRealnameDAO">
 		    <ref bean="enterpriseRealnameDAO"/>
 		</property>
