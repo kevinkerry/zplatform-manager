@@ -140,7 +140,16 @@
             <ref bean="DAOContainer"/>
         </property>
     </bean>
+     <bean id="finProductService" parent="baseServiceImpl" class=" com.zlebank.zplatform.manager.service.FinProductServiceImpl">
+        <property name="daoContainer">
+            <ref bean="DAOContainer"/>
+        </property>
+    </bean>
 	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
+	    <property name="finProductService">
+	        <ref bean="finProductService"/>
+	    </property>
+	    
 	    <property name="enterpriseRealnamService">
 	        <ref bean="enterpriseRealnamService"/>
 	    </property>
