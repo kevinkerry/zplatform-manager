@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javassist.bytecode.stackmap.MapMaker;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
@@ -17,6 +19,7 @@ import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.Enterprise;
 import com.zlebank.zplatform.manager.bean.MerchDeta;
+import com.zlebank.zplatform.manager.dao.EnterpriseDetaDAOImpl;
 import com.zlebank.zplatform.manager.dao.object.CityModel;
 import com.zlebank.zplatform.manager.dao.object.ProvinceModel;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
@@ -56,6 +59,8 @@ public class MerchDetaAction extends BaseAction {
     private String merchStatus;
     private final static BigDecimal HUNDERED = new BigDecimal(100);
 
+    private String enterpriseApplyId;
+    private Map<String,Object> enterpriseDeta;
     // 商户信息管理页面
     public String show() {
         flag = "1";
@@ -826,28 +831,63 @@ public class MerchDetaAction extends BaseAction {
 
  //------------------------------------企业审核和查询----------------------------------------------------   
     /**
-     * 企业初审
+     * 企业初审菜单
      * @param serviceContainer
      */
-    public String enterpriseFirstExam(){
-        return "enterpriseFirstExam";       
+    public String enterpriseFirstExam(){  
+        flag="2";
+        return "enterprise_exam_query";       
     }
     
     /***
-     * 企业复审
+     * 企业复审菜单
      * @param serviceContainer
      */
     public String enterpriseSecondExam(){
-        return "enterpriseSecondExam";
+        flag="3";
+        return "enterprise_exam_query";
     }
     
     /**
-     * 企业查询
+     * 企业查询菜单
      * @param serviceContainer
      */
     public String enterpriseQuery(){
         return "enterpriseQuery";
     }
+    
+    /**
+     * 初审、复审的查询界面
+     * @param serviceContainer
+     */
+    public String queryEnterprise(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("userId", getCurrentUser().getUserId());
+        if (enterprise != null) {
+            variables.put("enterpriseMemberId", enterprise.getEnterpriseMemberId());//会员编号
+            variables.put("enterpriseName", enterprise.getEnterpriseName());//企业名称
+        }
+        variables.put("flag", flag);
+        Map<String, Object> enterpriseList = serviceContainer.getMerchDetaService()
+                .findEnterpriseByPage(variables, getPage(), getRows());
+        json_encode(enterpriseList);
+        return null;
+    }
+    /**
+     * 审核界面
+     * @param serviceContainer
+     */
+    public String toEnterpriseDetail(){
+        Long userId = getCurrentUser().getUserId();
+//        merchMap = serviceContainer.getMerchDetaService().queryModifyMerchDeta(
+//                Long.parseLong(enterpriseApplyId), userId);
+        enterpriseDeta = serviceContainer.getMerchDetaService().queryEnterpriseExamDeta
+                (Long.parseLong(enterpriseApplyId),userId);
+        return "enterprise_exam_detail"; 
+    }
+    
+    
+    
     public void setServiceContainer(ServiceContainer serviceContainer) {
         this.serviceContainer = serviceContainer;
     }
@@ -1023,4 +1063,22 @@ public class MerchDetaAction extends BaseAction {
     public void setMerchStatus(String merchStatus) {
         this.merchStatus = merchStatus;
     }
+
+    public String getEnterpriseApplyId() {
+        return enterpriseApplyId;
+    }
+
+    public void setEnterpriseApplyId(String enterpriseApplyId) {
+        this.enterpriseApplyId = enterpriseApplyId;
+    }
+
+    public Map<String, Object> getEnterpriseDeta() {
+        return enterpriseDeta;
+    }
+
+    public void setEnterpriseDeta(Map<String, Object> enterpriseDeta) {
+        this.enterpriseDeta = enterpriseDeta;
+    }
+    
+    
 }

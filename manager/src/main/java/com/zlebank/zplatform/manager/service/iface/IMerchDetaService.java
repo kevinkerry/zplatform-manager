@@ -263,6 +263,11 @@ public interface IMerchDetaService
     public boolean commitMerchModify(long merchpplyId);
     public List<?> saveMerchModifyDeta(long parseLong, MerchDeta merchDeta);
     public Map<String, Object> queryModifyMerchDeta(long merchApply, Long userId);
+    public Map<String, Object> findEnterpriseByPage(Map<String, Object> variables,
+            int page,
+            int rows);
+    public Map<String, Object> queryEnterpriseExamDeta(long enterpriseApplyId,
+            Long userId);
 }
 
 

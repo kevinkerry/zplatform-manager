@@ -1180,6 +1180,46 @@ public class MerchDetaServiceImpl
         return (Map<String, Object>) getDao().executeOracleProcedure(
                 "{CALL  PCK_MERCH.sel_t_merchant_apply_deta(?,?,?,?)}",
                 columns, paramaters, "cursor0").get(0);         
-       }   
+       }
+
+    @Override
+    public Map<String, Object> findEnterpriseByPage(Map<String, Object> variables,
+            int page,
+            int rows) {
+
+        String[] columns = new String[]{
+                "v_user", "v_member_id",
+                "v_merch_name", "v_address",
+                "v_status", "v_coop_insti_id",
+                "v_flag", "i_no", "i_perno"};
+
+        Object[] paramaters = new Object[]{
+                variables.containsKey("userId")? variables.get("userId"): null,
+                variables.containsKey("enterpriseMemberId")? variables.get("enterpriseMemberId"): null,
+                variables.containsKey("enterpriseName")? variables.get("enterpriseName"): null,
+                variables.containsKey("address")? variables.get("address"): null,
+                variables.containsKey("status")? variables.get("status"): null,
+                variables.containsKey("coopInstiId") ? variables.get("coopInstiId") : null,
+                variables.containsKey("flag") ? variables.get("flag") : null,
+                page, rows};
+        return getDao().executePageOracleProcedure(
+                "{CALL pck_enterprise.sel_t_enterprise(?,?,?,?,?,?,?,?,?,?,?)}",
+                columns, paramaters, "cursor0", "v_total");
+    }
+
+    @Override
+    public Map<String, Object> queryEnterpriseExamDeta(long enterpriseApplyId,
+            Long userId) {
+                return null;
+//        PojoEnterpriseDetaApply pojoEnterpriseDetaApply = get(enterpriseApplyId);
+//        String[] columns = new String[]{"v_user", "v_self_id", "v_enterprise_id"};
+//        Object[] paramaters = new Object[3];
+//        paramaters[0] = userId;
+//        paramaters[1] = pojoMerchApply.getSelfId();
+//        paramaters[2] = pojoMerchApply.getMerchId();
+//        return (Map<String, Object>) getDao().executeOracleProcedure(
+//                "{CALL  pck_enterprise.sel_t_enterprise_apply_deta(?,?,?,?)}",
+//                columns, paramaters, "cursor0").get(0);   
+    }   
 }
 
