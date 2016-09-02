@@ -92,8 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			            return value.length >= param[0];   
 			        },   
 			        message: '请输入4位数字的部门代码'  
-			    }
-			   
+			    }			   
 			});  
 		});
 		function search(){

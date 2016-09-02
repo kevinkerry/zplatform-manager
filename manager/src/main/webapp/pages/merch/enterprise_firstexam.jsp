@@ -24,7 +24,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div style="padding-left:5px;padding-right:5px">
 		<form id="merchDetaForm" action="pages/merchant/saveMerchDetaMerchantAction.action" method="post" >
 		<input type="hidden" id="isDelegation" value="${enterpriseDeta.IS_DELEGATION}" />
-		<input type="hidden" id="merchId" name="merchDeta.merchId" value="${enterpriseDeta.MERCHID}" />
 		 <input type="hidden" id="enterpriseApplyId" value="${enterpriseDeta.SELF_ID}" />
 		<input type="hidden" id="flag_ins" value="${flag}"/>
 				<table width="100%">
@@ -252,7 +251,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var certType = id.substring(0,id.indexOf('_cert_img'));
 				$.ajax({
 					type: "POST",
-					url: "pages/merchant/downloadImgUrlMerchantAction.action",
+					url: "pages/merchant/downloadEnterpriseImgUrlMerchantAction.action", 
 					data: "merchApplyId=" + $('#enterpriseApplyId').val()+"&certTypeCode="+certType,
 					dataType: "json",
 					success: function(json) {

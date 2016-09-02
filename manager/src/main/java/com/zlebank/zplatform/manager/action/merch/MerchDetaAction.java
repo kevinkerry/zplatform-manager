@@ -855,6 +855,7 @@ public class MerchDetaAction extends BaseAction {
      * @param serviceContainer
      */
     public String enterpriseQuery(){
+        flag="10";
         return "enterpriseQueryAll";
     }
     
@@ -932,6 +933,34 @@ public class MerchDetaAction extends BaseAction {
         json_encode(resultlist);
         return null;
     } 
+    
+    /**
+     * 加载证件照片等
+     * @param serviceContainer
+     */
+    
+    public String downloadEnterpriseImgUrl(){
+        String webRootPath = ServletActionContext.getServletContext()
+                .getRealPath("/");
+        String realpath = webRootPath + "/" + CommonUtil.DOWNLOAD_ROOTPATH;
+        boolean fouce = (fouceDownload != null && fouceDownload.equals("fouce"));
+        String filePath = serviceContainer.getMerchDetaService()
+                .downloadFromFtp(Long.parseLong(enterpriseApplyId), realpath,
+                        CertType.format(certTypeCode), fouce);
+        Map<String, String> result = new HashMap<String, String>();
+        if (filePath == null) {
+            result.put("status", "fail");
+        } else if (filePath.equals("")) {
+            result.put("status", "notExist");
+        } else {
+            result.put("status", "OK");
+            result.put("url", filePath);
+            new MerchantThread(webRootPath + "/" + filePath).start();
+        }
+        json_encode(result);
+        return null;
+    }
+    
     public void setServiceContainer(ServiceContainer serviceContainer) {
         this.serviceContainer = serviceContainer;
     }

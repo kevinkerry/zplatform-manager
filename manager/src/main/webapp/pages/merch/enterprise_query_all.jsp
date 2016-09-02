@@ -18,11 +18,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="right" width="10%">会员编号</td>
 						<td align="left" style="padding-left:5px" width="15%">
-							<input  id="merchId_ins" maxlength="15"/>
+							<input  id="enterpriseMemberId_ins" maxlength="15"/>
 						</td>
 						<td align="right" width="10%">企业名称</td>
 						<td align="left" style="padding-left: 5px" width="15%">
-							<input  id="memberName_ins" maxlength="50"/>
+							<input  id="enterpriseName_ins" maxlength="50"/>
 						</td>
 						<td align="right" width="10%">企业状态</td>
 						<td align="left" style="padding-left: 5px" width="15%" >
@@ -64,12 +64,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					singleSelect:true,
 					nowrap: false,
 					striped: true,
-					url:'pages/merchant/queryEnterpriseAllMerchantAction.action?flag='+flag,
+					url:'pages/merchant/queryEnterpriseMerchantAction.action?flag='+flag,
 					remoteSort: false,
 					columns:[
 					[
 						{field:'MEMBER_ID',title:' 会员编号',align:'center',width:120},
-						{field:'ENTERPRISE_NAME',title:'商户名称',width:120,align:'center'},
+						{field:'ENTERPRISE_NAME',title:'企业名称',width:120,align:'center'},
 						{field:'LICENCE_NO',title:'营业执照号',width:120,align:'center'},
 						{field:'CORPORATION',title:'法人名称',width:120,align:'center'}, 
 						{field:'CONTACT',title:'联系人',width:120,align:'center'},
@@ -77,12 +77,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							formatter:function(value,rec){
 								if(value=="00"){
 									return "在用";
+								}else if(value="12"){
+									return "注册待完善信息";
+								}else if(value="10"){
+									return "注册待初审";
+								}else if(value="11"){
+									return "注册初审未过";
+								}else if(value="19"){
+									return "注册初审终止";
+								}else if(value="20"){
+									return "注册待复审";
+								}else if(value="21"){
+									return "注册复审未过";
+								}else if(value="29"){
+									return "注册复审终止";
 								}
 						   }
 					    },	
 						{field:'DEPT_ID',title:'操作',width:150,align:'center',
 						formatter:function(value,rec){
-									return '<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';		
+									return '<a href="javascript:toEnterpriseDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';		
 						}
 					}			
 					]],
@@ -106,58 +120,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});  
 		});
 		function search(){
-			//var url="pages/merchant/queryMerchMerchantAction.action?flag="+$("#flag").val();
 			var data={
-					'merchDeta.member.memberId':$('#merchId_ins').val(),
-					'merchDeta.member.memberName':$('#memberName_ins').val(),
-					'merchStatus':$('#status_ins').val()
+					'enterprise.enterpriseMemberId':$('#enterpriseMemberId_ins').val(),
+					'enterprise.enterpriseName':$('#enterpriseName_ins').val(),
+					'enterpriseStatus':$('#status_ins').val()
 					};
 			$('#test').datagrid('load',data);
 		}
 
-		function toMerchDetail(id,isApply){
-			window.location.href= "<%=basePath%>" +'/pages/merchant/toMerchDetailMerchantAction.action?merchApplyId='+id;
+		function toEnterpriseDetail(id,isApply){
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toEnterpriseDetailMerchantAction.action?merchApplyId='+id;
 			window.event.returnValue = false;
 		}
-		function toMerchMk(memberId){
-			window.location.href= "<%=basePath%>" +'/pages/merchant/loadMerchMkMerchantAction.action?memberId='+memberId;
-	    	window.event.returnValue = false;
-            
-		}
-		function toMerchModify(id){
-			window.location.href= "<%=basePath%>" +'pages/merchant/toMerchModifyMerchantAction.action?merchApplyId='+id;
-			window.event.returnValue = false;
-		}
-		
-		//function toActivateStatus(memberId){
-	    //	window.event.returnValue = false;
-            
-	//	}
-		function toActivateStatus(memberId) {
-			if(($("#"+memberId).attr("value"))!=0){
-				alert("您刚刚已经申请过发送邮件了");
-				return ;
-			}
-		
-			$.ajax({
-				type : "POST",
-				url : "<%=basePath%>" +"/pages/active/replayEmailActiveStatusAction.action?memberId="+memberId,
-				data : "",
-				dataType : "json",
-				success : function(json) {
-					var dataArray = eval(json);
-					alert(dataArray.messg)
-					$("#"+memberId).attr("value",01);
 
-				}
-			});
-			
-			setTimeout("remove("+memberId+")",5000);
+		function remove(memberId){
+			$("#"+memberId).attr("value",120000);
 		}
-		
-	function remove(memberId){
-		$("#"+memberId).attr("value",120000);
-	}
 		
 	</script>
 </html>
