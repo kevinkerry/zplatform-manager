@@ -23,38 +23,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			collapsible="false">		
 			<div style="padding-left:5px;padding-right:5px">
 		<form id="merchDetaForm" action="pages/merchant/saveMerchDetaMerchantAction.action" method="post" >
-		<input type="hidden" id="isDelegation" value="${merchMap.IS_DELEGATION}" />
-		<input type="hidden" id="merchId" name="merchDeta.merchId" value="${merchMap.MERCHID}" />
-		 <input type="hidden" id="merchApplyId" value="${merchApplyId}" />
-		<input type="hidden" id="flag_ins" value="${flag}" />
+		<input type="hidden" id="isDelegation" value="${enterpriseDeta.IS_DELEGATION}" />
+		<input type="hidden" id="merchId" name="merchDeta.merchId" value="${enterpriseDeta.MERCHID}" />
+		 <input type="hidden" id="enterpriseApplyId" value="${enterpriseDeta.SELF_ID}" />
+		<input type="hidden" id="flag_ins" value="${flag}"/>
 				<table width="100%">
 					<tr>
 						<td colspan="4" class="head-title"></td>
 					</tr>
 					<tr>
 						<td align="center" width="20%">企业名称<font color="red">*</font></td>
-						<td  width="30%">${merchMap.ENTERPRISE_NAME}</td>
+						<td  width="30%">${enterpriseDeta.ENTERPRISE_NAME}</td>
 						<td align="center">会员编号</td>
-						<td>${merchMap.MEMBER_ID}</td>
+						<td>${enterpriseDeta.MEMBER_ID}</td>
 					</tr>
 					<tr> 
 						<td align="center">企业所在地<font color="red">*</font></td>
-						<td> ${merchMap.PROVINCENAME } ${merchMap.CITYNAME} ${merchMap.STREETNAME}</td>
-						<td align="center">企业行政地区<font color="red">*</font></td>
-						<td> ${merchMap.ZONECODE}</td>
+						<td> ${enterpriseDeta.PROVINCENAME } ${enterpriseDeta.CITYNAME} ${enterpriseDeta.STREETNAME}</td>
+						<td align="center">企业行政地区代码<font color="red">*</font></td>
+						<td> ${enterpriseDeta.ZONE_CODE}</td>
 					</tr>
 					<tr>
 						<td align="center">企业联系手机号<font color="red">*</font></td> 
-						<td>${merchMap.PHONE}</td>
+						<td>${enterpriseDeta.PHONE}</td>
 						<td align="center">企业联系邮箱<font color="red">*</font></td>
-						<td>${merchMap.EMAIL}</td>
+						<td>${enterpriseDeta.EMAIL}</td>
 					</tr>
 					<tr>
 						<td align="center">企业地址</td>
-						<td>${merchMap.ADDRESS}
+						<td>${enterpriseDeta.ADDRESS}
 						</td>
 						<td align="center">企业邮编</td>
-						<td>${merchMap.POST_CODE}
+						<td>${enterpriseDeta.POST_CODE}
 						</td>
 					</tr>
 					<tr>
@@ -67,33 +67,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>-->
 					<tr>
 						<td align="center">营业执照号<font color="red">*</font></td>
-						<td>${merchMap.LICENCE_NO}
+						<td>${enterpriseDeta.LICENCE_NO}
 						</td>    
 						<td align="center">合作机构号<font color="red">*</font></td>
-						<td>${merchMap.ORG_CODE}
+						<td>${enterpriseDeta.ORG_CODE}
 						</td> 
 					</tr>
 					<tr>
 						<td align="center">税务登记号<font color="red">*</font></td>
-						<td> ${merchMap.TAX_NO}
+						<td> ${enterpriseDeta.TAX_NO}
 						</td>
 						<td align="center">所属行业<font color="red">*</font></td>
-						<td>${merchMap.MCC}</td>
+						<td>${enterpriseDeta.MCC}</td>
 					</tr>
 					<tr>
 						<td align="center">企业网址<font color="red">*</font></td>
-						<td>${merchMap.WEBSITE}
+						<td>${enterpriseDeta.WEBSITE}
 						</td>
 						<td align="center">所属行业子类别<font color="red">*</font></td>
-						<td>${merchMap.MCCLIST}
+						<td>${enterpriseDeta.MCCLIST}
 						</td>						
 					</tr> 
 					<tr>
 						<td align="center" id="psamORpass">法人姓名<font color="red">*</font></td>
-						<td>${merchMap.CORPORATION}
+						<td>${enterpriseDeta.CORPORATION}
 						</td>
 						<td align="center">法人证件号码<font color="red">*</font></td>
-						<td>${merchMap.CORP_NO}
+						<td>${enterpriseDeta.CORP_NO}
 						 </td>
 					</tr> 
 					
@@ -103,19 +103,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					 
 					<tr>
 					    <td align="center">是否授权人办理<font color="red">*</font></td>
-						<td>${merchMap.ISDELEGATION}</td>
+						<td>${enterpriseDeta.IS_DELEGATION}</td>
 					</tr>
 					<tr id="delegation">
 						<td align="center">委托人姓名<font color="red">*</font></td>
-						<td>${merchMap.SIGNATORY}</td>
+						<td>${enterpriseDeta.SIGNATORY}</td>
 						<td align="center">委托人身份证号<font color="red">*</font></td>
-						<td>${merchMap.SIGN_CERT_NO}
+						<td>${enterpriseDeta.SIGN_CERT_NO}
 					</tr>
 					<tr>
 						<td align="center">客户经理</td>
-						<td>${merchMap.CUST_MGR}</td>
+						<td>${enterpriseDeta.CUST_MGR}</td>
 						<td align="center">客户经理部门</td>
-						<td>${merchMap.CUST_MGR_DEPT}
+						<td>${enterpriseDeta.CUST_MGR_DEPT}
 						    </td>
 					</tr>			
 					<tr>
@@ -123,21 +123,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">联系人姓名</td>
-						<td>${merchMap.CONTACT}</td>
+						<td>${enterpriseDeta.CONTACT}</td>
 						<td align="center">联系人地址</td>
-						<td>${merchMap.CONT_ADDRESS}</td>    
+						<td>${enterpriseDeta.CONT_ADDRESS}</td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td>${merchMap.CONT_PHONE}</td>
+						<td>${enterpriseDeta.CONT_PHONE}</td>
 						<td align="center">联系人职位</td>
-						<td>${merchMap.CONT_TITLE}</td>
+						<td>${enterpriseDeta.CONT_TITLE}</td>
 					</tr>
 					<tr>
 						<td align="center">联系人邮箱</td>
-						<td>${merchMap.CONT_EMAIL}</td>						
+						<td>${enterpriseDeta.CONT_EMAIL}</td>						
 						<td align="center">联系人邮编</td>
-						<td>${merchMap.CONT_POST}</td>						
+						<td>${enterpriseDeta.CONT_POST}</td>						
 					</tr>
 					<tr>
 						<td colspan="4" class="head-title"></td>
@@ -179,7 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 </td><td></td><td></td>
 					</tr>
 					
-					<s:if test="%{flag==11}">
+					<s:if test="%{flag==2}">
 					 <tr>
 					    <td align="center">初核意见</td>
 					    <td colspan="3" align="center">
@@ -187,12 +187,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </td>
 					  </tr>
 					 </s:if>
-					 <s:if test="%{flag==12}">
+					 <s:if test="%{flag==3}">
 					 <tr>
 						<td align="center">初审人</td>
-						<td>${merchMap.STEXANAME}</td>
+						<td>${enterpriseDeta.STEXANAME}</td>
 						<td align="center">初审意见</td>
-						<td>${merchMap.STEXA_OPT}</td>
+						<td>${enterpriseDeta.STEXA_OPT}</td>
 					</tr>
 					 <tr>
 					    <td align="center">复核意见</td>
@@ -201,17 +201,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </td>
 					  </tr>
 					 </s:if>
-					 <s:if test="%{flag==13}">
+					 <s:if test="%{flag==10}">
 					 <tr>
 					    <td align="center">初核意见</td>
 					    <td colspan="3" align="center">
-					        <textarea rows="5" cols="100" style="margin:5px" value="${merchMap.STEXA_OPT}" maxlength="60" id="STOPINION"></textarea>
+					        <textarea rows="5" cols="100" style="margin:5px" value="${enterpriseDeta.STEXA_OPT}" maxlength="60" id="STOPINION"></textarea>
 					    </td>
 					  </tr>
 					   <tr>
 					    <td align="center">复核意见</td>
 					    <td colspan="3" align="center">
-					        <textarea rows="5" cols="100" style="margin:5px" value="${merchMap.CVLEXA_OPT}" maxlength="60" id="STOPINION"></textarea>
+					        <textarea rows="5" cols="100" style="margin:5px" value="${enterpriseDeta.CVLEXA_OPT}" maxlength="60" id="STOPINION"></textarea>
 					    </td>
 					  </tr> 
 					 </s:if>
@@ -222,9 +222,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 			 <div region="south" border="false" style="text-align:center;padding:5px 0;">
 				<s:if test="%{flag==2||flag==3}">
-				<a href="javascript:merchAudit('0');" id="button_ins1" class="easyui-linkbutton" iconCls="icon-ok">通过</a>
-				<a href="javascript:merchAudit('9');" id="button_ins2" class="easyui-linkbutton" iconCls="icon-cancel">否决</a>
-				<a href="javascript:merchAudit('1');" id="button_ins3" class="easyui-linkbutton" iconCls="icon-no">驳回</a>
+				<a href="javascript:enterpriseAudit('0');" id="button_ins1" class="easyui-linkbutton" iconCls="icon-ok">通过</a>
+				<a href="javascript:enterpriseAudit('9');" id="button_ins2" class="easyui-linkbutton" iconCls="icon-cancel">否决</a>
+				<a href="javascript:enterpriseAudit('1');" id="button_ins3" class="easyui-linkbutton" iconCls="icon-no">驳回</a>
 				</s:if>
 				<a href="javascript:history.back(-1);" class="easyui-linkbutton" iconCls="icon-back">返回</a>
 			</div>	
@@ -253,7 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$.ajax({
 					type: "POST",
 					url: "pages/merchant/downloadImgUrlMerchantAction.action",
-					data: "merchApplyId=" + $('#merchApplyId').val()+"&certTypeCode="+certType,
+					data: "merchApplyId=" + $('#enterpriseApplyId').val()+"&certTypeCode="+certType,
 					dataType: "json",
 					success: function(json) {
 						 if(json.status=='OK'){
@@ -268,17 +268,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 		}
 		
-		function merchAudit(result) {
+		function enterpriseAudit(result) {
 			$("#button_ins1").linkbutton('disable');
 			$("#button_ins2").linkbutton('disable');
 			$("#button_ins3").linkbutton('disable');
-			var merchApplyId = $("#merchApplyId").val();
+			var enterpriseApplyId = $("#enterpriseApplyId").val();
 			var stexaOpt = $("#STOPINION").val();
 			var flag = $("#flag_ins").val();
 			$.ajax({
 				type: "POST",
-				url: "pages/merchant/auditMerchantAction.action?isAgree=" + result + "&merchApplyId=" + merchApplyId + "&flag=" + flag,
-				data: "merchDate.stexaOpt=" + encodeURI(stexaOpt),
+				url: "pages/merchant/examEnterpriseMerchantAction.action?isAgree=" + result + "&enterpriseApplyId=" + enterpriseApplyId + "&flag=" + flag,
+				data: "enterprise.stexaOpt=" + encodeURI(stexaOpt),
 				dataType: "json",
 				success: function(json) {
 					$.each(json,

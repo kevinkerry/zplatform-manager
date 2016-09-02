@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					{field:'LICENCE_NO',title:'营业执照号',width:120,align:'center'},
 					{field:'CORPORATION',title:'法人名称',width:120,align:'center'}, 
 					{field:'CONTACT',title:'联系人',width:120,align:'center'},
-					{field:'STATUS',title:'状态',width:100,align:'center',
+					{field:'STATUS_E',title:'状态',width:100,align:'center',
 						formatter:function(value,rec){
 							return "在用"; 
 					}
@@ -107,7 +107,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function toEnterpriseExam(enterpriseApplyId){
 			flag=$('#flag_ins').val();
 			window.location.href= "<%=basePath%>" +'/pages/merchant/toEnterpriseDetailMerchantAction.action?enterpriseApplyId='+enterpriseApplyId+'&flag='+flag;
-			//window.event.returnValue = false;
 		}
 
 		

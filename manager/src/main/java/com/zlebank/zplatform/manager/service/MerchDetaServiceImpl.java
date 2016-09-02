@@ -1207,19 +1207,38 @@ public class MerchDetaServiceImpl
                 columns, paramaters, "cursor0", "v_total");
     }
 
+
+
+    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> queryEnterpriseExamDeta(long enterpriseApplyId,
-            Long userId) {
-                return null;
-//        PojoEnterpriseDetaApply pojoEnterpriseDetaApply = get(enterpriseApplyId);
-//        String[] columns = new String[]{"v_user", "v_self_id", "v_enterprise_id"};
-//        Object[] paramaters = new Object[3];
-//        paramaters[0] = userId;
-//        paramaters[1] = pojoMerchApply.getSelfId();
-//        paramaters[2] = pojoMerchApply.getMerchId();
-//        return (Map<String, Object>) getDao().executeOracleProcedure(
-//                "{CALL  pck_enterprise.sel_t_enterprise_apply_deta(?,?,?,?)}",
-//                columns, paramaters, "cursor0").get(0);   
-    }   
+    public Map<String, Object> queryEnterpriseExamDeta(long enterpriseApplyId,Long userId) {
+        String[] columns = new String[]{"v_user", "v_self_id"};
+        Object[] paramaters = new Object[2];
+        paramaters[0] = userId;
+        paramaters[1] = enterpriseApplyId;
+        List<Map<String, Object>> resultList =  getDao().executeOracleProcedure(
+                "{CALL  pck_enterprise.sel_t_enterprise_apply_deta(?,?,?)}",columns, paramaters, "cursor0");
+        return resultList.get(0);
+       }
+
+    @Override
+    public List<Map<String, Object>> enterpriseAudit(long enterpriseApplyId,
+            Enterprise enterprise,String flag,String isAgree) {
+        String[] columns = new String[]{"v_user", "v_self_id", "v_opinion",
+                "v_isagree"};
+        Object[] paramaters = new Object[4];
+        if (flag.equals("2")) {
+            paramaters[0] = enterprise.getStexaUser();
+            paramaters[2] = enterprise.getStexaOpt();
+        } else if(flag.equals("3")){
+            paramaters[0] = enterprise.getCvlexaUser();
+            paramaters[2] = enterprise.getCvlexaOpt();
+        } 
+        paramaters[1] = enterpriseApplyId;
+        paramaters[3] = isAgree;
+        return getDao().executeOracleProcedure(
+                "{CALL  pck_enterprise.exam_enterprise(?,?,?,?,?)}", columns,
+                paramaters, "cursor0");
+    }
 }
 

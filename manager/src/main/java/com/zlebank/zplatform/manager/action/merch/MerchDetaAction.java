@@ -2,13 +2,15 @@ package com.zlebank.zplatform.manager.action.merch;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javassist.bytecode.stackmap.MapMaker;
+
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,7 +21,6 @@ import com.zlebank.zplatform.acc.pojo.Money;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.Enterprise;
 import com.zlebank.zplatform.manager.bean.MerchDeta;
-import com.zlebank.zplatform.manager.dao.EnterpriseDetaDAOImpl;
 import com.zlebank.zplatform.manager.dao.object.CityModel;
 import com.zlebank.zplatform.manager.dao.object.ProvinceModel;
 import com.zlebank.zplatform.manager.dao.object.UserModel;
@@ -61,6 +62,7 @@ public class MerchDetaAction extends BaseAction {
 
     private String enterpriseApplyId;
     private Map<String,Object> enterpriseDeta;
+    private String enterpriseId;
     // 商户信息管理页面
     public String show() {
         flag = "1";
@@ -853,7 +855,7 @@ public class MerchDetaAction extends BaseAction {
      * @param serviceContainer
      */
     public String enterpriseQuery(){
-        return "enterpriseQuery";
+        return "enterpriseQueryAll";
     }
     
     /**
@@ -879,15 +881,57 @@ public class MerchDetaAction extends BaseAction {
      */
     public String toEnterpriseDetail(){
         Long userId = getCurrentUser().getUserId();
-//        merchMap = serviceContainer.getMerchDetaService().queryModifyMerchDeta(
-//                Long.parseLong(enterpriseApplyId), userId);
         enterpriseDeta = serviceContainer.getMerchDetaService().queryEnterpriseExamDeta
                 (Long.parseLong(enterpriseApplyId),userId);
-        return "enterprise_exam_detail"; 
+        return "enterpriseFirstExam"; 
     }
     
-    
-    
+    /**
+     * 企业查询功能
+     * @param serviceContainer
+     */
+    public String queryEnterpriseAll(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("userId", getCurrentUser().getUserId());
+        if (merchDeta != null) {
+            variables.put("merberId", merchDeta.getMember().getMemberId());
+            variables.put("merchName", merchDeta.getMember().getMemberName());
+            variables.put("address",
+                    ((Enterprise) merchDeta.getMember()).getAddress());
+            variables.put("status", merchStatus);
+            variables.put(
+                    "coopInstiId",
+                    merchDeta.getMember().getInstiCode() != null ? merchDeta
+                            .getMember() : null);
+        }
+
+        variables.put("flag", flag);
+        Map<String, Object> merchList = serviceContainer.getMerchDetaService()
+                .findMerchByPage(variables, getPage(), getRows());
+        json_encode(merchList);
+        return null;
+    }
+    /**
+     * 企业的审核（初审、复审）
+     * @return
+     * @throws IOException 
+     */
+    public String examEnterprise() throws IOException{
+        // 初审意见和复审意见，在页面中都是通过merchDate.stexaopt传过来的
+        String stexopt = URLDecoder.decode(enterprise.getStexaOpt(), "utf-8");
+        if (flag.equals("2")) {// 初审，需要记录初审人和初审意见
+            enterprise.setStexaOpt(stexopt);
+            enterprise.setStexaUser(getCurrentUser().getUserId());
+        } else if (flag.equals("3")) {// 复审，需要记录复审人和复审意见
+            enterprise.setCvlexaOpt(stexopt);
+            enterprise.setCvlexaUser(getCurrentUser().getUserId());
+        }        
+        List<Map<String, Object>> resultlist = (List<Map<String, Object>>) serviceContainer
+        .getMerchDetaService().enterpriseAudit(Long.parseLong(enterpriseApplyId),
+              enterprise, flag, isAgree);
+        json_encode(resultlist);
+        return null;
+    } 
     public void setServiceContainer(ServiceContainer serviceContainer) {
         this.serviceContainer = serviceContainer;
     }
@@ -1078,6 +1122,14 @@ public class MerchDetaAction extends BaseAction {
 
     public void setEnterpriseDeta(Map<String, Object> enterpriseDeta) {
         this.enterpriseDeta = enterpriseDeta;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
     
     
