@@ -77,16 +77,14 @@ public class DAOContainer {
     private IRouteDAO routeDAO;
     private IEnterpriseRealNameDAO enterpriseRealnameDAO;
     private IFinProductDAO finProductDAO;
-	private IFtpEnterpriseDAO ftpDAO;
-    
+	private IFtpEnterpriseDAO ftpEnterpriseDAO;
 
-
-    public IFtpEnterpriseDAO getFtpDAO() {
-        return ftpDAO;
+    public IFtpEnterpriseDAO getFtpEnterpriseDAO() {
+        return ftpEnterpriseDAO;
     }
 
-    public void setFtpDAO(IFtpEnterpriseDAO ftpDAO) {
-        this.ftpDAO = ftpDAO;
+    public void setFtpEnterpriseDAO(IFtpEnterpriseDAO ftpEnterpriseDAO) {
+        this.ftpEnterpriseDAO = ftpEnterpriseDAO;
     }
 
     public IFinProductDAO getFinProductDAO() {

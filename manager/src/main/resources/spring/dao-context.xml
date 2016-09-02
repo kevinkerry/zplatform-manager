@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="FtpEnterpriseDAO" parent="hibernateDAOImpl"
-		class="com.zlebank.zplatform.manager.dao.iface.IFtpEnterpriseDAO">
+    <bean id="ftpEnterpriseDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.FtpEnterpriseDAOImpl">
 	</bean>
 	<bean id="UserDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.UserDAOImpl">
@@ -117,8 +117,8 @@
 	
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
-		<property name="FtpEnterpriseDAO">
-		    <ref bean="FtpEnterpriseDAO"></ref>
+		<property name="ftpEnterpriseDAO">
+		    <ref bean="ftpEnterpriseDAO"/>
 		</property>
 		
 		<property name="finProductDAO">

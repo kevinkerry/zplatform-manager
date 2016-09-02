@@ -145,7 +145,7 @@
             <ref bean="DAOContainer"/>
         </property>
     </bean>
-    <bean id="ftpEnterpriseService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.iface.IFTPEnterpriseService">
+    <bean id="ftpEnterpriseService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.FTPEnterpriseServiceImpl">
         <property name="daoContainer">
             <ref bean="DAOContainer"/>
         </property>
