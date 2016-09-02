@@ -149,7 +149,16 @@ public class PojoEnterpriseDetaApply extends PojoMemberApply implements Serializ
     /**备注**/
     private String remarks;
 
+    private PojoMemberApply memberApplyId;
+    
 
+
+    public PojoMemberApply getMemberApplyId() {
+        return memberApplyId;
+    }
+    public void setMemberApplyId(PojoMemberApply memberApplyId) {
+        this.memberApplyId = memberApplyId;
+    }
     @Column(name = "MEMBER_ID")
     public String getEnterpriseMemberId() {
         return enterpriseMemberId;

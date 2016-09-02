@@ -256,7 +256,7 @@ public interface IMerchDetaService
             int rows);
     
     /**
-     * commit info to modify a merchant
+     * commit info to modify a merchantS
      * 
      * @param merchId
      * @return
@@ -273,6 +273,7 @@ public interface IMerchDetaService
             Enterprise enterprise,
             String flag,
             String isAgree);
+
 }
 
 

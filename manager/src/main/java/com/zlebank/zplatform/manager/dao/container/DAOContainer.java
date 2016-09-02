@@ -12,6 +12,7 @@ import com.zlebank.zplatform.manager.dao.iface.IEnterpriseRealNameDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFTPDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFeeDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFinProductDAO;
+import com.zlebank.zplatform.manager.dao.iface.IFtpEnterpriseDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFunctionDAO;
 import com.zlebank.zplatform.manager.dao.iface.ILimitPerDayDAO;
 import com.zlebank.zplatform.manager.dao.iface.IMccListDAO;
@@ -76,9 +77,18 @@ public class DAOContainer {
     private IRouteDAO routeDAO;
     private IEnterpriseRealNameDAO enterpriseRealnameDAO;
     private IFinProductDAO finProductDAO;
-	
+	private IFtpEnterpriseDAO ftpDAO;
     
-    
+
+
+    public IFtpEnterpriseDAO getFtpDAO() {
+        return ftpDAO;
+    }
+
+    public void setFtpDAO(IFtpEnterpriseDAO ftpDAO) {
+        this.ftpDAO = ftpDAO;
+    }
+
     public IFinProductDAO getFinProductDAO() {
 		return finProductDAO;
 	}

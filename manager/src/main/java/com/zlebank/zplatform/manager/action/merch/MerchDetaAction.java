@@ -217,9 +217,8 @@ public class MerchDetaAction extends BaseAction {
                 .getRealPath("/");
         String realpath = webRootPath + "/" + CommonUtil.DOWNLOAD_ROOTPATH;
         boolean fouce = (fouceDownload != null && fouceDownload.equals("fouce"));
-        String filePath = serviceContainer.getMerchDetaService()
-                .downloadFromFtp(Long.parseLong(merchApplyId), realpath,
-                        CertType.format(certTypeCode), fouce);
+        String filePath = serviceContainer.getMerchDetaService().downloadFromFtp
+                (Long.parseLong(merchApplyId), realpath,CertType.format(certTypeCode), fouce);
         Map<String, String> result = new HashMap<String, String>();
         if (filePath == null) {
             result.put("status", "fail");
@@ -869,6 +868,7 @@ public class MerchDetaAction extends BaseAction {
         if (enterprise != null) {
             variables.put("enterpriseMemberId", enterprise.getEnterpriseMemberId());//会员编号
             variables.put("enterpriseName", enterprise.getEnterpriseName());//企业名称
+            variables.put("enterpriseStatus", enterprise.getEnterpriseStatus());//状态
         }
         variables.put("flag", flag);
         Map<String, Object> enterpriseList = serviceContainer.getMerchDetaService()
@@ -940,13 +940,11 @@ public class MerchDetaAction extends BaseAction {
      */
     
     public String downloadEnterpriseImgUrl(){
-        String webRootPath = ServletActionContext.getServletContext()
-                .getRealPath("/");
+        String webRootPath = ServletActionContext.getServletContext().getRealPath("/");
         String realpath = webRootPath + "/" + CommonUtil.DOWNLOAD_ROOTPATH;
         boolean fouce = (fouceDownload != null && fouceDownload.equals("fouce"));
-        String filePath = serviceContainer.getMerchDetaService()
-                .downloadFromFtp(Long.parseLong(enterpriseApplyId), realpath,
-                        CertType.format(certTypeCode), fouce);
+        String filePath = serviceContainer.getFtpEnterpriseService().downloadEnterpriseFromFtp
+                (Long.parseLong(enterpriseApplyId), realpath,CertType.format(certTypeCode), fouce);
         Map<String, String> result = new HashMap<String, String>();
         if (filePath == null) {
             result.put("status", "fail");
@@ -961,6 +959,7 @@ public class MerchDetaAction extends BaseAction {
         return null;
     }
     
+
     public void setServiceContainer(ServiceContainer serviceContainer) {
         this.serviceContainer = serviceContainer;
     }

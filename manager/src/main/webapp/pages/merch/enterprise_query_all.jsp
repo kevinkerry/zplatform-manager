@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$(function(){
 			flag=$('#flag_ins').val();
 				$('#test').datagrid({
-					title:'商户信息列表',
+					title:'企业信息列表',
 					iconCls:'icon-save',
 					height:540,
 					singleSelect:true,
@@ -73,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						{field:'LICENCE_NO',title:'营业执照号',width:120,align:'center'},
 						{field:'CORPORATION',title:'法人名称',width:120,align:'center'}, 
 						{field:'CONTACT',title:'联系人',width:120,align:'center'},
-						{field:'STATUS',title:'状态',width:100,align:'center',
+						{field:'STATUS_E',title:'状态',width:100,align:'center',
 							formatter:function(value,rec){
 								if(value=="00"){
 									return "在用";
@@ -123,19 +123,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var data={
 					'enterprise.enterpriseMemberId':$('#enterpriseMemberId_ins').val(),
 					'enterprise.enterpriseName':$('#enterpriseName_ins').val(),
-					'enterpriseStatus':$('#status_ins').val()
+					'enterprise.enterpriseStatus':$('#status_ins').val()
 					};
 			$('#test').datagrid('load',data);
 		}
 
-		function toEnterpriseDetail(id,isApply){
-			window.location.href= "<%=basePath%>" +'/pages/merchant/toEnterpriseDetailMerchantAction.action?merchApplyId='+id;
+		function toEnterpriseDetail(id){
+			window.location.href= "<%=basePath%>" +'/pages/merchant/toEnterpriseDetailMerchantAction.action?enterpriseApplyId='+id; 
 			window.event.returnValue = false;
 		}
 
-		function remove(memberId){
-			$("#"+memberId).attr("value",120000);
-		}
 		
 	</script>
 </html>

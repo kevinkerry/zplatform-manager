@@ -1198,7 +1198,7 @@ public class MerchDetaServiceImpl
                 variables.containsKey("enterpriseMemberId")? variables.get("enterpriseMemberId"): null,
                 variables.containsKey("enterpriseName")? variables.get("enterpriseName"): null,
                 variables.containsKey("address")? variables.get("address"): null,
-                variables.containsKey("status")? variables.get("status"): null,
+                variables.containsKey("enterpriseStatus")? variables.get("enterpriseStatus"): null,
                 variables.containsKey("coopInstiId") ? variables.get("coopInstiId") : null,
                 variables.containsKey("flag") ? variables.get("flag") : null,
                 page, rows};
@@ -1240,5 +1240,8 @@ public class MerchDetaServiceImpl
                 "{CALL  pck_enterprise.exam_enterprise(?,?,?,?,?)}", columns,
                 paramaters, "cursor0");
     }
+
+
+
 }
 

@@ -178,27 +178,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 </td><td></td><td></td>
 					</tr>
 					
-					<s:if test="%{flag==2}">
-					 <tr>
-					    <td align="center">初核意见</td>
-					    <td colspan="3" align="center">
-					        <textarea rows="5" cols="100" style="margin:5px"  maxlength="60" id="STOPINION"></textarea>
-					    </td>
-					  </tr>
+					 <s:if test="%{flag==2}">
+						 <tr>
+						    <td align="center">初核意见</td>
+						    <td colspan="3" align="center">
+						        <textarea rows="5" cols="100" style="margin:5px"  maxlength="60" id="STOPINION"></textarea>
+						    </td>
+						  </tr>
 					 </s:if>
 					 <s:if test="%{flag==3}">
-					 <tr>
-						<td align="center">初审人</td>
-						<td>${enterpriseDeta.STEXANAME}</td>
-						<td align="center">初审意见</td>
-						<td>${enterpriseDeta.STEXA_OPT}</td>
-					</tr>
-					 <tr>
-					    <td align="center">复核意见</td>
-					    <td colspan="3" align="center">
-					        <textarea rows="5" cols="100" style="margin:5px"  maxlength="60" id="STOPINION"></textarea>
-					    </td>
-					  </tr>
+						  <tr>
+								<td align="center">初审人</td>
+								<td>${enterpriseDeta.STEXANAME}</td>
+								<td align="center">初审意见</td>
+								<td>${enterpriseDeta.STEXA_OPT}</td>
+						  </tr>
+						  <tr>
+						    <td align="center">复核意见</td>
+						    <td colspan="3" align="center">
+						        <textarea rows="5" cols="100" style="margin:5px"  maxlength="60" id="STOPINION"></textarea>
+						    </td>
+						  </tr>
 					 </s:if>
 					 <s:if test="%{flag==10}">
 					 <tr>
@@ -252,7 +252,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$.ajax({
 					type: "POST",
 					url: "pages/merchant/downloadEnterpriseImgUrlMerchantAction.action", 
-					data: "merchApplyId=" + $('#enterpriseApplyId').val()+"&certTypeCode="+certType,
+					data: "enterpriseApplyId=" + $('#enterpriseApplyId').val()+"&certTypeCode="+certType,
 					dataType: "json",
 					success: function(json) {
 						 if(json.status=='OK'){
