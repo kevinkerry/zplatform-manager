@@ -14,7 +14,7 @@
   	table tr td select{height:20px}
     </style>
   	<div style="padding-top:5px;margin-left:5px;margin-right:5px" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:110px;padding-top:10px;background:#fafafa;" iconCls="icon-save" collapsible="true">
+	    <div id="p" class="easyui-panel" title="查询条件" style="height:120px;padding-top:10px;background:#fafafa;" iconCls="icon-save" collapsible="true">
 			<form action="" id="searchForm">
 				<table width="100%">
 					<tr>
