@@ -17,6 +17,7 @@
 	</context:component-scan>
 	<bean id="springContext" class="com.zlebank.zplatform.trade.utils.SpringContext"></bean>
 	<context:property-placeholder location="classpath:*.properties" />
+	
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="accDataSource" />
@@ -38,6 +39,14 @@
 				<prop key="hibernate.id.new_generator_mappings">true</prop>
 			</props>
 		</property>
+		
+		<!--配置.hbm.xml文件 
+		<property name="mappingResources">
+			<list>
+			<value>main/java/com/zlebank/zplatform/manager/bean/fund/fund.hbm.xml</value>
+			</list>
+       </property>
+        -->
 	</bean>
 
 	<bean id="accDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"

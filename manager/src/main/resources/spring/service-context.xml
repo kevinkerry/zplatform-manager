@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-
+	
+	<bean id="fundMerchantService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.FundMerchantImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
+	</bean>
+	<bean id="raiseTrService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.RaiseTrServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
+	</bean>
+	
+	
 	<bean id="operLogService" parent="baseServiceImpl"
 		class="com.zlebank.zplatform.manager.service.OperLogServiceImpl">
 		<property name="daoContainer">
@@ -141,6 +153,14 @@
         </property>
     </bean>
 	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
+	    <property name="fundMerchantService">
+	        <ref bean="fundMerchantService"/>
+	    </property>
+	    <property name="raiseTrService">
+	        <ref bean="raiseTrService"/>
+	    </property>
+
+
 	    <property name="enterpriseRealnamService">
 	        <ref bean="enterpriseRealnamService"/>
 	    </property>

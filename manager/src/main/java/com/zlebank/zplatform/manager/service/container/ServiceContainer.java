@@ -28,6 +28,8 @@ import com.zlebank.zplatform.manager.service.iface.IUploadLogService;
 import com.zlebank.zplatform.manager.service.iface.IUserFunctService;
 import com.zlebank.zplatform.manager.service.iface.IUserRoleService;
 import com.zlebank.zplatform.manager.service.iface.IUserService;
+import com.zlebank.zplatform.manager.service.iface.IfundMerchantService;
+import com.zlebank.zplatform.manager.service.iface.RaiseTrService;
 
 
 public class ServiceContainer {
@@ -60,16 +62,25 @@ public class ServiceContainer {
     private IChannelService channelService;
     private IRouteService routeService;
     private IEnterpriseRealNameService enterpriseRealnamService;
+    private IfundMerchantService fundMerchantService;
+    private RaiseTrService raiseTrService;
     
     
-    
-    
-    
+	public RaiseTrService getRaiseTrService() {
+		return raiseTrService;
+	}
 
- 
-   
+	public void setRaiseTrService(RaiseTrService raiseTrService) {
+		this.raiseTrService = raiseTrService;
+	}
 
+	public IfundMerchantService getFundMerchantService() {
+		return fundMerchantService;
+	}
 
+	public void setFundMerchantService(IfundMerchantService fundMerchantService) {
+		this.fundMerchantService = fundMerchantService;
+	}
 
 	public IEnterpriseRealNameService getEnterpriseRealnamService() {
 		return enterpriseRealnamService;

@@ -22,6 +22,7 @@ import com.zlebank.zplatform.manager.dao.iface.IOrganDAO;
 import com.zlebank.zplatform.manager.dao.iface.IParaDicDAO;
 import com.zlebank.zplatform.manager.dao.iface.IProductDAO;
 import com.zlebank.zplatform.manager.dao.iface.IProvinceDAO;
+import com.zlebank.zplatform.manager.dao.iface.IRaiseTrDao;
 import com.zlebank.zplatform.manager.dao.iface.IRiskAnalyseLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRiskDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRoleDAO;
@@ -33,6 +34,7 @@ import com.zlebank.zplatform.manager.dao.iface.IUploadLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserFunctDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserRoleDAO;
+import com.zlebank.zplatform.manager.dao.iface.IfundMerchantDao;
 
 public class DAOContainer {
 
@@ -74,10 +76,27 @@ public class DAOContainer {
     private IChannelDAO channelDAO;
     private IRouteDAO routeDAO;
     private IEnterpriseRealNameDAO enterpriseRealnameDAO;
-	
+    private IfundMerchantDao fundMerchantDao;
+    private IRaiseTrDao raiseTrDao;
     
     
-    public IEnterpriseRealNameDAO getEnterpriseRealnameDAO() {
+    public IRaiseTrDao getRaiseTrDao() {
+		return raiseTrDao;
+	}
+
+	public void setRaiseTrDao(IRaiseTrDao raiseTrDao) {
+		this.raiseTrDao = raiseTrDao;
+	}
+
+	public IfundMerchantDao getFundMerchantDao() {
+		return fundMerchantDao;
+	}
+
+	public void setFundMerchantDao(IfundMerchantDao fundMerchantDao) {
+		this.fundMerchantDao = fundMerchantDao;
+	}
+
+	public IEnterpriseRealNameDAO getEnterpriseRealnameDAO() {
 		return enterpriseRealnameDAO;
 	}
 
