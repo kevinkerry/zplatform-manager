@@ -31,9 +31,9 @@
 							<option value=''>--请选择所属部门--</option>
 						</select>
 					</td>
-					
-					<td align="right" ></td>
-					<td align="left" style="padding-left: 1px" width="25%">
+					<td></td>
+					<td></td>					
+					<td align="right" >					
 						<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
 						<a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
 					</td>
