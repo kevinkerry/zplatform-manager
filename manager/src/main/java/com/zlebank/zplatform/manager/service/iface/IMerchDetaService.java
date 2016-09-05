@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.zlebank.zplatform.manager.action.merch.CertType;
+import com.zlebank.zplatform.manager.bean.Enterprise;
 import com.zlebank.zplatform.manager.bean.MerchDeta;
 import com.zlebank.zplatform.manager.dao.object.PojoMerchDetaApply;
 /**
@@ -255,7 +256,7 @@ public interface IMerchDetaService
             int rows);
     
     /**
-     * commit info to modify a merchant
+     * commit info to modify a merchantS
      * 
      * @param merchId
      * @return
@@ -263,6 +264,16 @@ public interface IMerchDetaService
     public boolean commitMerchModify(long merchpplyId);
     public List<?> saveMerchModifyDeta(long parseLong, MerchDeta merchDeta);
     public Map<String, Object> queryModifyMerchDeta(long merchApply, Long userId);
+    public Map<String, Object> findEnterpriseByPage(Map<String, Object> variables,
+            int page,
+            int rows);
+    public Map<String, Object> queryEnterpriseExamDeta(long enterpriseApplyId,
+             Long enterpriseId);
+    public List<Map<String, Object>> enterpriseAudit(long parseLong,
+            Enterprise enterprise,
+            String flag,
+            String isAgree);
+
 }
 
 

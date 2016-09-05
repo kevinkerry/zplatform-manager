@@ -1,4 +1,3 @@
-
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="../../top.jsp"></jsp:include>
 <%
@@ -21,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="left" style="padding-left:5px" width="15%">
 							<input  id="merchId_ins" maxlength="15"/>
 						</td>
-						<td align="right" width="10%">企业名称</td>
+						<td align="right" width="10%">商户名称</td>
 						<td align="left" style="padding-left: 5px" width="15%" >
 							<input  id="memberName_ins" maxlength="50"/>
 						</td>
@@ -59,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					columns:[
 					[
 						{field:'MEMBER_ID',title:' 会员编号',align:'center',width:120},
-						{field:'ENTERPRISE_NAME',title:'企业名称',width:150,align:'center'},
+						{field:'ENTERPRISE_NAME',title:'商户名称',width:150,align:'center'},
 						{field:'LICENCE_NO',title:'营业执照号',width:120,align:'center'},
 						{field:'CORPORATION',title:'法人名称',width:100,align:'center'}, 
 						{field:'CONTACT',title:'联系人',width:100,align:'center'},
