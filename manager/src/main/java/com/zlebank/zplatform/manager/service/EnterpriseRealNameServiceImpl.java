@@ -23,7 +23,7 @@ public class EnterpriseRealNameServiceImpl  implements IEnterpriseRealNameServic
 	@Override
 	@Transactional(propagation=Propagation.REQUIRES_NEW,rollbackFor=Throwable.class)
 	public void updateApplyStatus(EnterpriseRealnameMode realNameBean) {
-	    this.daoContainer.getEnterpriseRealnameDAO().updateApplyStatus(realNameBean);
+	    this.daoContainer.getEnterpriseRealnameDAO().update(realNameBean);
 	}
 
 	public DAOContainer getDaoContainer() {

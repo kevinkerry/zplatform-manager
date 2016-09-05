@@ -18,6 +18,7 @@ import com.zlebank.zplatform.manager.dao.object.scan.EnterpriseRealnameMode;
 import com.zlebank.zplatform.manager.enums.ReviewEnum;
 import com.zlebank.zplatform.manager.service.container.ServiceContainer;
 import com.zlebank.zplatform.trade.common.page.PageVo;
+import com.zlebank.zplatform.trade.utils.AmountUtil;
 
 public class FinRealNameAuditAction extends BaseAction{
 	
@@ -115,7 +116,7 @@ public class FinRealNameAuditAction extends BaseAction{
 				//状态待审核--》审核通过
 				realNameBean.setStatus(ReviewEnum.SUCCESS.getCode());
 				//打款金额
-				realNameBean.setTxnamt(Long.valueOf(bean.getAmount()));
+				realNameBean.setTxnamt(AmountUtil.toLongAmount(bean.getAmount()));
 				serviceContainer.getEnterpriseRealnamService().updateApplyStatus(realNameBean);
 			}
 		//审核失败	
