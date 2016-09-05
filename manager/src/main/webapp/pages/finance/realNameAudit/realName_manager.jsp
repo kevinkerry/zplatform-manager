@@ -185,7 +185,7 @@
 					} else if (value == '09') {
 						return '审核未过';
 					} else if (value == '00') {
-						return '正常';
+						return '审核通过';
 					}else {
 						return '';
 					}
