@@ -77,19 +77,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							formatter:function(value,rec){
 								if(value=="00"){
 									return "在用";
-								}else if(value="12"){
+								}else if(value=="12"){
 									return "注册待完善信息";
-								}else if(value="10"){
+								}else if(value=="10"){
 									return "注册待初审";
-								}else if(value="11"){
+								}else if(value=="11"){
 									return "注册初审未过";
-								}else if(value="19"){
+								}else if(value=="19"){
 									return "注册初审终止";
-								}else if(value="20"){
+								}else if(value=="20"){
 									return "注册待复审";
-								}else if(value="21"){
+								}else if(value=="21"){
 									return "注册复审未过";
-								}else if(value="29"){
+								}else if(value=="29"){
 									return "注册复审终止";
 								}
 						   }

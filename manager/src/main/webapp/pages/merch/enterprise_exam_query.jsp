@@ -63,7 +63,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					{field:'CONTACT',title:'联系人',width:120,align:'center'},
 					{field:'STATUS_E',title:'状态',width:100,align:'center',
 						formatter:function(value,rec){
-							return "在用"; 
+							if(value=="00"){
+								return "在用";
+							}else if(value=="12"){
+								return "注册待完善信息";
+							}else if(value=="10"){
+								return "注册待初审";
+							}else if(value=="11"){
+								return "注册初审未过";
+							}else if(value=="19"){
+								return "注册初审终止";
+							}else if(value=="20"){
+								return "注册待复审";
+							}else if(value=="21"){
+								return "注册复审未过";
+							}else if(value=="29"){
+								return "注册复审终止";
+							}
 					}
 						},	
 					{field:'DEPT_ID',title:'操作',width:150,align:'center',

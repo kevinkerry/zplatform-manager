@@ -230,7 +230,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script>
 	  $(function() {
 			checkIsDelegation();
-			initCertUrl(); 
+			//initCertUrl(); 
 		});
 		
 		function checkIsDelegation(){

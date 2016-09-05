@@ -42,10 +42,6 @@ public class PojoEnterpriseDetaApply extends PojoMemberApply implements Serializ
      * serialVersionUID
      */
     private static final long serialVersionUID = -5982742932419187863L;
-//    /** **/
-//    private long selfId;
-//    /**主键**/
-//    private long enterpriseId;
     /**会员号**/
     private String enterpriseMemberId;
     /**合作机构id**/
@@ -149,16 +145,16 @@ public class PojoEnterpriseDetaApply extends PojoMemberApply implements Serializ
     /**备注**/
     private String remarks;
 
-    private PojoMemberApply memberApplyId;
-    
-
-
-    public PojoMemberApply getMemberApplyId() {
-        return memberApplyId;
-    }
-    public void setMemberApplyId(PojoMemberApply memberApplyId) {
-        this.memberApplyId = memberApplyId;
-    }
+//    private PojoMemberApply memberApplyId;
+//    
+//
+//
+//    public PojoMemberApply getMemberApplyId() {
+//        return memberApplyId;
+//    }
+//    public void setMemberApplyId(PojoMemberApply memberApplyId) {
+//        this.memberApplyId = memberApplyId;
+//    }
     @Column(name = "MEMBER_ID")
     public String getEnterpriseMemberId() {
         return enterpriseMemberId;

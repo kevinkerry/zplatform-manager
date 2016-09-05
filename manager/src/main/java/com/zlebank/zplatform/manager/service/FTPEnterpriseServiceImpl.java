@@ -84,32 +84,33 @@ BaseServiceImpl<PojoEnterpriseDetaApply, Long> implements IFTPEnterpriseService 
             CertType certType,
             boolean fouce) {
         
-        PojoEnterpriseDetaApply pojoEnterpriseDetaApply = get(enterpriseApplyId);
-        CertPicHandler certPicHandler = getCertHandler(certType);
-        String fileName = certPicHandler
-                .getFileName((PojoEnterpriseDetaApply) pojoEnterpriseDetaApply
-                        .getMemberApplyId());
-        if (fileName == null) {// not upload yet return "";
-            return "";
-        }
-        targDir = targDir + "/" + pojoEnterpriseDetaApply.getMemberId();
-        if (fouce || !checkLocalExist(targDir, fileName)) {// not exist in local
-            try {
-                ftpClientFactory.getFtpClient().download(
-                        getMerchCertPath(pojoEnterpriseDetaApply.getMemberId()),
-                        fileName, targDir, fileName);
-                if (!checkLocalExist(targDir, fileName)) {
-                    return null;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                log.warn("download from ftp get a exception.caused by:"
-                        + e.getMessage());
-                return null;
-            }
-        }
-        return CommonUtil.DOWNLOAD_ROOTPATH + "/"
-                + pojoEnterpriseDetaApply.getMemberId() + "/" + fileName;
+//        PojoEnterpriseDetaApply pojoEnterpriseDetaApply = get(enterpriseApplyId);
+//        CertPicHandler certPicHandler = getCertHandler(certType);
+//        String fileName = certPicHandler
+//                .getFileName((PojoEnterpriseDetaApply) pojoEnterpriseDetaApply
+//                        .getMemberApplyId());
+//        if (fileName == null) {// not upload yet return "";
+//            return "";
+//        }
+//        targDir = targDir + "/" + pojoEnterpriseDetaApply.getMemberId();
+//        if (fouce || !checkLocalExist(targDir, fileName)) {// not exist in local
+//            try {
+//                ftpClientFactory.getFtpClient().download(
+//                        getMerchCertPath(pojoEnterpriseDetaApply.getMemberId()),
+//                        fileName, targDir, fileName);
+//                if (!checkLocalExist(targDir, fileName)) {
+//                    return null;
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                log.warn("download from ftp get a exception.caused by:"
+//                        + e.getMessage());
+//                return null;
+//            }
+//        }
+//        return CommonUtil.DOWNLOAD_ROOTPATH + "/"
+//                + pojoEnterpriseDetaApply.getMemberId() + "/" + fileName;
+        return targDir;
     }
     private String getMerchCertPath(String memberId) {
         return merchCertRootPath + "/" + String.valueOf(memberId);
