@@ -2,11 +2,15 @@ package com.zlebank.zplatform.manager.action.merch;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,6 +60,9 @@ public class MerchDetaAction extends BaseAction {
     private String merchStatus;
     private final static BigDecimal HUNDERED = new BigDecimal(100);
 
+    private String enterpriseApplyId;
+    private Map<String,Object> enterpriseDeta;
+    private String enterpriseId;
     // 商户信息管理页面
     public String show() {
         flag = "1";
@@ -210,9 +217,8 @@ public class MerchDetaAction extends BaseAction {
                 .getRealPath("/");
         String realpath = webRootPath + "/" + CommonUtil.DOWNLOAD_ROOTPATH;
         boolean fouce = (fouceDownload != null && fouceDownload.equals("fouce"));
-        String filePath = serviceContainer.getMerchDetaService()
-                .downloadFromFtp(Long.parseLong(merchApplyId), realpath,
-                        CertType.format(certTypeCode), fouce);
+        String filePath = serviceContainer.getMerchDetaService().downloadFromFtp
+                (Long.parseLong(merchApplyId), realpath,CertType.format(certTypeCode), fouce);
         Map<String, String> result = new HashMap<String, String>();
         if (filePath == null) {
             result.put("status", "fail");
@@ -824,6 +830,136 @@ public class MerchDetaAction extends BaseAction {
         return serviceContainer;
     }
 
+ //------------------------------------企业审核和查询----------------------------------------------------   
+    /**
+     * 企业初审菜单
+     * @param serviceContainer
+     */
+    public String enterpriseFirstExam(){  
+        flag="2";
+        return "enterprise_exam_query";       
+    }
+    
+    /***
+     * 企业复审菜单
+     * @param serviceContainer
+     */
+    public String enterpriseSecondExam(){
+        flag="3";
+        return "enterprise_exam_query";
+    }
+    
+    /**
+     * 企业查询菜单
+     * @param serviceContainer
+     */
+    public String enterpriseQuery(){
+        flag="10";
+        return "enterpriseQueryAll";
+    }
+    
+    /**
+     * 初审、复审的查询界面
+     * @param serviceContainer
+     */
+    public String queryEnterprise(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("userId", getCurrentUser().getUserId());
+        if (enterprise != null) {
+            variables.put("enterpriseMemberId", enterprise.getEnterpriseMemberId());//会员编号
+            variables.put("enterpriseName", enterprise.getEnterpriseName());//企业名称
+            variables.put("enterpriseStatus", enterprise.getEnterpriseStatus());//状态
+        }
+        variables.put("flag", flag);
+        Map<String, Object> enterpriseList = serviceContainer.getMerchDetaService()
+                .findEnterpriseByPage(variables, getPage(), getRows());
+        json_encode(enterpriseList);
+        return null;
+    }
+    /**
+     * 审核界面
+     * @param serviceContainer
+     */
+    public String toEnterpriseDetail(){
+        Long userId = getCurrentUser().getUserId();
+        enterpriseDeta = serviceContainer.getMerchDetaService().queryEnterpriseExamDeta
+                (Long.parseLong(enterpriseApplyId),userId);
+        return "enterpriseFirstExam"; 
+    }
+    
+    /**
+     * 企业查询功能
+     * @param serviceContainer
+     */
+    public String queryEnterpriseAll(){
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("userId", getCurrentUser().getUserId());
+        if (merchDeta != null) {
+            variables.put("merberId", merchDeta.getMember().getMemberId());
+            variables.put("merchName", merchDeta.getMember().getMemberName());
+            variables.put("address",
+                    ((Enterprise) merchDeta.getMember()).getAddress());
+            variables.put("status", merchStatus);
+            variables.put(
+                    "coopInstiId",
+                    merchDeta.getMember().getInstiCode() != null ? merchDeta
+                            .getMember() : null);
+        }
+
+        variables.put("flag", flag);
+        Map<String, Object> merchList = serviceContainer.getMerchDetaService()
+                .findMerchByPage(variables, getPage(), getRows());
+        json_encode(merchList);
+        return null;
+    }
+    /**
+     * 企业的审核（初审、复审）
+     * @return
+     * @throws IOException 
+     */
+    public String examEnterprise() throws IOException{
+        // 初审意见和复审意见，在页面中都是通过merchDate.stexaopt传过来的
+        String stexopt = URLDecoder.decode(enterprise.getStexaOpt(), "utf-8");
+        if (flag.equals("2")) {// 初审，需要记录初审人和初审意见
+            enterprise.setStexaOpt(stexopt);
+            enterprise.setStexaUser(getCurrentUser().getUserId());
+        } else if (flag.equals("3")) {// 复审，需要记录复审人和复审意见
+            enterprise.setCvlexaOpt(stexopt);
+            enterprise.setCvlexaUser(getCurrentUser().getUserId());
+        }        
+        List<Map<String, Object>> resultlist = (List<Map<String, Object>>) serviceContainer
+        .getMerchDetaService().enterpriseAudit(Long.parseLong(enterpriseApplyId),
+              enterprise, flag, isAgree);
+        json_encode(resultlist);
+        return null;
+    } 
+    
+    /**
+     * 加载证件照片等
+     * @param serviceContainer
+     */
+    
+    public String downloadEnterpriseImgUrl(){
+        String webRootPath = ServletActionContext.getServletContext().getRealPath("/");
+        String realpath = webRootPath + "/" + CommonUtil.DOWNLOAD_ROOTPATH;
+        boolean fouce = (fouceDownload != null && fouceDownload.equals("fouce"));
+        String filePath = serviceContainer.getFtpEnterpriseService().downloadEnterpriseFromFtp
+                (Long.parseLong(enterpriseApplyId), realpath,CertType.format(certTypeCode), fouce);
+        Map<String, String> result = new HashMap<String, String>();
+        if (filePath == null) {
+            result.put("status", "fail");
+        } else if (filePath.equals("")) {
+            result.put("status", "notExist");
+        } else {
+            result.put("status", "OK");
+            result.put("url", filePath);
+            new MerchantThread(webRootPath + "/" + filePath).start();
+        }
+        json_encode(result);
+        return null;
+    }
+    
+
     public void setServiceContainer(ServiceContainer serviceContainer) {
         this.serviceContainer = serviceContainer;
     }
@@ -999,4 +1135,30 @@ public class MerchDetaAction extends BaseAction {
     public void setMerchStatus(String merchStatus) {
         this.merchStatus = merchStatus;
     }
+
+    public String getEnterpriseApplyId() {
+        return enterpriseApplyId;
+    }
+
+    public void setEnterpriseApplyId(String enterpriseApplyId) {
+        this.enterpriseApplyId = enterpriseApplyId;
+    }
+
+    public Map<String, Object> getEnterpriseDeta() {
+        return enterpriseDeta;
+    }
+
+    public void setEnterpriseDeta(Map<String, Object> enterpriseDeta) {
+        this.enterpriseDeta = enterpriseDeta;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+    
+    
 }

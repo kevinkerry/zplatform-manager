@@ -48,13 +48,13 @@ table tr td select {
 								<option value="09">初审未过</option>
 								<option value="00">充值成功</option>
 						</select></td>
-					</tr>
-
-					<tr>
+						
+						
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
-
+						
 					</tr>
+
 
 				</table>
 			</form>
@@ -127,7 +127,7 @@ table tr td select {
 		$('#test').datagrid({
 			title : '充值信息表',
 			iconCls : 'icon-save',
-			height : 400,
+			height : 600,
 			singleSelect : true,
 			nowrap : false,
 			striped : true,
@@ -209,7 +209,7 @@ table tr td select {
 			}, {
 				field : 'intime',
 				title : '写入时间',
-				width : 180,
+				width : 120,
 				align : 'center'
 			} ] ],
 			/* singleSelect : false,

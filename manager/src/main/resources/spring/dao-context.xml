@@ -8,9 +8,9 @@
 	<bean id="raiseTrDao" parent="hibernateDAOImpl" 
 		class="com.zlebank.zplatform.manager.dao.RaiseTrDaoImpl">
 	</bean>
-	
-	
-	
+    <bean id="ftpEnterpriseDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.FtpEnterpriseDAOImpl">
+	</bean>
 	<bean id="UserDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.UserDAOImpl">
 	</bean>
@@ -119,17 +119,23 @@
 	</bean>
 	<bean id="enterpriseRealnameDAO"  parent="hibernateDAOImpl"
 		 class="com.zlebank.zplatform.manager.dao.EnterpriseRealNameDAOImpl"></bean>
+	<bean id="finProductDAO"  parent="hibernateDAOImpl"
+		 class="com.zlebank.zplatform.manager.dao.FinProductDAOImpl"></bean>
 	
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
-		
+		<property name="ftpEnterpriseDAO">
+		    <ref bean="ftpEnterpriseDAO"/>
+		</property>
 		<property name="fundMerchantDao">
 		    <ref bean="fundMerchantDao"/>
 		</property>
 		<property name="raiseTrDao">
 		    <ref bean="raiseTrDao"/>
 		</property>
-		
+		<property name="finProductDAO">
+		    <ref bean="finProductDAO"/>
+		</property>
 		<property name="enterpriseRealnameDAO">
 		    <ref bean="enterpriseRealnameDAO"/>
 		</property>

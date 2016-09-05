@@ -276,10 +276,6 @@
 						return $('#txnRateForm').form('validate');
 					},
 					success: function(data) {
-						if(data.split("validateUserLoginAction").length>1){
-							window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
-							return ;
-						}
 						if (data == '添加成功!') {
 							closeAdd();
 							search();

@@ -11,9 +11,7 @@
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
-	</bean>
-	
-	
+	</bean>	
 	<bean id="operLogService" parent="baseServiceImpl"
 		class="com.zlebank.zplatform.manager.service.OperLogServiceImpl">
 		<property name="daoContainer">
@@ -152,6 +150,16 @@
             <ref bean="DAOContainer"/>
         </property>
     </bean>
+     <bean id="finProductService" parent="baseServiceImpl" class=" com.zlebank.zplatform.manager.service.FinProductServiceImpl">
+        <property name="daoContainer">
+            <ref bean="DAOContainer"/>
+        </property>
+    </bean>
+    <bean id="ftpEnterpriseService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.FTPEnterpriseServiceImpl">
+        <property name="daoContainer">
+            <ref bean="DAOContainer"/>
+        </property>
+    </bean>
 	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
 	    <property name="fundMerchantService">
 	        <ref bean="fundMerchantService"/>
@@ -159,8 +167,12 @@
 	    <property name="raiseTrService">
 	        <ref bean="raiseTrService"/>
 	    </property>
-
-
+	    <property name="ftpEnterpriseService">
+	        <ref bean="ftpEnterpriseService"/>
+	    </property>
+	    <property name="finProductService">
+	        <ref bean="finProductService"/>
+	    </property>
 	    <property name="enterpriseRealnamService">
 	        <ref bean="enterpriseRealnamService"/>
 	    </property>

@@ -60,27 +60,29 @@
 						</td>
 					</tr>
 					<tr>
-						<td>扣率类型</td>
+						<td>收费类型</td>
 						<td>
-							<select id="ratetype" class="easyui-validatebox"  required="true"  name="accumulateRateModel.ratetype" onchange="showRateDetail()" missingMessage="请选择扣率类型">
+							<select id="ratetype" class="easyui-validatebox"  required="true"  name="accumulateRateModel.ratetype"  missingMessage="请选择收费类型" />
 								<option value="04">--分段计费--</option>
 							</select>
 							<font color="red">*</font></td>
 						</td>
-						<td width="15%" >扣率(万分比)</td>
+						<td width="15%" >扣率(百分比)</td>
 						<td>
-							<input id="feerate" name="accumulateRateModel.feerateStr" validType="percent"   type="text" class="easyui-validatebox" maxlength="4"/>
+							<input id="feerate" name="accumulateRateModel.feerateStr" class="easyui-validatebox"  required="true" validType="percent"   type="text"  maxlength="4" missingMessage="请填写扣率"/>
+						    <font color="red">*</font></td>
 						</td>
 						
 					</tr>
 					
 					<tr>
-						<td>交易累计类型</td>
+						<td>累计方式</td>
 						<td>
-							<select id="accmode" class="easyui-validatebox"  required="true"  name="steprateModel.accmode" onchange="showAccmodeDetail()">
-								<option value="0">--日--</option>
-								<option value="1">--月--</option>
-								<option value="2">--年--</option>
+							<select id="accmode" class="easyui-validatebox"  required="true"  name="accumulateRateModel.accmode" />
+								<option value="">--请选择累计方式--</option>
+								<option value="0">日</option>
+								<option value="1">月</option>
+								<option value="2">年</option>
 							</select>
 						</td>
 					</tr>
@@ -101,7 +103,7 @@
 						   <input id="limit1" name="accumulateRateModel.limit1Str" validType="amount"  type="text" class="easyui-validatebox" maxlength="12"/>
 
 						</td>
-						<td width="15%" >扣率(万分比)</td>
+						<td width="15%" >扣率(百分比)</td>
 						<td>
 							<input id="feerate2" name="accumulateRateModel.feerate2Str" validType="percent"  type="text" class="easyui-validatebox" maxlength="4"/>
 						</td>
@@ -123,7 +125,7 @@
 						   <input id="limit2" name="accumulateRateModel.limit2Str" validType="amount" type="text" class="easyui-validatebox" maxlength="12"/>
 
 						</td>
-						<td width="15%" >扣率(万分比)</td>
+						<td width="15%" >扣率(百分比)</td>
 						<td>
 							<input id="feerate3" name="accumulateRateModel.feerate3Str" validType="percent"   type="text" class="easyui-validatebox" maxlength="4"/>
 						</td>
@@ -203,30 +205,28 @@
 				},
 				{
 					field: 'RATE_TYPE',
-					title: '扣率类型',
+					title: '收费类型',
 					width: 150,
 					align: 'center',
-					formatter: function(value, rec) {
-						if(value == ""|| value ==null){
-							return "--请选择扣率类型--";
-						}else if(value == 0){
-							return '免费';
-						}else if(value == 1){
-							return '固定金额';
-						}else if(value == 2){
-							return '固定比例';
-						}else if(value == 3){
-							return '固定比例+限额';
-						}else if(value == 4){
-							return '分段计费(最多3段)';
-						}
-						
-	
+					formatter:function(value, rec){
+						return '分段计费';
 					}
 				},
 				{
+					field: 'ACCMODE',title: '累计方式', width: 100,align: 'center',
+						formatter : function(value, rec) {
+							if (value == 0) {
+								return '日';
+							} else if (value == 1) {
+								return '月';
+							} else if(value == 2){
+								return '年';
+							}
+						}
+				},
+				{
 					field: 'FEE_RATE',
-					title: '扣率(万分比)',
+					title: '扣率(百分比)',
 					width: 100,
 					align: 'center'
 				},
@@ -267,6 +267,8 @@
 			var p = $('#test').datagrid('getPager');
 		});
 		function showAdd(isToModify) {
+			$("#save_button").show();
+			$("#cancel_button").show();
 			if(!isToModify){
 				$("#busipack").removeAttr("disabled");
 				$("#busicase").removeAttr("disabled");
@@ -295,38 +297,58 @@
 		}
 		//保存 
 		function saveAccumulateRate() {
-	
-			if ($('#accumulateRateForm').form("validate")) {
-				$("#save_button").linkbutton('disable');
-				$('#accumulateRateForm').form('submit', {
-					onSubmit: function() {
-						$("#busipack").removeAttr("disabled");
-						$("#busicase").removeAttr("disabled");
-						return $('#accumulateRateForm').form('validate');
-					},
-					success: function(data) {
-						if (data == '添加成功!') {
-							alert(data);
-							closeAdd();
-							search();
-						} else if (data == '修改成功!') {
-							alert(data);
-							closeAdd();
-							search();
-						} else {
-							alert(data);
-							$("#save_button").linkbutton('enable');
-						}
-	
-					}
-				});
-			}
+		       var minfee =$("#minfee").val();
+		       var maxfee = $("#maxfee").val();
+		       var minfee2 = $("#minfee2").val();
+		       var maxfee2 = $("#maxfee2").val();
+		       var minfee3 = $("#minfee3").val();
+		       var maxfee3 = $("#maxfee3").val();
+		       var minfee_min = parseFloat(minfee);
+		       var maxfee_max = parseFloat(maxfee);
+		       var minfee2_min = parseFloat(minfee2);
+		       var maxfee2_max = parseFloat(maxfee2);
+		       var minfee3_min = parseFloat(minfee3);
+		       var maxfee3_max = parseFloat(maxfee3);
+		       if((minfee_min >maxfee_max) || (minfee2_min >maxfee2_max) || (minfee3_min>maxfee3_max)){
+		    	   alert("最低收费额不能大于最高收费额");
+		       }else if($("#ratetype").val() == null || $("#ratetype").val() == ""){
+		    	   alert("请选择收费类型");
+		       } else{
+					if ($('#accumulateRateForm').form("validate")) {
+						$("#save_button").linkbutton('disable');
+						$('#accumulateRateForm').form('submit', {
+							onSubmit: function() {
+								$("#busipack").removeAttr("disabled");
+								$("#busicase").removeAttr("disabled");
+								return $('#accumulateRateForm').form('validate');
+							},
+							success: function(data) {
+								if (data == '添加成功!') {
+									alert(data);
+									closeAdd();
+									search();
+								} else if (data == '修改成功!') {
+									alert(data);
+									closeAdd();
+									search();
+								} else {
+									alert(data);
+									$("#save_button").linkbutton('enable');
+								}
+			
+							}
+						});
+					}  
+		       }
+		       
+
 		}
 		function showFee() {
 			$.ajax({
 				type: "POST",
 				url: "pages/fee/queryFeeAllFeeAction.action",
 				dataType: "json",
+				async:false,
 				success: function(json) {
 					var html = "<option value=''>--请选择扣率版本--</option>";
 					$.each(json,
@@ -356,20 +378,21 @@
 		function showAccumulateRate(tid) {
 			showAdd(true);
 			showFee();
-			$("#save_button").linkbutton('enable');
-			$("#cancel_button").linkbutton('enable');
+			$("#save_button").show();
+			$("#cancel_button").show();
 			$.ajax({
 				type: "POST",
 				url: "pages/fee/queryOneAccumulateRateFeeAction.action?caseid=" + tid,
+				async:false,
 				dataType: "json",
 				success: function(json) {	
 					showFeeCase2(json.FEEVER);
 					$("#ratetype").val(json.RATE_TYPE);
 					$("#servicefee").val(json.SERVICEFEE);
-					$("#feerate").val(json.FEE_RATE);					
+					$("#feerate").val(json.FEE_RATE);
+					$("#accmode").val(json.ACCMODE);
 					$("#minfee").val(json.MIN_FEE);
 					$("#maxfee").val(json.MAX_FEE);
-					
 					$("#limit1").val(json.LIMIT1);
 					$("#feerate2").val(json.FEE_RATE2);
 					$("#minfee2").val(json.MIN_FEE2);
@@ -386,6 +409,7 @@
 						$("#busipack").val(json.FEEVER);
 						$("#busicase").val(json.BUSICODE);
 						$("#cardtype").val(json.CARDTYPE);
+						$("#accmode").val(json.ACCMODE);
 					},
 					500);
 	
@@ -476,7 +500,7 @@
 					showFeeCase2(json.FEEVER);						
 					$("#ratetype").val(json.RATE_TYPE);
 					$("#servicefee").val(json.SERVICEFEE);
-					
+					$("#accmode").val(json.ACCMODE);
 					$("#feerate").val(json.FEE_RATE);	
 					
 					$("#minfee").val(json.MIN_FEE);
@@ -492,34 +516,20 @@
 					$("#minfee3").val(json.MIN_FEE3);
 					$("#maxfee3").val(json.MAX_FEE3);					
 					$("#notes").val(json.NOTES);
-					
-					/* $("#servicefee").attr("readonly","readonly");
-					$("#feerate").attr("readonly","readonly");
-					$("#minfee").attr("readonly","readonly");
-					$("#maxfee").attr("readonly","readonly");
-					$("#limit1").attr("readonly","readonly");
-					$("#feerate2").attr("readonly","readonly");
-					$("#minfee2").attr("readonly","readonly");
-					$("#maxfee2").attr("readonly","readonly");
-					$("#limit2").attr("readonly","readonly");
-					$("#feerate3").attr("readonly","readonly");
-					$("#minfee3").attr("readonly","readonly");
-					$("#maxfee3").attr("readonly","readonly");
-					$("#notes").attr("readonly","readonly"); */
+
 					setTimeout(function() {
 						//alert(json.FEEVER);
 						$("#busipack").val(json.FEEVER);
 						$("#busicase").val(json.BUSICODE);
 						$("#cardtype").val(json.CARDTYPE);
+						$("#accmode").val(json.ACCMODE);
 					},
 					500);
 	
 				}
 			});
-			//$("#accumulateRateForm").attr("action", "pages/fee/updateAccumulateRateFeeAction.action");
-	
-			$("#save_button").linkbutton('disable');
-			$("#cancel_button").linkbutton('disable');
+			$("#save_button").hide();
+			$("#cancel_button").hide();
 		}
 	</script>
 </html>

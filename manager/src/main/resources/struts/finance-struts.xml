@@ -11,7 +11,7 @@
             <result name="success">/pages/finance/realNameAudit/realName_manager.jsp</result>
 		</action>
 		<action name="*FinProductAction" class="com.zlebank.zplatform.manager.action.finance.FinProductAction" method="{1}">
-            <result name="success">/pages/finance/realNameAudit/realName_manager.jsp</result>
+            <result name="success">/pages/finance/productManage/product_manager.jsp</result>
 		</action>
 		
     </package>
