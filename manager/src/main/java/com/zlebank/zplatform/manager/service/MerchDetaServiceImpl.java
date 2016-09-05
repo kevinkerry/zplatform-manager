@@ -1218,7 +1218,10 @@ public class MerchDetaServiceImpl
         paramaters[1] = enterpriseApplyId;
         List<Map<String, Object>> resultList =  getDao().executeOracleProcedure(
                 "{CALL  pck_enterprise.sel_t_enterprise_apply_deta(?,?,?)}",columns, paramaters, "cursor0");
-        return resultList.get(0);
+        if(resultList.size()>0 ){
+           return  resultList.get(0);
+        }
+        return null;
        }
 
     @Override
