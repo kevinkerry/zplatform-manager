@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
+import com.zlebank.zplatform.manager.action.fund.PagResultBean;
+import com.zlebank.zplatform.manager.bean.FundQueryCondition;
 import com.zlebank.zplatform.manager.bean.RaiseTr;
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IRaiseTrDao;
@@ -27,15 +29,10 @@ public class RaiseTrServiceImpl implements RaiseTrService{
 	 * 查询所有的募集款
 	 */
 	@Override
-	public List<RaiseTr> selectAllRaise() {
+	public PagResultBean selectAllRaise(FundQueryCondition fundBean) {
 		IRaiseTrDao dao = daoContainer.getRaiseTrDao();
-		List<RaiseTrModel> ra = dao.getAllRaise();
-		List<RaiseTr> list = new ArrayList<RaiseTr>();
-		for (RaiseTrModel raiseTr : ra) {
-			RaiseTr fundMerchant = BeanCopyUtil.copyBean(RaiseTr.class, raiseTr);
-			list.add(fundMerchant);
-		}
-		return list;
+		PagResultBean ra = dao.getAllRaise(fundBean);
+		return ra;
 	}
 	/**
 	 * 审核

@@ -59,7 +59,7 @@
 						{field:'status',title:'状态',width:120,align:'center',
 							formatter:function(value,rec){
 							if(value=="00"){
-								return "审核通过,在用";
+								return "审核通过";
 							}if(value=="12"){
 								return "注册待完善信息";
 							}else if(value=="29"){

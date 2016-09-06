@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zlebank.zplatform.commons.dao.impl.HibernateBaseDAOImpl;
+import com.zlebank.zplatform.manager.action.fund.PagResultBean;
+import com.zlebank.zplatform.manager.bean.FundQueryCondition;
 import com.zlebank.zplatform.manager.dao.iface.IRaiseTrDao;
 import com.zlebank.zplatform.manager.dao.object.FundMerchantBeanModel;
 import com.zlebank.zplatform.manager.dao.object.RaiseTrModel;
@@ -22,11 +25,10 @@ public class RaiseTrDaoImpl extends HibernateBaseDAOImpl<RaiseTrModel>
 	 * 查询所有的募集款划拨信息
 	 */
 	@Override
-	public List<RaiseTrModel> getAllRaise() {
+	public PagResultBean getAllRaise(FundQueryCondition fundBean) {
 		Session session = this.getSession();
-		Criteria criteria = session.createCriteria(RaiseTrModel.class);
-		List<RaiseTrModel> li = criteria.list();
-		return li;
+		PagResultBean page = page(fundBean,session);
+		return page;
 	}
 	
 	/**
@@ -65,6 +67,24 @@ public class RaiseTrDaoImpl extends HibernateBaseDAOImpl<RaiseTrModel>
 		return list;
 	}
 	
-	
+	/**
+	 * 查询所有，分页查询
+	 */
+	private PagResultBean page(FundQueryCondition fundBean,Session session){
+		PagResultBean pages = new PagResultBean();
+		Criteria criteria = session.createCriteria(RaiseTrModel.class);
+		List<RaiseTrModel> li = criteria.list();
+		pages.setRaiseTrModels(li);
+		// 获取总行数
+		Long rowCount = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+		criteria.setProjection(null);
+		// 设置起始页
+		criteria.setFirstResult(fundBean.getPage());
+		// 页大小
+		criteria.setMaxResults(fundBean.getPageSize());
+		pages.setRows(rowCount);
+		
+		return pages;
+	}
 	
 }

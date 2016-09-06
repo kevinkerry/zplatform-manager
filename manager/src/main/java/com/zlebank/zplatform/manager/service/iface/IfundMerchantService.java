@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.zlebank.zplatform.commons.bean.PagedResult;
+import com.zlebank.zplatform.manager.action.fund.PagResultBean;
 import com.zlebank.zplatform.manager.bean.FundMerchant;
 import com.zlebank.zplatform.manager.bean.FundMerchantBean;
+import com.zlebank.zplatform.manager.bean.FundQueryCondition;
 import com.zlebank.zplatform.trade.bean.InsteadPayBatchQuery;
 
 public interface IfundMerchantService {
@@ -14,12 +16,7 @@ public interface IfundMerchantService {
 	/**
 	 * 查询商户详细还款信息
 	 */
-	public List<FundMerchant> getAllMerchant(String bATCH_NO);
-	
-	/**
-	 * 查询分页信息
-	 */
-	public void queryPaging();
+	public PagResultBean getAllMerchant(FundQueryCondition funBean);
 		
 	/**
 	 * 按照条件查询
@@ -29,7 +26,7 @@ public interface IfundMerchantService {
 	/**
 	 * 查询所有商户信息
 	 */
-	public List<FundMerchantBean> getAllMerchantBean();
+	public PagResultBean getAllMerchantBean(FundQueryCondition fundBean);
 	/**
 	 * 查询商户信息，通过批次号
 	 * @param batchno
@@ -50,10 +47,18 @@ public interface IfundMerchantService {
 	public void auditNoByOrder(List<String> arr);
 
 	public void auditNoByPc(List<String> arr);
-
-	public PagedResult<FundMerchantBean> queryPaged(int page, int pageSize, InsteadPayBatchQuery insteadPayBatchQuery);
-	public PagedResult<FundMerchant> queryPaged1(int page, int pageSize, InsteadPayBatchQuery insteadPayBatchQuery);
-
+	
 	public List<FundMerchantBean> getmerByStatus(String status);
+//=====================================================================
+	/**
+	 * 分页查询
+	 * @param page
+	 * @param pageSize
+	 * @param fundBean
+	 * @return
+	 */
+	public PagedResult<FundMerchantBean> queryPaged(int page, int pageSize, FundQueryCondition fundBean);
+	
+	
 }
  

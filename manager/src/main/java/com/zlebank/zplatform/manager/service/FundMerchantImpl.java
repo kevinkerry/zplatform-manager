@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
+import com.zlebank.zplatform.manager.action.fund.PagResultBean;
 import com.zlebank.zplatform.manager.bean.FundMerchant;
 import com.zlebank.zplatform.manager.bean.FundMerchantBean;
+import com.zlebank.zplatform.manager.bean.FundQueryCondition;
 import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IBaseDAO;
 import com.zlebank.zplatform.manager.dao.iface.IfundMerchantDao;
@@ -41,11 +43,6 @@ public class FundMerchantImpl  extends BaseServiceImpl<PojoTranData, Long>
 	}
 
 	@Override
-	public void queryPaging() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
 	public FundMerchant getMerchant(String id) {
 		IfundMerchantDao dao = daoContainer.getFundMerchantDao();
 		FundMerchantModel merchant = dao.getMerchantById(id);
@@ -56,28 +53,17 @@ public class FundMerchantImpl  extends BaseServiceImpl<PojoTranData, Long>
 	 * 查询所有商户信息
 	 */
 	@Override
-	public List<FundMerchantBean> getAllMerchantBean() {
+	public PagResultBean getAllMerchantBean(FundQueryCondition fundBean) {
 		IfundMerchantDao dao = daoContainer.getFundMerchantDao();
-		List<FundMerchantBeanModel> merchants = dao.getMerchantsBean();
-		List<FundMerchantBean> list = new ArrayList<FundMerchantBean>();
-
-		for (FundMerchantBeanModel mr : merchants) {
-			FundMerchantBean fundMerchant = BeanCopyUtil.copyBean(FundMerchantBean.class, mr);
-			list.add(fundMerchant);
-		}
-		return list;
+		PagResultBean merchants = dao.getMerchantsBean(fundBean);
+		
+		return merchants;
 	}
 	@Override
-	public List<FundMerchant> getAllMerchant(String bATCH_NO) {
+	public PagResultBean getAllMerchant(FundQueryCondition fundBean) {
 		IfundMerchantDao dao = daoContainer.getFundMerchantDao();
-		List<FundMerchantModel> merchants = dao.getMerchants(bATCH_NO);
-		List<FundMerchant> list = new ArrayList<FundMerchant>();
-
-		for (FundMerchantModel mr : merchants) {
-			FundMerchant fundMerchant = BeanCopyUtil.copyBean(FundMerchant.class, mr);
-			list.add(fundMerchant);
-		}
-		return list;
+		 PagResultBean merchants = dao.getMerchants(fundBean);
+		return merchants;
 	}
 	
 	/**
@@ -123,20 +109,13 @@ public class FundMerchantImpl  extends BaseServiceImpl<PojoTranData, Long>
 		dao.updateStartNoByPc(arr);
 		
 	}
-	@Override
-	public PagedResult<FundMerchantBean> queryPaged(int page, int pageSize, InsteadPayBatchQuery insteadPayBatchQuery) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	@Override
 	public IBaseDAO<PojoTranData, Long> getDao() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public PagedResult<FundMerchant> queryPaged1(int page, int pageSize, InsteadPayBatchQuery insteadPayBatchQuery) {
-		return null;
-	}
+	
 	@Override
 	public List<FundMerchantBean> getmerByStatus(String status) {
 		IfundMerchantDao dao = daoContainer.getFundMerchantDao();
@@ -148,6 +127,15 @@ public class FundMerchantImpl  extends BaseServiceImpl<PojoTranData, Long>
 			list.add(fundMerchant);
 		}
 		return list;
+	}
+	
+	/**
+	 * 分页查询
+	 */
+	@Override
+	public PagedResult<FundMerchantBean> queryPaged(int page, int pageSize, FundQueryCondition fundBean) {
+		
+		return null;
 	}
 
 }

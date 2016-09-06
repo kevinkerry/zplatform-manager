@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.zlebank.zplatform.commons.dao.BaseDAO;
+import com.zlebank.zplatform.manager.action.fund.PagResultBean;
+import com.zlebank.zplatform.manager.bean.FundQueryCondition;
 import com.zlebank.zplatform.manager.dao.object.FundMerchantBeanModel;
 import com.zlebank.zplatform.manager.dao.object.FundMerchantModel;
 
@@ -12,7 +14,7 @@ public interface IfundMerchantDao extends BaseDAO<FundMerchantModel>{
 	 * 获取商户还款详细信息
 	 * @return
 	 */
-	public List<FundMerchantModel> getMerchants(String bATCH_NO);
+	public PagResultBean getMerchants(FundQueryCondition fundBean);
 	/**
 	 * 通过mer_id获取到所有的商户还款信息.
 	 * @return
@@ -24,7 +26,7 @@ public interface IfundMerchantDao extends BaseDAO<FundMerchantModel>{
 	 * 获取所有的商户信息
 	 * @return
 	 */
-	public List<FundMerchantBeanModel> getMerchantsBean();
+	public PagResultBean getMerchantsBean(FundQueryCondition bean);
 	/**
 	 * 按条件查询，按照批次号进行按条件查询
 	 * @param batchno
