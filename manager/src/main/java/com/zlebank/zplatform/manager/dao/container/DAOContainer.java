@@ -1,5 +1,6 @@
 package com.zlebank.zplatform.manager.dao.container;
 
+import com.zlebank.zplatform.manager.dao.EnterpriseRealNameDAOImpl;
 import com.zlebank.zplatform.manager.dao.iface.IBnkTxnDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICardHolderBlackDAO;
 import com.zlebank.zplatform.manager.dao.iface.IChannelDAO;
@@ -7,8 +8,11 @@ import com.zlebank.zplatform.manager.dao.iface.ICityDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICountyDAO;
 import com.zlebank.zplatform.manager.dao.iface.IDeptDAO;
 import com.zlebank.zplatform.manager.dao.iface.IEnterpriseDetaDAO;
+import com.zlebank.zplatform.manager.dao.iface.IEnterpriseRealNameDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFTPDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFeeDAO;
+import com.zlebank.zplatform.manager.dao.iface.IFinProductDAO;
+import com.zlebank.zplatform.manager.dao.iface.IFtpEnterpriseDAO;
 import com.zlebank.zplatform.manager.dao.iface.IFunctionDAO;
 import com.zlebank.zplatform.manager.dao.iface.ILimitPerDayDAO;
 import com.zlebank.zplatform.manager.dao.iface.IMccListDAO;
@@ -20,6 +24,7 @@ import com.zlebank.zplatform.manager.dao.iface.IOrganDAO;
 import com.zlebank.zplatform.manager.dao.iface.IParaDicDAO;
 import com.zlebank.zplatform.manager.dao.iface.IProductDAO;
 import com.zlebank.zplatform.manager.dao.iface.IProvinceDAO;
+import com.zlebank.zplatform.manager.dao.iface.IRaiseTrDao;
 import com.zlebank.zplatform.manager.dao.iface.IRiskAnalyseLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRiskDAO;
 import com.zlebank.zplatform.manager.dao.iface.IRoleDAO;
@@ -31,6 +36,7 @@ import com.zlebank.zplatform.manager.dao.iface.IUploadLogDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserFunctDAO;
 import com.zlebank.zplatform.manager.dao.iface.IUserRoleDAO;
+import com.zlebank.zplatform.manager.dao.iface.IfundMerchantDao;
 
 public class DAOContainer {
 
@@ -71,10 +77,57 @@ public class DAOContainer {
     private IRiskAnalyseLogDAO riskAnalyseLogDAO;
     private IChannelDAO channelDAO;
     private IRouteDAO routeDAO;
-	
+    private IEnterpriseRealNameDAO enterpriseRealnameDAO;
+
+    private IfundMerchantDao fundMerchantDao;
+    private IRaiseTrDao raiseTrDao;
     
     
-    public IRouteDAO getRouteDAO() {
+    public IRaiseTrDao getRaiseTrDao() {
+		return raiseTrDao;
+	}
+
+	public void setRaiseTrDao(IRaiseTrDao raiseTrDao) {
+		this.raiseTrDao = raiseTrDao;
+	}
+
+	public IfundMerchantDao getFundMerchantDao() {
+		return fundMerchantDao;
+	}
+
+	public void setFundMerchantDao(IfundMerchantDao fundMerchantDao) {
+		this.fundMerchantDao = fundMerchantDao;
+	}
+
+    private IFinProductDAO finProductDAO;
+	private IFtpEnterpriseDAO ftpEnterpriseDAO;
+
+    public IFtpEnterpriseDAO getFtpEnterpriseDAO() {
+        return ftpEnterpriseDAO;
+    }
+
+    public void setFtpEnterpriseDAO(IFtpEnterpriseDAO ftpEnterpriseDAO) {
+        this.ftpEnterpriseDAO = ftpEnterpriseDAO;
+    }
+
+    public IFinProductDAO getFinProductDAO() {
+		return finProductDAO;
+	}
+
+	public void setFinProductDAO(IFinProductDAO finProductDAO) {
+		this.finProductDAO = finProductDAO;
+
+	}
+
+	public IEnterpriseRealNameDAO getEnterpriseRealnameDAO() {
+		return enterpriseRealnameDAO;
+	}
+
+	public void setEnterpriseRealnameDAO(IEnterpriseRealNameDAO enterpriseRealnameDAO) {
+		this.enterpriseRealnameDAO = enterpriseRealnameDAO;
+	}
+
+	public IRouteDAO getRouteDAO() {
         return routeDAO;
     }
 

@@ -563,6 +563,10 @@ public class FeeAction extends BaseAction {
             accumulateRateModel.setLimit1(new BigDecimal(accumulateRateModel.getLimit1Str()));
         }
         
+        if(!StringUtils.isEmpty(accumulateRateModel.getFeerate2Str())){
+            accumulateRateModel.setFeerate2(new BigDecimal(accumulateRateModel.getFeerate2Str()));
+        }
+        
         if(!StringUtils.isEmpty(accumulateRateModel.getMinfee2Str())){
             accumulateRateModel.setMinfee2(new BigDecimal(accumulateRateModel.getMinfee2Str()));
         }
@@ -575,6 +579,10 @@ public class FeeAction extends BaseAction {
             accumulateRateModel.setLimit2(new BigDecimal(accumulateRateModel.getLimit2Str()));
         }
         
+        if(!StringUtils.isEmpty(accumulateRateModel.getFeerate3Str())){
+            accumulateRateModel.setFeerate3(new BigDecimal(accumulateRateModel.getFeerate3Str()));
+        }
+        
         if(!StringUtils.isEmpty(accumulateRateModel.getMinfee2Str())){
             accumulateRateModel.setMinfee3(new BigDecimal(accumulateRateModel.getMinfee3Str()));
         }
@@ -582,7 +590,8 @@ public class FeeAction extends BaseAction {
         if(!StringUtils.isEmpty(accumulateRateModel.getMaxfee2Str())){
             accumulateRateModel.setMaxfee3(new BigDecimal(accumulateRateModel.getMaxfee3Str()));
         }
-     
+        
+        
         accumulateRateModel.setInuser(getCurrentUser().getUserId());
         String mark = serviceContainer.getFeeService().AddOneAccumulateRate(accumulateRateModel);
         json_encode(mark);
@@ -669,6 +678,7 @@ public class FeeAction extends BaseAction {
             accumulateRateModel.setMaxfee3(new BigDecimal(accumulateRateModel.getMaxfee3Str()));
         }
      
+
         accumulateRateModel.setInuser(getCurrentUser().getUserId());
         String mark = serviceContainer.getFeeService().updateAccumulateRate(accumulateRateModel);
         json_encode(mark);

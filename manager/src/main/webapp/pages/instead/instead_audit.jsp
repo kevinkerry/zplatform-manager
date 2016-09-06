@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 
-<jsp:include page="../../top.jsp"></jsp:include>
+<%@include file="../../top.jsp"%>
 <body>
 	<style type="text/css">
 table tr td {

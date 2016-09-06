@@ -13,11 +13,11 @@
 					<tr>
 						<td align="right" width="15%">部门代码</td>
 						<td align="left" style="padding-left:5px" width="25%">
-							<input name="deptCode" id="deptCode" maxlength="4"/>
+							<input name="deptCode" id="deptCode" maxlength="4" />
 						</td>
 						<td align="right" width="15%">部门名称</td>
 						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="deptName" id="deptName"/>
+							<input name="deptName" id="deptName" />							
 						</td>
 						<td align="right">
 							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
@@ -42,12 +42,13 @@
 					<tr>
 						<td width="15%">部门代码</td>
 						<td width="30%">
-							<input id="dept_code" name="dept.deptCode" required="true" missingMessage="请输入部门代码"   type="text" class="easyui-validatebox" maxlength="4" validType="minLength[4,4]"/>
+							<input id="dept_code" name="dept.deptCode" required="true"   type="text"  maxlength="4"  class="easyui-validatebox" validType="minLength[4,4]"/>
 						    <font color="red">*</font>
 						</td>
 						<td width="15%">部门名称</td>
 						<td>
-							<input id="dept_name" name="dept.deptName" required="true" missingMessage="请输入部门名称"   type="text" class="easyui-validatebox" maxlength="20" onkeyup="value=value.replace(/^[\s]*$/g,'')"/>
+							<input id="dept_name" name="dept.deptName" required="true" missingMessage="请输入部门名称"    type="text" class="easyui-validatebox" maxlength="20"  onkeyup="value=value.replace(/^[\s]*$/g,'')"/>
+						    <font color="red">*</font>
 						</td>
 					</tr>
 					<tr>
@@ -67,7 +68,7 @@
 						
 						<td>备注</td>
 						<td colspan="3">
-							<textarea rows="3" cols="60" id="dept_notes" maxlength="64" name="dept.notes" style="resize:none;" onkeyup="value=value.replace(/<[^<]+>/g,'')" ></textarea>
+							<textarea rows="3" cols="60" id="dept_notes" maxlength="64" name="dept.notes" style="resize:none;" onkeyup="value=value.replace(/<[^<]+>/g,'')"  ></textarea>
 						</td>
 					</tr>
 				</table>
@@ -154,7 +155,8 @@
 		});
 		
 		function showAdd(){	
-			$('#w').window({
+			showOgan();
+			$('#w').window({				
 				title: '新增部门',
 				top:100,
 				width: 500,

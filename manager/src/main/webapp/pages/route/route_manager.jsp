@@ -27,7 +27,7 @@
 								路由版本名称
 							</td>
 							<td align="left" style="padding-left: 5px">
-								<input name="routeModel.routname" id="routname_qid" maxlength="128"/>
+								<input name="routeModel.routname" id="routname_qid" maxlength="128" />
 							</td>
 							<td align="right" colspan=2>
 								<a href="javascript:search()" class="easyui-linkbutton"
@@ -62,7 +62,7 @@
 						<td align="right" width="15%">路由版本名称</td>
 						
 						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeModel.routname" id="routname" required="true" missingMessage="请输入路由版本名称"  maxlength="32" class="easyui-validatebox"/>
+							<input name="routeModel.routname" id="routname" required="true" missingMessage="请输入路由版本名称"  maxlength="32" class="easyui-validatebox" onblur="value=value.replace( /\s+/g,'')" />
 							<font color="red">*</font></td>
 						</td>
 					</tr>
@@ -91,6 +91,7 @@
 	</body>
 
 	<script>
+	
 		var width = $("#continer").width();
 	  	var gridHeight = 540;
 		var panelWidth = 640;

@@ -12,12 +12,17 @@
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
-
+	<!--注册数据bean  -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 			<list>
+			
+				<value>com.zlebank.zplatform.manager.dao.object.FundMerchantBeanModel</value>
+				<value>com.zlebank.zplatform.manager.dao.object.FundMerchantModel</value>
+				<value>com.zlebank.zplatform.manager.dao.object.RaiseTrModel</value>
+				
 				<value>com.zlebank.zplatform.manager.dao.object.UserModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.FunctionModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.CityModel</value>
@@ -90,6 +95,9 @@
 		<property name="mappingResources">
 			<list><value>hbm/stat.hbm.xml</value></list>
 		</property>
+		
+
+		
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
@@ -232,9 +240,7 @@
 		<property name="concurrent" value="false" />
 	</bean>
 	<bean id="createMerIPFileJob" class="com.zlebank.zplatform.manager.job.CreateMerchantInsteadSDFileJob" /> 
-	<!-- 生成商户代付对账文件任务end-->
-
-	
+	<!-- 生成商户代付对账文件任务end-->	
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${redis.maxIdle}" />
         <property name="maxTotal" value="${redis.maxActive}" />

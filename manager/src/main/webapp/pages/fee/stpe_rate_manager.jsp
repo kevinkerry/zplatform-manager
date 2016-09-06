@@ -138,7 +138,7 @@
 			</div>
 			<div region="south" border="false" style="text-align:center;padding:5px 0;">
 				<a class="easyui-linkbutton" id="save_button" iconCls="icon-ok" href="javascript:saveTxnRate()" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+				<a class="easyui-linkbutton" id="cancel_button" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
@@ -243,6 +243,8 @@
 			var p = $('#test').datagrid('getPager');
 		});
 		function showAdd(isToModify) {
+			$("#save_button").show();
+			$("#cancel_button").show();
 			if(!isToModify){
 				$("#busipack").removeAttr("disabled");
 				$("#busicase").removeAttr("disabled");
@@ -269,37 +271,48 @@
 			showFee();
 		}
 		function saveTxnRate() {
-	
-			if ($('#txnRateForm').form("validate")) {
-				$("#save_button").linkbutton('disable');
-				$('#txnRateForm').form('submit', {
-					onSubmit: function() {
-						$("#busipack").removeAttr("disabled");
-						$("#busicase").removeAttr("disabled");
-						return $('#txnRateForm').form('validate');
-					},
-					success: function(data) {
-						var a= data.split("validateUserLoginAction");
-						if(data.split("validateUserLoginAction").length>1){
-							window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
-							return ;
+	       var minfee =$("#minFee").val();
+	       var maxfee = $("#maxFee").val();
+	       var minfee2 = $("#minFee2").val();
+	       var maxfee2 = $("#maxFee2").val();
+	       var minfee3 = $("#minFee3").val();
+	       var maxfee3 = $("#maxFee3").val();
+	       var minfee_min = parseFloat(minfee);
+	       var maxfee_max = parseFloat(maxfee);
+	       var minfee2_min = parseFloat(minfee2);
+	       var maxfee2_max = parseFloat(maxfee2);
+	       var minfee3_min = parseFloat(minfee3);
+	       var maxfee3_max = parseFloat(maxfee3);
+	       if((minfee_min >=maxfee_max) || (minfee2_min >=maxfee2_max) || (minfee3_min>=maxfee3_max)){
+	    	   alert("最低收费额不能大于等于最高收费额");
+	       }else{
+				if ($('#txnRateForm').form("validate")) {
+					$("#save_button").linkbutton('disable');
+					$('#txnRateForm').form('submit', {
+						onSubmit: function() {
+							$("#busipack").removeAttr("disabled");
+							$("#busicase").removeAttr("disabled");
+							return $('#txnRateForm').form('validate');
+						},
+						success: function(data) {
+							if (data == '添加成功!') {
+								alert(data);
+								closeAdd();
+								search();
+							} else if (data == '修改成功!') {
+								alert(data);
+								closeAdd();
+								search();
+							} else {
+								alert(data);
+								$("#save_button").linkbutton('enable');
+							}
+		
 						}
-						if (data == '添加成功!') {
-							alert(data);
-							closeAdd();
-							search();
-						} else if (data == '修改成功!') {
-							alert(data);
-							closeAdd();
-							search();
-						} else {
-							alert(data);
-							$("#save_button").linkbutton('enable');
-						}
-	
-					}
-				});
-			}
+					});
+				}
+	       }
+
 		}
 		function showFee() {
 			$.ajax({
@@ -333,6 +346,8 @@
 			});
 		}
 		function showTxnRate(tid) {
+			$("#save_button").show();
+			$("#cancel_button").show();
 			showAdd(true);
 			showFee();
 			$.ajax({
@@ -460,7 +475,7 @@
 					$("#limit2").val(json.LIMIT2);
 					$("#feeRate2").val(json.FEE_RATE2);
 					$("#feeRate3").val(json.FEE_RATE3);
-					$("#notes").val(json.NOTES);
+					$("#notes").val(json.NOTES);				
 					setTimeout(function() {
 						//alert(json.FEEVER);
 						$("#busipack").val(json.FEEVER);
@@ -471,7 +486,8 @@
 				}
 			});
 			$("#txnRateForm").attr("action", "pages/fee/updateStepRateFeeAction.action");
-			$("#save_button").linkbutton('disable');
+			$("#save_button").hide();
+			$("#cancel_button").hide();
 		}
 	</script>
 </html>

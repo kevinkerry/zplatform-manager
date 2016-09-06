@@ -3,7 +3,7 @@
 	<groupId>com.zlebank.zplatform.manager</groupId>
 	<artifactId>manager</artifactId>
 	<packaging>war</packaging>
-	<version>1.5.4</version>
+	<version>1.7.0</version>
 	<name>manager Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 

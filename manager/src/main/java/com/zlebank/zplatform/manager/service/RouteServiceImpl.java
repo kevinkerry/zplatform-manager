@@ -298,11 +298,12 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
                 "v_cardtype","v_routver","v_status","v_upuser",
                 "v_ordertype","v_orders","v_isdef","v_notes",
                 "v_remarks","v_merchroutver"};
-        Object total = getDao()
+        List<Map<String, Object>>  resultList = getDao()
                 .executeOracleProcedure(
                         "{CALL PCK_T_ROUTE_CONFIG.UPT_T_ROUTE_CONFIG(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}",
-                        columns, paramaters, "cursor0").get(0).get("INFO");
-        return (String) total;
+                        columns, paramaters, "cursor0");
+        String resultString =  (String) resultList.get(0).get("INFO");
+        return resultString;
     }
 
     @Override

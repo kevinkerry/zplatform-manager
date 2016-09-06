@@ -51,6 +51,8 @@ public class ChargeModel {
     private String chargetype;
     /**金额**/
     private Money amount;
+    /**充值码*/
+    private String chargecode; 
     /**状态**/
     private String status;
     /**手工充值渠道**/
@@ -205,6 +207,13 @@ public class ChargeModel {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+	public String getChargecode() {
+		return chargecode;
+	}
+	 @Column(name = "CHARGECODE")
+	public void setChargecode(String chargecode) {
+		this.chargecode = chargecode;
+	}
 
     
     

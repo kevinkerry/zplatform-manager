@@ -52,7 +52,7 @@ input {
 
 .type-add-button {
 	height: 20px;
-}
+} 
 </style>
 <script type="text/javascript"
 	src="js/multiplefileupload/multiplefileupload.js"></script>
@@ -71,7 +71,7 @@ input {
 					</tr>
 					<tr height="26"  id="fileadd1">
 						<td align="center">对账日期</td>
-						<td colspan="3"><input name="billDate"   maxlength="12"    id="billDate"/>
+						<td colspan="3"><input name="billDate"  maxlength="12"    id="billDate" />
 					    </td>
 					</tr>
 					<tr>
@@ -164,7 +164,7 @@ input {
 <script type="text/javascript">
 	function queryChannel() {
 
-		// $('#billDate').datebox('getValue');
+		//$('#billDate').datebox('getValue');
 		// $('#startDate').datebox('getValue');
 		$.ajax({
 			type : "POST",
@@ -187,7 +187,7 @@ input {
 		});
 	}
 	$(document).ready(function() {
-	$("#billDate").datebox();
+		$("#billDate").datebox();
 		queryChannel();
 		$("#button").click(function() {
 			$("#upload").trigger('click');
@@ -204,13 +204,13 @@ input {
 		$("#addFileSelectButton").click(function() {
 			fileInputList.add("upload", "addFileSelectButton")
 		});
-		 $('#billDate').datebox({  
-		    required:true
-	      }); 
+		 	$("#billDate").datebox({  
+		   	required:true
+	    	 });  
 	      
 	      $('#startDate').datebox({   
-	         }); 
-		 
+	         });  
+	  
 		
 	});
 

@@ -10,12 +10,18 @@
  */
 package com.zlebank.zplatform.manager.dao.object;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import com.zlebank.zplatform.member.bean.enums.CardType;
 
@@ -31,7 +37,7 @@ import com.zlebank.zplatform.member.bean.enums.CardType;
 @Entity
 @PrimaryKeyJoinColumn(name="SELF_ID") 
 @Table(name="T_ENTERPRISE_DETA_APPLY")
-public class PojoEnterpriseDetaApply extends PojoMemberApply{
+public class PojoEnterpriseDetaApply extends PojoMemberApply implements Serializable{
     /**
      * serialVersionUID
      */
@@ -138,7 +144,17 @@ public class PojoEnterpriseDetaApply extends PojoMemberApply{
     private String notes;
     /**备注**/
     private String remarks;
-    
+
+//    private PojoMemberApply memberApplyId;
+//    
+//
+//
+//    public PojoMemberApply getMemberApplyId() {
+//        return memberApplyId;
+//    }
+//    public void setMemberApplyId(PojoMemberApply memberApplyId) {
+//        this.memberApplyId = memberApplyId;
+//    }
     @Column(name = "MEMBER_ID")
     public String getEnterpriseMemberId() {
         return enterpriseMemberId;

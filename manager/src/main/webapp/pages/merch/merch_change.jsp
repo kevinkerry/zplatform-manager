@@ -41,6 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="hidden" id="agreemtEnd_old" value="${merchDeta.agreemtEnd}"/>
 		<input type="hidden" id="mcclist_old" value="${merchDeta.member.mccList}"/>
 		<input type="hidden" id="isDelegation_old" value="${merchDeta.member.isDelegation}"/>
+		<input type="hidden" id="bankname_old" value="${oldBankName}"/>
 				<table width="100%">
 					<tr>
 					   <td colspan="4" class="head-guide"><font class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
@@ -113,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</td>
 						<td align="center">所属行业</td>
 						<td>
-							<select id="mcclist_ins" class="easyui-validatebox"  name="merchDeta.member.mccList" value="${merchDeta.member.mccList}"/></select>
+							<select id="mcclist_ins" class="easyui-validatebox"  name="merchDeta.member.mccList" value="${merchDeta.member.mccList}" required="true"/></select><font color="red">*</font>	
 						</td>
 					</tr>
 					<tr>
@@ -160,7 +161,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					     
 						<td align="center">开户行</td>
 						<td colspan="3"> 
-							${oldBankName} <a id="a_bank_info" href="javascript:modifyBank()" style="color:blue">修改</a>
+						<input id="oldBankName_input" readonly="true" required="true">
+						<a id="a_bank_info" href="javascript:modifyBank()" style="color:blue">修改</a>
 							<span id="bank_info">
 							<select id="banknode_ins" class="easyui-validatebox" required="true"  name="merchDeta.bankNode" style="width:150px"/></select>
 					    	<font color="red">*</font>
@@ -215,7 +217,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="center">路由版本</td>
 						<td>
-							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px"/></select>
+							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px" required="true"/></select>
+							<font color="red">*</font>
 						</td>
 						<td align="center"></td>
 						<td>
@@ -258,10 +261,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">保证金</td>
-						<td><input  class="easyui-validatebox" maxlength="10"  validType="amount" name="deposit" value="${deposit}"/><font color="red">元</font>
+						<td><input  class="easyui-validatebox" maxlength="8"  validType="amount" name="deposit" value="${deposit}"/><font color="red">元</font>
 						</td>
 						<td align="center">服务费</td>
-						<td><input name="charge" maxlength="10"  validType="amount"  class="easyui-validatebox" type="text" value="${charge}"/><font color="red">元</font>
+						<td><input name="charge" maxlength="8"  validType="amount"  class="easyui-validatebox" type="text" value="${charge}"/><font color="red">元</font>
 						</td>
 					</tr>
 					
@@ -272,15 +275,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">联系人姓名</td>
 						<td><input name="merchDeta.member.contact" maxlength="16" type="text" class="easyui-validatebox"  value="${merchDeta.member.contact}"/>
 						<td align="center">联系人地址</td>
-						<td><input name="merchDeta.member.contAddress" maxlength="16" style="width:250px"  type="text" class="easyui-validatebox"  value="${merchDeta.member.contAddress}"/>
+						<td><input name="merchDeta.member.contAddress" maxlength="128" style="width:250px"  type="text" class="easyui-validatebox"  value="${merchDeta.member.contAddress}"/>
 						    </td>    
 					</tr>
 					<tr>
 						<td align="center">联系人电话</td>
-						<td><input  class="easyui-validatebox" maxlength="16"  validType="chinesetest"   name="merchDeta.member.contPhone" value="${merchDeta.member.contPhone}"/>
+						<td><input  class="easyui-validatebox" maxlength="11"  validType="chinesetest"   name="merchDeta.member.contPhone" value="${merchDeta.member.contPhone}"/>
 						    </td>
 						<td align="center">联系人职位</td>
-						<td><input name="merchDeta.member.contTitle" maxlength="32"  type="text" value="${merchDeta.member.contTitle}"/>
+						<td><input name="merchDeta.member.contTitle" maxlength="16"  type="text" value="${merchDeta.member.contTitle}"/>
 						    </td>
 					</tr>
 					<tr>
@@ -311,9 +314,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script>
 	  $(function() {
 			init();
+			
 		});
 		
 	  	function init(){
+	  		
+	  		var oldbankname = $("#bankname_old").val();
+	  		$("#oldBankName_input").val(oldbankname);
 	  		showProvince();
 			showCity('province_ins');
 			showCounty('city_ins');
@@ -366,8 +373,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					success: function(json) {
 						json = eval('(' + json + ')');
 						if (json.RET == "succ") {
-							$.messager.alert('提示', '保存成功,等待上传证件照片','info',function(){
-								window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+json.INFO;
+							$("#button_id").linkbutton('enable');
+							$.messager.confirm('提示', '保存成功,等待上传证件照片',function(data){
+								if(data){
+									window.location.href= "<%=basePath%>" +'/pages/merchant/toUploadMerchantAction.action?merchApplyId='+json.INFO;
+								}								
 							});
 						} else {
 							$.messager.alert('提示', json.INFO);
@@ -476,6 +486,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		function queryBankNode() {
+			$("#oldBankName_input").attr("hidden","true")
 			var pid = $("#banknode_key").val();
 			if(pid==null||pid==''){
 				$("#banknode_key").val('输入关键字检索开户行');
@@ -911,3 +922,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 	</script>
 </html>
+

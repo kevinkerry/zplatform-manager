@@ -35,7 +35,7 @@
 							
 							<td align="right" width="15%">交易渠道</td>					
 						    <td align="left" style="padding-left:5px" width="25%">
-								<select id="routver_qid"  name="routeConfigModel.routver" class="easyui-validatebox" >								    								    								  
+								<select id="routver_qid"  name="routeConfigModel.routver" class="easyui-validatebox" />								    								    								  
 								<option value="">--请选择交易渠道--</option>
 								</select>
 						     </td>
@@ -43,7 +43,7 @@
 						<tr>					
 							<td align="right" width="15%">状态</td>
 							<td align="left" style="padding-left: 5px" width="25%">
-							    <select id="status_qid" name="routeConfigModel.status" class="easyui-validatebox" >
+							    <select id="status_qid" name="routeConfigModel.status" class="easyui-validatebox" />
 								    <option value="">--请选择--</option>
 								    <option value="00">在用</option>
 								    <option value="01">停用</option>								    
@@ -70,6 +70,7 @@
 				<form id="theForm"   method="post" action="pages/route/saveRouteConfigRouteAction.action" >
 				<input name="routeConfigModel.rid" id="rid" type="hidden"/>
 				<input name="routeConfigModel.status" id="status1" type="hidden"/>
+			
 				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="groupinfo">
 					<tr style="height: 10px">
 					    <td align="left" colspan="2">
@@ -82,32 +83,31 @@
 					<tr>
 					    <td align="right" width="15%" height="20px" >路由版本</td>						
 						<td align="left" style="padding-left:5px" width="25%">
-							<select id="merchroutver"   name="routeConfigModel.merchroutver" required="true" missingMessage="请选择路由版本"   class="easyui-validatebox" />
-						       <option value="">--请选择路由版本--</option>						    
+							<select id="merchroutver" name="routeConfigModel.merchroutver"  required="true" missingMessage="请选择路由版本"   class="easyui-validatebox" />					    
+						        <option value=''>--请选择路由版本--</option>
 						    </select>	
 						    <font color="red">*</font>		
 						</td>
 						
 						<td align="right" width="15%" height="20px" >交易渠道</td>						
 						<td align="left" style="padding-left:5px" width="25%">
-							<select id="routver"   name="routeConfigModel.routver" required="true" missingMessage="请选择交易渠道"   class="easyui-validatebox" />
-						       <option value="">--请选择交易渠道--</option>						    
+							<select id="routver"   name="routeConfigModel.routver" class="easyui-validatebox"  required="true"  missingMessage="请选择交易渠道"  />
+						       <option value=''>--请选择交易渠道--</option>						    
 						    </select>	
-						    <font color="red">*</font></td>		
-						</td>
-					
+						    <font color="red">*</font>	
+						</td>					
 					</tr>
 					
 					<tr>
 					    <td align="right" width="15%" height="20px" >开始时间</td>						
 						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.stime" id="stime" required="true" missingMessage="请填写开始时间"  maxlength="6" class="easyui-validatebox" />
+							<input name="routeConfigModel.stime" id="stime" onkeyup="value=value.replace(/[^0-9]/g,'')"  required="true" missingMessage="请填写开始时间,只能为数字"  maxlength="6" class="easyui-validatebox" />
 						    <font color="red">*</font></td>
 						</td>
 						
 						<td align="right" width="15%" height="20px" >结束时间</td>						
 						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.etime" id="etime" required="true" missingMessage="请填写结束时间" maxlength="6" class="easyui-validatebox" />
+							<input name="routeConfigModel.etime" id="etime" required="true"  missingMessage="请填写结束时间,只能为数字" onkeyup="value=value.replace(/[^0-9]/g,'')"  maxlength="6" class="easyui-validatebox" />
 						    <font color="red">*</font></td>
 						</td>		
 					</tr>
@@ -115,15 +115,15 @@
 					
 					
 					<tr>
-					    <td align="right" width="15%" height="20px" >最小金额</td>						
+					    <td align="right" width="15%" height="20px" >最小金额(分)</td>						
 						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.minamt" id="minamt" required="true" missingMessage="请填写最小金额" maxlength="12" class="easyui-validatebox" />
+							<input name="routeConfigModel.minamt" id="minamt" required="true" missingMessage="请填写最小金额" maxlength="12" class="easyui-validatebox" onkeyup="value=value.replacevalue=value.replace(/[^0-9]/g,'')" />
 						    <font color="red">*</font></td>
 						</td>
 						
-						<td align="right" width="15%" height="20px" >最大金额</td>						
+						<td align="right" width="15%" height="20px" >最大金额(分)</td>						
 						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.maxamt" id="maxamt" required="true"  missingMessage="请填写最大金额" maxlength="12" class="easyui-validatebox" />
+							<input name="routeConfigModel.maxamt" id="maxamt" required="true"  missingMessage="请填写最大金额" maxlength="12" class="easyui-validatebox" onkeyup="value=value.replacevalue=value.replace(/[^0-9]/g,'')" />
 						    <font color="red">*</font></td>
 						</td>
 					</tr>
@@ -145,12 +145,12 @@
 					<tr>
 						<td align="right" width="15%">是否为默认路由</td>
 						<td align="left" style="padding-left: 5px" width="25%">
-							<select name="routeConfigModel.isdef" id="isdef" />
-								<option value="">--请选择是否为默认路由--</option>
+							<select name="routeConfigModel.isdef" id="isdef"  class="easyui-validatebox"  required="true"  missingMessage="请选择是否为默认路由"  />
+								<option value=''>--请选择是否为默认路由--</option>
 								<option value="0">默认路由</option>
 								<option value="1">非默认路由</option>
 						    </select>
-							<font color="red">*</font></td>
+							<font color="red">*</font>
 						</td>
 							 					   					
 						<td align="right" width="15%">备注</td>
@@ -226,6 +226,7 @@
 				remoteSort: false,
 				columns: [[				    
 					{field: 'MERCHROUTVER',title: '路由版本代码',width: 100,align: 'center'},
+					{field: 'ROUTNAME',title: '路由版本名称',width: 100,align: 'center'},
 				    {field: 'STIME',title: '开始时间',width: 100,align: 'center'},
 				    {field: 'ETIME',title: '结束时间',width: 100,align: 'center'},
 				    {field: 'MINAMT',title: '最小金额',width: 100,align: 'center'},
@@ -301,7 +302,8 @@
 	
 		//保存按钮 
 		  function saveRouteConfig() {
-			  
+			  $("#merchroutver").removeAttr("disabled"); 
+			  $("#merchroutver").css("background-color","#FFFFFF");
 		      if ($('#theForm').form("validate")) {
 		          $("#button_id").linkbutton('disable');
 		          $('#theForm').form('submit', {
@@ -312,7 +314,7 @@
 		            	  if (data == '添加成功!' || data == '修改成功!') {
 								closeAdd();
 								search();
-							}  
+						  }		            	 
 		            	  $.messager.alert('提示', data);
 		            	  $('#button_id').linkbutton('enable');
 		              }
@@ -398,6 +400,7 @@
 			$.ajax({
 				type: "POST",
 				url: "pages/route/queryChnlcodeRouteAction.action",
+				async:false,
 				dataType: "json",
 				success: function(json) {
 					var html = "<option value=''>--请选择交易渠道--</option>";
@@ -415,6 +418,7 @@
 				type: "POST",
 				url: "pages/route/queryAllRoutverRouteAction.action",
 				dataType: "json",
+				async:false,
 				success: function(json) {
 					var html = "<option value=''>--请选择路由版本--</option>";
 					$.each(json,function(key, value) {
@@ -426,11 +430,15 @@
 		}
 		//新增路由配置信息  
 		function showAdd() {
-			$('#theForm').clearForm();					
+
+			$('#theForm').clearForm();
+		    $("#merchroutver").removeAttr("disabled"); 
+			$("#merchroutver").css("background-color","#FFFFFF");
+			
 			loadBank();	//加载所有的发卡行  
 			loadCradtype();
-			queryAllRoutver();
 			queryBusicode();
+			queryAllRoutver();			
 			queryChannelcode();
 			$('#w').window({
 				title: '路由配置信息',
@@ -586,41 +594,52 @@
 	    //修改 路由配置信息 
 	    function showRouteConfig(rid){
 	    	//查询所有的路由版本 
-			queryAllRoutver();
+			  queryAllRoutver(); 
 	    	//查询所有的交易渠道 
 			queryChannelcode();
-			
+	    	//包含哪些交易类型 
+			containBusicode(rid);
+			//包含哪些发卡行  
+			containBank(rid);
+			//包含哪些卡种类 
+			containCardtype(rid);			 
+	    	oneRouteConfig(rid);
+	    	
+	    }
+	    function oneRouteConfig(rid){
+
 	    	$.ajax({
 				type: "POST",
 				url: "pages/route/queryOneRouteConfigRouteAction.action",
 				data: "rid=" + rid,
 				dataType: "json",
+				async:false,
 				success: function(json) {
+					$("#rid").val(json.RID);
 					$("#merchroutver").val(json.MERCHROUTVER);
+					$("#merchroutver").attr("disabled","disabled");
+					$("#merchroutver").css("background-color","#BEBEBE");
 					$("#stime").val(json.STIME);
-					$("#etime").val(json.ETIME);
-					
+					$("#etime").val(json.ETIME);					
 					$("#minamt").val(json.MINAMT);
 					$("#maxamt").val(json.MAXAMT);
-					$("#bankcode").val(json.BANKCODE);
-					$("#cardtype").val(json.CARDTYPE);
-					$("#busicode").val(json.BUSICODE);
 					$("#routver").val(json.ROUTVER);
 					$("#ordertype").val(json.ORDERTYPE);
 					$("#orders").val(json.ORDERS);
 					$("#isdef").val(json.ISDEF);
 					$("#notes").val(json.NOTES);
 					$("#status1").val(json.STATUS);
-					setTimeout(function() {
+					 setTimeout(function() {
 						$("#rid").val(json.RID);
+						$("#merchroutver").val(json.MERCHROUTVER);	
+						$("#merchroutver").attr("disabled","disabled");
+						$("#merchroutver").css("background-color","#BEBEBE");
 					},
-					500);
+					500); 
 				}	
 			});
 	    	
-			containBusicode(rid);
-			containBank(rid);
-			containCardtype(rid);
+
 			$('#w').window({
 				title: '修改路由配置信息',
 				top: panelVertFloat, 

@@ -49,6 +49,7 @@ public class ChargeDAOImpl
     protected Criteria buildCriteria(ChargeQuery e) {
         Session session = getSession();
         Criteria crite = session.createCriteria(ChargeModel.class);
+        
         // crite.setFetchMode("memberid", FetchMode.EAGER);
         if (e != null) {
             if (StringUtil.isNotEmpty(e.getChargeType())) {

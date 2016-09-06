@@ -25,6 +25,11 @@
         	<result name="toUploadModifyInfo">/pages/merch/add/merch_modify_commit.jsp</result>
         	<result name="merch_modify_detail">/pages/merch/merch_modify_detail.jsp</result>
         	<result name="merch_modify_queryall">/pages/merch/merch_modify_queryall.jsp</result>
+		    <result name="enterpriseFirstExam">/pages/merch/enterprise_firstexam.jsp</result>
+		    <result name="enterpriseSecondExam">/pages/merch/enterprise_secondexam.jsp</result>
+		    <result name="enterpriseQuery">/pages/merch/enterprise_query.jsp</result>
+		    <result name="enterprise_exam_query">/pages/merch/enterprise_exam_query.jsp</result>
+		    <result name="enterpriseQueryAll">/pages/merch/enterprise_query_all.jsp</result>
 		</action>
 		<action name="*UploadAction" class="com.zlebank.zplatform.manager.action.merch.UploadAction" method="{1}">
 			<result name="upload_file">/pages/uploadfile/file_upload.jsp</result>

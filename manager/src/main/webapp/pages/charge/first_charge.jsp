@@ -24,7 +24,7 @@ table tr td select {
 				<table width="100%">
 					<tr>
 						<td align="right" width="10%">会员号:</td>
-						<td align="left" style="padding-left: 5px" width="15%"><input
+						<td align="left" style="padding-left: 5px" width="10%"><input
 							name="chargeQuery.memberId" id="memberId" maxlength="32" /></td>
 
 						<td align="right" width="10%">充值类型:</td>
@@ -37,16 +37,13 @@ table tr td select {
 						</select></td>
 
 						<td align="right" width="10%">充值订单号:</td>
-						<td align="left" style="padding-left: 5px" width="15%"><input
+						<td align="left" style="padding-left: 5px" width="10%"><input
 							name="chargeQuery.chargeno" id="chargeno" maxlength="32" /></td>
-
-					</tr>
-
-					<tr>
+						
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
-
 					</tr>
+
 
 				</table>
 			</form>
@@ -76,10 +73,14 @@ table tr td select {
 						<td whdth="40px" align="center" id="tintime"></td>
 					</tr>
 					<tr>
-						<td whdth="40px" align="center">充值类型</td>
-						<td whdth="40px" align="center" id="tchargetype"></td>
+						<td whdth="40px" align="center">充值码</td>
+						<td whdth="40px" align="center" id="tchargecode"></td>
 						<td whdth="40px" align="center">金额</td>
 						<td whdth="40px" align="center" id="tamount"></td>
+					</tr>
+					<tr>
+						<td whdth="40px" align="center">充值类型</td>
+						<td whdth="40px" align="center" id="tchargetype"></td>
 					</tr>
 				</table>
 			<br>
@@ -120,7 +121,7 @@ table tr td select {
 						{
 							title : '充值信息表',
 							iconCls : 'icon-save',
-							height : 400,
+							height : 600,
 							singleSelect : true,
 							nowrap : false,
 							striped : true,
@@ -147,6 +148,7 @@ table tr td select {
 										width : 120,
 										align : 'center'
 									},
+									
 									{
 										field : 'chargetype',
 										title : '充值类型',
@@ -161,6 +163,12 @@ table tr td select {
 												return '';
 											}
 										}
+									},
+									{
+										field : 'chargecode',
+										title : '充值码',
+										width : 120,
+										align : 'center'
 									},
 									{
 										field : 'amount',
@@ -219,6 +227,8 @@ table tr td select {
 											}
 										}
 									} ] ],
+									pagination : true,
+									rownumbers : true
 						});
 	});
 
@@ -320,6 +330,8 @@ table tr td select {
 
 					$.messager.alert('提示', "数据不正确，请刷新后重试");
 				} else {
+					
+					$("#tchargecode").html(json.chargecode);
 					$("#tchargeno").html(json.chargeno);
 					$("#tmemberid").html(json.memberid);
 					$("#memberName").html(json.memberName);

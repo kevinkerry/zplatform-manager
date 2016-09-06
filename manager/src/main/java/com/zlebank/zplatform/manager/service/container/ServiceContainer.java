@@ -5,7 +5,10 @@ import com.zlebank.zplatform.manager.service.iface.ICardHolderBlackService;
 import com.zlebank.zplatform.manager.service.iface.IChannelService;
 import com.zlebank.zplatform.manager.service.iface.ICityService;
 import com.zlebank.zplatform.manager.service.iface.IDeptService;
+import com.zlebank.zplatform.manager.service.iface.IEnterpriseRealNameService;
+import com.zlebank.zplatform.manager.service.iface.IFTPEnterpriseService;
 import com.zlebank.zplatform.manager.service.iface.IFeeService;
+import com.zlebank.zplatform.manager.service.iface.IFinProductService;
 import com.zlebank.zplatform.manager.service.iface.IFunctionService;
 import com.zlebank.zplatform.manager.service.iface.ILimitPerdayService;
 import com.zlebank.zplatform.manager.service.iface.IMccListService;
@@ -27,6 +30,8 @@ import com.zlebank.zplatform.manager.service.iface.IUploadLogService;
 import com.zlebank.zplatform.manager.service.iface.IUserFunctService;
 import com.zlebank.zplatform.manager.service.iface.IUserRoleService;
 import com.zlebank.zplatform.manager.service.iface.IUserService;
+import com.zlebank.zplatform.manager.service.iface.IfundMerchantService;
+import com.zlebank.zplatform.manager.service.iface.RaiseTrService;
 
 
 public class ServiceContainer {
@@ -58,10 +63,58 @@ public class ServiceContainer {
 	private IRiskAnalyseLogService riskAnalyseLogService;
     private IChannelService channelService;
     private IRouteService routeService;
+    private IEnterpriseRealNameService enterpriseRealnamService;
 
- 
+    private IfundMerchantService fundMerchantService;
+    private RaiseTrService raiseTrService;
+    
+    
+	public RaiseTrService getRaiseTrService() {
+		return raiseTrService;
+	}
 
-    public IChannelService getChannelService() {
+	public void setRaiseTrService(RaiseTrService raiseTrService) {
+		this.raiseTrService = raiseTrService;
+	}
+
+    private IFinProductService finProductService;
+    private IFTPEnterpriseService ftpEnterpriseService;
+
+
+	public IfundMerchantService getFundMerchantService() {
+		return fundMerchantService;
+	}
+
+
+	public void setFundMerchantService(IfundMerchantService fundMerchantService) {
+		this.fundMerchantService = fundMerchantService;
+	}
+    public IFTPEnterpriseService getFtpEnterpriseService() {
+        return ftpEnterpriseService;
+    }
+
+    public void setFtpEnterpriseService(IFTPEnterpriseService ftpEnterpriseService) {
+        this.ftpEnterpriseService = ftpEnterpriseService;
+    }
+
+    public IFinProductService getFinProductService() {
+		return finProductService;
+	}
+
+	public void setFinProductService(IFinProductService finProductService) {
+		this.finProductService = finProductService;
+	}
+
+	public IEnterpriseRealNameService getEnterpriseRealnamService() {
+		return enterpriseRealnamService;
+	}
+
+	public void setEnterpriseRealnamService(
+			IEnterpriseRealNameService enterpriseRealnamService) {
+		this.enterpriseRealnamService = enterpriseRealnamService;
+	}
+
+	public IChannelService getChannelService() {
         return channelService;
     }
 

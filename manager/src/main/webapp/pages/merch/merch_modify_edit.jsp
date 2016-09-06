@@ -114,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</td>
 						<td align="center">所属行业</td>
 						<td>
-							<select id="mcclist_ins" class="easyui-validatebox"  name="merchDeta.member.mccList" value="${merchDeta.member.mccList}"  required="true"/></select><font color="red">*</font>
+							<select id="mcclist_ins" class="easyui-validatebox"  name="merchDeta.member.mccList" value="${merchDeta.member.mccList}" required="true"/></select><font color="red">*</font>	
 						</td>
 					</tr>
 					<tr>
@@ -160,8 +160,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 					     
 						<td align="center">开户行</td>
-						<td colspan="3"> 
-							<input id="oldBankName_input" readonly="true" required="true"> 
+						<td colspan="3">
+						    <input id="oldBankName_input" readonly="true" required="true"> 
 							<a id="a_bank_info" href="javascript:modifyBank()" style="color:blue">修改</a>
 							<span id="bank_info">
 							<select id="banknode_ins" class="easyui-validatebox" required="true"  name="merchDeta.bankNode" style="width:150px"/></select>
@@ -195,12 +195,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr> 
 						<td align="center">产品</td>
 						<td>
-							<select id="prdtver_ins" class="easyui-validatebox" required="true"  name="merchDeta.prdtVer" style="width:150px"  onchange="showThreeVersion()"/></select>
+							<select id="prdtver_ins"  name="merchDeta.prdtVer" class="easyui-validatebox" required="true"   style="width:150px"  onchange="showThreeVersion()"/></select>
 					        <font color="red">*</font>
 				        </td>
 				        <td align="center">风控版本</td>
 						<td>
-							<select name="merchDeta.riskVer" maxlength="8" required="true"  id="riskver"  /></select>
+							<select id="riskver"  class="easyui-validatebox" name="merchDeta.riskVer" required="true" /></select>
 							<font color="red">*</font>
 						</td>
 					</tr>
@@ -217,7 +217,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 						<td align="center">路由版本</td>
 						<td>
-							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px"/></select>
+							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px" required="true"/></select>
+							<font color="red">*</font>
 						</td>
 						<td align="center"></td>
 						<td>
@@ -252,15 +253,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 					<tr>
 						<td align="center">合约开始日期</td>
-						<td><input name="merchDeta.agreemtStart" maxlength="12"  editable="false"  type="text"  id="startDate" value="${merchDeta.agreemtStart}"/>
+						<td><input name="merchDeta.agreemtStart" editable="false" maxlength="12"   type="text"  id="startDate" value="${merchDeta.agreemtStart}"/>
 						</td>
 						<td align="center">合约终止日期</td>
-						<td><input  class="easyui-validatebox" maxlength="32" editable="false"  name="merchDeta.agreemtEnd"  id="endDate" value="${merchDeta.agreemtEnd}"/>
+						<td><input  class="easyui-validatebox" editable="false" maxlength="32"  name="merchDeta.agreemtEnd"  id="endDate" value="${merchDeta.agreemtEnd}"/>
 						    </td>
 					</tr>
 					<tr>
 						<td align="center">保证金</td>
-						<td><input  class="easyui-validatebox"   maxlength="8"  validType="amount" name="deposit" value="${deposit}"/> <font color="red">元</font>
+						<td><input  class="easyui-validatebox"  maxlength="8"  validType="amount" name="deposit" value="${deposit}"/> <font color="red">元</font>
 						</td>
 						<td align="center">服务费</td>
 						<td><input name="charge" maxlength="8"  validType="amount"  class="easyui-validatebox" type="text" value="${charge}"/><font color="red">元</font>
@@ -323,7 +324,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			showCounty('city_ins');
 			 
 			showMccList();
-			showCoopInsti() ;
+			showCoopInsti();
 			//showProduct();
 			queryDistType($('#prdtver_old').val());
 			queryFee($('#prdtver_old').val());
@@ -368,7 +369,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						return $('#merchDetaForm').form('validate');
 					},
 					success: function(json) {
-						json = eval('(' + json + ')');
+						json = eval('(' + json + ')');						
 						if (json.RET == "succ") {
 							$("#button_id").linkbutton('enable');
 							$.messager.confirm('提示', '保存成功,等待上传证件照片',function(data){
@@ -484,7 +485,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		function queryBankNode() {
-		$("#oldBankName_input").attr("hidden","true");
+			$("#oldBankName_input").attr("hidden","true");
 			var pid = $("#banknode_key").val();
 			if(pid==null||pid==''){
 				$("#banknode_key").val('输入关键字检索开户行');
@@ -893,12 +894,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$('#corpno').validatebox({required: true});
 				$('#signatory').validatebox({required: true});
 				$('#signCertNo').validatebox({required: true});
+				
 			}else{
 				$('#isDelegation').val(0);
 				$('#delegation').hide();
 				$('#corpno').validatebox({required: false});
 				$('#signatory').validatebox({required: false});
-			    $('#signCertNo').validatebox({required: false});
+				$('#signCertNo').validatebox({required: false});
 			}
 		}
 		

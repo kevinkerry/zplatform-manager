@@ -32,11 +32,12 @@
 						</select>
 					</td>
 					<td></td>
-					<td></td>
-					<td align="right">
-					<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-					<a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
+					<td></td>					
+					<td align="right" >					
+						<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
+						<a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
 					</td>
+					
 				</tr>
 				
 			</table>
@@ -78,7 +79,7 @@
 					<tr>
 						<td>备注</td>
 						<td colspan="3">
-							<textarea rows="3" cols="60" id="role_notes"  maxlength="64" name="role.notes" style="resize:none;" onkeyup="value=value.replace(/<[^<]+>/g,'')" ></textarea>
+							<textarea rows="3" cols="60" id="role_notes"  maxlength="64" name="role.notes" style="resize:none;" onkeyup="value=value.replace(/<[^<]+>/g,'')"></textarea>
 						</td>
 					</tr>
 					
@@ -467,3 +468,4 @@
 		}
 	</script>
 </html>
+>>>>>>> branch 'develop' of ssh://root@192.168.101.11/zplatform-manager

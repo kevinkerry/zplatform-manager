@@ -28,6 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="left" style="padding-left: 5px" width="15%" >
 							<select id="status_ins" class="easyui-validatebox">
 						          <option value='00'>在用</option>
+						          <option value='12'>注册待完善信息</option>
 						          <option value='10'>注册待初审</option>
 						          <option value='11'>注册初审未过</option>
 						          <option value='19'>注册初审终止</option>
@@ -35,12 +36,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						          <option value='21'>注册复审未过</option>
 								  <option value='29'>注册复审终止</option>
 						  	      <option value='30'>变更待初审</option>
+						  	      <option value='32'>变更待完善信息</option>
 						          <option value='31'>变更初审未过</option>
 						          <option value='39'>变更初审终止</option>
 						          <option value='40'>变更待复审</option>
 						          <option value='41'>变更复审未过</option>
 								  <option value='49'>变更复审终止</option>
-								  <option value="02">变更待生效</option>			  
+								  <option value="02">变更待生效</option>									  
 					        </select>
 						</td>
 						<td align="right"  width="10%">

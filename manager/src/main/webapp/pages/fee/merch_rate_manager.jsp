@@ -115,7 +115,7 @@
 			</div>
 			<div region="south" border="false" style="text-align:center;padding:5px 0;">
 				<a class="easyui-linkbutton" id="save_button" iconCls="icon-ok" href="javascript:saveTxnRate()" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+				<a class="easyui-linkbutton" id="cancel_button" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
@@ -214,6 +214,8 @@
 			var p = $('#test').datagrid('getPager');
 		});
 		function showAdd(isToModify) {
+			$("#save_button").show();
+			$("#cancel_button").show();
 			if(!isToModify){
 				$("#busipack").removeAttr("disabled");
 				$("#busicase").removeAttr("disabled");
@@ -249,11 +251,6 @@
 						return $('#txnRateForm').form('validate');
 					},
 					success: function(data) {
-						var a= data.split("validateUserLoginAction");
-						if(data.split("validateUserLoginAction").length>1){
-							window.parent.location.replace("<%=basePath%>"+"pages/logoutAction.action?relogin=relogin");
-							return ;
-						}
 						if (data == '执行成功') {
 							closeAdd();
 							search();
@@ -303,6 +300,8 @@
 		}
 		
 		function showTxnRate(tid) {
+			$("#save_button").show();
+			$("#cancel_button").show();
 			showAdd(true);
 			showFee();
 			$.ajax({
@@ -425,7 +424,8 @@
 				}
 			});
 			$("#txnRateForm").attr("action", "pages/fee/updateMemberRateFeeAction.action");
-			$("#save_button").linkbutton('disable');
+			$("#save_button").hide();
+			$("#cancel_button").hide();
 		}
 	</script>
 </html>
