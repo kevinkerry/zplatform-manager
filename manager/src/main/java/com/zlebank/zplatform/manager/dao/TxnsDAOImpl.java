@@ -83,7 +83,7 @@ public class TxnsDAOImpl
                     crite.add(Restrictions.eq("accordno", e.getAccordno()));//受理订单号
                 }
                 if (StringUtil.isNotEmpty(e.getAccsecmerno())) {
-                    crite.add(Restrictions.eq("accsecmerno", e.getAccsecmerno()));//受理二级商户号
+                    crite.add(Restrictions.eq("accsecmerno", e.getAccsecmerno()));//商户号
                 }
                 if (StringUtil.isNotEmpty(e.getAccsettledate())) {
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");

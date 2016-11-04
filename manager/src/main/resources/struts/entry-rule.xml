@@ -5,15 +5,17 @@
 <struts>
 
 
- 	<package name="entry" namespace="/pages/rule" extends="global">
- 		<default-action-ref name="index" />
-		<action name="*RuleAction" class="com.zlebank.zplatform.manager.action.accrule.EntryRuleAction" method="{1}">
-            <result >/pages/entryrule/entry_rule.jsp</result>
+	<package name="entry" namespace="/pages/rule" extends="global">
+		<default-action-ref name="index" />
+		<action name="*RuleAction"
+			class="com.zlebank.zplatform.manager.action.accrule.EntryRuleAction"
+			method="{1}">
+			<result>/pages/entryrule/entry_rule.jsp</result>
 		</action>
-		
-	
-		
-    </package>
+
+
+
+	</package>
 
 
 </struts>

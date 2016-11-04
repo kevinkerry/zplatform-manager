@@ -5,18 +5,25 @@
 <struts>
 
 
- 	<package name="finance-struts" namespace="/pages/finance" extends="global">
- 	
-		<action name="*FinRealNameAuditAction" class="com.zlebank.zplatform.manager.action.finance.FinRealNameAuditAction" method="{1}">
-            <result name="success">/pages/finance/realNameAudit/realName_manager.jsp</result>
+	<package name="finance-struts" namespace="/pages/finance"
+		extends="global">
+
+		<action name="*FinRealNameAuditAction"
+			class="com.zlebank.zplatform.manager.action.finance.FinRealNameAuditAction"
+			method="{1}">
+			<result name="success">/pages/finance/realNameAudit/realName_manager.jsp
+			</result>
 		</action>
-		<action name="*FinProductAction" class="com.zlebank.zplatform.manager.action.finance.FinProductAction" method="{1}">
-            <result name="success">/pages/finance/productManage/product_manager.jsp</result>
+		<action name="*FinProductAction"
+			class="com.zlebank.zplatform.manager.action.finance.FinProductAction"
+			method="{1}">
+			<result name="success">/pages/finance/productManage/product_manager.jsp
+			</result>
 		</action>
-		
-    </package>
-    
-    
+
+	</package>
+
+
 
 
 </struts>

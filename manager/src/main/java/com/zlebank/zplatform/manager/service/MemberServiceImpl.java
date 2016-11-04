@@ -10,16 +10,25 @@
  */
 package com.zlebank.zplatform.manager.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zlebank.zplatform.acc.bean.AccEntry;
+import com.zlebank.zplatform.acc.bean.BusiAcct;
 import com.zlebank.zplatform.acc.bean.BusiAcctQuery;
+import com.zlebank.zplatform.acc.bean.Business;
 import com.zlebank.zplatform.acc.bean.QueryAccount;
+import com.zlebank.zplatform.acc.pojo.PojoBusiness;
 import com.zlebank.zplatform.commons.bean.PagedResult;
+import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.manager.service.iface.IMemberService;
 import com.zlebank.zplatform.member.bean.MemberQuery;
+import com.zlebank.zplatform.member.dao.MemberDAO;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
 import com.zlebank.zplatform.member.service.MemberService;
 
@@ -35,6 +44,8 @@ import com.zlebank.zplatform.member.service.MemberService;
 public class MemberServiceImpl implements IMemberService {
     @Autowired
     private MemberService ms;
+    
+    private MemberDAO mermberDAO;
     /**
      *
      * @param mq
@@ -60,5 +71,8 @@ public class MemberServiceImpl implements IMemberService {
         return ms.getBusiAccount(qa, page, pageSize);
         
     }
+    
+
+
 
 }

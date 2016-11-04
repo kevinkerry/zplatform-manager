@@ -1,69 +1,78 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <jsp:include page="../../top.jsp"></jsp:include>
-  <body>
-  <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-  </style>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:140px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" action = "">
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 140px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post" action="">
 				<table width="100%">
 					<tr>
-					    <td align="right" width="10%">二级商户号</td>
-						<td align="left" style="padding-left:5px" width="15%">
-							<input name="tlb.accsecmerno" id="accsecmerno" maxlength="32"/>
-						</td>
-						
-					    <td align="right" width="10%">受理定单提交时间</td>
-						<td  colspan="2"><input id="accordcommitimes" type="text" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimes"></input>  
-							至<input id="accordcommitimen" type="text"  style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" name="tlb.accordcommitimen"></input>
-						</td>
-						
+						<td align="right" width="10%">商户号</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							name="tlb.accsecmerno" id="accsecmerno" maxlength="32" /></td>
+
+						<td align="right" width="10%">受理定单提交时间</td>
+						<td colspan="2"><input id="accordcommitimes" type="text"
+							style="width: 120PX" class="easyui-datetimebox"
+							data-options="showSeconds:false" name="tlb.accordcommitimes"></input>
+							至<input id="accordcommitimen" type="text" style="width: 120PX"
+							class="easyui-datetimebox" data-options="showSeconds:false"
+							name="tlb.accordcommitimen"></input></td>
+
 						<td align="right" width="10%">交易类型</td>
-						<td colspan="1">
-								<select name="tlb.busicode" class="easyui-validatebox validatebox-text" id="busicode">
-									  <option value="">--全部--</option>						
-							          <option value="10000001">快捷消费</option>
-							          <option value="20000001">充值</option>
-							          <option value="30000001">提现</option>
-							          <option value="70000001">代付</option>
-							          <option value="40000001">退款</option>		
-								</select>         
-						       <!--    <c:forEach items="${bus}" var="bus">
+						<td colspan="1"><select name="tlb.busicode"
+							class="easyui-validatebox validatebox-text" id="busicode">
+								<option value="">--全部--</option>
+								<option value="10000001">快捷消费</option>
+								<option value="20000001">充值</option>
+								<option value="30000001">提现</option>
+								<option value="70000001">代付</option>
+								<option value="40000001">退款</option>
+						</select> <!--    <c:forEach items="${bus}" var="bus">
 								  		<c:if test="${bus.busiCode!='10000003'}">
 						                      <option value=${bus.busiCode }>${bus.busiName}</option>
 						                </c:if>
 						          </c:forEach>
 						          
-						       -->  			          					        	
-						</td>
-				
-					    <td align="right">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>						
-				   </tr>
-					
+						       --></td>
+
+						<td align="right"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+					</tr>
+
 				</table>
 			</form>
 		</div>
-		
-		
+
+
 		<div style="margin-top: 5px">
-			<form id="testForm" method = "post" action="">
+			<form id="testForm" method="post" action="">
 				<table id="test"></table>
 			</form>
-			
+
 		</div>
-		
-	
-				
+
+
+
 	</div>
-  </body>
-  
-  <script>
+</body>
+
+<script>
   	var width = $("#continer").width();
 		
 		$(function(){

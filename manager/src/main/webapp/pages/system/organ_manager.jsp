@@ -1,98 +1,114 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="../../top.jsp"></jsp:include>
-	<style>
-	  	table tr td{height:25px}
-	  	table tr td input{height:15px}
-	  	table tr td select{height:20px}
-	 </style>
-  <body>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" >
+<style>
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
 						<td align="right" width="15%">机构代码</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="organCode" id="organCode"/></td>
+						<td align="left" style="padding-left: 5px" width="25%"><input
+							name="organCode" id="organCode" /></td>
 						<td align="right" width="15%">机构名称</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="organName" id="organName"/>
-						</td>
-						<td align="right">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-							<a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
-						</td>
+						<td align="left" style="padding-left: 5px" width="25%"><input
+							name="organName" id="organName" /></td>
+						<td align="right"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
+							href="javascript:resize()" class="easyui-linkbutton"
+							iconCls="icon-redo">清空</a></td>
 					</tr>
-					
+
 				</table>
 			</form>
 		</div>
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-		
+
 	</div>
-	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="organForm" action="pages/system/saveOrganAction.action" method="post" >
-				<input type="hidden" id="org_id" name="organ.organId" />
-				<input type="hidden" id="org_status" name="organ.status" />
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-					<tr>
-						<td width="15%">机构代码</td>
-						<td width="30%">
-							<input id="org_code" name="organ.organCode" required="true" missingMessage="请输入机构代码"  type="text" class="easyui-validatebox" maxlength="4" validType="minLength[4,4]"/>
-						</td>
-						<td width="15%">机构名称</td>
-						<td>
-							<input id="org_name" name="organ.organName" required="true" missingMessage="请输入机构名称"  type="text" class="easyui-validatebox" maxlength="20"/>
-						</td>
-					</tr>
-					<tr>
-						<td>上级机构</td>
-						<td>
-							<select id="org_super" class="easyui-validatebox"  missingMessage="请选择上级机构" name="organ.superid" class="easyui-validatebox">
-								<option value="">--请选择上级机构--</option>
-							</select>
-						</td>
-						<td>所属省</td>
-						<td>
-							<select id="org_province" class="easyui-validatebox" missingMessage="请选择所属省" required="true" name="organ.province" class="easyui-validatebox" onchange="showCity()">
-								<option value="">--请选择所属省--</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>所属市</td>
-						<td>
-							<select id="org_city" class="easyui-validatebox" required="true" missingMessage="请选择所属市" name="organ.city" class="easyui-validatebox">
-								<option value="">--请选择所属市--</option>
-							</select>
-						</td>
-						<td></td>
-						<td>
-						</td>
-					</tr>
-					<tr>
-						
-						<td>备注</td>
-						<td colspan="3">
-							<textarea rows="3" cols="60" id="org_notes" name="organ.notes" maxlength="60" style="resize:none;"></textarea>
-						</td>
-					</tr>
-				</table>
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="organForm" action="pages/system/saveOrganAction.action"
+					method="post">
+					<input type="hidden" id="org_id" name="organ.organId" /> <input
+						type="hidden" id="org_status" name="organ.status" />
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td width="15%">机构代码</td>
+							<td width="30%"><input id="org_code" name="organ.organCode"
+								required="true" missingMessage="请输入机构代码" type="text"
+								class="easyui-validatebox" maxlength="4"
+								validType="minLength[4,4]" /></td>
+							<td width="15%">机构名称</td>
+							<td><input id="org_name" name="organ.organName"
+								required="true" missingMessage="请输入机构名称" type="text"
+								class="easyui-validatebox" maxlength="20" /></td>
+						</tr>
+						<tr>
+							<td>上级机构</td>
+							<td><select id="org_super" class="easyui-validatebox"
+								missingMessage="请选择上级机构" name="organ.superid"
+								class="easyui-validatebox">
+									<option value="">--请选择上级机构--</option>
+							</select></td>
+							<td>所属省</td>
+							<td><select id="org_province" class="easyui-validatebox"
+								missingMessage="请选择所属省" required="true" name="organ.province"
+								class="easyui-validatebox" onchange="showCity()">
+									<option value="">--请选择所属省--</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>所属市</td>
+							<td><select id="org_city" class="easyui-validatebox"
+								required="true" missingMessage="请选择所属市" name="organ.city"
+								class="easyui-validatebox">
+									<option value="">--请选择所属市--</option>
+							</select></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+
+							<td>备注</td>
+							<td colspan="3"><textarea rows="3" cols="60" id="org_notes"
+									name="organ.notes" maxlength="60" style="resize: none;"></textarea>
+							</td>
+						</tr>
+					</table>
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveRole()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveRole()" id="btn_submit" onclick="">保存</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-  </body>
-  
-  <script>
+</body>
+
+<script>
   	var width = $("#continer").width();
 		$(function(){
 			showProvince();
@@ -338,4 +354,3 @@
 					
 	</script>
 </html>
->>>>>>> branch 'develop' of ssh://root@192.168.101.11/zplatform-manager

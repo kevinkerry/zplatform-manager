@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="industry" namespace="/pages/industry" extends="global">
+		<default-action-ref name="index" />
+		<action name="*AccountGroupAction"
+			class="com.zlebank.zplatform.manager.action.industry.AccountGroupAction" method="{1}">
+			<result name="success">/pages/industry/accountGroup_query.jsp</result>
+		</action>
+		
+		<action name="*MoneyStatisticsAction"
+			class="com.zlebank.zplatform.manager.action.industry.MoneyStatisticsAction" method="{1}">
+			<result name="success">/pages/industry/moneryStatistics_query.jsp</result>
+		</action>
+	</package>
+</struts>
+

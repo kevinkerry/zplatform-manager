@@ -7,83 +7,88 @@
 			+ path + "/";
 %>
 <html>
-	<head><script type="text/javascript" src="js/extendsValidator_1.0_20151215.js" ></script>
-	</head>
-	<body>
-		<div style="margin: 5px; border: " id="continer">
-			<div id="p" class="easyui-panel" title="商户月累计限次限额查询"
-				style="height: 100px; padding: 10px; background: #fafafa;"
-				iconCls="icon-save" collapsible="true">
-				<form id="dedurateForm" method="post">
-					<table width="100%">
+<head>
+<script type="text/javascript" src="js/extendsValidator_1.0_20151215.js"></script>
+</head>
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="商户月累计限次限额查询"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="dedurateForm" method="post">
+				<table width="100%">
+					<tr>
+						<td align="right">会员号</td>
+						<td align="left" style="padding-left: 5px"><input
+							id="merber_qid" maxlength="15" /></td>
+
+						<td align="right" colspan=2><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div style="margin-top: 5px">
+			<table id="test"></table>
+		</div>
+	</div>
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm" method="post" action="">
+					<input name="limitMemMonthModel.TId" id="TId" type="hidden" />
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
 						<tr>
-							<td align="right">
-								会员号
+							<td align="right" width="15%" height="30px">会员号</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitMemMonthModel.memberid" id="memberid"
+								validType="merchno" maxlength="15" class="easyui-validatebox" />
 							</td>
-							<td align="left" style="padding-left: 5px">
-								<input  id="merber_qid" maxlength="15"/>
+							<td align="right" width="15%" height="30px">风险等级</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="risklevel" class="easyui-validatebox"
+								missingMessage="请选选择风险等级" required="true"
+								name="limitMemMonthModel.risklevel" class="easyui-validatebox">
+									<option value="">--请选择风险等级--</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td align="right" width="15%" height="30px">累计限额（元）</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitMemMonthModel.limitAmount" id="limitAmount"
+								validType="amount" maxlength="11" class="easyui-validatebox" />
 							</td>
-					
-							<td align="right" colspan=2>
-								<a href="javascript:search()" class="easyui-linkbutton"
-									iconCls="icon-search">查询</a>						
-							</td>
-							
-							</tr>							
+							<td align="right" width="15%">累计限次</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitMemMonthModel.limitCount" id="limitCount"
+								maxlength="8"
+								onkeyup="this.value=this.value.replace(/[^\d]/g,'') " /></td>
+						</tr>
+						<tr>
+
+							<td align="right" width="15%">备注</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitMemMonthModel.notes" id="Notes" maxlength="32" /></td>
+						</tr>
 					</table>
 				</form>
 			</div>
-			<div style="margin-top: 5px">
-				<table id="test"></table>
-			</div>
-		</div>
-		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm"   method="post" action="" >
-				<input name="limitMemMonthModel.TId" id="TId" type="hidden"/>
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-					<tr>
-						<td align="right" width="15%" height="30px" >会员号</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="limitMemMonthModel.memberid" id="memberid" validType="merchno" maxlength="15" class="easyui-validatebox" />
-						</td>
-						 <td align="right" width="15%" height="30px">风险等级</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<select id="risklevel" class="easyui-validatebox" missingMessage="请选选择风险等级" required="true" name="limitMemMonthModel.risklevel" class="easyui-validatebox">
-								<option value="">--请选择风险等级--</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td align="right" width="15%" height="30px" >累计限额（元）</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="limitMemMonthModel.limitAmount" id="limitAmount"  validType="amount"   maxlength="11" class="easyui-validatebox" />
-						</td>
-						<td align="right" width="15%">累计限次</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="limitMemMonthModel.limitCount" id="limitCount" maxlength="8" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " />
-						</td>
-					</tr>
-					<tr>
-					   
-						<td align="right" width="15%">备注</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="limitMemMonthModel.notes" id="Notes" maxlength="32"/>
-						</td>
-					</tr>
-				</table>
-				</form>
-			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveWhitePan()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveWhitePan()" id="btn_submit" onclick="">保存</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	</body>
+</body>
 
-	<script> 
+<script> 
 		var width = $("#continer").width();
 		var gridHeight = 600;
 		var panelWidth = 640;

@@ -1,6 +1,5 @@
 package com.zlebank.zplatform.manager.dao.container;
 
-import com.zlebank.zplatform.manager.dao.EnterpriseRealNameDAOImpl;
 import com.zlebank.zplatform.manager.dao.iface.IBnkTxnDAO;
 import com.zlebank.zplatform.manager.dao.iface.ICardHolderBlackDAO;
 import com.zlebank.zplatform.manager.dao.iface.IChannelDAO;
@@ -17,6 +16,7 @@ import com.zlebank.zplatform.manager.dao.iface.IFunctionDAO;
 import com.zlebank.zplatform.manager.dao.iface.ILimitPerDayDAO;
 import com.zlebank.zplatform.manager.dao.iface.IMccListDAO;
 import com.zlebank.zplatform.manager.dao.iface.IMemberQueueDAO;
+import com.zlebank.zplatform.manager.dao.iface.IMerchConfigDAO;
 import com.zlebank.zplatform.manager.dao.iface.IMerchDetaDAO;
 import com.zlebank.zplatform.manager.dao.iface.INoticeDAO;
 import com.zlebank.zplatform.manager.dao.iface.IOperLogDAO;
@@ -82,8 +82,21 @@ public class DAOContainer {
     private IfundMerchantDao fundMerchantDao;
     private IRaiseTrDao raiseTrDao;
     
+    private IMerchConfigDAO merchConfigDao;
     
-    public IRaiseTrDao getRaiseTrDao() {
+    
+    
+    
+    
+    public IMerchConfigDAO getMerchConfigDao() {
+		return merchConfigDao;
+	}
+
+	public void setMerchConfigDao(IMerchConfigDAO merchConfigDao) {
+		this.merchConfigDao = merchConfigDao;
+	}
+
+	public IRaiseTrDao getRaiseTrDao() {
 		return raiseTrDao;
 	}
 

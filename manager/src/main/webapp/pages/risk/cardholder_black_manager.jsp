@@ -36,7 +36,8 @@
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
-				<form id="theForm" method="post" action="pages/risk/saveCardHolderBlackRiskAction.action">
+				<form id="theForm" method="post"
+					action="pages/risk/saveCardHolderBlackRiskAction.action">
 					<input name="blackIdnumModel.tid" id="tid" type="hidden" />
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">

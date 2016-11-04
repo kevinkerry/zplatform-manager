@@ -40,6 +40,32 @@ public class AccEntryBean {
     private String inTime;
     /**交易类型代码**/
     private String busiCode;
+    /**会员号**/
+    private String memberid;
+    /**账户名**/
+    private String acctCodeName;
+    private String usage;
+    
+    
+    
+    public String getUsage() {
+        return usage;
+    }
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
+    public String getAcctCodeName() {
+        return acctCodeName;
+    }
+    public void setAcctCodeName(String acctCodeName) {
+        this.acctCodeName = acctCodeName;
+    }
+    public String getMemberid() {
+        return memberid;
+    }
+    public void setMemberid(String memberid) {
+        this.memberid = memberid;
+    }
     public Long getVoucherCode() {
         return voucherCode;
     }

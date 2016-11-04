@@ -1,14 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@taglib prefix="s" uri="/struts-tags" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../top.jsp"></jsp:include>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <html>
-	<head>
-		<script type="text/javascript">
+  <head>
+<script type="text/javascript">
 			$(function() {
 				$.extend($.fn.validatebox.defaults.rules, {
 					equalTo: {
@@ -143,32 +143,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			
 			function changePassword() {
-				//alert(0);
-				$("#oldPwd").validatebox("validate");
-				$("#newPwd").validatebox("validate");
-				$("#conPwd").validatebox("validate");
-				//$('#theForm').form("validate")
-				//alert('01');
-				if ($("#oldPwd").validatebox("isValid") && $("#newPwd").validatebox("isValid") && $("#conPwd").validatebox("isValid")) {
-			
-					$('#theForm').ajaxSubmit({
-						success: function(json) {
-							json = eval('(' + json + ')');
-							if (json.retcode == "succ") {
-								$.messager.alert('提示', json.retinfo);
-								if ($('#pwdFlag').val() > 0) {
-									$('#w').window({
-										onBeforeClose: function() {}
-									});
-									$('#expiration').html("")
+				// 判断新密码和原密码是否相同，如果相同提示用户,并且不能提交 				
+				var oldPwd = $("#oldPwd").val();
+				var newPwd = $("#newPwd").val();
+				if(oldPwd == newPwd){ 
+					alert("新密码与原密码相同,请重新设置密码!");
+				}else{
+					$("#commitButton").linkbutton("enable");
+					$("#oldPwd").validatebox("validate");
+					$("#newPwd").validatebox("validate");
+					$("#conPwd").validatebox("validate");
+					if ($("#oldPwd").validatebox("isValid") && $("#newPwd").validatebox("isValid") && $("#conPwd").validatebox("isValid")) {
+				
+						$('#theForm').ajaxSubmit({
+							success: function(json) {
+								json = eval('(' + json + ')');
+								if (json.retcode == "succ") {
+									$.messager.alert('提示', json.retinfo);
+									if ($('#pwdFlag').val() > 0) {
+										$('#w').window({
+											onBeforeClose: function() {}
+										});
+										$('#expiration').html("")
+									}
+									closePassword();
+								} else {
+									$.messager.alert('提示', json.retinfo);
 								}
-								closePassword();
-							} else {
-								$.messager.alert('提示', json.retinfo);
 							}
-						}
-					});
+						});
+					}
 				}
+				
+				
 			}
 			
 			//CharMode函数  
@@ -211,10 +218,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//pwStrength函数  
 			//当用户放开键盘或密码输入框失去焦点时,根据不同的级别显示不同的颜色  
 			function pwStrength(pwd) {
-				O_color = "#eeeeee";
-				L_color = "#FF0000";
-				M_color = "#FF9900";
-				H_color = "#33CC00";
+				var O_color = "#eeeeee";
+				var L_color = "#FF0000";
+				var M_color = "#FF9900";
+				var H_color = "#33CC00";
+				var Lcolor,Mcolor,Hcolor;				
 				if (pwd == null || pwd == '') {
 					Lcolor = Mcolor = Hcolor = O_color;
 				} else {
@@ -242,127 +250,146 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				document.getElementById("strength_H").style.background = Hcolor;
 				return;
 			}
-		
+			 $(function() {
+				 var flag='N';
+				 $("div[id*='fun_menu_']").each(function(){					    
+						var _this = $(this);
+						var id = _this.attr('id');
+						var display=$("#"+id).attr("display");
+						if(flag=='N'){
+							$("#"+id).attr("style","height:auto;");
+							flag='Y';
+						}else{
+							$("#"+id).attr("style","height:auto;display:none;");
+						}
+						
+				 })
+			})
 		</script>
-	</head>
-	<body class="easyui-layout" >
-		<div region="north" border="false"	style="height:71px;background-image: url('pictuer/bg.jpg') ">
-				<input type="hidden" id="pwdFlag" value="${pwdFlag}"/>
-				<input type="hidden" id="pwdDay" value="${pwdDay}"/>
-				<table width="100%" height="100%" border="0">
-					
-					<tr>
-						<td align="right"  valign="bottom" width="">
-							
-						</td>
-						<td align="left"  valign="bottom">
-							${loginName}用户,欢迎您登陆到本系统!&nbsp;&nbsp;&nbsp;&nbsp;<span id="expiration" style="color:red"></span>
-						</td>
-						<td align="right"  valign="bottom">
-							<a id="passwordchange" style="margin-right: 10px" href="javascript:showPassword()" href="javascript:addTab('passwordchange')">修改密码</a>
-		        			<a href="javascript:ConfirmLogout();"  style="margin-right: 10px">退出</a>
-						</td>
-					</tr>
-				</table>
-			
+
+</head>
+<body class="easyui-layout">
+	<div region="north" border="false"
+		style="height: 71px; background-image: url('pictuer/bg.jpg')">
+		<input type="hidden" id="pwdFlag" value="${pwdFlag}" /> <input
+			type="hidden" id="pwdDay" value="${pwdDay}" />
+		<table width="100%" height="100%" border="0">
+
+			<tr>
+				<td align="right" valign="bottom" width=""></td>
+				<td align="left" valign="bottom">
+					${loginName}用户,欢迎您登陆到本系统!&nbsp;&nbsp;&nbsp;&nbsp;<span
+					id="expiration" style="color: red"></span>
+				</td>
+				<td align="right" valign="bottom"><a id="passwordchange"
+					style="margin-right: 10px" href="javascript:showPassword()"
+					href="javascript:addTab('passwordchange')">修改密码</a> <a
+					href="javascript:ConfirmLogout();" style="margin-right: 10px">退出</a>
+				</td>
+			</tr>
+		</table>
+
+	</div>
+
+	<div region="west" split="true" title="操作栏" style="width: 180px;">
+		<div class="easyui-accordion" fit="true" border="false">
+
+			<c:forEach var="function" items="${funlist}">
+
+				<c:if test="${function.LEAFNODE==0}">
+					<c:set var="myValue" value="${function.FUNCT_ID}"></c:set>
+
+					<div title="${function.FUNCT_NAME }"
+						id="fun_menu_${function.FUNCT_ID}">
+						<ul id="tt1" class="easyui-tree" animate="true" dnd="true">
+							<c:forEach var="zilist" items="${funlist}" varStatus="status">
+								<c:if test="${zilist.PARENT_ID==myValue}">
+
+									<li><a id=tabname${status.index}
+										src=${zilist.URL
+										}
+										href="javascript:addTab('tabname${status.index }')">
+											${zilist.FUNCT_NAME}</a></li>
+								</c:if>
+
+							</c:forEach>
+						</ul>
+					</div>
+				</c:if>
+
+			</c:forEach>
+
 		</div>
-		
-		<div region="west" split="true" title="操作栏" style="width: 180px;">
-			<div class="easyui-accordion" fit="true" border="false">
-			
-				<c:forEach var="function" items="${funlist}">
-				
-					<c:if test="${function.LEAFNODE==0}">
-						<c:set var="myValue" value="${function.FUNCT_ID}"></c:set>
-						
-				        <div title="${function.FUNCT_NAME }" >
-							<ul id="tt1" class="easyui-tree" animate="true" dnd="true">
-								<c:forEach var="zilist" items="${funlist}" varStatus="status">
-				           			<c:if test="${zilist.PARENT_ID==myValue}">
-				           			
-				                  		<li>  
-										  <a id=tabname${status.index}
-										    src=${zilist.URL}
-										    href="javascript:addTab('tabname${status.index }')">
-										  	${zilist.FUNCT_NAME}</a>
-								      </li>
-					          		</c:if>
-						       
-						       	</c:forEach>
-							</ul>
-						</div>	
-					</c:if>
-					
-				</c:forEach>
-				 
+	</div>
+
+	<div region="south" border="false"
+		style="height: 25px; padding: 5px; background: #E0ECFF; text-align: center">
+		证联资本管理有限责任公司</div>
+
+	<div region="center">
+		<div class="easyui-tabs" fit="true" border="false" id="tt"
+			tools="#tab-tools"></div>
+	</div>
+
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm"
+					action="pages/system/changePasswordUserAction.action" method="post">
+
+					<table width="100%" style="margin-top: 5px">
+						<tr>
+							<td align="right" width="40%" height="25px">原密码</td>
+							<td align="left" style="padding-left: 5px"><input
+								id="oldPwd" name="oldPwd" type="password"
+								missingMessage="请输入原密码" class="easyui-validatebox"
+								maxlength="128" required="true" /></td>
+						</tr>
+						<tr>
+							<td align="right" height="25px">新密码</td>
+							<td align="left" style="padding-left: 5px"><input
+								id="newPwd" name="newPwd" type="password"
+								missingMessage="请输入新密码" validType="length[8,128]"
+								class="easyui-validatebox" maxlength="128" required="true"
+								type="password" onKeyUp=pwStrength(this.value)
+								onBlur=pwStrength(this.value) /></td>
+						</tr>
+						<tr>
+							<td align="right" height="25px">密码强度:</td>
+							<td align="left" style="padding-left: 5px">
+								<table width="140px" border="1" cellspacing="0" cellpadding="1"
+									bordercolor="#cccccc" height="25" style='display: inline'>
+									<tr align="center" bgcolor="#eeeeee">
+										<td width="33%" id="strength_L">弱</td>
+
+										<td width="33%" id="strength_M">中</td>
+
+										<td width="33%" id="strength_H">强</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" height="25px">确认密码</td>
+							<td align="left" style="padding-left: 5px"><input
+								id="conPwd" name="conPwd" type="password"
+								missingMessage="请输入确认密码" validType="equalTo['#newPwd']"
+								class="easyui-validatebox" maxlength="128" required="true" /></td>
+						</tr>
+
+					</table>
+				</form>
+			</div>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" id="commitButton" iconCls="icon-save"
+					href="javascript:changePassword()">提交</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:closePassword()">取消</a>
 			</div>
 		</div>
-		
-		<div region="south" border="false"
-			style="height: 25px; padding: 5px; background: #E0ECFF; text-align: center">
-			 证联资本管理有限责任公司
-		</div>
-		
-		<div region="center">
-			<div class="easyui-tabs"  fit="true" border="false" id="tt" tools="#tab-tools">
-			</div>
-		</div>
-		
-		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-			<div class="easyui-layout" fit="true">
-				<div region="center" border="false" style="background:#fff;border:1px solid #ccc;text-align: center">
-					<form id="theForm" action="pages/system/changePasswordUserAction.action" method="post">
-						
-						<table width="100%" style="margin-top: 5px">
-							<tr>
-								<td align="right" width="40%" height="25px">
-									原密码
-								</td>
-								<td align="left" style="padding-left: 5px">
-									<input id="oldPwd" name="oldPwd" type="password" missingMessage="请输入原密码" class="easyui-validatebox"   maxlength="128"  required="true"/>
-								</td>					   
-							</tr>
-							<tr>
-								<td align="right" height="25px">
-									新密码
-								</td>
-								<td align="left" style="padding-left: 5px">
-									<input id="newPwd" name="newPwd" type="password" missingMessage="请输入新密码" validType="length[8,128]" class="easyui-validatebox"   maxlength="128"  required="true" type="password" onKeyUp=pwStrength(this.value) onBlur=pwStrength(this.value) />
-								</td>					   
-							</tr>
-							<tr>
-								<td align="right" height="25px">
-									密码强度: 
-								</td>
-								<td align="left" style="padding-left: 5px">
-									<table width="140px" border="1" cellspacing="0" cellpadding="1" bordercolor="#cccccc" height="25" style='display:inline'>  
-										<tr align="center" bgcolor="#eeeeee"> 
-											<td width="33%" id="strength_L">弱</td>  
-											
-											<td width="33%" id="strength_M">中</td>  
-											
-											<td width="33%" id="strength_H">强</td>  
-										</tr>  
-									</table>
-								</td>					   
-							</tr>
-							<tr>
-								<td align="right" height="25px">
-									确认密码
-								</td>
-								<td align="left" style="padding-left: 5px">
-									<input id="conPwd" name="conPwd" type="password" missingMessage="请输入确认密码" validType="equalTo['#newPwd']" class="easyui-validatebox"   maxlength="128"  required="true"/>
-								</td>
-							</tr>
-						
-						</table>
-					</form>
-				</div>
-				<div region="south" border="false" style="text-align:center;padding:5px 0;">
-					<a class="easyui-linkbutton" iconCls="icon-save" href="javascript:changePassword()" >提交</a>
-					<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:closePassword()" >取消</a>
-				</div>
-			</div>
-		</div>
-	</body>
+	</div>
+</body>
 </html>

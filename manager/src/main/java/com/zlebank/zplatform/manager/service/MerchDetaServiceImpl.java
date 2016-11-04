@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
 import com.zlebank.zplatform.manager.action.merch.CertType;
 import com.zlebank.zplatform.manager.bean.Enterprise;
@@ -41,6 +42,7 @@ import com.zlebank.zplatform.manager.service.iface.IMerchDetaService;
 import com.zlebank.zplatform.manager.util.CommonUtil;
 import com.zlebank.zplatform.manager.util.RSAUtils;
 import com.zlebank.zplatform.manager.util.net.FTPClientFactory;
+import com.zlebank.zplatform.member.exception.MemberBussinessException;
 import com.zlebank.zplatform.member.service.MemberService;
 
 public class MerchDetaServiceImpl
@@ -55,7 +57,8 @@ public class MerchDetaServiceImpl
     private FTPClientFactory ftpClientFactory;
     private final String merchCertRootPath = "/merchant";
     private MemberService memberServiceImpl;
-
+    private PojoEnterpriseDetaApply pojoEnterpriseDetaApply;
+    
     @Override
     public IBaseDAO<PojoMerchDetaApply, Long> getDao() {
         return daoContainer.getMerchDetaDAO();
@@ -1227,8 +1230,7 @@ public class MerchDetaServiceImpl
     @Override
     public List<Map<String, Object>> enterpriseAudit(long enterpriseApplyId,
             Enterprise enterprise,String flag,String isAgree) {
-        String[] columns = new String[]{"v_user", "v_self_id", "v_opinion",
-                "v_isagree"};
+        String[] columns = new String[]{"v_user", "v_self_id", "v_opinion","v_isagree"};
         Object[] paramaters = new Object[4];
         if (flag.equals("2")) {
             paramaters[0] = enterprise.getStexaUser();
@@ -1239,12 +1241,34 @@ public class MerchDetaServiceImpl
         } 
         paramaters[1] = enterpriseApplyId;
         paramaters[3] = isAgree;
-        return getDao().executeOracleProcedure(
+        List<Map<String, Object>> resultlist = getDao().executeOracleProcedure(
                 "{CALL  pck_enterprise.exam_enterprise(?,?,?,?,?)}", columns,
                 paramaters, "cursor0");
+
+        String mark ="";
+        if(resultlist != null ||resultlist.size()!=0){
+            mark = (String) resultlist.get(0).get("INFO");    
+        }
+        if (mark.equals("操作成功!") && isAgree.equals("0") && flag.equals("3")) {
+        try {
+            // 复审通过，flag=3
+            pojoEnterpriseDetaApply = daoContainer.getEnterpriseDetaDAO().get(enterpriseApplyId);
+            // 生成企业账户
+            memberServiceImpl.openBusiAcct(pojoEnterpriseDetaApply.getMemberName(), pojoEnterpriseDetaApply.getMemberId(),pojoEnterpriseDetaApply.getCvlexaUser());
+
+        } catch (MemberBussinessException e) {
+            e.printStackTrace();
+        } catch (AbstractBusiAcctException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        }
+        return resultlist;
     }
 
 
+ 
 
 }
 

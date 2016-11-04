@@ -1,6 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <jsp:include page="../../../top.jsp"></jsp:include>
 <body>
 	<style type="text/css">
@@ -23,7 +26,7 @@ table tr td select {
 			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
-						<td align="right" width="10%">一级商户号:</td>
+						<td align="right" width="10%">合作机构号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="instead.merId" id="merId" maxlength="32" /></td>
 
@@ -58,47 +61,48 @@ table tr td select {
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
-				<form id="secondTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="falgs" type="hidden" name="trial.falg">
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-				<tr>
-				<td >商户号:</td>
+				<form id="secondTrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="falgs" type="hidden" name="trial.falg">
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td>商户号:</td>
+							<td align="left" style="padding-left: 5px" width="15%"><input
+								name="instead.merId" id="memberId" maxlength="32" /></td>
+
+						</tr>
+
+						<td>批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.merId" id="memberId" maxlength="32" />
-						</td>
-				
-				</tr>
-			
-					<td >批次号:</td>
-					<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.batchFileNo" id="batch" maxlength="32" />
-					</td>
-			
-						
-						
-				</tr>
-				<tr>
-				<td >复审意见:</td>
-				<td>
-				<textarea rows="5" cols="80" name="trial.stexaopt">
-				</textarea>
-				
-				</td>
-				</tr>
-				</table>
-			</form>
+							name="instead.batchFileNo" id="batch" maxlength="32" /></td>
+
+
+
+						</tr>
+						<tr>
+							<td>复审意见:</td>
+							<td><textarea rows="5" cols="80" name="trial.stexaopt">
+				</textarea></td>
+						</tr>
+					</table>
+				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:secondTrial(true)" id="btn_submit" onclick="">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)"  id="icon-cancel" onclick="secondTrial(false)">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:secondTrial(true)" id="btn_submit" onclick="">通过</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" id="icon-cancel"
+					onclick="secondTrial(false)">拒绝</a>
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	
-	
+
+
+
+
+
 	<div id="w" class="easyui-window" closed="true" title="My Window"
 		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">

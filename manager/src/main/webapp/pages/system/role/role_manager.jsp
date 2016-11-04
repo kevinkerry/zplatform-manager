@@ -1,114 +1,131 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="../../../top.jsp"></jsp:include>
-  <body>
-	  <style type="text/css">
-	  	table tr td{height:25px}
-	  	table tr td input{height:15px}
-	  	table tr td select{height:20px}
-	  </style>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" >
-			<table width="100%">
-				<tr>
-					
-					<td align="right" width="15%">角色名称</td>
-					<td align="left" style="padding-left:5px" width="25%">
-						<input name="role.roleName" id="roleName"/>
-					</td>
-					<td align="right" width="15%">所属机构</td>
-					<td align="left" style="padding-left:5px" width="25%">
-						<select id="roleOrganId" name="role.organId" onchange="showDept(1)">
-							<option value=''>--请选择所属机构--</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					
-					<td align="right" width="15%">所属部门</td>
-					<td align="left" style="padding-left: 5px" width="25%">
-						<select id="roleDeptId" name="role.deptId" >
-							<option value=''>--请选择所属部门--</option>
-						</select>
-					</td>
-					<td></td>
-					<td></td>					
-					<td align="right" >					
-						<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						<a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
-					</td>
-					
-				</tr>
-				
-			</table>
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post">
+				<table width="100%">
+					<tr>
+
+						<td align="right" width="15%">角色名称</td>
+						<td align="left" style="padding-left: 5px" width="25%"><input
+							name="role.roleName" id="roleName" /></td>
+						<td align="right" width="15%">所属机构</td>
+						<td align="left" style="padding-left: 5px" width="25%"><select
+							id="roleOrganId" name="role.organId" onchange="showDept(1)">
+								<option value=''>--请选择所属机构--</option>
+						</select></td>
+					</tr>
+					<tr>
+
+						<td align="right" width="15%">所属部门</td>
+						<td align="left" style="padding-left: 5px" width="25%"><select
+							id="roleDeptId" name="role.deptId">
+								<option value=''>--请选择所属部门--</option>
+						</select></td>
+						<td></td>
+						<td></td>
+						<td align="right"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
+							href="javascript:resize()" class="easyui-linkbutton"
+							iconCls="icon-redo">清空</a></td>
+
+					</tr>
+
+				</table>
 			</form>
 		</div>
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-		
+
 	</div>
-	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="roleForm" action="pages/system/saveRoleAction.action" method="post" >
-				<input id="role_roleId" name="role.roleId"  type="hidden"/>
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left">
-					<tr>
-						<td>角色名称</td>
-						<td>
-							<input  id="role_name" name="role.roleName" missingMessage="请输入角色名称"  required="true"  type="text" class="easyui-validatebox" maxlength="20"/>
-						</td>
-						<td>所属机构</td>
-						<td>
-							<select id="role_organId" name="role.organId" required="true" missingMessage="请选择所属机构"  type="text" class="easyui-validatebox" onchange="showDept()">
-								<option value="">--请选择所属机构--</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>所属部门</td>
-						<td>
-							<select id="role_deptId" class="easyui-validatebox" required="true" missingMessage="请选择所属部门" name="role.deptId" class="easyui-validatebox">
-								<option value="">--请选择所属部门--</option>
-							</select>
-						</td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>备注</td>
-						<td colspan="3">
-							<textarea rows="3" cols="60" id="role_notes"  maxlength="64" name="role.notes" style="resize:none;" onkeyup="value=value.replace(/<[^<]+>/g,'')"></textarea>
-						</td>
-					</tr>
-					
-				</table>
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="roleForm" action="pages/system/saveRoleAction.action"
+					method="post">
+					<input id="role_roleId" name="role.roleId" type="hidden" />
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left">
+						<tr>
+							<td>角色名称</td>
+							<td><input id="role_name" name="role.roleName"
+								missingMessage="请输入角色名称" required="true" type="text"
+								class="easyui-validatebox" maxlength="20" /></td>
+							<td>所属机构</td>
+							<td><select id="role_organId" name="role.organId"
+								required="true" missingMessage="请选择所属机构" type="text"
+								class="easyui-validatebox" onchange="showDept()">
+									<option value="">--请选择所属机构--</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>所属部门</td>
+							<td><select id="role_deptId" class="easyui-validatebox"
+								required="true" missingMessage="请选择所属部门" name="role.deptId"
+								class="easyui-validatebox">
+									<option value="">--请选择所属部门--</option>
+							</select></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>备注</td>
+							<td colspan="3"><textarea rows="3" cols="60" id="role_notes"
+									maxlength="64" name="role.notes" style="resize: none;"
+									onkeyup="value=value.replace(/<[^<]+>/g,'')"></textarea></td>
+						</tr>
+
+					</table>
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveRole()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveRole()" id="btn_submit" onclick="">保存</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	<div id="w2" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-	<div class="easyui-layout" fit="true">
-	<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-	    <div region="center" title="权限栏" id="authMenu" closed="true">
-	    <input id="roleId" name="role.roleId"  type="hidden"/>
-		<div style="margin: 5px" id="menu_div">
-			<ul id="tt2"></ul>
-			
-		    <a href="javascript:submitUserAuth()" class="easyui-linkbutton" iconCls="icon-ok">提交</a>
+	<div id="w2" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<div region="center" title="权限栏" id="authMenu" closed="true">
+					<input id="roleId" name="role.roleId" type="hidden" />
+					<div style="margin: 5px" id="menu_div">
+						<ul id="tt2"></ul>
+
+						<a href="javascript:submitUserAuth()" class="easyui-linkbutton"
+							iconCls="icon-ok">提交</a>
+					</div>
+				</div>
+			</div>
 		</div>
-	    </div>
-	 </div>
-	 </div>
-	 </div>  
-  </body>
-  
-  <script>
+	</div>
+</body>
+
+<script>
   	var width = $("#continer").width();
 		$(function(){
 			showOrgan();
@@ -468,4 +485,3 @@
 		}
 	</script>
 </html>
->>>>>>> branch 'develop' of ssh://root@192.168.101.11/zplatform-manager

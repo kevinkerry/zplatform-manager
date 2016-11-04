@@ -1,79 +1,76 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="../../../top.jsp"></jsp:include>
-<%@taglib prefix="s" uri="/struts-tags" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <body class="easyui-layout" style="padding: 5px">
-	
-	<div region="west" title="用户栏" style="width: 250px; padding: 10px;" split="false">
+
+	<div region="west" title="用户栏" style="width: 250px; padding: 10px;"
+		split="false">
 		<ul id="tt1" class="easyui-tree" animate="true" dnd="true">
-			<li>
-				<span>用户</span>
+			<li><span>用户</span>
 				<ul>
 					<c:forEach var="organ" items="${organList}">
-						<li state="closed">
-							<span>${organ.organName}</span>
-							<c:set var="organId" value="${organ.organId}"></c:set>
-							<c:forEach var="dept" items="${deptList}">
-									<c:if test="${dept.organId==organId}">
-										<ul>
-											<li state="closed">
-												<span>${dept.deptName}</span>
-												<c:set var="deptId" value="${dept.deptId}"></c:set>
-												<ul>
-													<c:forEach var="user" items="${userList}">
-														<c:if test="${user.deptId==deptId}">
-														 <li>
-													      <span>
-														      <a href="javascript:showUserFunction('${user.roleId }','${user.userId }')">
-														      ${user.loginName }</a>
-													      </span>
-													     </li>
-													     </c:if>
-													</c:forEach>
-												</ul>
-											</li>
-										</ul>
-									</c:if>
-									
-								</c:forEach>
-							
-					    </li>
-						
+						<li state="closed"><span>${organ.organName}</span> <c:set
+								var="organId" value="${organ.organId}"></c:set> <c:forEach
+								var="dept" items="${deptList}">
+								<c:if test="${dept.organId==organId}">
+									<ul>
+										<li state="closed"><span>${dept.deptName}</span> <c:set
+												var="deptId" value="${dept.deptId}"></c:set>
+											<ul>
+												<c:forEach var="user" items="${userList}">
+													<c:if test="${user.deptId==deptId}">
+														<li><span> <a
+																href="javascript:showUserFunction('${user.roleId }','${user.userId }')">
+																	${user.loginName }</a>
+														</span></li>
+													</c:if>
+												</c:forEach>
+											</ul></li>
+									</ul>
+								</c:if>
+
+							</c:forEach></li>
+
 					</c:forEach>
-				</ul>
-			</li>
+				</ul></li>
 		</ul>
-				
-					
-					
-					
-					
-				
-			</li>
-			
+
+
+
+
+
+
+		</li>
+
 		</ul>
 
 	</div>
 	<div region="center" title="权限栏" id="authMenu">
-		<div style="margin-top:10px" id="menu_div">
+		<div style="margin-top: 10px" id="menu_div">
 			<ul id="tt2"></ul>
-		
-			<a href="javascript:submitUserAuth()" class="easyui-linkbutton" iconCls="icon-ok">提交</a>
-			<a href="javascript:invokeFunction()" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
+
+			<a href="javascript:submitUserAuth()" class="easyui-linkbutton"
+				iconCls="icon-ok">提交</a> <a href="javascript:invokeFunction()"
+				class="easyui-linkbutton" iconCls="icon-reload">重置</a>
 		</div>
-		
+
 	</div>
-	
-	<div id="www" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:100px;padding:5px;">
+
+	<div id="www" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 100px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;">
-				<select id="munRole"></select>
-				<input type="hidden" id="userId"/>
-				<input type="hidden" id="roleId"/>
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc;">
+				<select id="munRole"></select> <input type="hidden" id="userId" />
+				<input type="hidden" id="roleId" />
 			</div>
-			<div region="south" border="false" style="text-align:right;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:void(0)" onclick="invokeFunction()">确定</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeView()">取消</a>
+			<div region="south" border="false"
+				style="text-align: right; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:void(0)" onclick="invokeFunction()">确定</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeView()">取消</a>
 			</div>
 		</div>
 	</div>

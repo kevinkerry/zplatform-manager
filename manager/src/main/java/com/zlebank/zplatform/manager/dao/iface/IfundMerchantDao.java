@@ -37,12 +37,8 @@ public interface IfundMerchantDao extends BaseDAO<FundMerchantModel>{
 	 * 根据订单号进行审核
 	 * @param arr
 	 */
-	public void updateStartByOrder(List<String> arr,Date date);
-	/**
-	 * 根据批次号进行商户审核
-	 * @param arr
-	 */
-	public void updateStartByPc(List<String> arr,Date date);
+	public void updateStartBybeans(List<FundMerchantModel> list, Date date);
+	
 	/**
 	 * 拒绝
 	 * @param arr
@@ -51,4 +47,31 @@ public interface IfundMerchantDao extends BaseDAO<FundMerchantModel>{
 	public void updateStartNoByPc(List<String> arr);
 	public List<FundMerchantBeanModel> getMerchantsByStatus(String status);
 	
+	public List<FundMerchantModel> getAllFundMerchantModel (String tid);
+	/**
+	 * 商户审核
+	 * @param arr
+	 * @param date
+	 * @param starts
+	 */
+	public void updateStartByid(String arr, Date date,String starts);
+	/**
+	 * 传入详细细心的tid获取到商户的model
+	 * @param tid
+	 * @return 
+	 */ 
+	public FundMerchantBeanModel getfundMerModel(String tid);
+	
+	public void updateStarts(List<String> tids, Date date);
+	//按订单号
+	public PagResultBean selectByOrder(FundQueryCondition fundBean);
+	//按照时间查询
+	public PagResultBean SelectAllByDate(String beginDate, String endDate,FundQueryCondition fundBean);
+	//按照开始时间查询
+	public PagResultBean selectAllBybeginDate(String beginDate,FundQueryCondition fundBean); 
+	//按照结束时间查询
+	public PagResultBean selectByEndDate(String endDate,FundQueryCondition fundBean); 
+	
+	
 }
+ 

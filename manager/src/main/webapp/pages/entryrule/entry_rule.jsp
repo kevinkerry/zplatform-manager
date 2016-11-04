@@ -23,14 +23,12 @@ table tr td select {
 					<tr>
 						<td align="right" width="15%">交易类型</td>
 						<td align="left" style="padding-left: 5px" width="25%"><select
-							id="org_super"  name="sar.txnType"
-							>
+							id="org_super" name="sar.txnType">
 								<option value="">--请选择交易类型--</option>
 						</select></td>
 						<td align="right" width="15%">是否同步记账</td>
 						<td align="left" style="padding-left: 5px" width="25%"><select
-							id="qisSync"  name="sar.isSync"
-							>
+							id="qisSync" name="sar.isSync">
 								<option value="">所有</option>
 								<option value="0">异步</option>
 								<option value="1">同步</option>
@@ -42,8 +40,7 @@ table tr td select {
 					<tr>
 						<td align="right" width="15%">状态</td>
 						<td align="left" style="padding-left: 5px" width="25%"><select
-							id="qactionStatus"  required="true"
-							name="sar.status" >
+							id="qactionStatus" required="true" name="sar.status">
 								<option value="" selected="selected">所有</option>
 								<option value="00">正常</option>
 
@@ -52,9 +49,7 @@ table tr td select {
 						</select></td>
 						<td align="right" width="15%">余额方向</td>
 						<td align="left" style="padding-left: 5px" width="25%"><select
-							id="qcrdr"  required="true"
-							 name="sar.crdr"
-							>
+							id="qcrdr" required="true" name="sar.crdr">
 								<option value="">所有</option>
 								<option value="C">贷记</option>
 								<option value="D">借记</option>
@@ -131,8 +126,8 @@ table tr td select {
 							<td>计算公式</td>
 							<td><input type="hidden" id="ordform"
 								name="sr.entryAlgorithm"> <input id="ordforms"
-								disabled="true " name="sr.elmeform" required="true"
-								type="text" class="easyui-validatebox" maxlength="20" /><span
+								disabled="true " name="sr.elmeform" required="true" type="text"
+								class="easyui-validatebox" maxlength="20" /><span
 								style="color: red;">请点击按钮输入计算公式</span></td>
 							<td colspan="2"><a href="javascript:void(0)"
 								class="easyui-linkbutton" onclick="operation('A','本金')">本金</a> <a

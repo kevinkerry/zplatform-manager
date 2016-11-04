@@ -10,12 +10,16 @@
  */
 package com.zlebank.zplatform.manager.service.iface;
 
+import java.util.List;
+
 import com.zlebank.zplatform.acc.bean.AccEntry;
+import com.zlebank.zplatform.acc.bean.BusiAcct;
 import com.zlebank.zplatform.acc.bean.BusiAcctQuery;
 import com.zlebank.zplatform.acc.bean.QueryAccount;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.member.bean.MemberQuery;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
+
 
 /**
  * Class Description
@@ -25,7 +29,7 @@ import com.zlebank.zplatform.member.exception.MemberBussinessException;
  * @date 2015年10月12日 下午5:53:15
  * @since 
  */
-public interface IMemberService {
+public interface IMemberService{
    /**
     * 通过条件得到交易明细
     * @param page
@@ -40,5 +44,6 @@ public interface IMemberService {
      * @return
      */
     public PagedResult<BusiAcctQuery> queryAccount(int page,int pageSize,  QueryAccount qa);
+
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.zlebank.zplatform.manager.action.fund.PagResultBean;
 import com.zlebank.zplatform.manager.bean.FundQueryCondition;
 import com.zlebank.zplatform.manager.bean.RaiseTr;
+import com.zlebank.zplatform.trade.service.EnterpriseTradeService;
 
 public interface RaiseTrService {
     /**
@@ -16,8 +17,9 @@ public interface RaiseTrService {
 	/**
 	 * 审核
 	 * @param orderId
+	 * @throws Exception 
 	 */
-	public void aduitMes(String orderId,Date date);
+	public void aduitMes(long tid,Date date,EnterpriseTradeService enterpriseTradeService) throws Exception;
 	
 	public List<RaiseTr> selectByOrder(String orderId);
 	

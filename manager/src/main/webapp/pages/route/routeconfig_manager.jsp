@@ -8,208 +8,234 @@
 %>
 <html>
 <head>
-		<script type="text/javascript" src="js/checkboxbeautify/jquery-hcheckbox.js"></script>
-		<link href='js/checkboxbeautify/css.css' rel="stylesheet" type="text/css" />
-		<style type="text/css">
-			#groupinfo {height:25px;}
-			#groupinfo tr td{height:25px;border-style:solid;border-width:0px 0px 0px 0px;border-color:#000000;padding:1px}
-			#groupinfo tr td input{height:20px;margin-left:3px;}
-			#groupinfo tr td span{height:20px;margin-left:3px;}
-			
-			.activeflag_label{width:90px}
-		</style>
+<script type="text/javascript"
+	src="js/checkboxbeautify/jquery-hcheckbox.js"></script>
+<link href='js/checkboxbeautify/css.css' rel="stylesheet"
+	type="text/css" />
+<style type="text/css">
+#groupinfo {
+	height: 25px;
+}
+
+#groupinfo tr td {
+	height: 25px;
+	border-style: solid;
+	border-width: 0px 0px 0px 0px;
+	border-color: #000000;
+	padding: 1px
+}
+
+#groupinfo tr td input {
+	height: 20px;
+	margin-left: 3px;
+}
+
+#groupinfo tr td span {
+	height: 20px;
+	margin-left: 3px;
+}
+
+.activeflag_label {
+	width: 90px
+}
+</style>
 </head>
 
-	<body>
-		<div style="margin: 5px; border: " id="continer">
-			<div id="p" class="easyui-panel" title="路由配置信息查询"			
-				style="height: 100px; padding: 10px; background: #fafafa;"
-				iconCls="icon-save" collapsible="true">
-				<form id="dedurateForm" method="post">
-					<table width="100%">
-						<tr>												
-							<td align="right" width="15%">路由版本代码</td>
-							<td align="left" style="padding-left: 5px" width="25%">
-								<input name="routeConfigModel.merchroutver" id="merchRoutver_qid" class="easyui-validatebox"/>
-							</td>
-							
-							<td align="right" width="15%">交易渠道</td>					
-						    <td align="left" style="padding-left:5px" width="25%">
-								<select id="routver_qid"  name="routeConfigModel.routver" class="easyui-validatebox" />								    								    								  
-								<option value="">--请选择交易渠道--</option>
-								</select>
-						     </td>
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="路由配置信息查询"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="dedurateForm" method="post">
+				<table width="100%">
+					<tr>
+						<td align="right" width="15%">路由版本代码</td>
+						<td align="left" style="padding-left: 5px" width="25%"><input
+							name="routeConfigModel.merchroutver" id="merchRoutver_qid"
+							class="easyui-validatebox" /></td>
+
+						<td align="right" width="15%">交易渠道</td>
+						<td align="left" style="padding-left: 5px" width="25%"><select
+							id="routver_qid" name="routeConfigModel.routver"
+							class="easyui-validatebox" />
+							<option value="">--请选择交易渠道--</option> </select></td>
+					</tr>
+					<tr>
+						<td align="right" width="15%">状态</td>
+						<td align="left" style="padding-left: 5px" width="25%"><select
+							id="status_qid" name="routeConfigModel.status"
+							class="easyui-validatebox" />
+							<option value="">--请选择--</option>
+							<option value="00">在用</option>
+							<option value="01">停用</option> </select></td>
+						<td align="right" colspan=1><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+				</table>
+			</form>
+		</div>
+		<div style="margin-top: 5px">
+			<table id="test"></table>
+		</div>
+	</div>
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm" method="post"
+					action="pages/route/saveRouteConfigRouteAction.action">
+					<input name="routeConfigModel.rid" id="rid" type="hidden" /> <input
+						name="routeConfigModel.status" id="status1" type="hidden" />
+
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="groupinfo">
+						<tr style="height: 10px">
+							<td align="left" colspan="2"><font color="red">提示1：开始时间、结束时间请按照HHmmss格式输入</font></td>
 						</tr>
-						<tr>					
-							<td align="right" width="15%">状态</td>
-							<td align="left" style="padding-left: 5px" width="25%">
-							    <select id="status_qid" name="routeConfigModel.status" class="easyui-validatebox" />
-								    <option value="">--请选择--</option>
-								    <option value="00">在用</option>
-								    <option value="01">停用</option>								    
-								</select>					
-							</td>				
-							<td align="right" colspan=1>
-								<a href="javascript:search()" class="easyui-linkbutton"
-									iconCls="icon-search">查询</a>
-								
+						<tr style="height: 10px">
+							<td align="left" colspan="2"><font color="red">提示2：优先类型、优先级均需手动输入正整数</font></td>
+						</tr>
+						<tr>
+							<td align="right" width="15%" height="20px">路由版本</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="merchroutver" name="routeConfigModel.merchroutver"
+								required="true" missingMessage="请选择路由版本"
+								class="easyui-validatebox" />
+								<option value=''>--请选择路由版本--</option> </select> <font color="red">*</font>
 							</td>
-						
-							
+
+							<td align="right" width="15%" height="20px">交易渠道</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="routver" name="routeConfigModel.routver"
+								class="easyui-validatebox" required="true"
+								missingMessage="请选择交易渠道" />
+								<option value=''>--请选择交易渠道--</option> </select> <font color="red">*</font>
+							</td>
+						</tr>
+
+						<tr>
+							<td align="right" width="15%" height="20px">开始时间</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeConfigModel.stime" id="stime"
+								onkeyup="value=value.replace(/[^0-9]/g,'')" required="true"
+								missingMessage="请填写开始时间,只能为数字" maxlength="6"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+							</td>
+
+							<td align="right" width="15%" height="20px">结束时间</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeConfigModel.etime" id="etime" required="true"
+								missingMessage="请填写结束时间,只能为数字"
+								onkeyup="value=value.replace(/[^0-9]/g,'')" maxlength="6"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+							</td>
+						</tr>
+
+
+
+						<tr>
+							<td align="right" width="15%" height="20px">最小金额(分)</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeConfigModel.minamt" id="minamt" required="true"
+								missingMessage="请填写最小金额" maxlength="12"
+								class="easyui-validatebox"
+								onkeyup="value=value.replacevalue=value.replace(/[^0-9]/g,'')" />
+								<font color="red">*</font></td>
+							</td>
+
+							<td align="right" width="15%" height="20px">最大金额(分)</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeConfigModel.maxamt" id="maxamt" required="true"
+								missingMessage="请填写最大金额" maxlength="12"
+								class="easyui-validatebox"
+								onkeyup="value=value.replacevalue=value.replace(/[^0-9]/g,'')" />
+								<font color="red">*</font></td>
+							</td>
+						</tr>
+
+						<tr>
+							<td align="right" width="15%" height="20px">优先类型</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeConfigModel.ordertype" id="ordertype" required="true"
+								missingMessage="请填写优先类型" maxlength="12"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+							</td>
+
+							<td align="right" width="15%" height="20px">优先级</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeConfigModel.orders" id="orders" required="true"
+								missingMessage="请填写优先级" maxlength="12"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+							</td>
+						</tr>
+
+						<tr>
+							<td align="right" width="15%">是否为默认路由</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								name="routeConfigModel.isdef" id="isdef"
+								class="easyui-validatebox" required="true"
+								missingMessage="请选择是否为默认路由" />
+								<option value=''>--请选择是否为默认路由--</option>
+								<option value="0">默认路由</option>
+								<option value="1">非默认路由</option> </select> <font color="red">*</font></td>
+
+							<td align="right" width="15%">备注</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeConfigModel.notes" id="notes" maxlength="64" /></td>
+						</tr>
+
+
+						<tr style="height: 60px">
+							<td>选择发卡行</td>
+							<td align="left" id="bankcode" style="height: 150px" colspan="3">
+							</td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>选择卡种类</td>
+							<td align="left" id="cardtype" colspan="3"></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+
+						<tr style="height: 60px">
+							<td>选择交易类型</td>
+							<td align="left" id="busicode" style="height: 60px" colspan="3">
+							</td>
+						</tr>
 
 					</table>
 				</form>
 			</div>
-			<div style="margin-top: 5px">
-				<table id="test"></table>
-			</div>
-		</div>
-		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm"   method="post" action="pages/route/saveRouteConfigRouteAction.action" >
-				<input name="routeConfigModel.rid" id="rid" type="hidden"/>
-				<input name="routeConfigModel.status" id="status1" type="hidden"/>
-			
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="groupinfo">
-					<tr style="height: 10px">
-					    <td align="left" colspan="2">
-					    <font color="red">提示1：开始时间、结束时间请按照HHmmss格式输入</font></td>					    
-					</tr>
-					<tr style="height: 10px">
-					    <td align="left" colspan="2">
-					    <font color="red">提示2：优先类型、优先级均需手动输入正整数</font></td>					    
-					</tr>
-					<tr>
-					    <td align="right" width="15%" height="20px" >路由版本</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<select id="merchroutver" name="routeConfigModel.merchroutver"  required="true" missingMessage="请选择路由版本"   class="easyui-validatebox" />					    
-						        <option value=''>--请选择路由版本--</option>
-						    </select>	
-						    <font color="red">*</font>		
-						</td>
-						
-						<td align="right" width="15%" height="20px" >交易渠道</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<select id="routver"   name="routeConfigModel.routver" class="easyui-validatebox"  required="true"  missingMessage="请选择交易渠道"  />
-						       <option value=''>--请选择交易渠道--</option>						    
-						    </select>	
-						    <font color="red">*</font>	
-						</td>					
-					</tr>
-					
-					<tr>
-					    <td align="right" width="15%" height="20px" >开始时间</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.stime" id="stime" onkeyup="value=value.replace(/[^0-9]/g,'')"  required="true" missingMessage="请填写开始时间,只能为数字"  maxlength="6" class="easyui-validatebox" />
-						    <font color="red">*</font></td>
-						</td>
-						
-						<td align="right" width="15%" height="20px" >结束时间</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.etime" id="etime" required="true"  missingMessage="请填写结束时间,只能为数字" onkeyup="value=value.replace(/[^0-9]/g,'')"  maxlength="6" class="easyui-validatebox" />
-						    <font color="red">*</font></td>
-						</td>		
-					</tr>
-					
-					
-					
-					<tr>
-					    <td align="right" width="15%" height="20px" >最小金额(分)</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.minamt" id="minamt" required="true" missingMessage="请填写最小金额" maxlength="12" class="easyui-validatebox" onkeyup="value=value.replacevalue=value.replace(/[^0-9]/g,'')" />
-						    <font color="red">*</font></td>
-						</td>
-						
-						<td align="right" width="15%" height="20px" >最大金额(分)</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.maxamt" id="maxamt" required="true"  missingMessage="请填写最大金额" maxlength="12" class="easyui-validatebox" onkeyup="value=value.replacevalue=value.replace(/[^0-9]/g,'')" />
-						    <font color="red">*</font></td>
-						</td>
-					</tr>
-					
-					<tr>
-					    <td align="right" width="15%" height="20px" >优先类型</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.ordertype" id="ordertype" required="true" missingMessage="请填写优先类型" maxlength="12" class="easyui-validatebox" />
-						    <font color="red">*</font></td>
-						</td>
-						
-						<td align="right" width="15%" height="20px" >优先级</td>						
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeConfigModel.orders" id="orders" required="true"  missingMessage="请填写优先级" maxlength="12" class="easyui-validatebox" />
-						    <font color="red">*</font></td>
-						</td>
-					</tr>
-					
-					<tr>
-						<td align="right" width="15%">是否为默认路由</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<select name="routeConfigModel.isdef" id="isdef"  class="easyui-validatebox"  required="true"  missingMessage="请选择是否为默认路由"  />
-								<option value=''>--请选择是否为默认路由--</option>
-								<option value="0">默认路由</option>
-								<option value="1">非默认路由</option>
-						    </select>
-							<font color="red">*</font>
-						</td>
-							 					   					
-						<td align="right" width="15%">备注</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeConfigModel.notes" id="notes" maxlength="64"/>
-						</td>									
-					</tr>
-					
-					
-					<tr style="height: 60px">					
-					    <td>选择发卡行</td>
-						<td  align="left"  id="bankcode"  style="height: 150px" colspan="3"> 						     							
-	                	</td>
-					</tr>
-					    					
-					<tr>
-					    <td>
-					    </td>
-					    <td>
-					    </td>
-					</tr>
-					<tr>
-					    <td>选择卡种类</td>
-					    <td align="left"  id="cardtype"   colspan="3">					    
-					    </td>
-					</tr>
-					
-					<tr>
-					    <td>
-					    </td>
-					    <td>
-					    </td>
-					</tr>
-							
-					<tr style="height: 60px">					
-					    <td>选择交易类型</td>
-						<td  align="left"  id="busicode"  style="height: 60px"   colspan="3"> 						     							
-	                	</td>
-					</tr>
-							
-				</table>
-				</form>
-			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveRouteConfig()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveRouteConfig()" id="btn_submit" onclick="">保存</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	</body>
+</body>
 
-	<script>
+<script>
 		var width = $("#continer").width();
 	  	var gridHeight = 540;
 		var panelWidth = 640;
 		var panelHeight = 260;
 		var panelHoriFloat = (width-panelWidth)/2;
 		var panelVertFloat = 150;
-	
+/* 		function checkwhetherSame(){
+			var ordertype = $("#ordertype").val();
+			var orders = $("#orders").val();
+		} */
 		$(function() {
 			//交易渠道查询
 			queryChnlcode(); 

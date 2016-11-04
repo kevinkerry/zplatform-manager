@@ -369,6 +369,7 @@ public class RouteServiceImpl extends BaseServiceImpl<RouteModel, Long> implemen
 
     @Override
     public List<Map<String, Object>> selecRoutnameAndRouver(String routver) {
+        @SuppressWarnings("unchecked")
         List<Map<String, Object>> list =  (List<Map<String, Object>>) getDao().executeBySQL("select routname  from t_route where routver=? ", 
                 new Object[]{routver});        
         return    list;

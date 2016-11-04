@@ -4,44 +4,51 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-  <body>
-  <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-  </style>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" >
-			<input type="hidden" id="flag_ins" value="${flag}" />
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post">
+				<input type="hidden" id="flag_ins" value="${flag}" />
 				<table width="100%">
 					<tr>
 						<td align="right" width="10%">会员编号</td>
-						<td align="left" style="padding-left:5px" width="15%">
-							<input  id="merchId_ins" maxlength="15"/>
-						</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="merchId_ins" maxlength="15" /></td>
 						<td align="right" width="10%">商户名称</td>
-						<td align="left" style="padding-left: 5px" width="15%" >
-							<input  id="memberName_ins" maxlength="50"/>
-						</td>
-						
-						<td align="right">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="memberName_ins" maxlength="50" /></td>
+
+						<td align="right"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
-					
+
 				</table>
 			</form>
 		</div>
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-		
+
 	</div>
-	
-  </body>
-  
-  <script>
+
+</body>
+
+<script>
   	var width = $("#continer").width();
 		$(function(){
 			flag=$('#flag_ins').val();

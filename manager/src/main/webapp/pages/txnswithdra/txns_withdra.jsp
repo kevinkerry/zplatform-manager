@@ -3,58 +3,62 @@
 
 <jsp:include page="../../top.jsp"></jsp:include>
 
-<link rel="stylesheet" type="text/css" href="css/passwordkeyboard.css"/>
-  <body>
-  <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-  	
+<link rel="stylesheet" type="text/css" href="css/passwordkeyboard.css" />
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
 
-  </style>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:140px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" >
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 140px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
 						<td align="right" width="10%">提现订单号:</td>
-						<td align="left" style="padding-left:5px" width="15%">
-							<input name="twq.gatewayorderno" id="gatewayorderno" maxlength="32"/>
-						</td>
-					
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							name="twq.gatewayorderno" id="gatewayorderno" maxlength="32" /></td>
+
 						<td align="right" width="10%">提现类型:</td>
-						<td colspan="1">
-								<select name="twq.withdrawtype" class="easyui-validatebox validatebox-text" id="withdrawtypes">
-								  <option value="">请选择</option>
-						          <option value="0">个人</option>
-						          <option value="1">商户</option>
-						      
-					        	</select>
-							</td>
-						
-						<td align="right" width="10%">会员号:</td> 
-						<td align="left" style="padding-left:5px" width="15%">
-							<input name="twq.memberid" id="memberids" maxlength="32"/>
-						</td>					
+						<td colspan="1"><select name="twq.withdrawtype"
+							class="easyui-validatebox validatebox-text" id="withdrawtypes">
+								<option value="">请选择</option>
+								<option value="0">个人</option>
+								<option value="1">商户</option>
+
+						</select></td>
+
+						<td align="right" width="10%">会员号:</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							name="twq.memberid" id="memberids" maxlength="32" /></td>
 					</tr>
-										    
-					<tr>						
-						<td align="right" width="10%">提现申请日期:</td> 
-						<td align="left" style="padding-left:5px" width="15%">
-							<input name="twq.txntime" id="txntime" maxlength="32"/>
-						</td>
+
+					<tr>
+						<td align="right" width="10%">提现申请日期:</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							name="twq.txntime" id="txntime" maxlength="32" /></td>
 						<td align="right" rowspan="2">
-						<td align="left" style="padding-right:5px" width="15%">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>						
-						</td>						
-					</tr>					
+						<td align="left" style="padding-right: 5px" width="15%"><a
+							href="javascript:search()" class="easyui-linkbutton"
+							iconCls="icon-search">查询</a></td>
+					</tr>
 				</table>
 			</form>
 		</div>
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-		
+
 	</div>
 
 	<div id="ws" class="easyui-window" closed="true" title="My Window"
@@ -63,172 +67,232 @@
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<div>
-				<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"  border="solid">
-<tr><td width="40%"   align="center" >提现订单号</td><td align="center" whdth="40px" id="twithdraworderno"></td> 
-<td width="40%"   align="center" >批次号</td><td align="center" whdth="40px" id="tbatchno"></td> </tr>
-<tr><td width="40%"   align="center" >会员号</td><td align="center" whdth="40px" id="tmemberid"></td> 
-<td width="40%"   align="center" >提现类型</td><td align="center" whdth="40px" id="twithdrawtype"></td> </tr>
-<tr><td width="40%"   align="center" >提现金额</td><td align="center" whdth="40px" id="tamount"></td> 
-<td width="40%"   align="center" >银行账号</td><td align="center" whdth="40px" id="tacctno"></td> </tr>
-<tr><td width="40%"   align="center" >银行账户名称</td><td align="center" whdth="40px" id="tacctname"></td> 
-<td width="40%"   align="center" >银行代码</td><td align="center" whdth="40px" id="tbankcode"></td> </tr>
-<tr><td width="40%"   align="center" >支行名称</td><td align="center" whdth="40px" id="tbankname"></td> 
-<td width="40%"   align="center" >提现手续费</td><td align="center" whdth="40px" id="tfee"></td> </tr>
-<tr><td width="40%"   align="center" >交易时间</td><td align="center" whdth="40px" id="ttxntime"></td> 
-<td width="40%"   align="center" >完成时间</td><td align="center" whdth="40px" id="tfinishtime"></td> </tr>
-<tr><td width="40%"   align="center" >状态</td><td align="center" whdth="40px" id="tstatus"></td> 
-<td width="40%"   align="center" >提现渠道</td><td align="center" whdth="40px" id="twithdrawinstid"></td> </tr>
-<tr><td width="40%"   align="center" >应答码</td><td align="center" whdth="40px" id="tretcode"></td> 
-<td width="40%"   align="center" >应答信息</td><td align="center" whdth="40px" id="tretinfo"></td> </tr>
-<tr><td width="40%"   align="center" >写入人</td><td align="center" whdth="40px" id="tinuser"></td> 
-<td width="40%"   align="center" >写入时间</td><td align="center" whdth="40px" id="tintime"></td> </tr>
-<tr><td width="40%"   align="center" >初审人</td><td align="center" whdth="40px" id="tstexauser"></td> 
-<td width="40%"   align="center" >初审时间</td><td align="center" whdth="40px" id="tstexatime"></td> </tr>
-<tr><td width="40%"   align="center" >初审意见</td><td align="center" whdth="40px" id="tstexaopt"></td> 
-<td width="40%"   align="center" >复审人</td><td align="center" whdth="40px" id="tcvlexauser"></td> </tr>
-<tr><td width="40%"   align="center" >复审时间</td><td align="center" whdth="40px" id="tcvlexatime"></td> 
-<td width="40%"   align="center" >复审意见</td><td align="center" whdth="40px" id="tcvlexaopt"></td> </tr>
-<tr><td width="40%"   align="center" >网关订单号</td><td align="center" whdth="40px" id="tgatewayorderno"></td> 
-<td width="40%"   align="center" >银行主行行号</td><td align="center" whdth="40px" id="ttotalbankcode"></td> </tr>
-<tr><td width="40%"   align="center" >交易序列号</td><td align="center" whdth="40px" id="ttxnseqno"></td> </tr>
+					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"
+						border="solid">
+						<tr>
+							<td width="40%" align="center">提现订单号</td>
+							<td align="center" whdth="40px" id="twithdraworderno"></td>
+							<td width="40%" align="center">批次号</td>
+							<td align="center" whdth="40px" id="tbatchno"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">会员号</td>
+							<td align="center" whdth="40px" id="tmemberid"></td>
+							<td width="40%" align="center">提现类型</td>
+							<td align="center" whdth="40px" id="twithdrawtype"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">提现金额</td>
+							<td align="center" whdth="40px" id="tamount"></td>
+							<td width="40%" align="center">银行账号</td>
+							<td align="center" whdth="40px" id="tacctno"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">银行账户名称</td>
+							<td align="center" whdth="40px" id="tacctname"></td>
+							<td width="40%" align="center">银行代码</td>
+							<td align="center" whdth="40px" id="tbankcode"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">支行名称</td>
+							<td align="center" whdth="40px" id="tbankname"></td>
+							<td width="40%" align="center">提现手续费</td>
+							<td align="center" whdth="40px" id="tfee"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">交易时间</td>
+							<td align="center" whdth="40px" id="ttxntime"></td>
+							<td width="40%" align="center">完成时间</td>
+							<td align="center" whdth="40px" id="tfinishtime"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">状态</td>
+							<td align="center" whdth="40px" id="tstatus"></td>
+							<td width="40%" align="center">提现渠道</td>
+							<td align="center" whdth="40px" id="twithdrawinstid"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">应答码</td>
+							<td align="center" whdth="40px" id="tretcode"></td>
+							<td width="40%" align="center">应答信息</td>
+							<td align="center" whdth="40px" id="tretinfo"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">写入人</td>
+							<td align="center" whdth="40px" id="tinuser"></td>
+							<td width="40%" align="center">写入时间</td>
+							<td align="center" whdth="40px" id="tintime"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">初审人</td>
+							<td align="center" whdth="40px" id="tstexauser"></td>
+							<td width="40%" align="center">初审时间</td>
+							<td align="center" whdth="40px" id="tstexatime"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">初审意见</td>
+							<td align="center" whdth="40px" id="tstexaopt"></td>
+							<td width="40%" align="center">复审人</td>
+							<td align="center" whdth="40px" id="tcvlexauser"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">复审时间</td>
+							<td align="center" whdth="40px" id="tcvlexatime"></td>
+							<td width="40%" align="center">复审意见</td>
+							<td align="center" whdth="40px" id="tcvlexaopt"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">网关订单号</td>
+							<td align="center" whdth="40px" id="tgatewayorderno"></td>
+							<td width="40%" align="center">银行主行行号</td>
+							<td align="center" whdth="40px" id="ttotalbankcode"></td>
+						</tr>
+						<tr>
+							<td width="40%" align="center">交易序列号</td>
+							<td align="center" whdth="40px" id="ttxnseqno"></td>
+						</tr>
 
-		
+
 					</table>
 				</div>
 				<br>
-				
 
-	
+
+
 			</div>
 			<div region="south" border="false"
 				style="text-align: center; padding: 5px 0;">
 				<a class="easyui-linkbutton" iconCls="icon-ok"
 					href="javascript:closeAdd()" id="btn_submit" onclick="">返回</a>
-			
+
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:800px;height:200px;padding:5px;">
+
+
+
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-			<div id="member" >
-			<form action="" method="post"  id="organForm">
-			<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-			<tr align="center"><td align="right" width="45%">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<div id="member">
+					<form action="" method="post" id="organForm">
+						<table width="100%" cellpadding="2" cellspacing="2"
+							style="text-align: left" id="inputForm">
+							<tr align="center">
+								<td align="right" width="45%">会员号:</td>
+								<td align="left"><input id="memberid" name="qa.memberId"
+									required="true" type="text" class="easyui-validatebox"
+									maxlength="20" /></td>
+							</tr>
+							<tr align="center">
+								<td align="right" width="45%">账户:</td>
+								<td align="left"><select name="qa.usage"
+									class="easyui-validatebox validatebox-text" id="usage">
+										<option value="101">资金账户</option>
 
-			会员号:
-			</td>
-			<td align="left">
-				<input id="memberid"   name="qa.memberId" required="true"   type="text" class="easyui-validatebox" maxlength="20"  />
-				</td>
-				</tr>
-				<tr align="center">
-				<td align="right" width="45%">
-			账户:
-			</td>
-			<td align="left">
-			<select name="qa.usage" class="easyui-validatebox validatebox-text" id="usage">
-						          <option value="101">资金账户</option>
-						      
-					        	</select>
-				</td>
-				</tr>
-			</table>
-			</form>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveTxnsW()" id="btn_submit" onclick="">下一步</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
-			</div>
-			</div >
-			<div id="merch1" style="display:none">
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-			<tr align="center"><td align="right" width="45%">
-			<span id="bankname"></span>:
-			</td>
-			<td align="left">
-				<span id="acctno"></span>
-				</td>
-				</tr>
-				<tr align="center"><td align="right" width="45%">
+								</select></td>
+							</tr>
+						</table>
+					</form>
+					<div region="south" border="false"
+						style="text-align: center; padding: 5px 0;">
+						<a class="easyui-linkbutton" iconCls="icon-ok"
+							href="javascript:saveTxnsW()" id="btn_submit" onclick="">下一步</a>
+						<a class="easyui-linkbutton" iconCls="icon-cancel"
+							href="javascript:void(0)" onclick="closeAdd()">取消</a>
+					</div>
+				</div>
+				<div id="merch1" style="display: none">
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr align="center">
+							<td align="right" width="45%"><span id="bankname"></span>:</td>
+							<td align="left"><span id="acctno"></span></td>
+						</tr>
+						<tr align="center">
+							<td align="right" width="45%">提现金额:</td>
+							<td align="left"><input id="amount" placeholder="请输入提现金额"
+								name="qa.amount" required="true" type="text" maxlength="20"
+								onkeyup="money()" />元 &nbsp;&nbsp;&nbsp;&nbsp;人民币:<span
+								id="moneys"></span></td>
+						</tr>
+						<tr align="center">
+							<td align="right" width="45%">卡内余额:</td>
+							<td align="left"><span id="Balance"></span>:元</td>
+						</tr>
+						<tr align="center">
+							<td align="right" width="45%">提现手续费:</td>
+							<td align="left"><span id="txnsfee"></span>元</td>
+						</tr>
 
-			提现金额:
-			</td>
-			<td align="left">
-				<input id="amount" placeholder="请输入提现金额"  name="qa.amount" required="true"   type="text"   maxlength="20"  onkeyup="money()" />元
-				&nbsp;&nbsp;&nbsp;&nbsp;人民币:<span id="moneys"></span>
-				</td>
-				</tr>
-				<tr align="center"><td align="right" width="45%">
-				卡内余额:
-				</td>
-				<td align="left"><span id="Balance"></span>:元</td>
-				</tr>
-				<tr align="center"><td align="right" width="45%">
-				提现手续费:
-				</td>
-				<td align="left"><span id="txnsfee"></span>元</td>
-				</tr>
-				
-			</table>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:password('merch1','merch2')" id="btn_submits" onclick="">下一步</a>
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:void(0)" onclick="last('merch1','member')">上一步</a>
+					</table>
+					<div region="south" border="false"
+						style="text-align: center; padding: 5px 0;">
+						<a class="easyui-linkbutton" iconCls="icon-ok"
+							href="javascript:password('merch1','merch2')" id="btn_submits"
+							onclick="">下一步</a> <a class="easyui-linkbutton" iconCls="icon-ok"
+							href="javascript:void(0)" onclick="last('merch1','member')">上一步</a>
+					</div>
+
+				</div>
+				<div id="merch2" style="display: none">
+					<div style="text-align: center; padding-top: 10px;">
+						<span id="set_text" style="font-size: large;"> <span>请输入</span>
+							<span style="color: red;">六位数字支付密码</span> <span>，验证本次操作</span>
+						</span>
+					</div>
+					<div style="padding-top: 20px; text-align: center;">
+						<form id="password" method="post">
+							<input class="pass" type="password" maxlength="1" value=""><input
+								readonly class="pass" type="password" maxlength="1" value=""><input
+								readonly class="pass" type="password" maxlength="1" value=""><input
+								readonly class="pass" type="password" maxlength="1" value=""><input
+								readonly class="pass" type="password" maxlength="1" value=""><input
+								readonly class="pass pass_right" type="password" maxlength="1"
+								value=""> <input type="hidden" name="twb.memberid"
+								id="twbmemberid"> <input type="hidden"
+								name="twb.withdrawtype" id="twbwithdrawtype"> <input
+								type="hidden" name="twb.amount" id="twbamount"> <input
+								type="hidden" name="twb.acctno" id="twbacctno"> <input
+								type="hidden" name="twb.acctname" id="twbacctname"> <input
+								type="hidden" name="twb.bankcode" id="twbbankcode"> <input
+								type="hidden" name="twb.bankname" id="twbbankname"> <input
+								type="hidden" name="twb.passWord" id="twbpassword"> <input
+								type="hidden" name="twb.merchId" id="twbmerchId"> <input
+								type="hidden" name="twb.subMerchId" id="twbsubMerchId">
+							<input type="hidden" name="twb.cardType" id="twbcardType">
+							<input type="hidden" name="twb.fee" id="fee"> <input
+								type="hidden" name="twb.totalBankCode" id="totalBankCode">
+							<input type="hidden" name="qa.memberId" id="twbmemberId">
+							<input type="hidden" name="qa.usage" id="twbusage"> <input
+								type="hidden" name="twb.withdraworderno" id="withdraworderno">
+							<input type="hidden" name="twb.txnseqNo" id="txnseqNo"> <input
+								type="hidden" id="feever"> <input type="hidden"
+								id="busicode"> <input type="hidden" id="accfirmerno">
+
+
+
+
+						</form>
+						<a class="easyui-linkbutton" iconCls="icon-ok"
+							href="javascript:tixian()" id="btn_submit" onclick="">提现</a> <a
+							class="easyui-linkbutton" iconCls="icon-cancel"
+							href="javascript:void(0)" onclick="closeAdd()">取消</a>
+					</div>
+				</div>
 			</div>
-			
-			</div>
-			<div id="merch2" style="display:none">
-			<div style="text-align: center;padding-top: 10px;p">
-<span id="set_text" style="font-size: large;">
-<span>请输入</span>
-<span style="color: red;">六位数字支付密码</span>
-<span>，验证本次操作</span>
-</span>
-</div>
-<div style="padding-top: 20px;text-align: center;">
-        <form id="password" method="post" >
-     <input  class="pass"  type="password"maxlength="1"value=""><input readonly class="pass" type="password"maxlength="1"value=""><input readonly class="pass" type="password"maxlength="1"value=""><input readonly class="pass" type="password"maxlength="1"value=""><input readonly class="pass" type="password"maxlength="1"value=""><input readonly class="pass pass_right" type="password"maxlength="1"value="">
-     <input   type="hidden"  name="twb.memberid"  id="twbmemberid">  
-      <input  type="hidden"  name="twb.withdrawtype" id="twbwithdrawtype">  
-       <input  type="hidden" name="twb.amount" id="twbamount" >  
-         <input  type="hidden"  name="twb.acctno" id="twbacctno">  
-          <input  type="hidden"  name="twb.acctname" id="twbacctname">  
-           <input  type="hidden"  name="twb.bankcode" id="twbbankcode">  
-             <input  type="hidden"  name="twb.bankname" id="twbbankname"> 
-            <input  type="hidden"  name="twb.passWord" id="twbpassword">  
-             <input  type="hidden"  name="twb.merchId" id="twbmerchId">  
-              <input  type="hidden"  name="twb.subMerchId" id="twbsubMerchId">  
-               <input  type="hidden"  name="twb.cardType" id="twbcardType">  
-                 <input  type="hidden"  name="twb.fee" id="fee">  
-                 <input  type="hidden"  name="twb.totalBankCode" id="totalBankCode">  
-   				 <input  type="hidden"  name="qa.memberId" id="twbmemberId"> 
-  			  <input  type="hidden"  name="qa.usage" id="twbusage"> 
-  			<input  type="hidden" name="twb.withdraworderno" id="withdraworderno"> 
-  				<input  type="hidden" name="twb.txnseqNo" id="txnseqNo"> 
-  			<input  type="hidden" id="feever"> 
-  			<input  type="hidden" id="busicode"> 
-  			<input  type="hidden" id="accfirmerno"> 
-  		
-  											
-  													
-  			  
-        </form>
-        <a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:tixian()" id="btn_submit" onclick="">提现</a>
-		<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
-    </div>
-</div>
-			</div>
-			<div id="person1" style="display:none"></div>
-			<div id="person2" style="display:none"></div>
-			
-			
-			
-			</div ></div >
-  </body>
-  
-  <script>
+			<div id="person1" style="display: none"></div>
+			<div id="person2" style="display: none"></div>
+
+
+
+		</div>
+	</div>
+</body>
+
+<script>
   	var width = $("#continer").width();
 	
 	$(function (){
@@ -459,9 +523,9 @@
 			        //支行名称
 			        $("#twbbankname").val(json.txns.bankname);
 			        
-			        //一级商户号
+			        //合作机构号
 			        $("#twbmerchId").val(json.txns.merchId);
-			        //二级商户号
+			        //商户号
 			        $("#twbsubMerchId").val(json.txns.subMerchId);
 			        //卡类型 
 			        $("#twbcardType").val(json.txns.cardType);

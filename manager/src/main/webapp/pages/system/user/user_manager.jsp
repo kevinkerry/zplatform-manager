@@ -1,94 +1,122 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="../../../top.jsp"></jsp:include>
 <style type="text/css">
+.left, .mid, .right {
+	width: auto;
+	float: left;
+}
 
-.left,.mid,.right{ width:auto; float:left;}
-.form-control{border: 2px solid #A9C9E2;}
-.mid{ padding-top:45px; padding-left:12px; padding-right:12px;}
+.form-control {
+	border: 2px solid #A9C9E2;
+}
 
+.mid {
+	padding-top: 45px;
+	padding-left: 12px;
+	padding-right: 12px;
+}
 </style>
-  <body>
-    <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-    </style>
-  	<div style="padding-top:5px;margin-left:5px;margin-right:5px" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:130px;padding-top:10px;background:#fafafa;" iconCls="icon-save" collapsible="true">
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="padding-top: 5px; margin-left: 5px; margin-right: 5px"
+		id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 130px; padding-top: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
 			<form action="" id="searchForm">
 				<table width="100%">
 					<tr>
 						<td align="right">用户名称</td>
-						<td align="left" style="padding-left:5px"><input id="userName" name="userModel.userName" /></td>
+						<td align="left" style="padding-left: 5px"><input
+							id="userName" name="userModel.userName" /></td>
 						<td align="right">用户代码</td>
-						<td align="left" style="padding-left: 5px"><input id="userCode" name="userModel.loginName" /></td>
+						<td align="left" style="padding-left: 5px"><input
+							id="userCode" name="userModel.loginName" /></td>
 						<td align="right"></td>
 					</tr>
 					<tr>
 						<td align="right">所属机构</td>
-						<td align="left" style="padding-left: 5px">
-							<select id="userOrganId" name="user.organId" onchange="showDept(1)">
+						<td align="left" style="padding-left: 5px"><select
+							id="userOrganId" name="user.organId" onchange="showDept(1)">
 								<option value=''>--请选择所属机构--</option>
-							</select>
-						</td>
+						</select></td>
 						<td align="right">所属部门</td>
-						<td align="left" style="padding-left: 5px">
-							<select id="userDeptId" name="user.deptId" onchange="showRole(1)" >
+						<td align="left" style="padding-left: 5px"><select
+							id="userDeptId" name="user.deptId" onchange="showRole(1)">
 								<option value=''>--请选择所属部门--</option>
-							</select>
-						</td>
-						
+						</select></td>
+
 					</tr>
 					<tr>
 						<td align="right">用户角色</td>
-						<td align="left" style="padding-left: 5px">
-							<select id="userRoleId" name="user.notes">
+						<td align="left" style="padding-left: 5px"><select
+							id="userRoleId" name="user.notes">
 								<option value=''>--请选择用户角色--</option>
-							</select>
-						</td>
-						<td align="right" colspan="3">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-							<a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
-						</td>
+						</select></td>
+						<td align="right" colspan="3"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
+							href="javascript:resize()" class="easyui-linkbutton"
+							iconCls="icon-redo">清空</a></td>
 					</tr>
 				</table>
 			</form>
 		</div>
-		<div style="margin-top:5px">
+		<div style="margin-top: 5px">
 			<table id="userList">
 			</table>
 		</div>
 	</div>
-	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="saveForm" action="pages/system/saveUserAction.action" method="post">
-					<input type="hidden" id="user_id" name="user.userId"/>
-					 <input type="hidden" id="user_status" name="user.status"/>
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="saveForm" action="pages/system/saveUserAction.action"
+					method="post">
+					<input type="hidden" id="user_id" name="user.userId" /> <input
+						type="hidden" id="user_status" name="user.status" />
 					<table width="100%" cellpadding="2" cellspacing="2">
 						<tr style="height: 25px">
 							<td>用户代码</td>
-							<td align="left"><input type="text" id="user_code" name="user.userCode" class="easyui-validatebox" required="true" maxlength="7"  missingMessage="请输入用户代码"/></td>
+							<td align="left"><input type="text" id="user_code"
+								name="user.userCode" class="easyui-validatebox" required="true"
+								maxlength="7" missingMessage="请输入用户代码" onkeyup="value=value.replace(/<[^<]+>/g,'')"/></td>
 							<td>用户名称</td>
-							<td align="left"><input type="text" id="user_name" name="user.userName" class="easyui-validatebox" required="true" maxlength="20" missingMessage="请输入用户名称"/></td>
+							<td align="left"><input type="text" id="user_name"
+								name="user.userName" class="easyui-validatebox" required="true"
+								maxlength="20" missingMessage="请输入用户名称" onkeyup="value=value.replace(/<[^<]+>/g,'')"/></td>
 						</tr>
 						<tr style="height: 25px">
 							<td>登录账号</td>
-							<td align="left"><input type="text" id="user_loginName" name="user.loginName" class="easyui-validatebox" required="true" maxlength="32" missingMessage="请输入登录账号"/></td>
+							<td align="left"><input type="text" id="user_loginName"
+								name="user.loginName" class="easyui-validatebox" required="true"
+								maxlength="32" missingMessage="请输入登录账号" onkeyup="value=value.replace(/<[^<]+>/g,'')"/></td>
 							<td>所属机构</td>
-							<td align="left">
-								<select id="user_organId" class="easyui-validatebox" missingMessage="请选择所属机构" required="true" name="user.organId" onchange="showDept()">
+							<td align="left"><select id="user_organId"
+								class="easyui-validatebox" missingMessage="请选择所属机构"
+								required="true" name="user.organId" onchange="showDept()">
 									<option value=''>--请选择所属机构--</option>
-								</select>
-							</td>
+							</select></td>
 						</tr>
 						<tr style="height: 25px">
 							<td>所属部门</td>
-							<td align="left">
-								<select id="user_deptId" class="easyui-validatebox" missingMessage="请选择所属部门" required="true" name="user.deptId" onchange="showRole()" >
+							<td align="left"><select id="user_deptId"
+								class="easyui-validatebox" missingMessage="请选择所属部门"
+								required="true" name="user.deptId" onchange="showRole()">
 									<option value=''>--请选择所属部门--</option>
-								</select>
-							</td>
+							</select></td>
 							<!-- <td>用户角色</td>
 							<td align="left">
 								<select id="user_roleId" class="easyui-validatebox" required="true" name="user.roleId" missingMessage="请选择用户角色">
@@ -96,77 +124,91 @@
 								</select>
 							</td> -->
 							<td>用户类型</td>
-							<td align="left">
-								<select id="user_isadmin" class="easyui-validatebox" required="true" name="user.isadmin" missingMessage="请选择用户类型">
+							<td align="left"><select id="user_isadmin"
+								class="easyui-validatebox" required="true" name="user.isadmin"
+								missingMessage="请选择用户类型">
 									<option value=''>--请选择用户类型--</option>
 									<option value='1'>管理员</option>
 									<option value='0'>普通用户</option>
-								</select>
-							</td>
+							</select></td>
 							<td></td>
-							<td align="left">
-							</td>
+							<td align="left"></td>
 						</tr>
 						<tr style="height: 25px">
-						    <td>备注</td>
-							<td colspan="3">
-							    <textarea  rows="3" cols="81" id="user_notes" maxlength="64" name="user.notes" style="resize:none;" onkeyup="value=value.replace(/<[^<]+>/g,'')" ></textarea>
-						    </td>
-	
+							<td>备注</td>
+							<td colspan="3"><textarea rows="3" cols="81" id="user_notes"
+									maxlength="64" name="user.notes" style="resize: none;"
+									onkeyup="value=value.replace(/<[^<]+>/g,'')"></textarea></td>
+
 						</tr>
 					</table>
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveUser()" id="btn_submit" onclick="">提交</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveUser()" id="btn_submit" onclick="">提交</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	
-	<div id="w2" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-	<div class="easyui-layout" fit="true">
-	<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-	    <input id="userId_addrole" name="user.userId"  type="hidden"/>
-		<form id="AddUserRoleForm" name="myForm" action="pages/system/SaveUserRoleAction.action" method="post">
-	    <div>
-		<div class="left" >
-			<p class="text">待选:</p>
-			<select class="form-control" id="scope"  name="scope" size="25" multiple="multiple" style="width:120px">
-						
-			</select>
+
+	<div id="w2" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<input id="userId_addrole" name="user.userId" type="hidden" />
+				<form id="AddUserRoleForm" name="myForm"
+					action="pages/system/SaveUserRoleAction.action" method="post">
+					<div>
+						<div class="left">
+							<p class="text">待选:</p>
+							<select class="form-control" id="scope" name="scope" size="25"
+								multiple="multiple" style="width: 120px">
+
+							</select>
+						</div>
+						<div class="mid">
+							<a href="javascript:addToSelect()" class="easyui-linkbutton"
+								iconCls="icon-add">增加</a> <a href="javascript:delSelect2()"
+								class="easyui-linkbutton" iconCls="icon-redo">删除</a>
+						</div>
+						<div class="right">
+							<p class="text">已选:</p>
+							<select class="form-control" id="selectScopes"
+								name="UserRoleList" size="25" multiple="multiple"
+								style="width: 120px">
+							</select>
+						</div>
+					</div>
+					<a href="javascript:AddUserRoleForm()" class="easyui-linkbutton"
+						iconCls="icon-ok">提交</a>
+			</div>
 		</div>
-		<div class="mid">
-			<a href="javascript:addToSelect()" class="easyui-linkbutton" iconCls="icon-add" >增加</a>
-			<a href="javascript:delSelect2()" class="easyui-linkbutton" iconCls="icon-redo"  >删除</a>
-		</div>
-		<div class="right" >
-			<p class="text">已选:</p>
-			<select class="form-control" id="selectScopes"  name="UserRoleList" size="25" multiple="multiple" style="width:120px">
-			</select>
-		</div>
-	    </div>
-	       <a href="javascript:AddUserRoleForm()" class="easyui-linkbutton" iconCls="icon-ok">提交</a>
 	</div>
-	</div>
-	</div>
-	<div id="userRoleW3" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-	<div class="easyui-layout" fit="true">
-	<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-	    <div region="center" title="权限栏" id="authMenu" closed="true">
-	    <input id="userId" name="user.userId"  type="hidden"/>
-		<div style="margin: 5px" id="menu_div">
-			<ul id="tt2"></ul>
-			
-		    <a href="javascript:submitUserAuth()" class="easyui-linkbutton" iconCls="icon-ok">提交</a>
+	<div id="userRoleW3" class="easyui-window" closed="true"
+		title="My Window" iconCls="icon-save"
+		style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<div region="center" title="权限栏" id="authMenu" closed="true">
+					<input id="userId" name="user.userId" type="hidden" />
+					<div style="margin: 5px" id="menu_div">
+						<ul id="tt2"></ul>
+
+						<a href="javascript:submitUserAuth()" class="easyui-linkbutton"
+							iconCls="icon-ok">提交</a>
+					</div>
+				</div>
+			</div>
 		</div>
-	    </div>
-	 </div>
-	 </div>
-	 </div>  
-  </body>
-  </body>
-  <script>
+	</div>
+</body>
+</body>
+<script>
   	var width = $("#continer").width();
 		$(function(){
 			showOrgan();

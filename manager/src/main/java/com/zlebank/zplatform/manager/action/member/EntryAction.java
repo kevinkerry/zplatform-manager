@@ -19,7 +19,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.zlebank.zplatform.acc.bean.AccEntry;
+import com.zlebank.zplatform.acc.bean.BusiAcctQuery;
 import com.zlebank.zplatform.acc.bean.Business;
+import com.zlebank.zplatform.acc.bean.QueryAccount;
 import com.zlebank.zplatform.acc.bean.enums.AccEntryStatus;
 import com.zlebank.zplatform.acc.service.BusinessServiec;
 import com.zlebank.zplatform.commons.bean.PagedResult;
@@ -27,6 +29,7 @@ import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.AccEntryBean;
+import com.zlebank.zplatform.manager.service.iface.AccAcctService;
 import com.zlebank.zplatform.manager.service.iface.IMemberService;
 import com.zlebank.zplatform.member.bean.MemberQuery;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
@@ -51,9 +54,14 @@ public class EntryAction extends BaseAction {
 
     public List<Business> bus;
 
+    public QueryAccount queryAccount;
+    public BusiAcctQuery busiAcctQuery;
+    @Autowired
+    public AccAcctService accAcctService;
     public List<Business> getBus() {
         return bus;
     }
+
 
     public void setBus(List<Business> bus) {
         this.bus = bus;
@@ -70,7 +78,7 @@ public class EntryAction extends BaseAction {
     }
 
     public void queryTradeDetail() {
-        String mesg;
+        String mesg ="";
         Map<String, Object> map = new HashMap<String, Object>();
         if (mq == null) {
             mq = new MemberQuery();
@@ -89,12 +97,27 @@ public class EntryAction extends BaseAction {
                     AccEntryBean entryb = BeanCopyUtil.copyBean(
                             AccEntryBean.class, accen);
                     entryb.setAmount(accen.getAmount().toYuan());
-                    entryb.setCrdr(accen.getCrdr().getCode());
-                    entryb.setStatus(accen.getStatus().getCode());
+                    entryb.setAcctCode(accen.getAcctCode());//科目号
+                    entryb.setCrdr(accen.getCrdr().getCode());//借or贷
+                    entryb.setStatus(accen.getStatus().getCode());//记账状态                    
                     SimpleDateFormat formatter = new SimpleDateFormat(
                             "yyyy-MM-dd HH:mm:ss");
                     String dateString = formatter.format(accen.getInTime());
-                    entryb.setInTime(dateString);
+                    entryb.setInTime(dateString);//分录时间
+                    
+                   String acccodeString = accen.getAcctCode();
+                    if(acccodeString !=null || acccodeString !=""){
+                        @SuppressWarnings("unchecked")
+                        List<Map<String, String>> list = (List<Map<String, String>>) accAcctService.getAccAcctInfo(acccodeString);                       
+                        entryb.setAcctCodeName(list.get(0).get("ACCT_CODE_NAME"));
+                        entryb.setMemberid(list.get(0).get("BUSINESS_ACTOR_ID"));
+                        entryb.setCrdr(list.get(0).get("CRDR"));  
+                        @SuppressWarnings("unchecked")
+                        List<Map<String, String>> listUsage = (List<Map<String, String>>) accAcctService.getAccBusiacctInfo(acccodeString); 
+                        if(listUsage!=null && listUsage.size()!=0){
+                            entryb.setUsage(listUsage.get(0).get("USAGE"));
+                        }                      
+                    }
                     entryBean.add(entryb);
                 }
             }

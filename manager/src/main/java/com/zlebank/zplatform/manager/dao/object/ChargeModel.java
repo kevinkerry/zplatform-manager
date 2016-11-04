@@ -10,6 +10,7 @@
  */
 package com.zlebank.zplatform.manager.dao.object;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.AttributeOverride;
@@ -40,14 +41,19 @@ import com.zlebank.zplatform.member.pojo.PojoMember;
 
 @Entity
 @Table(name = "T_TXNS_CHARGE")
-public class ChargeModel {
+public class ChargeModel implements Serializable{
+    
+    /**
+     * serialVersionUID
+     */
+    private static final long serialVersionUID = 1L;
     /**ID**/
     private Long id;
     /**充值订单号**/
     private String chargeno;
     /**会员号**/
     private PojoMember memberid;
-    /**充值类型01个人02商户**/
+    /**充值类型01个人02商户03合作机构**/
     private String chargetype;
     /**金额**/
     private Money amount;
@@ -77,7 +83,12 @@ public class ChargeModel {
     private String notes;
     /**备注**/
     private String remarks;
-   
+    /**受理订单号**/
+    private String tn;
+    /**用途**/
+    private String usage;
+    
+
     @Id
     @GeneratedValue(generator = "id_gen")
     @GenericGenerator(name = "id_gen", strategy = "enhanced-table", parameters = {
@@ -207,13 +218,36 @@ public class ChargeModel {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
+
+	/**
+	 * @return the tn
+	 */
+	 @Column(name = "TN")
+	public String getTn() {
+		return tn;
+	}
+	/**
+	 * @param tn the tn to set
+	 */
+	public void setTn(String tn) {
+		this.tn = tn;
+	}
+	@Column(name="CHARGECODE")
 	public String getChargecode() {
 		return chargecode;
 	}
-	 @Column(name = "CHARGECODE")
-	public void setChargecode(String chargecode) {
-		this.chargecode = chargecode;
-	}
+    public void setChargecode(String chargecode) {
+        this.chargecode = chargecode;
+    }
+    @Column(name="USAGE")
+    public String getUsage() {
+        return usage;
+    }
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
+	
 
     
     

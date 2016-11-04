@@ -1,67 +1,98 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <jsp:include page="../../top.jsp"></jsp:include>
-  <body>
-<script type="text/javascript" src="js/checkboxbeautify/jquery-hcheckbox.js"></script>
-<link href='js/checkboxbeautify/css.css' rel="stylesheet" type="text/css" />
-<style type="text/css">
-			#groupinfo {height:25px;}
-			#groupinfo tr td{height:25px;border-style:solid;border-width:0px 0px 0px 0px;border-color:#000000;padding:1px}
-			#groupinfo tr td input{height:20px;margin-left:3px;}
-			#groupinfo tr td span{height:20px;margin-left:3px;}
-			
-			.activeflag_label{width:90px}
+<body>
+	<script type="text/javascript"
+		src="js/checkboxbeautify/jquery-hcheckbox.js"></script>
+	<link href='js/checkboxbeautify/css.css' rel="stylesheet"
+		type="text/css" />
+	<style type="text/css">
+#groupinfo {
+	height: 25px;
+}
+
+#groupinfo tr td {
+	height: 25px;
+	border-style: solid;
+	border-width: 0px 0px 0px 0px;
+	border-color: #000000;
+	padding: 1px
+}
+
+#groupinfo tr td input {
+	height: 20px;
+	margin-left: 3px;
+}
+
+#groupinfo tr td span {
+	height: 20px;
+	margin-left: 3px;
+}
+
+.activeflag_label {
+	width: 90px
+}
 </style>
-		<div style="margin-top: 5px">
-			<table id="test"></table>
-		</div>
+	<div style="margin-top: 5px">
+		<table id="test"></table>
+	</div>
 
-	<input type="hidden" id="riskver" value="${riskver}"/>
-	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:900px;height:900px;padding:5px;">
+	<input type="hidden" id="riskver" value="${riskver}" />
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 900px; height: 900px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm" action="pages/risk/updateRiskCaseRiskAction.action" method="post">
-				   <input type="hidden" id="caseid" name="riskCaseModel.caseid">
-				   <input type="hidden" id="riskver2" name="riskCaseModel.riskver">
-					<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-					<tr>
-						<td align="right" width="10%" height="50px" >风控版本代码</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="riskCaseModel.busicode" id="busicode" validType="minLength[8,8]" maxlength="8" class="easyui-validatebox" />
-						</td>
-						<td align="right" width="10%">风控版本名称</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="riskCaseModel.businame" id="businame"/>
-						</td>
-					</tr>
-					<tr></tr>
-					<tr>
-						<td align="right" width="10%" height="50px" >选择业务</td>
-						<td  align="left" id="yewu_ins" colspan="3">
-     							
-		                </td>
-					</tr>
-					<tr>
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm"
+					action="pages/risk/updateRiskCaseRiskAction.action" method="post">
+					<input type="hidden" id="caseid" name="riskCaseModel.caseid">
+					<input type="hidden" id="riskver2" name="riskCaseModel.riskver">
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td align="right" width="10%" height="50px">风控版本代码</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="riskCaseModel.busicode" id="busicode"
+								validType="minLength[8,8]" maxlength="8"
+								class="easyui-validatebox" /></td>
+							<td align="right" width="10%">风控版本名称</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="riskCaseModel.businame" id="businame" /></td>
+						</tr>
+						<tr></tr>
+						<tr>
+							<td align="right" width="10%" height="50px">选择业务</td>
+							<td align="left" id="yewu_ins" colspan="3"></td>
+						</tr>
+						<tr>
 
-						<td align="right" width="10%" height="50px" >备注</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="riskCaseModel.notes" id="Notes" maxlength="32"/>
-						</td>
-					</tr>
-				</table>
+							<td align="right" width="10%" height="50px">备注</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="riskCaseModel.notes" id="Notes" maxlength="32" /></td>
+						</tr>
+					</table>
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" id="btn_submit" iconCls="icon-ok" onclick="updateRiskCase()">提交</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" id="btn_submit" iconCls="icon-ok"
+					onclick="updateRiskCase()">提交</a> <a class="easyui-linkbutton"
+					iconCls="icon-cancel" href="javascript:void(0)"
+					onclick="closeAdd()">取消</a>
 			</div>
 		</div>
-	</div>	
-	<div region="south" border="false" style="text-align:center;padding:5px 0;">
-		<a href="javascript:history.back(-1);" class="easyui-linkbutton" iconCls="icon-back">返回</a>
 	</div>
-  </body>
-  
-  <script>
+	<div region="south" border="false"
+		style="text-align: center; padding: 5px 0;">
+		<a href="javascript:history.back(-1);" class="easyui-linkbutton"
+			iconCls="icon-back">返回</a>
+	</div>
+</body>
+
+<script>
 	  	$(document).ready(function() { //页面加载完成 初始化页面
 			//showProduct();
 		});

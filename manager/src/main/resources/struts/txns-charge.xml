@@ -5,13 +5,15 @@
 <struts>
 
 
- 	<package name="charge" namespace="/pages/charge" extends="global">
- 		<default-action-ref name="index" />
-		<action name="*ChargeAction" class="com.zlebank.zplatform.manager.action.charge.ChargeAction" method="{1}">
-            <result >/pages/charge/query_charge.jsp</result>
+	<package name="charge" namespace="/pages/charge" extends="global">
+		<default-action-ref name="index" />
+		<action name="*ChargeAction"
+			class="com.zlebank.zplatform.manager.action.charge.ChargeAction"
+			method="{1}">
+			<result>/pages/charge/query_charge.jsp</result>
 			<result name="first">/pages/charge/first_charge.jsp</result>
 		</action>
-    </package>	
+	</package>
 
 
 </struts>

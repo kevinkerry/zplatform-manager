@@ -25,18 +25,16 @@ table tr td select {
 					<tr>
 						<td align="right" width="10%">代付流水号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.insteadPayDataSeqNo" id="insteadPayDataSeqNo" maxlength="32" />
-						</td>
+							name="instead.insteadPayDataSeqNo" id="insteadPayDataSeqNo"
+							maxlength="32" /></td>
 						<td align="right" width="10%">商户订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.orderId" id="orderId" maxlength="32" />
-						</td>
-						</tr>
-						<tr>
+							name="instead.orderId" id="orderId" maxlength="32" /></td>
+					</tr>
+					<tr>
 						<td align="right" width="10%">商户代付批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="instead.batchNo" id="batchno" maxlength="32" />
-						</td>
+							name="instead.batchNo" id="batchno" maxlength="32" /></td>
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
@@ -45,7 +43,7 @@ table tr td select {
 		</div>
 		<div style="margin-top: 5px">
 			<table id="insteadPayDetailPanel"></table>
-		</div> 
+		</div>
 	</div>
 </body>
 

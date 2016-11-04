@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.manager.action.fund.PagResultBean;
 import com.zlebank.zplatform.manager.bean.FundQueryCondition;
@@ -12,6 +15,11 @@ import com.zlebank.zplatform.manager.dao.container.DAOContainer;
 import com.zlebank.zplatform.manager.dao.iface.IRaiseTrDao;
 import com.zlebank.zplatform.manager.dao.object.RaiseTrModel;
 import com.zlebank.zplatform.manager.service.iface.RaiseTrService;
+import com.zlebank.zplatform.member.exception.DataCheckFailedException;
+import com.zlebank.zplatform.member.exception.GetAccountFailedException;
+import com.zlebank.zplatform.trade.exception.TradeException;
+import com.zlebank.zplatform.trade.service.EnterpriseTradeService;
+
 
 public class RaiseTrServiceImpl implements RaiseTrService{
 	
@@ -23,6 +31,7 @@ public class RaiseTrServiceImpl implements RaiseTrService{
 	public void setDaoContainer(DAOContainer daoContainer) {
 		this.daoContainer = daoContainer;
 	}
+
 
 	
 	/**
@@ -36,11 +45,15 @@ public class RaiseTrServiceImpl implements RaiseTrService{
 	}
 	/**
 	 * 审核
+	 * @throws TradeException 
+	 * @throws GetAccountFailedException 
+	 * @throws DataCheckFailedException 
 	 */
 	@Override
-	public void aduitMes(String orderId,Date date) {
+	public void aduitMes(long tid,Date date,EnterpriseTradeService enterpriseTradeService) throws Exception {
 		IRaiseTrDao dao = daoContainer.getRaiseTrDao();
-		dao.aduitMoney(orderId,date);
+		enterpriseTradeService.raiseMoneyTransferFinish(tid);
+		dao.aduitMoney(tid,date);
 	}
 	
 	

@@ -16,9 +16,11 @@ table tr td select {
 	height: 20px
 }
 </style>
-	<div style="margin: 5px;border:" id="continer">
-	<div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" >
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
 						<td align="right">退款订单号:</td>
@@ -28,8 +30,10 @@ table tr td select {
 						<td align="right" width="10%">会员号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="txnxRefund.memberid" id="memberid" maxlength="32" /></td>
-						<td align="right"><a href="javascript:search()"class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						 <a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a></td>
+						<td align="right"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
+							href="javascript:resize()" class="easyui-linkbutton"
+							iconCls="icon-redo">清空</a></td>
 					</tr>
 				</table>
 			</form>
@@ -39,43 +43,45 @@ table tr td select {
 		</div>
 	</div>
 
-	<div id="ws" class="easyui-window" closed="true" title="My Window" iconCls="icon-save">
+	<div id="ws" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<div>
-				<form id="firstTrial" method="post"
-					action="pages/withdraw/queryTrialWithdraTriaAction.action">
-					<input id="refundordernoA" type="hidden" name="txnxRefund.refundorderno" /> 
-					<input id="flag" type="hidden" name="txnxRefund.flag" />
-					<table width="100%" cellpadding="2" cellspacing="2"  border="solid">
-						<tr>
-							<td width="20%" align="center">&nbsp;退款编号:</td>
-							<td align="center" width="30%" id="REFUNDORDERNO"></td>
-							<td  width="20%"  align="center">&nbsp;会员号:</td>
-							<td  width="30%" align="center" id="MEMBERID"></td>
-						</tr>
-						<tr>
-							<td  align="center">&nbsp;原订单金额:</td>
-							<td align="center"  id="OLDAMOUNT"></td>
-							<td  align="center">&nbsp;退款金额:</td>
-							<td align="center"  id="AMOUNT"></td>
-						</tr>
-						<tr>
-							<td width="20%" align="center">&nbsp;退款原因:</td>
-							<td align="center" id="REFUNDDESC" colspan="3"></td>
-						</tr>
-						<tr>
-							<td align="center">初审意见:</td>
-							<td colspan="3">
-								<textarea id="stexaopt" rows="5" cols="80" name="txnxRefund.stexaopt">
-								</textarea>
-							</td>
-						</tr>
-					</table>
-				</form>
+					<form id="firstTrial" method="post"
+						action="pages/withdraw/queryTrialWithdraTriaAction.action">
+						<input id="refundordernoA" type="hidden"
+							name="txnxRefund.refundorderno" /> <input id="flag"
+							type="hidden" name="txnxRefund.flag" />
+						<table width="100%" cellpadding="2" cellspacing="2" border="solid">
+							<tr>
+								<td width="20%" align="center">&nbsp;退款编号:</td>
+								<td align="center" width="30%" id="REFUNDORDERNO"></td>
+								<td width="20%" align="center">&nbsp;会员号:</td>
+								<td width="30%" align="center" id="MEMBERID"></td>
+							</tr>
+							<tr>
+								<td align="center">&nbsp;原订单金额:</td>
+								<td align="center" id="OLDAMOUNT"></td>
+								<td align="center">&nbsp;退款金额:</td>
+								<td align="center" id="AMOUNT"></td>
+							</tr>
+							<tr>
+								<td width="20%" align="center">&nbsp;退款原因:</td>
+								<td align="center" id="REFUNDDESC" colspan="3"></td>
+							</tr>
+							<tr>
+								<td align="center">初审意见:</td>
+								<td colspan="3"><textarea id="stexaopt" rows="5" cols="80"
+										name="txnxRefund.stexaopt">
+								</textarea></td>
+							</tr>
+						</table>
+					</form>
+				</div>
 			</div>
-		</div>
-		<div region="south" border="false"
+			<div region="south" border="false"
 				style="text-align: center; padding: 5px 0;">
 				<a class="easyui-linkbutton" iconCls="icon-ok"
 					href="javascript:firstTrial(true)" id="btn_submit" onclick="">通过</a>

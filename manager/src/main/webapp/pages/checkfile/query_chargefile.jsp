@@ -25,20 +25,20 @@ table tr td select {
 					<tr>
 						<td align="right" width="10%">交易序列号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-						 id="txnseqno" maxlength="32" /></td>
+							id="txnseqno" maxlength="32" /></td>
 
 						<td align="right" width="10%">充值订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="payordno" maxlength="32" /></td>
+							id="payordno" maxlength="32" /></td>
 
 						<td align="right" width="10%">商户编号:</td>
-							<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="merchno" maxlength="32" /></td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="merchno" maxlength="32" /></td>
 
 						<td align="right" width="10%">交易流水号:</td>
-							<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="paytrcno" maxlength="32" /></td>
-						
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="paytrcno" maxlength="32" /></td>
+
 					</tr>
 
 					<tr>

@@ -4,168 +4,183 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-  <body>
-  <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-  </style>
-  
-  
-  	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+
+
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<form id="saveForm" action="" method="post">
 					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo">
-					<tr style="height: 25px">
+						<tr style="height: 25px">
 							<td align="center" width="100px">冻结账号:</td>
-							<td align="left">
-							<span  id="acccode"></span>
-							<input  id="accId"  type="hidden" name="account.accId" ></input>
-							</td>
-							
+							<td align="left"><span id="acccode"></span> <input
+								id="accId" type="hidden" name="account.accId"></input></td>
+
 						</tr>
-					
+
 						<tr style="height: 25px">
 							<td align="center" width="74px">冻结额度:</td>
-							<td align="left"> <input type="text" id="moneys" onblur="check()" name="account.frozenBalance" class="easyui-validatebox" required="true" maxlength="32"/><span>可用额度为:<font id="money"></font>元</span></td>
+							<td align="left"><input type="text" id="moneys"
+								onblur="check()" name="account.frozenBalance"
+								class="easyui-validatebox" required="true" maxlength="32" /><span>可用额度为:<font
+									id="money"></font>元
+							</span></td>
 						</tr>
 						<tr style="height: 60px">
-						    <td>冻结开始时间:</td>
-						    <td  align="left" id="intime">
-     							<input id="startTime" type="text"  name="account.startTime" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" ></input> 
-					冻结结束时间	:
-     							<input id="endTime" type="text"  name="account.endTime"  style="width: 120PX" class="easyui-datetimebox"  data-options="showSeconds:false"  ></input>
-		                	</td>
-		                	
+							<td>冻结开始时间:</td>
+							<td align="left" id="intime"><input id="startTime"
+								type="text" name="account.startTime" style="width: 120PX"
+								class="easyui-datetimebox" data-options="showSeconds:false"></input>
+								冻结结束时间 : <input id="endTime" type="text" name="account.endTime"
+								style="width: 120PX" class="easyui-datetimebox"
+								data-options="showSeconds:false"></input></td>
+
 						</tr>
-						
-						
-						<tr >
+
+
+						<tr>
 							<td>备注</td>
-							<td align="left" colspan="3"><textarea id="group_notes_ins" rows="2" cols="75" name="account.notes" maxlength="64"></textarea>
+							<td align="left" colspan="3"><textarea id="group_notes_ins"
+									rows="2" cols="75" name="account.notes" maxlength="64"></textarea>
 							</td>
-						</tr>						
-							
-						
-						
+						</tr>
+
+
+
 					</table>
 				</form>
 			</div>
-			<div id="div_id" region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" id="button_id" iconCls="icon-ok" href="javascript:saveParaDic()" onClick="">提交</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onClick="closeAdd()">取消</a>
+			<div id="div_id" region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" id="button_id" iconCls="icon-ok"
+					href="javascript:saveParaDic()" onClick="">提交</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onClick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-  	  <input type="hidden" id="corpfile_ins" />
-		<input type="hidden" id="taxfile_ins"  />
-		<input type="hidden" id="licencefile_ins"  />
-		<input type="hidden" id="orgcodefile_ins" />
-		<input type="hidden" id="merchid_ins"  />
-		<input type="hidden" id="memberid_ins"/>
-		<input type="hidden" id="merchname_ins"  />
-		<input type="hidden" id="flag_ins"  />
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" >
+	<input type="hidden" id="corpfile_ins" />
+	<input type="hidden" id="taxfile_ins" />
+	<input type="hidden" id="licencefile_ins" />
+	<input type="hidden" id="orgcodefile_ins" />
+	<input type="hidden" id="merchid_ins" />
+	<input type="hidden" id="memberid_ins" />
+	<input type="hidden" id="merchname_ins" />
+	<input type="hidden" id="flag_ins" />
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post">
 				<table width="100%">
 					<tr>
 						<td align="right" width="15%">会员编号</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="memberId" id="memberId" maxlength="15"/>
-						</td>
-						
+						<td align="left" style="padding-left: 5px" width="25%"><input
+							name="memberId" id="memberId" maxlength="15" /></td>
+
 						<td align="right" width="15%">会员名称</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="memberName" id="memberName"/>
-						</td>
-						
+						<td align="left" style="padding-left: 5px" width="25%"><input
+							name="memberName" id="memberName" /></td>
+
 						<td align="right" width="15%">绑定手机号</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="memberPhone" id="memberPhone"/>
-						</td>	
+						<td align="left" style="padding-left: 5px" width="25%"><input
+							name="memberPhone" id="memberPhone" /></td>
 					</tr>
-					
-					<tr>											
-						<td align="right" width="15%">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>
+
+					<tr>
+						<td align="right" width="15%"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
-					
-					
-					
+
+
+
 				</table>
 			</form>
 		</div>
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-		
-	</div>
-	
-		<div id="ws" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:800px;height:400px;padding:5px;">
-		<input type="hidden" id="mId">
-			<input type="hidden" id="type">
-			<input type="hidden" id="memId">
-  		<div id="tt" class="easyui-tabs"  style="width:1100px;height:300px" >
-        <div title="基本信息" id="jbxx" data-options="selected:true">
 
-    	<table style="width: 100%;height: 100%">
+	</div>
+
+	<div id="ws" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 800px; height: 400px; padding: 5px;">
+		<input type="hidden" id="mId"> <input type="hidden" id="type">
+		<input type="hidden" id="memId">
+		<div id="tt" class="easyui-tabs" style="width: 1100px; height: 300px">
+			<div title="基本信息" id="jbxx" data-options="selected:true">
+
+				<table style="width: 100%; height: 100%">
 					<tr>
 						<td align="center" width="20%">商户名称<font color="red">*</font></td>
 						<td id="MERCHNAME"></td>
-						<td align="center"  width="20%">商户简称<font color="red">*</font></td>
+						<td align="center" width="20%">商户简称<font color="red">*</font></td>
 						<td id="ALIAS"></td>
-					</tr> 
+					</tr>
 					<tr>
 						<td align="center">商户英文名称</td>
 						<td id="ENGNAME"></td>
 						<td align="center">商户清算周期<font color="red">*</font></td>
 						<td id="SETLNAME"></td>
 					</tr>
-					
+
 					<tr>
 						<td align="center">商户所属省<font color="red">*</font></td>
 						<td id="PROVINCENAME"></td>
 						<td align="center">商户清算类型<font color="red">*</font></td>
 						<td id="SETLTYPENAME"></td>
-						
+
 					</tr>
-					
+
 					<tr>
-					    <td align="center">商户所属市<font color="red">*</font></td>
+						<td align="center">商户所属市<font color="red">*</font></td>
 						<td id="CITYNAME"></td>
 						<td align="center">营业执照号<font color="red">*</font></td>
 						<td id="LICENCENO"></td>
 					</tr>
-				
+
 					<tr>
-					    <td align="center">商户所属县<font color="red">*</font></td>
+						<td align="center">商户所属县<font color="red">*</font></td>
 						<td id="STREETNAME"></td>
 						<td align="center">税务登记号<font color="red">*</font></td>
 						<td id="TAXNO"></td>
-						
+
 					</tr>
 					<tr>
-					    <td align="center">所属行业</td>
+						<td align="center">所属行业</td>
 						<td id="TRADENAME"></td>
 						<td align="center">组织机构代码号<font color="red">*</font></td>
 						<td id="ORGCODE"></td>
 					</tr>
-					
+
 					<tr>
-					    <td align="center">商户网址</td>
+						<td align="center">商户网址</td>
 						<td id="WEBSITE"></td>
 						<td align="center">商户类型</td>
 						<td id="MERCHTYPENAME"></td>
 					</tr>
-					
-					
-					 </table>
-        </div>
-		   <div title="联系人信息">
-   	<table style="width: 100%;height: 100%">
+
+
+				</table>
+			</div>
+			<div title="联系人信息">
+				<table style="width: 100%; height: 100%">
 					<tr>
 						<td align="center" id="psamORpass">法人姓名<font color="red">*</font></td>
 						<td id="CORPORATION"></td>
@@ -202,33 +217,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">签约人电话</td>
 						<td id="SIGNPHONE"></td>
 					</tr>
-					
-					 </table>
-        </div>
-		   <div title="清算信息" >
-        	<table style="width: 100%;height: 100%">
+
+				</table>
+			</div>
+			<div title="清算信息">
+				<table style="width: 100%; height: 100%">
 					<tr>
-					    <td align="center">开户行关键字检索</td>
+						<td align="center">开户行关键字检索</td>
 						<td></td>
 						<td align="center">开户行<font color="red">*</font></td>
 						<td id="BANKNAME"></td>
-						
+
 					</tr>
 					<tr>
-				
+
 						<td align="center">开户账号<font color="red">*</font></td>
 						<td id="ACCNUM"></td>
 						<td align="center">会员编号</td>
 						<td id="MEMBERID"></td>
 					</tr>
 					<tr>
-						
+
 						<td align="center">开户名<font color="red">*</font></td>
 						<td id="ACCNAME"></td>
 						<td align="center">开户行所属省</td>
 						<td id="BNKPROVINCENAME"></td>
 					</tr>
-					<tr> 		
+					<tr>
 						<td align="center">开户行所属市</td>
 						<td id="BNKCITYNAME"></td>
 						<td align="center">开户行所属县</td>
@@ -245,101 +260,101 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td id="AGREEMT_START"></td>
 						<td align="center">合约终止日期</td>
 						<td id="AGREEMT_END"></td>
-						
+
 					</tr>
-					
-					<tr> 
+
+					<tr>
 						<td align="center">邮编</td>
 						<td id="POSTCODE"></td>
-						<td align="center">邮箱</td> 
+						<td align="center">邮箱</td>
 						<td id="EMAIL"></td>
 					</tr>
 					<tr>
 						<td align="center">身份证文件目录</td>
 						<td>
-						 <div iconCls="" style="color:blue" onclick="showUpload('corpfile')">点击查看</div>
-						<!--  <input  type="text" id="corpfile_ins" type="button" onclick="showUpload('corpfile')" > -->
+							<div iconCls="" style="color: blue"
+								onclick="showUpload('corpfile')">点击查看</div> <!--  <input  type="text" id="corpfile_ins" type="button" onclick="showUpload('corpfile')" > -->
 						</td>
 						<td align="center">税务登记证文件目录</td>
 						<td>
-						 <div iconCls="" style="color:blue" onclick="showUpload('busi')">点击查看</div>
-						<!--  <input  type="text" id="taxfile_ins" type="button" onclick="showUpload('busi')" >点击查看 -->
+							<div iconCls="" style="color: blue" onclick="showUpload('busi')">点击查看</div>
+							<!--  <input  type="text" id="taxfile_ins" type="button" onclick="showUpload('busi')" >点击查看 -->
 						</td>
 					</tr>
 					<tr>
 						<td align="center">营业执照文件目录</td>
 						<td>
-						 <div iconCls="" style="color:blue" onclick="showUpload('licenceno')">点击查看</div>
-						<!--  <input  type="text" id="licencefile_ins" type="button" onclick="showUpload('licenceno')" >点击查看 -->
-						    </td>
+							<div iconCls="" style="color: blue"
+								onclick="showUpload('licenceno')">点击查看</div> <!--  <input  type="text" id="licencefile_ins" type="button" onclick="showUpload('licenceno')" >点击查看 -->
+						</td>
 						<td align="center">组织机构文件目录</td>
 						<td>
-						 <div iconCls="" style="color:blue" onclick="showUpload('orgcode')">点击查看</div>
-						 <!-- <input  type="text" id="orgcodefile_ins" type="button" onclick="showUpload('orgcode')" >点击查看 -->
+							<div iconCls="" style="color: blue"
+								onclick="showUpload('orgcode')">点击查看</div> <!-- <input  type="text" id="orgcodefile_ins" type="button" onclick="showUpload('orgcode')" >点击查看 -->
 						</td>
 					</tr>
-					<tr> 
+					<tr>
 						<td align="center">行政地区代码</td>
 						<td id="ZONECODE"></td>
 						<td align="center">产品<font color="red">*</font></td>
 						<td id="PRDTNAME"></td>
 					</tr>
-					
-					<tr> 
+
+					<tr>
 						<td align="center">商户地址</td>
 						<td id="ADDRESS"></td>
 						<td align="center">商户密钥</td>
-						<td >RSA</td>
+						<td>RSA</td>
 					</tr>
 					<tr>
-					   <%-- <td align="center">上级商户</td>
+						<%-- <td align="center">上级商户</td>
 						<td>${merchMap.PARENT}</td> --%>
 						<td align="center">收银台版本 <font color="red">*</font></td>
 						<td id="CASHNAME"></td>
-					</tr>	
-					 </table>
-        </div>
-		
-        <div title="扣率信息">
-<table width="100%" height="77" border="1" bgcolor="#D6D6D6">
-  <tr>
-    <td width="79" rowspan="3" align="center">交易类型</td>
-    <td width="75" rowspan="3"  align="center" >扣率类型</td>
-        <td width="75" rowspan="3"  align="center" >计费方式</td>
-  	<td width="64" rowspan="3"  align="center">卡类型</td>
-    <td width="68" rowspan="3"  align="center">固定费用</td>
-      <td  colspan="9" align="center"  >扣率</td>
-  </tr>
-  <tr>
+					</tr>
+				</table>
+			</div>
+
+			<div title="扣率信息">
+				<table width="100%" height="77" border="1" bgcolor="#D6D6D6">
+					<tr>
+						<td width="79" rowspan="3" align="center">交易类型</td>
+						<td width="75" rowspan="3" align="center">扣率类型</td>
+						<td width="75" rowspan="3" align="center">计费方式</td>
+						<td width="64" rowspan="3" align="center">卡类型</td>
+						<td width="68" rowspan="3" align="center">固定费用</td>
+						<td colspan="9" align="center">扣率</td>
+					</tr>
+					<tr>
 
 
-    <td   colspan="3"  align="center">阶段一</td>
-        <td    colspan="3"  align="center">阶段二</td>
-            <td   colspan="3"  align="center">阶段三</td>
-  </tr>
-  <tr>
-    <td width="57"  align="center">扣率(万分比)</td>
-    <td width="59"  align="center">最高</td>
-    <td width="103"  align="center">最低</td>
-      <td width="72"  align="center">扣率(万分比)</td>
-    <td width="63"  align="center">最高</td>
-    <td width="82"  align="center">最低</td>
-      <td width="93"  align="center">扣率(万分比)</td>
-    <td width="95"  align="center">最高</td>
-    <td width="75"  align="center">最低</td>
-  </tr>
-  <tbody id="fees" >
-  
-  </tbody>
-</table>
-        </div>
-    
-        <div title="风控信息" >
-        <table id="risk"></table>
+						<td colspan="3" align="center">阶段一</td>
+						<td colspan="3" align="center">阶段二</td>
+						<td colspan="3" align="center">阶段三</td>
+					</tr>
+					<tr>
+						<td width="57" align="center">扣率(万分比)</td>
+						<td width="59" align="center">最高</td>
+						<td width="103" align="center">最低</td>
+						<td width="72" align="center">扣率(万分比)</td>
+						<td width="63" align="center">最高</td>
+						<td width="82" align="center">最低</td>
+						<td width="93" align="center">扣率(万分比)</td>
+						<td width="95" align="center">最高</td>
+						<td width="75" align="center">最低</td>
+					</tr>
+					<tbody id="fees">
 
-        </div>
-        <div title="路由信息" >
- <table width="100%" height="20" border="1" bgcolor="#D6D6D6">
+					</tbody>
+				</table>
+			</div>
+
+			<div title="风控信息">
+				<table id="risk"></table>
+
+			</div>
+			<div title="路由信息">
+				<table width="100%" height="20" border="1" bgcolor="#D6D6D6">
 					<tr>
 						<td width="100" align="center">路由版本</td>
 						<td width="100" align="center">路由名称</td>
@@ -355,24 +370,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td width="100" align="center">是否默认</td>
 					</tr>
 					<tbody id="route">
-					
+
 					</tbody>
 
 
 
 				</table>
-        </div>
-           <div title="账户信息" >
-      <table id="accounts"></table>
-        </div>
-	</div></div>
-	
-		<div id="pres" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:1000px;height:400px;padding:5px;">
-		<input type="hidden" id="personId">
-			<input type="hidden" id="type">
-  		<div id="pp" class="easyui-tabs"  style="width:1100px;height:300px" >
-        <div title="基本信息" id="jbxx" data-options="selected:true">
-		  <table style="width: 100%;height: 100%">
+			</div>
+			<div title="账户信息">
+				<table id="accounts"></table>
+			</div>
+		</div>
+	</div>
+
+	<div id="pres" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save"
+		style="width: 1000px; height: 400px; padding: 5px;">
+		<input type="hidden" id="personId"> <input type="hidden"
+			id="type">
+		<div id="pp" class="easyui-tabs" style="width: 1100px; height: 300px">
+			<div title="基本信息" id="jbxx" data-options="selected:true">
+				<table style="width: 100%; height: 100%">
 					<tr>
 						<td align="center" id="psamORpass">会员ID<font color="red">*</font></td>
 						<td id="pMemberid"></td>
@@ -409,48 +427,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td align="center">绑定电话</td>
 						<td id="bindPhone"></td>
 					</tr>
-					
-						<tr>
+
+					<tr>
 						<td align="center">绑定邮箱</td>
 						<td id="bindEmail"></td>
 						<td align="center">写入人</td>
 						<td id="pInuser"></td>
 					</tr>
-						<tr>
+					<tr>
 						<td align="center">写入时间</td>
 						<td id="pIntime"></td>
 						<td align="center">更新人</td>
 						<td id="upuser"></td>
 					</tr>
-						<tr>
+					<tr>
 						<td align="center">更新时间</td>
 						<td id="uptime"></td>
 						<td align="center">是否vip</td>
 						<td id="vipflag"></td>
 					</tr>
-					 </table>
-    
-        </div>
-    <div title="银行卡信息" >
-		<table id="bank"></table>
-			
-        </div>
-        <div title="账户信息" >
-      <table id="account"></table>
-        </div>
+				</table>
 
-</div></div>
-		<div id="w_view" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
+			</div>
+			<div title="银行卡信息">
+				<table id="bank"></table>
+
+			</div>
+			<div title="账户信息">
+				<table id="account"></table>
+			</div>
+
+		</div>
+	</div>
+	<div id="w_view" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center"  border="false" style="background:#fff;border:1px solid #ccc;text-align: center;vertical-align: middle">
-				<br>
-				<a id="filePath" href="merchant/1211131005124406.rar" target="view_window" style="font-size: 14px">查看</a>
+			<div region="center" border="false"
+				style="background: #fff; border: 1px solid #ccc; text-align: center; vertical-align: middle">
+				<br> <a id="filePath" href="merchant/1211131005124406.rar"
+					target="view_window" style="font-size: 14px">查看</a>
 			</div>
 		</div>
 	</div>
-  </body>
-  
-  <script>
+</body>
+
+<script>
   	var width = $("#continer").width();
 		$(function(){
 			$('#test').datagrid({

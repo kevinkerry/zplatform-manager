@@ -4,31 +4,30 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-  <body> 
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm" method="post" action="pages/stat/entryCountStatAction.action">
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post"
+				action="pages/stat/entryCountStatAction.action">
 				<table width="100%">
 					<tr>
 						<td align="right" width="10%">起始时间</td>
-						<td align="left" style="padding-left:5px" width="15%">
-							<input id="beginDate" name="entryCountRequest.beginDate"/>
-						</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="beginDate" name="entryCountRequest.beginDate" /></td>
 						<td align="right" width="10%">截止时间</td>
-						<td align="left" style="padding-left:5px" width="15%">
-							<input id="endDate" name="entryCountRequest.endDate"/>
-						</td>
-						</tr>
-						<tr>
-						<td align="right" width="10%">账户号</td>
-						<td align="left" style="padding-left: 5px" width="15%" >
-							<input id="acctCode" name="entryCountRequest.acctCode"/>
-						</td>
-						<td align="right">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="endDate" name="entryCountRequest.endDate" /></td>
 					</tr>
-					
+					<tr>
+						<td align="right" width="10%">账户号</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="acctCode" name="entryCountRequest.acctCode" /></td>
+						<td align="right"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+					</tr>
+
 				</table>
 			</form>
 		</div>
@@ -36,9 +35,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<table id="test"></table>
 		</div>
 	</div>
-  </body>
-  
-  <script>
+</body>
+
+<script>
 	  var width = $("#continer").width();
 	  $(function() {
 	  	$('#beginDate,#endDate').datebox();

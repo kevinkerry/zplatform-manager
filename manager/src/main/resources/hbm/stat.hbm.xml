@@ -17,9 +17,9 @@
 			<return-property name="failCount" column="FAIL" />
 			<return-property name="totalCount" column="NUM" />
 		</return>
-		{call STAT_T_TXNS_LOG.trade_count(?,:v_date1,:v_date2,:v_payinst,:v_accfirmerno,:v_accsecmerno)} 
+		{call STAT_T_TXNS_LOG.trade_count(?,:v_date1,:v_date2,:v_payinst,:v_accfirmerno,:v_accsecmerno)}
 	</sql-query>
-	
+
 	<sql-query name="entryCount_SP" callable="true">
 		<return class="com.zlebank.zplatform.manager.dao.object.EntryCountSPModel">
 			<return-property name="rowNum" column="ROWNUM" />
@@ -37,6 +37,6 @@
 			<return-property name="befBalance" column="BEFBALANCE" />
 			<return-property name="aftBalance" column="AFTBALANCE" />
 		</return>
-		{call  stat_t_acc_entry.entry_count(?,?,:v_date1,:v_date2,:i_no,:i_perno,:v_acct_code)} 
+		{call  stat_t_acc_entry.entry_count(?,?,:v_date1,:v_date2,:i_no,:i_perno,:v_acct_code)}
 	</sql-query>
 </hibernate-mapping>     

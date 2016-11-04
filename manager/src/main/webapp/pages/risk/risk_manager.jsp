@@ -7,85 +7,85 @@
 			+ path + "/";
 %>
 <html>
-	<head>
-	</head>
-	<body>
-		<div style="margin: 5px; border: " id="continer">
-			<div id="p" class="easyui-panel" title="扣率查询"
-				style="height: 100px; padding: 10px; background: #fafafa;"
-				iconCls="icon-save" collapsible="true">
-				<form id="dedurateForm" method="post">
-					<table width="100%">
-						<tr>
-							<td align="right">
-								风控版本代码
-							</td>
-							<td align="left" style="padding-left: 5px">
-								<input name="riskModel.riskver" id="riskver_qid" maxlength="8"/>
-							</td>
-							<td align="right">
-								风控版本名称
-							</td>
-							<td align="left" style="padding-left: 5px">
-								<input name="riskModel.riskname" id="riskname_qid" maxlength="128"/>
-							</td>
-							<td align="right" colspan=2>
-								<a href="javascript:search()" class="easyui-linkbutton"
-									iconCls="icon-search">查询</a>
-								<a href="javascript:resize()" class="easyui-linkbutton"
-									iconCls="icon-redo">重置</a>
-							</td>
-							</tr>
-							
+<head>
+</head>
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="扣率查询"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="dedurateForm" method="post">
+				<table width="100%">
+					<tr>
+						<td align="right">风控版本代码</td>
+						<td align="left" style="padding-left: 5px"><input
+							name="riskModel.riskver" id="riskver_qid" maxlength="8" /></td>
+						<td align="right">风控版本名称</td>
+						<td align="left" style="padding-left: 5px"><input
+							name="riskModel.riskname" id="riskname_qid" maxlength="128" /></td>
+						<td align="right" colspan=2><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
+							href="javascript:resize()" class="easyui-linkbutton"
+							iconCls="icon-redo">重置</a></td>
+					</tr>
 
+
+				</table>
+			</form>
+		</div>
+		<div style="margin-top: 5px">
+			<table id="test"></table>
+		</div>
+	</div>
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm" method="post"
+					action="pages/risk/saveRiskRiskAction.action">
+					<input name="riskModel.riskid" id="riskid" type="hidden" />
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td align="right" width="15%" height="50px">风控版本代码</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="riskModel.riskver" id="riskver" validType="minLength[8,8]"
+								maxlength="8" class="easyui-validatebox" required="required" />
+							</td>
+							<td align="right" width="15%">风控版本名称</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="riskModel.riskname" id="riskname" required="required"
+								class="easyui-validatebox" /></td>
+						</tr>
+						<tr></tr>
+						<tr>
+							<td align="right" width="15%">所属产品</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="prdtver" class="easyui-validatebox" missingMessage="请选择产品"
+								required="true" name="riskModel.prdtver"
+								class="easyui-validatebox">
+									<option value="">--请选择产品--</option>
+							</select></td>
+							<td align="right" width="15%">备注</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="riskModel.notes" id="Notes" maxlength="32" /></td>
+						</tr>
 					</table>
 				</form>
 			</div>
-			<div style="margin-top: 5px">
-				<table id="test"></table>
-			</div>
-		</div>
-		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm"   method="post" action="pages/risk/saveRiskRiskAction.action" >
-				<input name="riskModel.riskid" id="riskid" type="hidden"/>
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-					<tr>
-						<td align="right" width="15%" height="50px" >风控版本代码</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="riskModel.riskver" id="riskver" validType="minLength[8,8]" maxlength="8" class="easyui-validatebox" required="required"/>
-						</td>
-						<td align="right" width="15%">风控版本名称</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="riskModel.riskname" id="riskname" required="required" class="easyui-validatebox"/>
-						</td>
-					</tr>
-					<tr></tr>
-					<tr>
-						<td align="right" width="15%">所属产品</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<select id="prdtver" class="easyui-validatebox" missingMessage="请选择产品" required="true" name="riskModel.prdtver" class="easyui-validatebox">
-								<option value="">--请选择产品--</option>
-							</select>
-						</td>
-						<td align="right" width="15%">备注</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="riskModel.notes" id="Notes" maxlength="32"/>
-						</td>
-					</tr>
-				</table>
-				</form>
-			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveRisk()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveRisk()" id="btn_submit" onclick="">保存</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	</body>
+</body>
 
-	<script>
+<script>
 		var width = $("#continer").width();
 		var gridHeight = 600;
 		var panelWidth = 640;

@@ -3,7 +3,7 @@
 
 <jsp:include page="../../top.jsp"></jsp:include>
 <body>
-<style type="text/css">
+	<style type="text/css">
 table tr td {
 	height: 25px
 }
@@ -25,14 +25,13 @@ table tr td select {
 					<tr>
 						<td align="right" width="10%">转账批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.batchno" id="batchno" maxlength="32" />
-						</td>
-							<td align="right" width="10%">申请日期:</td>
-						<td align="left" style="padding-left: 5px" width="30%">
-							<input name="queryTransferBean.beginDate" id="beginDate" maxlength="32" />-
-							<input name="queryTransferBean.endDate" id="endDate" maxlength="32" />
-						</td>
-				
+							name="transQuery.batchno" id="batchno" maxlength="32" /></td>
+						<td align="right" width="10%">申请日期:</td>
+						<td align="left" style="padding-left: 5px" width="30%"><input
+							name="queryTransferBean.beginDate" id="beginDate" maxlength="32" />-
+							<input name="queryTransferBean.endDate" id="endDate"
+							maxlength="32" /></td>
+
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
@@ -48,22 +47,27 @@ table tr td select {
 	</div>
 
 
-	
-	
-	
-	<div id="ws" class="easyui-window" closed="true" title="My Window"iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
+
+
+
+	<div id="ws" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; text-align: center">
-				<form id="singleTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="withdraworderno_" type="hidden" name="auditBean.orderNo">
-				<input id="falg_" type="hidden" name="auditBean.falg">
-				
+				<form id="singleTrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="withdraworderno_" type="hidden" name="auditBean.orderNo">
+					<input id="falg_" type="hidden" name="auditBean.falg">
+
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:singleTrial(true)" id="btn_submit_">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:singleTrial(false)"  id="icon-cancel_">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:singleTrial(true)" id="btn_submit_">通过</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:singleTrial(false)" id="icon-cancel_">拒绝</a>
 			</div>
 		</div>
 	</div>
@@ -73,15 +77,19 @@ table tr td select {
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; text-align: center">
-				<form id="firstTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="withdraworderno" type="hidden" name="auditBean.batchno">
-				<input id="falg" type="hidden" name="auditBean.falg">
-				
+				<form id="firstTrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="withdraworderno" type="hidden" name="auditBean.batchno">
+					<input id="falg" type="hidden" name="auditBean.falg">
+
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:batchTrial(true)" id="btn_submit">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:batchTrial(false)"  id="icon-cancel">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:batchTrial(true)" id="btn_submit">通过</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:batchTrial(false)" id="icon-cancel">拒绝</a>
 			</div>
 		</div>
 	</div>
@@ -164,6 +172,15 @@ table tr td select {
 			checkOnSelect : false,
 			pagination : true,
 			rownumbers : true,
+			onUnselect:function(rowIndex, rowData){
+				//当用户取消全选时候触发
+				quXiaoQuanXuan(1);
+				
+			},
+			onSelect:function(){
+				//当用户选中一行的时候触发
+				quanXuan(1);
+			},
 			onClickRow : function(index,row){
 				var data = {
 						"queryTransferBean.tid" : row.tid
@@ -379,14 +396,20 @@ table tr td select {
 					selectOnCheck : true,
 					checkOnSelect : false,
 					pagination : true,
-					rownumbers : true
+					rownumbers : true,
+					onUnselect:function(rowIndex, rowData){
+						//当用户取消全选时候触发
+						quXiaoQuanXuan(2);
+						
+					},
+					onSelect:function(){
+						//当用户选中一行的时候触发
+						quanXuan(2);
+					},
 					
 				});
 		$($('#test2').datagrid('getPanel')).panel('collapse',false);
-	/* 	$('#test').datagrid('onClickRow', function(index,row){
-			alert(index);
-		});
- */	});
+	});
 
 	function search() {
 		//alert($("#beginDate").datebox("getValue"));
@@ -485,6 +508,31 @@ table tr td select {
 		});   
 	}
 	
-	
+	//取消全选复选框状态
+	function quXiaoQuanXuan(flg){
+		if(flg ==1){
+	    	$("div.datagrid-header-check input:first").removeAttr("checked");
+		}else if(flg ==2){
+			$("div.datagrid-header-check input:last").removeAttr("checked");
+		}
+	}
+	//选中全选复选框状态
+	function quanXuan(flg){
+		if(flg == 1){
+			var allrows = $('#test').datagrid('getRows').length;
+			var check= $('#test' ).datagrid( 'getChecked').length;
+			if(allrows == check){
+				//将复选框至为选中状态
+				$("div.datagrid-header-check input:first").attr("checked",true);
+			}
+		}else if(flg == 2){
+			var allrows = $('#test2').datagrid('getRows').length;
+			var check= $('#test2' ).datagrid( 'getChecked').length;
+			if(allrows == check){
+				//将复选框至为选中状态
+				$("div.datagrid-header-check input:last").attr("checked",true);
+			}
+		}
+	}
 </script>
 </html>

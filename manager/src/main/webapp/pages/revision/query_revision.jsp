@@ -45,7 +45,7 @@ table tr td select {
 								<option value="70000001">代付</option>
 								<option value="80000001">实名认证</option>
 								<option value="90000001">手工充值</option>
-								
+
 						</select></td>
 					</tr>
 

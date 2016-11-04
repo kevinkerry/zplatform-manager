@@ -1,9 +1,11 @@
 ﻿@charset "utf-8";
+
 * {
 	border: 0;
 	margin: 0;
 	padding: 0;
 }
+
 body {
 	font-family: '微软雅黑';
 	margin: 0 auto;
@@ -14,38 +16,42 @@ body {
 	background-position: center top;
 	overflow: hidden;
 }
+
 ul {
 	display: block;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
+
 li {
 	display: block;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
+
 img {
 	border: 0;
 }
+
 span {
 	margin: 0;
 	padding: 0;
 	display: block;
 }
+
 a, a:focus {
 	text-decoration: none;
 	color: #000;
 	outline: none;
-blr:expression(this.onFocus=this.blur());
+	blr: expression(this.onFocus = this.blur ());
 }
+
 a:hover {
 	color: #00a4ac;
 	text-decoration: none;
 }
-
-
 
 /*login*/
 .loginbody {
@@ -57,38 +63,47 @@ a:hover {
 	top: 21px;
 	left: 2px;
 }
+
 .systemlogo {
 	background: url(images/loginlogo.png) no-repeat center;
 	width: 100%;
 	height: 71px;
 	margin-top: 75px;
 }
+
 .loginbox {
 	width: 690px;
 	height: 336px;
 	background: url(images/logininfo.png) no-repeat;
 	margin-top: 30px;
 }
+
 .loginbox ul {
 	margin-top: 50px;
 	margin-left: 200px;
 }
+
 .loginbox ul li {
 	margin-bottom: 30px;
 }
+
 .loginbox ul li label {
 	color: #687f92;
 	padding-left: 25px;
 }
+
 .loginbox ul li label a {
 	color: #687f92;
 }
+
 .loginbox ul li label a:hover {
 	color: #3d96c9;
 }
+
 .loginbox ul li label input {
 	margin-right: 5px;
 }
+
 .loginuser {
 	width: 299px;
 	height: 48px;
@@ -99,6 +114,7 @@ a:hover {
 	font-size: 14px;
 	font-weight: bold;
 }
+
 .loginpwd {
 	width: 299px;
 	height: 48px;
@@ -109,6 +125,7 @@ a:hover {
 	font-size: 14px;
 	color: #90a2bc;
 }
+
 .loginbtn {
 	width: 111px;
 	height: 35px;
@@ -120,6 +137,7 @@ a:hover {
 	line-height: 35px;
 	align: center;
 }
+
 .check {
 	height: 48px;
 	background: url(images/check.png) no-repeat;
@@ -129,6 +147,5 @@ a:hover {
 	font-size: 14px;
 	color: #90a2bc;
 	width: 120px;
-	float:left;
+	float: left;
 }
-

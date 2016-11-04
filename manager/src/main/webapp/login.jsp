@@ -11,52 +11,66 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>欢迎登录证联金融后台管理系统</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css"href="<%=basePath%>js/themes/default/easyui.css" />
-		<link rel="stylesheet" type="text/css"href="<%=basePath%>js/themes/icon.css" />
-		<link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="<%=basePath%>js/jquery.easyui.min.js"></script>
-		<link rel="stylesheet" type="text/css"href="<%=basePath%>css/base.css" />
-		<script type="text/javascript" src="<%=basePath%>js/function.js"></script>
-		<script type="text/javascript" src="<%=basePath%>js/json2.js"></script>
-		<script type="text/javascript" src="<%=basePath%>js/jquery.form.js"></script>
-		<script type="text/javascript" src="<%=basePath%>js/easyui-lang-zh_CN.js"></script>
-		<link href="css/login/login-box.css" rel="stylesheet" type="text/css" />
-     
+<link rel="stylesheet" type="text/css"
+	href="<%=basePath%>js/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=basePath%>js/themes/icon.css" />
+<link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>js/jquery.easyui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=basePath%>css/base.css" />
+<script type="text/javascript" src="<%=basePath%>js/function.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/json2.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/jquery.form.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>js/easyui-lang-zh_CN.js"></script>
+<link href="css/login/login-box.css" rel="stylesheet" type="text/css" />
+
 
 
 </head>
 
 <body id="loginbody">
-<form id="theForm" action="<%=basePath%>validateUserLoginAction.action" method="post">
-<div class="loginbody">
-<span class="systemlogo"></span>
-<div class="loginbox">
-  <ul>
-    <li>
-      <input  type="text" class="loginuser"  onclick="JavaScript:this.value=''"
-      size="30" maxlength="128" name="user.loginName" id="loginname" class="easyui-validatebox" required="true" missingMessage="请输入用户名"/>
-    </li>
-    <li>
-      <input   class="loginpwd"   onclick="JavaScript:this.value=''"
-      type="password"  id="pwd" name="user.pwd"   size="30" maxlength="128" class="easyui-validatebox" required="true"  missingMessage="请输入密码"/>
-    </li>
-    <li>  
-     <div>
-	     <div><input  type="text" class="check" value="验证码"  onclick="JavaScript:this.value=''"
-	     size="10"  id="randcode" name="randcode"   class="easyui-validatebox"  maxlength="4"/></div >
-         <div><img src="validateCodeLoginAction.action" onclick="changeValidateCode(this)" style="vertical-align: middle;cursor:pointer;position: relative;top:2px" alt="刷新验证码" id="rand_image"/></div >
-	 </div>
-     </li> 
-    <div><span  id="info" style="color:red">&nbsp;</span></div> 
-    <li> 
-    <input name="input" type="button" class="loginbtn" value="登录"  href="javascript:void()" id="login_btn" />
- <!--   <input type="submit" /> -->
-    </li>
-  </ul>
-</div>
-</div>
-</form>
+	<form id="theForm" action="<%=basePath%>validateUserLoginAction.action"
+		method="post">
+		<div class="loginbody">
+			<span class="systemlogo"></span>
+			<div class="loginbox">
+				<ul>
+					<li><input type="text" class="loginuser"
+						onclick="JavaScript:this.value=''" size="30" maxlength="128"
+						name="user.loginName" id="loginname" class="easyui-validatebox"
+						required="true" missingMessage="请输入用户名" /></li>
+					<li><input class="loginpwd" onclick="JavaScript:this.value=''"
+						type="password" id="pwd" name="user.pwd" size="30" maxlength="128"
+						class="easyui-validatebox" required="true" missingMessage="请输入密码" />
+					</li>
+					<li>
+						<div>
+							<div>
+								<input type="text" class="check" value="验证码"
+									onclick="JavaScript:this.value=''" size="10" id="randcode"
+									name="randcode" class="easyui-validatebox" maxlength="4" />
+							</div>
+							<div>
+								<img src="validateCodeLoginAction.action"
+									onclick="changeValidateCode(this)"
+									style="vertical-align: middle; cursor: pointer; position: relative; top: 2px"
+									alt="刷新验证码" id="rand_image" />
+							</div>
+						</div>
+					</li>
+					<div>
+						<span id="info" style="color: red">&nbsp;</span>
+					</div>
+					<li><input name="input" type="button" class="loginbtn"
+						value="登录" href="javascript:void()" id="login_btn" /> <!--   <input type="submit" /> -->
+					</li>
+				</ul>
+			</div>
+		</div>
+	</form>
 </body>
 <script type="text/javascript">
 	    $(function(){
@@ -167,5 +181,5 @@
 								
 			})
 
-</script>	
+</script>
 </html>

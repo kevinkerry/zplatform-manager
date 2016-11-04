@@ -1,65 +1,71 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@taglib prefix="s" uri="/struts-tags" %>
+<%@taglib prefix="s" uri="/struts-tags"%>
 
 <jsp:include page="../../../top.jsp"></jsp:include>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-  <body>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class= title="密码修改" style="height:200px;padding:10px;background:#fafafa;" iconCls="icon-save" collapsible="true">
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class=title=
+			"密码修改" style="height: 200px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
 			<form action="" id="searchForm" name="searchForm">
 				<table width="100%">
 					<tr>
 						<td align="right">用户名称</td>
-						<td align="left" style="padding-left:5px"><input id="username" name="userName" value="<s:property value="userModel.userName"/>" /></td>
+						<td align="left" style="padding-left: 5px"><input
+							id="username" name="userName"
+							value="<s:property value="userModel.userName"/>" /></td>
 					</tr>
 					<tr height="4"></tr>
 					<tr>
 						<td align="right">原密码</td>
-						<td align="left" style="padding-left: 5px"><input id="oldpassword" name="oldpassword" type="password"/></td>					   
+						<td align="left" style="padding-left: 5px"><input
+							id="oldpassword" name="oldpassword" type="password" /></td>
 					</tr>
 					<tr height="4"></tr>
 					<tr>
 						<td align="right">新密码</td>
-						<td align="left" style="padding-left: 5px"><input id="passwordone" name="passwordone" /></td>					   
+						<td align="left" style="padding-left: 5px"><input
+							id="passwordone" name="passwordone" /></td>
 					</tr>
-					
-					
+
+
 					<tr height="4"></tr>
 					<tr>
 						<td align="right">确认密码</td>
-						<td align="left" style="padding-left: 5px">
-						<input id="passwordtwo" type="password"/>
+						<td align="left" style="padding-left: 5px"><input
+							id="passwordtwo" type="password" />
 					</tr>
 					<tr height="4"></tr>
 					<tr>
-					    <td align="right"></td>
-						<td align="left" style="padding-left: 5px">
-						<a href="javascript:updatePassword()"  class="easyui-linkbutton" iconCls="icon-search">确定</a>
-						</td>				
-		
+						<td align="right"></td>
+						<td align="left" style="padding-left: 5px"><a
+							href="javascript:updatePassword()" class="easyui-linkbutton"
+							iconCls="icon-search">确定</a></td>
+
 					</tr>
 					<tr height="4"></tr>
-					 <tr align="right">
-					    <td align="right"></td>
-						<td style="color:red" align="left"  id="tishi"  value="<s:property value="tishi"/>">
-					         <s:property value="tishi"/>
-					    </td>
-					    <td align="left" style="padding-left: 5px">
+					<tr align="right">
+						<td align="right"></td>
+						<td style="color: red" align="left" id="tishi"
+							value="<s:property value="tishi"/>"><s:property
+								value="tishi" /></td>
+						<td align="left" style="padding-left: 5px">
 					</tr>
 				</table>
 			</form>
 		</div>
 
-</form>
-	 </div>
-	 </div>
-	 </div> 
-  </body>
-  </html>
-  <script>
+		</form>
+	</div>
+	</div>
+	</div>
+</body>
+</html>
+<script>
 function updatePassword(){
 	var password =document.getElementById("passwordone").value;
     var password2 =document.getElementById("passwordtwo").value;

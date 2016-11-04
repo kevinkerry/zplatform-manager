@@ -1,7 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<jsp:include page="../../top.jsp"></jsp:include>
 
-<%@include file="../../top.jsp"%>
 <body>
 	<style type="text/css">
 table tr td {
@@ -27,25 +31,25 @@ table tr td select {
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="insteadPayBatchQuery.batchNo" id="batchno" maxlength="32" />
 						</td>
-						
+
 						<td align="right" width="10%">申请日期:</td>
-						<td align="left" style="padding-left: 5px" width="30%">
-							<input name="insteadPayBatchQuery.beginDate" id="beginDate" maxlength="32" />-
-							<input name="insteadPayBatchQuery.endDate" id="endDate" maxlength="32" />
-						</td>
+						<td align="left" style="padding-left: 5px" width="30%"><input
+							name="insteadPayBatchQuery.beginDate" id="beginDate"
+							maxlength="32" />- <input name="insteadPayBatchQuery.endDate"
+							id="endDate" maxlength="32" /></td>
 					</tr>
-					<tr>	
+					<tr>
 						<td align="right" width="10%">订单编号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="insteadPayBatchQuery.orderNo" id="orderNo" maxlength="32" />
 						</td>
-				
+
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
 				</table>
 				<input type="hidden" name="insteadPayBatchQuery.status" id="queryStatus" maxlength="32" />
-				<input type="hidden"  id="currentBatchId" maxlength="32" />
+			    <input type="hidden" id="currentBatchId" maxlength="32" />
 			</form>
 		</div>
 		<div style="margin-top: 5px">
@@ -56,19 +60,25 @@ table tr td select {
 		</div>
 	</div>
 
-	<div id="ws" class="easyui-window" closed="true" title="My Window"iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
+	<div id="ws" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; text-align: center">
-				<form id="detailAuditForm"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="auditDataId_" type="hidden" name="auditDataBean.detailId">
-				<input id="flag_" type="hidden" name="auditDataBean.pass">
-				
+				<form id="detailAuditForm" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="auditDataId_" type="hidden"
+						name="auditDataBean.detailId"> <input id="flag_"
+						type="hidden" name="auditDataBean.pass">
+
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:detailAudit(true)" id="btn_submit_">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:detailAudit(false)"  id="icon-cancel_">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:detailAudit(true)" id="btn_submit_">通过</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:detailAudit(false)" id="icon-cancel_">拒绝</a>
 			</div>
 		</div>
 	</div>
@@ -78,21 +88,25 @@ table tr td select {
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; text-align: center">
-				<form id="auditForm"   method="post" action="#" >
-				<input id="auditDataId" type="hidden" name="auditDataBean.batchId">
-				<input id="flag" type="hidden" name="auditDataBean.pass">
-				
+				<form id="auditForm" method="post" action="#">
+					<input id="auditDataId" type="hidden" name="auditDataBean.batchId">
+					<input id="flag" type="hidden" name="auditDataBean.pass">
+
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:batchAudit(true)" id="btn_submit">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:batchAudit(false)"  id="icon-cancel">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:batchAudit(true)" id="btn_submit">通过</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:batchAudit(false)" id="icon-cancel">拒绝</a>
 			</div>
 		</div>
 	</div>
 </body>
 
 <script>
+    
 	$(function() {
 		$('#beginDate').datebox();
 		$('#endDate').datebox();
@@ -164,6 +178,15 @@ table tr td select {
 			checkOnSelect : false,
 			pagination : true,
 			rownumbers : true,
+			onUnselect:function(rowIndex, rowData){
+				//当用户取消全选时候触发
+				quXiaoQuanXuan(1);
+				
+			},
+			onSelect:function(){
+				//当用户选中一行的时候触发
+				quanXuan(1);
+			},
 			onClickRow : function(index,row){
 				var data = {
 						"instead.batchId" : row.id
@@ -313,6 +336,15 @@ table tr td select {
 					checkOnSelect : false,
 					pagination : true,
 					rownumbers : true,
+					onUnselect:function(rowIndex, rowData){
+						//当用户取消全选时候触发
+						quXiaoQuanXuan(2);
+						
+					},
+					onSelect:function(){
+						//当用户选中一行的时候触发
+						quanXuan(2);
+					},
 					toolbar : [ {
 						id : 'btnadd',
 						text : '批次审核',
@@ -452,13 +484,24 @@ table tr td select {
 			    		if (key=="message") 
 			    			$.messager.alert('提示',value); 
 			    	});
-	    			search();
 		    		closeAdd();
+		    		//审核通过之后，重新查询，更新明细信息 
+		    		var batchid = $('#currentBatchId').val();
+		    		var data = {
+		    				"instead.batchId" : batchid
+		    			   }
+		    			$('#test2').datagrid('load', data);
+		    		$($('#test2').datagrid('getPanel')).panel('expand',true);
+		    		
 		    		$('#btn_submit_').linkbutton('enable');
-					$("#icon-cancel_").linkbutton('enable');
+					$("#icon-cancel_").linkbutton('enable');					
+					$("div.datagrid-header-check input:last").attr("checked",false);
 				}
-		    }  
-		});   
+		    } 
+		    
+		}); 
+
+
 	}
 	// 批量审核
 	function batchAudit(flag){
@@ -541,5 +584,31 @@ table tr td select {
 			    }  
 			});   
 		}
+	//取消全选复选框状态
+	function quXiaoQuanXuan(flg){
+		if(flg ==1){
+	    	$("div.datagrid-header-check input:first").removeAttr("checked");
+		}else if(flg ==2){
+			$("div.datagrid-header-check input:last").removeAttr("checked");
+		}
+	}
+	//选中全选复选框状态
+	function quanXuan(flg){
+		if(flg == 1){
+		var allrows = $('#test').datagrid('getData').total;
+		var check= $('#test' ).datagrid( 'getChecked').length;
+		if(allrows == check){
+			//将复选框至为选中状态
+			$("div.datagrid-header-check input:first").attr("checked",true);
+		}
+		}else if(flg == 2){
+			var allrows = $('#test2').datagrid('getData').total;
+			var check= $('#test2' ).datagrid( 'getChecked').length;
+			if(allrows == check){
+				//将复选框至为选中状态
+				$("div.datagrid-header-check input:last").attr("checked",true);
+			}
+		}
+	}
 </script>
 </html>

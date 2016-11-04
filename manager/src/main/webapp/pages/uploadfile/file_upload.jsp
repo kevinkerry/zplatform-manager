@@ -10,7 +10,7 @@ table tr td {
 	padding-left: 4px;
 	border-style: solid;
 	border-color: #000000;
-	height: 20px; 
+	height: 20px;
 }
 
 table tr td input {
@@ -52,7 +52,7 @@ input {
 
 .type-add-button {
 	height: 20px;
-} 
+}
 </style>
 <script type="text/javascript"
 	src="js/multiplefileupload/multiplefileupload.js"></script>
@@ -60,25 +60,23 @@ input {
 </head>
 <body>
 	<div style="margin: 5px;" id="continer">
-	
+
 		<div style="padding-left: 5px; padding-right: 5px">
 			<form id="downBillchanform" method="post"
-				action="pages/merchant/downChanBilDownloadAction.action"
-				>
+				action="pages/merchant/downChanBilDownloadAction.action">
 				<table width="100%" border="1">
 					<tr>
 						<td colspan="4" align="center">畅捷对账文件下载</td>
 					</tr>
-					<tr height="26"  id="fileadd1">
+					<tr height="26" id="fileadd1">
 						<td align="center">对账日期</td>
-						<td colspan="3"><input name="billDate"  maxlength="12"    id="billDate" />
-					    </td>
+						<td colspan="3"><input name="billDate" maxlength="12"
+							id="billDate" /></td>
 					</tr>
 					<tr>
-						<td align="center" colspan="4" id="uploadbutton"><a 
+						<td align="center" colspan="4" id="uploadbutton"><a
 							class="easyui-linkbutton" iconCls="icon-ok"
-							href="javascript:downBillchan()">下载</a>
-					    </td>
+							href="javascript:downBillchan()">下载</a></td>
 					</tr>
 				</table>
 			</form>
@@ -100,16 +98,11 @@ input {
 							<input name="upload" type="file" class="type-file-file"
 							id="upload" size="25" /> <!-- <input type="button" id="addFileSelectButton" class="type-add-button" value="更多文件"/>  -->
 						</td>
-					</tr>					
+					</tr>
 					<tr height="26" id="fileadd1">
 						<td align="center">对账机构</td>
 						<td colspan="3"><select id="instiid_ins"
 							class="easyui-validatebox" name="instiid">
-								<!--  <option value=''>请选择</option>
-								<option value='96000001'>融宝快捷支付</option>
-								<option value='98000001'>证联支付</option>
-								<option value='97000001'>中信网银</option>
-								<option value='93000003'>民生本行代扣</option>-->
 
 						</select></td>
 					</tr>
@@ -128,44 +121,40 @@ input {
 			</form>
 		</div>
 	</div>
-	
-	 <div style="padding-left: 5px; padding-right: 5px">
-			<table width="100%" border="1">
-				<tr>
-					<td colspan="4" align="center">微信对账</td>
-				</tr>
-				<tr height="26" id="fileadd1">
-					<td align="center">对账日期</td>
-					<td colspan="3">
-						<input name="billdate" maxlength="12"   type="text"  id="startDate"/>
-					</td>
-				</tr>
-				<tr height="26" id="fileadd1">
-					<td align="center">对账类型</td>
-					<td colspan="3"><select id="instiid_wechat"
-							class="easyui-validatebox" >
-							  <option value=''>请选择</option>
-								<option value='app_wechat'>App支付</option>
-								<option value='code_wechat'>扫码支付</option>
-						</select></td>
-				</tr>
-				
-					<td align="center" colspan="4" id="uploadbutton"><a
-						class="easyui-linkbutton" iconCls="icon-ok"
-						href="javascript:billFileUpload()">开始</a> <a
-						class="easyui-linkbutton" iconCls="icon-back"
-						href="javascript:back()">返回</a></td>
-				</tr>
-			</table>
-	</div> 
+
+	<div style="padding-left: 5px; padding-right: 5px">
+		<table width="100%" border="1">
+			<tr>
+				<td colspan="4" align="center">微信对账</td>
+			</tr>
+			<tr height="26" id="fileadd1">
+				<td align="center">对账日期</td>
+				<td colspan="3"><input name="billdate" maxlength="12"
+					type="text" id="startDate" /></td>
+			</tr>
+			<tr height="26" id="fileadd1">
+				<td align="center">对账类型</td>
+				<td colspan="3"><select id="instiid_wechat"
+					class="easyui-validatebox">
+						<option value=''>请选择</option>
+						<option value='app_wechat'>App支付</option>
+						<option value='code_wechat'>扫码支付</option>
+				</select></td>
+			</tr>
+
+			<td align="center" colspan="4" id="uploadbutton"><a
+				class="easyui-linkbutton" iconCls="icon-ok"
+				href="javascript:billFileUpload()">开始</a> <a
+				class="easyui-linkbutton" iconCls="icon-back"
+				href="javascript:back()">返回</a></td>
+			</tr>
+		</table>
+	</div>
 
 
 </body>
 <script type="text/javascript">
 	function queryChannel() {
-
-		//$('#billDate').datebox('getValue');
-		// $('#startDate').datebox('getValue');
 		$.ajax({
 			type : "POST",
 			url : "pages/merchant/queryChannelUploadAction.action",
@@ -175,7 +164,6 @@ input {
 				var dataArray = eval(json);
 				var html = "<option value=''>请选择</option>"
 				for ( var i in dataArray) {
-					//TODO
 					for (j = 0; j < dataArray[i].length; j++) {
 						html += "<option value='"+dataArray[i][j].chnlCode+"'>"
 								+ dataArray[i][j].chnlName + "</option>"

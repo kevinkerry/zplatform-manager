@@ -41,10 +41,11 @@ public class RaiseTrDaoImpl extends HibernateBaseDAOImpl<RaiseTrModel>
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
-	public void aduitMoney(String orderid,Date date) {
-		List<RaiseTrModel> raise = getRaiseByOrder(orderid);
+	public void aduitMoney(long tid,Date date) {
 		Session session = this.getSession();
-		for (RaiseTrModel raiseTrModel : raise) {
+		Criteria criteria = session.createCriteria(RaiseTrModel.class).add(Restrictions.eq("tid", tid));
+		List<RaiseTrModel> list = criteria.list();
+		for (RaiseTrModel raiseTrModel : list) {
 			if(raiseTrModel.getStexaTime()!=null){
 				raiseTrModel.setCvlexaTime(date);
 			}else{
@@ -66,6 +67,7 @@ public class RaiseTrDaoImpl extends HibernateBaseDAOImpl<RaiseTrModel>
 		 List<RaiseTrModel> list = criteria.list();
 		return list;
 	}
+	
 	
 	/**
 	 * 查询所有，分页查询

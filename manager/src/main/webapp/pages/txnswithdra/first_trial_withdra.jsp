@@ -69,9 +69,8 @@ table tr td select {
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<form id="firstTrial" method="post"
 					action="pages/withdraw/queryTrialWithdraTriaAction.action">
-					<input id="withdraworderno" type="hidden"
-						name="ftb.orderNo"> <input id="falg" type="hidden"
-						name="ftb.falg">
+					<input id="withdraworderno" type="hidden" name="ftb.orderNo">
+					<input id="falg" type="hidden" name="ftb.falg">
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">
 						<tr>
@@ -101,25 +100,40 @@ table tr td select {
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<div>
-				<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"  border="solid">
-		<tr><td whdth="40px" align="center">&nbsp;会员号:</td><td align="center" whdth="40px" id="tmemberid"></td> 
-			<td whdth="40px" align="center" >&nbsp;提现类型:</td><td whdth="40px"  align="center"  id="twithdrawtype"></td> </tr>
-			<tr><td whdth="40px"  align="center">&nbsp;提现金额:</td><td align="center" whdth="20%"  id="tamount"></td> 
-			<td  whdth="20%" align="center" >&nbsp;银行账号:</td><td align="center" whdth="20%"  id="tacctno"></td> </tr>
-			<tr><td whdth="20%"  align="center">&nbsp;银行账户名称:</td><td  align="center" whdth="20%"  id="tacctname"></td> 
-			<td whdth="20%"  align="center">&nbsp;银行代码:</td><td align="center" whdth="20%"  id="tbankcode"></td> </tr>
-			<tr><td whdth="20%"  align="center" >&nbsp;支行名称:</td><td align="center" whdth="20%"  id="tbankname"></td> 
-			<td whdth="20%"  align="center">&nbsp;写入时间:</td><td align="center" whdth="20%"  id="tintime"></td>
-			</tr>
-		
+					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"
+						border="solid">
+						<tr>
+							<td whdth="40px" align="center">&nbsp;会员号:</td>
+							<td align="center" whdth="40px" id="tmemberid"></td>
+							<td whdth="40px" align="center">&nbsp;提现类型:</td>
+							<td whdth="40px" align="center" id="twithdrawtype"></td>
+						</tr>
+						<tr>
+							<td whdth="40px" align="center">&nbsp;提现金额:</td>
+							<td align="center" whdth="20%" id="tamount"></td>
+							<td whdth="20%" align="center">&nbsp;银行账号:</td>
+							<td align="center" whdth="20%" id="tacctno"></td>
+						</tr>
+						<tr>
+							<td whdth="20%" align="center">&nbsp;银行账户名称:</td>
+							<td align="center" whdth="20%" id="tacctname"></td>
+							<td whdth="20%" align="center">&nbsp;银行代码:</td>
+							<td align="center" whdth="20%" id="tbankcode"></td>
+						</tr>
+						<tr>
+							<td whdth="20%" align="center">&nbsp;支行名称:</td>
+							<td align="center" whdth="20%" id="tbankname"></td>
+							<td whdth="20%" align="center">&nbsp;写入时间:</td>
+							<td align="center" whdth="20%" id="tintime"></td>
+						</tr>
+
 					</table>
 				</div>
 				<br>
 				<form id="firstTrial" method="post"
 					action="pages/withdraw/queryTrialWithdraTriaAction.action">
-					<input id="withdraworderno" type="hidden"
-						name="ftb.orderNo"> <input id="falg" type="hidden"
-						name="ftb.falg">
+					<input id="withdraworderno" type="hidden" name="ftb.orderNo">
+					<input id="falg" type="hidden" name="ftb.falg">
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">
 						<tr>
@@ -257,6 +271,15 @@ $(function() {
         checkOnSelect: false,
         pagination: true,
         rownumbers: true,
+		onUnselect:function(rowIndex, rowData){
+			//当用户取消全选时候触发
+			quXiaoQuanXuan();
+			
+		},
+		onSelect:function(){
+			//当用户选中一行的时候触发
+			quanXuan();
+		},
         toolbar: [{
             id: 'btnadd',
             text: '批量审核',
@@ -397,6 +420,21 @@ function getWithdraw(withdraworderno) {
             showAdds();
         }
     });
+}
+
+function quXiaoQuanXuan(){	
+		$("div.datagrid-header-check input:first").removeAttr("checked");
+    			
+}
+
+function quanXuan(){
+		var allrows = $("#test").datagrid('getRows').length;
+		var check= $('#test' ).datagrid( 'getChecked').length;
+		if(allrows == check){
+			//将复选框至为选中状态
+			$("div.datagrid-header-check input:first").attr("checked",true);
+		}	
+	
 }
 </script>
 </html>

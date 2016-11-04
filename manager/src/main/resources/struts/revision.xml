@@ -5,16 +5,18 @@
 <struts>
 
 
- 	<package name="revision" namespace="/pages/revision" extends="global">
- 		<default-action-ref name="index" />
-		<action name="*RevisionAction" class="com.zlebank.zplatform.manager.action.revision.RevisionAciton" method="{1}">
-            <result >/pages/revision/query_revision.jsp</result>
+	<package name="revision" namespace="/pages/revision" extends="global">
+		<default-action-ref name="index" />
+		<action name="*RevisionAction"
+			class="com.zlebank.zplatform.manager.action.revision.RevisionAciton"
+			method="{1}">
+			<result>/pages/revision/query_revision.jsp</result>
 		</action>
-   
-   
-   
-   
-    </package>	
+
+
+
+
+	</package>
 
 
 </struts>

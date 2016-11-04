@@ -5,7 +5,8 @@
 <body>
 	<link href='js/checkboxbeautify/css.css' rel="stylesheet"
 		type="text/css" />
-	<script type="text/javascript" src="js/extendsValidator_1.0_20151215.js"></script>
+	<script type="text/javascript"
+		src="js/extendsValidator_1.0_20151215.js"></script>
 	<style type="text/css">
 #groupinfo {
 	height: 25px;
@@ -45,11 +46,10 @@
 					<tr>
 						<td align="right">企业会员号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="memberId"  maxlength="32" />
-						</td>
+							id="memberId" maxlength="32" /></td>
 						<td align="right" width="10%">企业名称:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="enterpriseName"  maxlength="32" /></td>
+							id="enterpriseName" maxlength="32" /></td>
 						<td align="right"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
 							href="javascript:resizeAdd()" class="easyui-linkbutton"
@@ -65,39 +65,56 @@
 		</div>
 	</div>
 
-	
-	
-	
+
+
+
 	<div id="edit" class="easyui-window" closed="true" title="My Window"
-		iconCls="icon-save"    style="width:500px;height:200px;padding:5px;" >
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<div>
-				<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"  border="solid">
-			<tr><td whdth="40px" align="center">&nbsp;企业会员号:</td><td align="center" whdth="40px" id="fin_memberId"></td> 
-			<td whdth="40px" align="center" >&nbsp;企业名称</td><td whdth="40px"  align="center"  id="fin_enterpriseName"></td> </tr>
-			<tr><td whdth="40px"  align="center">&nbsp;账户号:</td><td align="center" whdth="20%"  id="fin_accNo"></td> 
-			<td  whdth="20%" align="center" >&nbsp;账户名:</td><td align="center" whdth="20%"  id="fin_accName"></td> </tr>
-			<tr><td whdth="20%"  align="center">&nbsp;账户类型:</td><td  align="center" whdth="20%" >对公</td> 
-			<td whdth="20%"  align="center">&nbsp;手机号:</td><td align="center" whdth="20%"  id="fin_mobil"></td> </tr>
-		
+					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"
+						border="solid">
+						<tr>
+							<td whdth="40px" align="center">&nbsp;企业会员号:</td>
+							<td align="center" whdth="40px" id="fin_memberId"></td>
+							<td whdth="40px" align="center">&nbsp;企业名称</td>
+							<td whdth="40px" align="center" id="fin_enterpriseName"></td>
+						</tr>
+						<tr>
+							<td whdth="40px" align="center">&nbsp;账户号:</td>
+							<td align="center" whdth="20%" id="fin_accNo"></td>
+							<td whdth="20%" align="center">&nbsp;账户名:</td>
+							<td align="center" whdth="20%" id="fin_accName"></td>
+						</tr>
+						<tr>
+							<td whdth="20%" align="center">&nbsp;账户类型:</td>
+							<td align="center" whdth="20%">对公</td>
+							<td whdth="20%" align="center">&nbsp;手机号:</td>
+							<td align="center" whdth="20%" id="fin_mobil"></td>
+						</tr>
+
 					</table>
 				</div>
 				<br>
 				<form id="firstTrial" method="post" action="">
-					<input id="fin_tid" name="bean.tid" type="hidden"> 
-					<input id="flag" type="hidden" name="bean.auditFlag">
+					<input id="fin_tid" name="bean.tid" type="hidden"> <input
+						id="flag" type="hidden" name="bean.auditFlag">
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">
 						<tr>
 							<td align="center">打款金额:</td>
-							<td><input name="bean.amount" id="amount" maxlength="20"  precision="2" class="easyui-numberbox" />元</td>
+							<td><input name="bean.amount" id="amount" maxlength="20"
+								precision="2" class="easyui-numberbox" />元</td>
 						</tr>
-						<tr><td>&nbsp;</td></tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
 						<tr>
 							<td align="center">初审意见:</td>
-							<td><textarea rows="5" cols="80" name="bean.opinion" maxlength="255"  id="opinion">
+							<td><textarea rows="5" cols="80" name="bean.opinion"
+									maxlength="255" id="opinion">
 							</textarea></td>
 						</tr>
 					</table>
@@ -113,7 +130,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 
 </body>
 
@@ -171,6 +188,47 @@
 				title : '联系人手机号',
 				width : 120,
 				align : 'center'
+				
+			}, 
+			 {
+				field : 'txnamt',
+				title : '打款金额',
+				width : 120,
+				align : 'center',
+				formatter : function(value, rec) {
+					var f_x = parseFloat(value);
+					if (isNaN(f_x)){
+						return " ";
+					}
+					f_x = Math.round(f_x)/100;
+					var s_x = f_x.toString();
+					var pos_decimal = s_x.indexOf('.');
+					if (pos_decimal < 0){ 
+						pos_decimal = s_x.length;
+						s_x += '.';
+					}
+					while (s_x.length <= pos_decimal + 2)
+					{
+						s_x += '0';
+					}
+					return s_x;
+				}
+			}, 
+			 {
+				field : 'busiType',
+				title : '业务类型',
+				width : 120,
+				align : 'center',
+				formatter : function(value, rec) {
+
+					if (value == '01') {
+						return '企业实名认证';
+					} else if (value == '02') {
+						return '企业绑卡';
+					}else {
+						return '';
+					}
+				}
 				
 			}, 
 			{
@@ -302,8 +360,8 @@
 	}
 </script>
 
-	
 
-	
+
+
 </script>
 </html>

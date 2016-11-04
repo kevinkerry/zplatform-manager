@@ -9,6 +9,7 @@
  * 
  */
 package com.zlebank.zplatform.manager.action.member;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,9 +30,11 @@ import com.zlebank.zplatform.acc.service.FreezeAmountService;
 import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.commons.utils.DateUtil;
+import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
 import com.zlebank.zplatform.manager.bean.AccountAmountMan;
 import com.zlebank.zplatform.manager.bean.AccountQuery;
+import com.zlebank.zplatform.manager.service.iface.IBusiacctService;
 import com.zlebank.zplatform.manager.service.iface.IMemberService;
 
 /**
@@ -56,7 +59,10 @@ public class MemberAccountAction extends BaseAction {
     @Autowired
     private FreezeAmountService freeas;
     private QueryAccount qa;
-
+    @Autowired
+    private IBusiacctService busiacctService;
+    private Map<String,Object> accAccountMap;
+    private String id;
     private Account para;
 
     private Integer type;
@@ -89,6 +95,8 @@ public class MemberAccountAction extends BaseAction {
     }
 
     public String getMember() {
+       @SuppressWarnings("unused")
+    List<?> usageList  =   busiacctService.queryAllUsage();
         return SUCCESS;
     }
 
@@ -100,31 +108,43 @@ public class MemberAccountAction extends BaseAction {
         Date nowDate = new Date();
         Date frozeStartDate;
         try {
-            frozeStartDate = DateUtil.convertToDate(account.getStartTime(),
-                    DEFAULT_TIME_STAMP_FROMAT);
-
-            if (nowDate.getTime() > frozeStartDate.getTime()) {
-                messg = "开始日期必须大于或者等于当前时间";
-            } else {
-                AccountAmount amount = BeanCopyUtil.copyBean(
-                        AccountAmount.class, account);
-                double money = Double.valueOf(account.getFrozenBalance());
-                money = money * 100;
-                
-                Long frozeStartDateTimeValue = frozeStartDate.getTime();
-                Date frozeEndDate = DateUtil.convertToDate(account.getEndTime(),
+            if(StringUtil.isEmpty(account.getStartTime())||StringUtil.isEmpty(account.getEndTime())){                
+                if(StringUtil.isEmpty(account.getStartTime()) && StringUtil.isEmpty(account.getEndTime())){
+                    messg = "冻结开始时间和冻结结束时间不能为空";
+                }else if(StringUtil.isEmpty(account.getStartTime())){
+                    messg = "冻结开始时间不能为空";
+                }else if(StringUtil.isEmpty(account.getEndTime())){
+                    messg = "冻结结束时间不能为空";
+                }
+           
+            } else{
+                frozeStartDate = DateUtil.convertToDate(account.getStartTime(),
                         DEFAULT_TIME_STAMP_FROMAT);
-                Long frozeStartEndTimeValue = frozeEndDate.getTime();
-                amount.setFrozenSTime(frozeStartDate);
-                amount.setUnfrozenTime(frozeEndDate);
-                amount.setFrozenTime((frozeStartEndTimeValue - frozeStartDateTimeValue) / 60 / 1000);
-                amount.setInuser(getCurrentUser().getUserId());
-                amount.setUpuser(getCurrentUser().getUserId());
-                amount.setFrozenBalance(Money.valueOf(money));
-                
-                freeas.freezeAmount(amount);
-                messg = "操作成功";
+                if (nowDate.getTime() > frozeStartDate.getTime()) {
+                    messg = "开始日期必须大于或者等于当前时间";
+                } else {
+                    AccountAmount amount = BeanCopyUtil.copyBean(
+                            AccountAmount.class, account);
+                    double money = Double.valueOf(account.getFrozenBalance());
+                    money = money * 100;
+                    
+                    Long frozeStartDateTimeValue = frozeStartDate.getTime();
+                    Date frozeEndDate = DateUtil.convertToDate(account.getEndTime(),
+                            DEFAULT_TIME_STAMP_FROMAT);
+                    Long frozeStartEndTimeValue = frozeEndDate.getTime();
+                    amount.setFrozenSTime(frozeStartDate);
+                    amount.setUnfrozenTime(frozeEndDate);
+                    amount.setFrozenTime((frozeStartEndTimeValue - frozeStartDateTimeValue) / 60 / 1000);
+                    amount.setInuser(getCurrentUser().getUserId());
+                    amount.setUpuser(getCurrentUser().getUserId());
+                    amount.setFrozenBalance(Money.valueOf(money));
+                    
+                    freeas.freezeAmount(amount);
+                    messg = "操作成功";
+                }
             }
+
+
         } catch (AccBussinessException e) {
             messg = e.getMessage();
         }
@@ -134,6 +154,7 @@ public class MemberAccountAction extends BaseAction {
         }
 
         json_encode(messg);
+
     }
     
     /**
@@ -168,7 +189,15 @@ public class MemberAccountAction extends BaseAction {
         json_encode(map);
     }
     
-    
+    /**
+     * 详细信息
+     */
+    public String detail(){
+        //查询详细信息
+        accAccountMap = busiacctService.queryAccAccountDetail(id);    
+        json_encode(accAccountMap);
+        return null;
+    }
     
     /**
      * 账户操作
@@ -317,4 +346,19 @@ public class MemberAccountAction extends BaseAction {
         }
         return messg;
     }
+
+    public Map<String, Object> getAccAccountMap() {
+        return accAccountMap;
+    }
+    public void setAccAccountMap(Map<String, Object> accAccountMap) {
+        this.accAccountMap = accAccountMap;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    
 }

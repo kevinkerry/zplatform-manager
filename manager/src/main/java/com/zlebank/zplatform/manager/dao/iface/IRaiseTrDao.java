@@ -12,7 +12,7 @@ public interface IRaiseTrDao extends BaseDAO<RaiseTrModel>{
     
 	public PagResultBean getAllRaise(FundQueryCondition fundBean);
 
-	public void aduitMoney(String orderid,Date date);
+	public void aduitMoney(long tid,Date date);
 
 	public List<RaiseTrModel> getRaiseByOrder(String orderid);
  

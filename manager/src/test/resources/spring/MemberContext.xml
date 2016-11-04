@@ -16,7 +16,7 @@
 	<bean id="propertyFileConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
-			<list> 
+			<list>
 				<value>classpath:acc.config.properties</value>
 			</list>
 		</property>

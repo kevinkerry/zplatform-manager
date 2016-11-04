@@ -16,7 +16,7 @@
 	<include file="struts/acc-entry.xml"></include>
 	<include file="struts/entry-rule.xml"></include>
 	<include file="struts/txns-log.xml"></include>
-    <include file="struts/transfer.xml"></include>
+	<include file="struts/transfer.xml"></include>
 	<include file="struts/txns-charge.xml"></include>
 	<include file="struts/instead-pay.xml"></include>
 	<include file="struts/stat-struts.xml"></include>
@@ -28,4 +28,6 @@
 	<include file="struts/route-struts.xml"></include>
 	<include file="struts/finance-struts.xml"></include>
 	<include file="struts/fund-struts.xml"></include>
+	<include file="struts/industry-struts.xml"></include>
+	<!--<include file="struts/moneyStatistics-struts.xml"></include>  -->
 </struts>

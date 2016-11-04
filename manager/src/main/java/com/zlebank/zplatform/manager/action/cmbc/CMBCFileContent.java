@@ -23,6 +23,7 @@ public class CMBCFileContent extends AbstractFileContentHandler{
         BufferedReader brfile = new BufferedReader(new FileReader(upload[0]));
         int i = 0;
         try {
+            //一次读入一行，直到读到null表示一行结束，读到########表示文件结束
         while ((newline = brfile.readLine()) != null
                 && !newline.equals("########")) {
            

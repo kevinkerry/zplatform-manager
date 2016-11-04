@@ -7,103 +7,112 @@
 			+ path + "/";
 %>
 <html>
-	<head>
-	</head>
-	<body>
-		<div style="margin: 5px; border: " id="continer">
-			<div id="p" class="easyui-panel" title="单卡单日限次查询"
-				style="height: 100px; padding: 10px; background: #fafafa;"
-				iconCls="icon-save" collapsible="true">
-				<form id="dedurateForm" method="post">
-					<table width="100%">
+<head>
+</head>
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="单卡单日限次查询"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="dedurateForm" method="post">
+				<table width="100%">
 					<tr>
-							 <td align="right" width="15%" height="30px" >风控版本</td>
-					  	<td align="left" style="padding-left:5px" width="25%">
-					        <select id="risk_qid" class="easyui-validatebox" missingMessage="请选择风控版本" required="true"  class="easyui-validatebox" onchange="queryRiskCase_query()">
+						<td align="right" width="15%" height="30px">风控版本</td>
+						<td align="left" style="padding-left: 5px" width="25%"><select
+							id="risk_qid" class="easyui-validatebox" missingMessage="请选择风控版本"
+							required="true" class="easyui-validatebox"
+							onchange="queryRiskCase_query()">
 								<option value="">--请选择风控版本--</option>
-							</select>
-						</td>
-						<td align="right" width="15%" >风控业务实例</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<select id="riskcase_qid" class="easyui-validatebox" missingMessage="请选择风控版本实例" required="true" name="limitPerdayModel.caseid" class="easyui-validatebox">
+						</select></td>
+						<td align="right" width="15%">风控业务实例</td>
+						<td align="left" style="padding-left: 5px" width="25%"><select
+							id="riskcase_qid" class="easyui-validatebox"
+							missingMessage="请选择风控版本实例" required="true"
+							name="limitPerdayModel.caseid" class="easyui-validatebox">
 								<option value="">--请选择风控版本实例--</option>
-							</select>
-						</td>
-						<td align="right" colspan=2>
-								<a href="javascript:search()" class="easyui-linkbutton"
-									iconCls="icon-search">查询</a>
+						</select></td>
+						<td align="right" colspan=2><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div style="margin-top: 5px">
+			<table id="test"></table>
+		</div>
+	</div>
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm" method="post" action="">
+					<input name="limitPerdayModel.TId" id="TId" type="hidden" />
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td align="right" width="15%" height="30px">风控版本</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="risk" class="easyui-validatebox" required="true"
+								missingMessage="请选择风控版本" class="easyui-validatebox"
+								onchange="queryRiskCase()">
+									<option value="">--请选择风控版本--</option>
+							</select></td>
+							<td align="right" width="15%">风控业务实例</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="riskcase" class="easyui-validatebox"
+								missingMessage="请选择风控业务实例" required="true"
+								name="limitPerdayModel.caseid">
+									<option value="">--请选择风控版本实例--</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td align="right" width="15%">卡种类</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="cardtype" class="easyui-validatebox" required="true"
+								missingMessage="请选择卡种类" name="limitPerdayModel.cardtype">
+									<option value="" selected="selected">--请选择卡种类--</option>
+									<option value="1">借记卡</option>
+									<option value="2">信用卡</option>
+									<option value="3">准贷记卡</option>
+							</select></td>
 
+							<td align="right" width="15%" height="30px">限制次数</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitPerdayModel.nums" id="nums_id" maxlength="10"
+								onkeyup="this.value=this.value.replace(/\D/g,'')"
+								class="easyui-validatebox" required="true"
+								missingMessage="请填写限制次数"></td>
+						</tr>
+
+						<tr>
 							</td>
-					</tr>							
+							<td align="right" width="15%">风险等级</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="risklevel" class="easyui-validatebox"
+								missingMessage="请选择风险等级" required="true"
+								name="limitPerdayModel.risklevel">
+							</select></td>
+
+							<td align="right" width="15%" height="30px">备注</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitPerdayModel.notes" id="Notes" maxlength="32" /></td>
+						</tr>
 					</table>
 				</form>
 			</div>
-			<div style="margin-top: 5px">
-				<table id="test"></table>
-			</div>
-		</div>
-		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm"   method="post" action="" >
-				<input name="limitPerdayModel.TId" id="TId" type="hidden"/>
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-				    <tr>
-					    <td align="right" width="15%" height="30px" >风控版本</td>
-					  	<td align="left" style="padding-left:5px" width="25%">
-					        <select id="risk" class="easyui-validatebox" required="true" missingMessage="请选择风控版本"  class="easyui-validatebox" onchange="queryRiskCase()">
-								<option value="">--请选择风控版本--</option>
-							</select>
-						</td>
-						<td align="right" width="15%" >风控业务实例</td>
-						<td align="left" style="padding-left:5px" width="25%">
-                          <select id="riskcase" class="easyui-validatebox" missingMessage="请选择风控业务实例" required="true" name="limitPerdayModel.caseid" >
-								<option value="">--请选择风控版本实例--</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-					    <td align="right" width="15%">卡种类</td>
-					    <td align="left" style="padding-left:5px" width="25%">
-					        <select id="cardtype" class="easyui-validatebox"  required="true" missingMessage="请选择卡种类"  name="limitPerdayModel.cardtype">
-					            <option value="" selected="selected">--请选择卡种类--</option>
-					            <option value="1">借记卡</option>
-					            <option value="2">信用卡</option>
-					            <option value="3">准贷记卡</option>
-					        </select>
-					    </td>
-					    
-						<td align="right" width="15%" height="30px">限制次数</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="limitPerdayModel.nums" id="nums_id"  maxlength="10"  onkeyup="this.value=this.value.replace(/\D/g,'')" class="easyui-validatebox" required="true" missingMessage="请填写限制次数">
-						</td>						
-					</tr>
-					
-					<tr>
-					</td>
-						<td align="right" width="15%">风险等级</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<select id="risklevel" class="easyui-validatebox" missingMessage="请选择风险等级" required="true" name="limitPerdayModel.risklevel">
-							</select>
-						</td>
-						
-						<td align="right" width="15%" height="30px">备注</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="limitPerdayModel.notes" id="Notes" maxlength="32"/>
-						</td>
-					</tr>
-				</table>
-				</form>
-			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveLimitPerday()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveLimitPerday()" id="btn_submit" onclick="">保存</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	</body>
+</body>
 
-	<script>
+<script>
 	$(function(){
 	 showRisk_query();queryRiskCase_query();
 	});  

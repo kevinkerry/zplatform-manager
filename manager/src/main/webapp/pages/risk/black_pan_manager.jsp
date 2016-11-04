@@ -7,76 +7,77 @@
 			+ path + "/";
 %>
 <html>
-	<head>
-	</head>
-	<body>
-		<div style="margin: 5px; border: " id="continer">
-			<div id="p" class="easyui-panel" title="银行卡黑名单查询"
-				style="height: 100px; padding: 10px; background: #fafafa;"
-				iconCls="icon-save" collapsible="true">
-				<form id="dedurateForm" method="post">
-					<table width="100%">
+<head>
+</head>
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="银行卡黑名单查询"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="dedurateForm" method="post">
+				<table width="100%">
+					<tr>
+						<td align="right">银行卡号</td>
+						<td align="left" style="padding-left: 5px"><input
+							id="pan_qid" maxlength="19" /></td>
+
+						<td align="right" colspan=2><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+					</tr>
+
+
+				</table>
+			</form>
+		</div>
+		<div style="margin-top: 5px">
+			<table id="test"></table>
+		</div>
+	</div>
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm" method="post"
+					action="pages/fee/saveFeeFeeAction.action">
+					<input name="blackpanModel.TId" id="TId" type="hidden" />
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
 						<tr>
-							<td align="right">
-								银行卡号
-							</td>
-							<td align="left" style="padding-left: 5px">
-								<input  id="pan_qid" maxlength="19"/>
-							</td>
-
-							<td align="right" colspan=2>
-								<a href="javascript:search()" class="easyui-linkbutton"
-									iconCls="icon-search">查询</a>
-						
-							</td>
-							</tr>
-							
-
+							<td align="right" width="15%" height="50px">银行卡号</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="blackpanModel.pan" id="pan" validType="minLength[16,16]"
+								maxlength="19" class="easyui-validatebox" /></td>
+							<td align="right" width="15%">风险等级</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="risklevel" class="easyui-validatebox"
+								missingMessage="请选选择风险等级" required="true"
+								name="blackpanModel.risklevel" class="easyui-validatebox">
+									<option value="">--请选择风险等级--</option>
+									<option value="5">拒绝</option>
+							</select></td>
+						</tr>
+						<tr></tr>
+						<tr>
+							<td align="right" width="15%">备注</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="blackpanModel.notes" id="Notes" maxlength="32" /></td>
+						</tr>
 					</table>
 				</form>
 			</div>
-			<div style="margin-top: 5px">
-				<table id="test"></table>
-			</div>
-		</div>
-		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm"   method="post" action="pages/fee/saveFeeFeeAction.action" >
-				<input name="blackpanModel.TId" id="TId" type="hidden"/>
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-					<tr>
-						<td align="right" width="15%" height="50px" >银行卡号</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="blackpanModel.pan" id="pan" validType="minLength[16,16]" maxlength="19" class="easyui-validatebox" />
-						</td>
-						<td align="right" width="15%">风险等级</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<select id="risklevel" class="easyui-validatebox" missingMessage="请选选择风险等级" required="true" name="blackpanModel.risklevel" class="easyui-validatebox">
-								<option value="">--请选择风险等级--</option>
-								<option value="5">拒绝</option>
-							</select>
-						</td>
-					</tr>
-					<tr></tr>
-					<tr>
-						<td align="right" width="15%">备注</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="blackpanModel.notes" id="Notes" maxlength="32"/>
-						</td>
-					</tr>
-				</table>
-				</form>
-			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveBlackPan()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveBlackPan()" id="btn_submit" onclick="">保存</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	</body>
+</body>
 
-	<script>
+<script>
 		$.extend($.fn.validatebox.defaults.rules, {
 			minLength: {
 				validator: function(value, param) {

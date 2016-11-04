@@ -7,56 +7,59 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <html>
 <body>
-    <div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:150px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 150px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
 			<form id="theForm" method="post" action="">
 				<table width="100%">
 					<tr>
-					    <td align="center" width="10%">商户/会员/银行卡号</td>
-						<td align="left" style="padding-left:4px" width="15%">
-							<input id="memberid" name="riskAnalyseLogQueryBean.memberid"/>
-						</td>
-						
+						<td align="center" width="10%">商户/会员/银行卡号</td>
+						<td align="left" style="padding-left: 4px" width="15%"><input
+							id="memberid" name="riskAnalyseLogQueryBean.memberid" /></td>
+
 						<td align="center" width="10%">规则类型</td>
-						<td align="left" style="padding-left:4px" width="15%">
-						   <select id="roletype" class="easyui-validatebox" name="riskAnalyseLogQueryBean.roletype" onchange="showRulecodeList()" missingMessage="请选择规则类型" required="true">
-						       <option value="">--请选择规则类型--</option>
-						       <option value="1">商户规则</option>
-						       <option value="2">个人规则</option>
-						       <option value="3">账户规则</option>						       
-						   </select>						   
-						</td>
-						
+						<td align="left" style="padding-left: 4px" width="15%"><select
+							id="roletype" class="easyui-validatebox"
+							name="riskAnalyseLogQueryBean.roletype"
+							onchange="showRulecodeList()" missingMessage="请选择规则类型"
+							required="true">
+								<option value="">--请选择规则类型--</option>
+								<option value="1">商户规则</option>
+								<option value="2">个人规则</option>
+								<option value="3">账户规则</option>
+						</select></td>
+
 						<td align="center" width="10%">规则编号</td>
-						<td align="left" style="padding-left:4px" width="40%">
-							<select id="rulecode"  class="easyui-validatebox" name="riskAnalyseLogQueryBean.rolecode" >
-							     <option value="">--请选择规则描述--</option>
-							</select>
-						</td>										
+						<td align="left" style="padding-left: 4px" width="40%"><select
+							id="rulecode" class="easyui-validatebox"
+							name="riskAnalyseLogQueryBean.rolecode">
+								<option value="">--请选择规则描述--</option>
+						</select></td>
 					</tr>
-					
-	                <tr>    
-						<td align="center" width="15%">开始时间</td>						
-						<td align="left" style="padding-left:4px" width="25%">
-						    <input id="startdate" name="riskAnalyseLogQueryBean.startdate" type="text"/>
-						</td>
-						
+
+					<tr>
+						<td align="center" width="15%">开始时间</td>
+						<td align="left" style="padding-left: 4px" width="25%"><input
+							id="startdate" name="riskAnalyseLogQueryBean.startdate"
+							type="text" /></td>
+
 						<td align="center" width="15%">结束时间</td>
-						<td align="left" style="padding-left:4px" width="25%">
-						    <input id="enddate" name="riskAnalyseLogQueryBean.enddate" class="easyui-validatebox"/>
-						</td>																				
-						
+						<td align="left" style="padding-left: 4px" width="25%"><input
+							id="enddate" name="riskAnalyseLogQueryBean.enddate"
+							class="easyui-validatebox" /></td>
+
 						<td align="center" width="15%"></td>
-						<td align="left" style="padding-left:4px" width="25%">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>
+						<td align="left" style="padding-left: 4px" width="25%"><a
+							href="javascript:search()" class="easyui-linkbutton"
+							iconCls="icon-search">查询</a></td>
 					</tr>
-					
+
 				</table>
 			</form>
 		</div>
 		<div style="margin-top: 5px">
-			<form id ="testform" method="post" action ="">		
+			<form id="testform" method="post" action="">
 				<table id="test"></table>
 			</form>
 		</div>

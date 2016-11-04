@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.0.xsd">
 
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!--注册数据bean -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 			<list>
+
+				<value>com.zlebank.zplatform.manager.dao.object.FundMerchantBeanModel
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.FundMerchantModel
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.RaiseTrModel</value>
+
 				<value>com.zlebank.zplatform.manager.dao.object.UserModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.FunctionModel
 				</value>
@@ -30,21 +41,17 @@
 				</value>
 				<value>com.zlebank.zplatform.manager.dao.object.ParaDicModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.ParaDicModel</value>
-
 				<value>com.zlebank.zplatform.manager.dao.object.NoticeModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.TaskModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.OperLogModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.UserRoleModel
 				</value>
-				 
 				<value>com.zlebank.zplatform.manager.dao.object.FTPModel</value>
-
 				<value>com.zlebank.zplatform.manager.dao.object.UploadLogModel
 				</value>
 				<value>com.zlebank.zplatform.manager.dao.object.BnkTxnModel</value>
 				<value>com.zlebank.zplatform.commons.dao.pojo.ProductModel</value>
 				<value>com.zlebank.zplatform.manager.dao.object.FeeModel</value>
-
 				<value>com.zlebank.zplatform.acc.pojo.PojoAbstractSubject</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoSubject</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoAccount</value>
@@ -56,36 +63,50 @@
 				</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoAccEntry</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoMemberBase</value>
-				<value> com.zlebank.zplatform.member.pojo.PojoMerchDeta</value>
+				<value>com.zlebank.zplatform.member.pojo.PojoMerchDeta</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoPersonDeta</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoParaDic</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoMember</value>
-				<value>com.zlebank.zplatform.member.pojo.PojoMerchMK</value> 
+				<value>com.zlebank.zplatform.member.pojo.PojoMerchMK</value>
 				<value> com.zlebank.zplatform.commons.dao.pojo.PojoCounty</value>
-				<value>com.zlebank.zplatform.commons.dao.pojo.PojoBankInfo</value> 
+				<value>com.zlebank.zplatform.commons.dao.pojo.PojoCounty</value>
+				<value>com.zlebank.zplatform.commons.dao.pojo.PojoBankInfo</value>
 				<value>com.zlebank.zplatform.acc.pojo.PojoBusiness</value>
-				
 				<value>com.zlebank.zplatform.manager.dao.object.PojoTxnsLog</value>
-				
 				<value>com.zlebank.zplatform.manager.dao.object.ChargeModel</value>
 				<value>com.zlebank.zplatform.commons.dao.pojo.PojoChannel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.TradeStatModel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.PojoCheckFile</value>
+				<value>com.zlebank.zplatform.manager.dao.object.TradeStatModel
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoCheckFile
+				</value>
 				<value>com.zlebank.zplatform.manager.dao.object.MccListModel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.TradeStatModel</value>
-				<value>com.zlebank.zplatform.manager.dao.object.EntryCountSPModel</value>	
+				<value>com.zlebank.zplatform.manager.dao.object.TradeStatModel
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.EntryCountSPModel
+				</value>
 				<value>com.zlebank.zplatform.manager.dao.object.PojoRevision</value>
 				<value>com.zlebank.zplatform.member.pojo.PojoCoopInsti</value>
-				<value>com.zlebank.zplatform.member.pojo.PojoInstiMK</value>	
-				<value>com.zlebank.zplatform.manager.dao.object.PojoMerchDetaApply</value>
-				<value>com.zlebank.zplatform.manager.dao.object.PojoMemberApply</value>
-				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDetaApply</value>
-				<value>com.zlebank.zplatform.manager.dao.object.PojoMerchDeta</value>
+				<value>com.zlebank.zplatform.member.pojo.PojoInstiMK</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoMerchDetaApply
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoMemberApply
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDetaApply
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoMerchDeta
+				</value>
 				<value>com.zlebank.zplatform.manager.dao.object.PojoMember</value>
-				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDeta</value>
-				<value>com.zlebank.zplatform.acc.pojo.PojoTradeEntryEventMapping</value>
-				<value>com.zlebank.zplatform.manager.dao.object.CmbcResfileModel</value>
-				</list>
+				<value>com.zlebank.zplatform.manager.dao.object.PojoEnterpriseDeta
+				</value>
+				<value>com.zlebank.zplatform.acc.pojo.PojoTradeEntryEventMapping
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.CmbcResfileModel
+				</value>
+				<value>com.zlebank.zplatform.manager.dao.object.RouteModel</value>
+				<!-- value>com.zlebank.zplatform.manager.dao.object.RouteConfigModel</value> -->
+				<value>com.zlebank.zplatform.manager.dao.object.AccumulateRateModel
+				</value>
+			</list>
 		</property>
 		<property name="packagesToScan">
 			<list>
@@ -94,16 +115,22 @@
 				<value>com.zlebank.zplatform.scan</value>
 			</list>
 		</property>
+
 		<property name="mappingResources">
-			<list><value>hbm/stat.hbm.xml</value></list>
+			<list>
+				<value>hbm/stat.hbm.xml</value>
+			</list>
 		</property>
+
+
+
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
 				<!-- <prop key="hibernate.hbm2ddl.auto">validate</prop> -->
 
 				<prop key="hibernate.autoReconnect">true</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">true</prop>
 				<!-- <propery name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property> -->
 
@@ -124,7 +151,8 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="hibernateBaseDAOImpl" class="com.zlebank.zplatform.commons.dao.impl.HibernateBaseDAOImpl">
+	<bean id="hibernateBaseDAOImpl"
+		class="com.zlebank.zplatform.commons.dao.impl.HibernateBaseDAOImpl">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
@@ -132,42 +160,56 @@
 	<bean id="baseServiceImpl" abstract="true"
 		class="com.zlebank.zplatform.manager.service.base.BaseServiceImpl">
 	</bean>
-	 <bean id="springContext" class="com.zlebank.zplatform.trade.utils.SpringContext"></bean>
-	 
-	 <!-- 数据源配置begin -->
-		<!-- 非jndi,单元测用 -->
-		<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-			destroy-method="close">
-			<property name="driverClass" value="oracle.jdbc.OracleDriver" />
-			<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.101.245:1521:primary" />
-			<property name="user" value="payservice" />
-			<property name="password" value="pay1234" />
-			<property name="maxPoolSize" value="40" />
-			<property name="minPoolSize" value="1" />
-			<property name="initialPoolSize" value="1" />
-			<property name="maxIdleTime" value="20" />
-		</bean>
-		<!-- jndi,数据源配置与web容器耦合-->
-		  <!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-			<property name="jndiName">
-				<value>java:comp/env/jdbc/manager</value>
-			</property>
-		</bean>-->
+	<bean id="springContext" class="com.zlebank.zplatform.trade.utils.SpringContext"></bean>
+
+	<!-- 数据源配置begin -->
+	<!-- 非jndi,单元测用 -->
+<<<<<<< HEAD
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="oracle.jdbc.OracleDriver" />
+		<property name="jdbcUrl"
+			value="jdbc:oracle:thin:@192.168.101.245:1521:primary" />
+		<property name="user" value="payservice" />
+		<property name="password" value="pay1234" />
+		<property name="maxPoolSize" value="40" />
+		<property name="minPoolSize" value="1" />
+		<property name="initialPoolSize" value="1" />
+		<property name="maxIdleTime" value="20" />
+	</bean>
+	<!-- jndi,数据源配置与web容器耦合 -->
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName"> <value>java:comp/env/jdbc/manager</value> </property> 
+		</bean> -->
+	<!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+		destroy-method="close"> <property name="driverClass" value="oracle.jdbc.OracleDriver" 
+		/> <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.101.178:1521:primary" 
+		/> <property name="user" value="payservice" /> <property name="password" 
+		value="payservice" /> <property name="maxPoolSize" value="40" /> <property 
+		name="minPoolSize" value="1" /> <property name="initialPoolSize" value="1" 
+		/> <property name="maxIdleTime" value="20" /> </bean> -->
+	<!-- jndi,数据源配置与web容器耦合 -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:comp/env/jdbc/manager</value>
+		</property>
+	</bean>
 	<!-- 数据源配置end -->
-	
+
 	<!-- 定时任务配置begin -->
-	<!--  所有定时任务触发开关 -->
+	<!-- 所有定时任务触发开关 -->
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
-			<list> 
-				 <ref bean="mailproxyTrigger" /> 
-				 <ref bean="createFilesimpleTrigger" />
+			<list>
+				<ref bean="mailproxyTrigger" />
+				<ref bean="createFilesimpleTrigger" />
+				<ref bean="createIPFilesimpleTrigger" />
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- 邮件发送任务begin -->
-	
+
 	<!-- 邮件发送任务触发器 -->
 	<bean id="mailproxyTrigger"
 		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
@@ -177,7 +219,7 @@
 		<!-- 每N秒执行一次任务,单位:毫秒 -->
 		<property name="repeatInterval" value="60000" />
 	</bean>
-	
+
 	<bean id="mailProxyjobDetail"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject" ref="sendEmailJob" />
@@ -185,14 +227,17 @@
 		<!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将会被推迟。 -->
 		<property name="concurrent" value="false" />
 	</bean>
-	 
+
 	<!-- 注册发送邮件Job -->
-	<bean id="sendEmailJob" class="com.zlebank.zplatform.manager.job.SaveMemberQueueJob" /> 
-	
+	<bean id="sendEmailJob" class="com.zlebank.zplatform.manager.job.SaveMemberQueueJob" />
+
 	<!-- 邮件发送任务end -->
-	
+
 	<!-- 生成商户对账文件任务begin -->
-	
+
+
+
+	<!-- 生成商清算明细户对账文件任务begin -->
 	<!-- 生成商户对账文件任务触发器,生产上每日凌晨2点 -->
 	<bean id="createFilesimpleTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
@@ -200,28 +245,77 @@
 		<!-- 启动延迟10秒 -->
 		<property name="startDelay" value="0" />
 		<property name="cronExpression" value="0 0 2 * * ?" />
-		
-		
 	</bean>
 	<!-- 生成商户对账文件任务触发器,测试环境每X秒 -->
-	<!-- 
-	<bean id="createFilesimpleTrigger"
-		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBeann">
-		<property name="jobDetail" ref="cerateFilejobDetail" />
-		<property name="startDelay" value="0" />
-		<property name="repeatInterval" value="10000" />
-	</bean>
-	 -->
+	<!-- <bean id="createFilesimpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBeann"> 
+		<property name="jobDetail" ref="cerateFilejobDetail" /> <property name="startDelay" 
+		value="0" /> <property name="repeatInterval" value="10000" /> </bean> -->
 	<bean id="cerateFilejobDetail"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="reateMemberFileJob" />
+		<property name="targetObject" ref="createMemberFileJob" />
 		<property name="targetMethod" value="execute" />
-		<!-- 对于相同的JobDetail，当指定多个Trigger时, 很可能第一个job完成之前，第二个job就开始了。指定concurrent设为false，多个job不会并发运行，第二个job将会被推迟。 -->
 		<property name="concurrent" value="false" />
 	</bean>
+
 	<!-- 注册生成商户文件Job -->
-	<bean id="reateMemberFileJob" class="com.zlebank.zplatform.manager.job.CreateMemberFileJob" /> 
+	<bean id="reateMemberFileJob" class="com.zlebank.zplatform.manager.job.CreateMemberFileJob" />
 	<!-- 定时任务配置end -->
-	
-	<!-- 生成商户对账文件任务end-->
+
+	<!-- 生成商户对账文件任务end -->
+	<bean id="createMemberFileJob" class="com.zlebank.zplatform.manager.job.CreateMemberFileJob" />
+	<!-- 生成商户清算明细对账文件任务end -->
+
+
+
+	<!-- 生成商户代付对账文件任务begin -->
+	<!-- 生成商户代付对账文件任务触发器,生产上每日凌晨2点零一分 -->
+	<bean id="createIPFilesimpleTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="cerateMerIPFilejobDetail" />
+		<!-- 启动延迟10秒 -->
+		<property name="startDelay" value="0" />
+		<property name="cronExpression" value="0 1 2 * * ?" />
+	</bean>
+	<bean id="cerateMerIPFilejobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="createMerIPFileJob" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	<bean id="createMerIPFileJob"
+		class="com.zlebank.zplatform.manager.job.CreateMerchantInsteadSDFileJob" />
+	<!-- 生成商户代付对账文件任务end -->
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxTotal" value="${redis.maxActive}" />
+		<property name="maxWaitMillis" value="${redis.maxWait}" />
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
+	</bean>
+
+	<bean id="connectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.pass}"
+		p:pool-config-ref="poolConfig" />
+
+	<!-- <bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/> -->
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="keySerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="valueSerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+		</property>
+		<property name="hashKeySerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="hashValueSerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+		</property>
+	</bean>
 </beans>

@@ -16,7 +16,7 @@ public class FundMerchant implements Bean{
 	private String porductCode;
 	private String status;
 	private Long inuser;
-	private Date intime;
+	private Date intime; 
 	private Long stexauser;
 	private Date stexatime;
 	private String stexaopt;

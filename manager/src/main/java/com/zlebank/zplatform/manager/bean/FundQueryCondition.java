@@ -1,6 +1,8 @@
 package com.zlebank.zplatform.manager.bean;
 
 import com.zlebank.zplatform.commons.bean.Bean;
+import com.zlebank.zplatform.manager.dao.object.FundMerchantBeanModel;
+import com.zlebank.zplatform.manager.dao.object.FundMerchantModel;
 
 public class FundQueryCondition implements Bean{
 	
@@ -8,8 +10,29 @@ public class FundQueryCondition implements Bean{
 	private Integer pageSize;
 	private String batchNo;
 	private String merId;
+	private String orderId;
+	private String beginDate;
+	private String endDate; 
 	
 	
+	public String getBeginDate() {
+		return beginDate;
+	}
+	public void setBeginDate(String beginDate) {
+		this.beginDate = beginDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 	public Integer getPage() {
 		return page;
 	}

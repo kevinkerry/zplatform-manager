@@ -2,6 +2,15 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
+	<bean id="fundMerchantDao" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.FundMerchantDaoImpl">
+	</bean>
+	<bean id="raiseTrDao" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.RaiseTrDaoImpl">
+	</bean>
+	<bean id="ftpEnterpriseDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.FtpEnterpriseDAOImpl">
+	</bean>
 	<bean id="UserDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.UserDAOImpl">
 	</bean>
@@ -45,7 +54,7 @@
 	<bean id="taskDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.TaskDAOImpl">
 	</bean>
-    <bean id="userRoleDAO" parent="hibernateDAOImpl"
+	<bean id="userRoleDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.UserRoleDAOImpl">
 	</bean>
 	<bean id="merchDetaDAO" parent="hibernateDAOImpl"
@@ -93,10 +102,45 @@
 	<bean id="memberQueueDAO" parent="hibernateDAOImpl"
 		class="com.zlebank.zplatform.manager.dao.MemberQueueDAOImpl">
 	</bean>
-	
+	<bean id="txnsLogsDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.TxnsLogsDAOImpl">
+	</bean>
+	<bean id="cardHolderBlackDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.CardHolderBlackDAOImpl">
+	</bean>
+	<bean id="riskAnalyseLogDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.RiskAnalyseLogDAOImpl">
+	</bean>
+	<bean id="channelDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.ChannelDaoImpl">
+	</bean>
+	<bean id="routeDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.RouteDAOImpl">
+	</bean>
+	<bean id="enterpriseRealnameDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.EnterpriseRealNameDAOImpl"></bean>
+	<bean id="finProductDAO" parent="hibernateDAOImpl"
+		class="com.zlebank.zplatform.manager.dao.FinProductDAOImpl"></bean>
 	<bean id="DAOContainer"
 		class="com.zlebank.zplatform.manager.dao.container.DAOContainer">
-
+		<property name="ftpEnterpriseDAO">
+			<ref bean="ftpEnterpriseDAO" />
+		</property>
+		<property name="fundMerchantDao">
+			<ref bean="fundMerchantDao" />
+		</property>
+		<property name="raiseTrDao">
+			<ref bean="raiseTrDao" />
+		</property>
+		<property name="finProductDAO">
+			<ref bean="finProductDAO" />
+		</property>
+		<property name="enterpriseRealnameDAO">
+			<ref bean="enterpriseRealnameDAO" />
+		</property>
+		<property name="routeDAO">
+			<ref bean="routeDAO" />
+		</property>
 		<property name="userDAO">
 			<ref bean="UserDAO" />
 		</property>
@@ -145,13 +189,13 @@
 			<ref bean="userRoleDAO" />
 		</property>
 		<property name="merchDetaDAO">
-		    <ref bean="merchDetaDAO" />
+			<ref bean="merchDetaDAO" />
 		</property>
 		<property name="FTPDAO">
 			<ref bean="FTPDAO" />
 		</property>
 		<property name="uploadlogDAO">
-		    <ref bean="uploadlogDAO" />
+			<ref bean="uploadlogDAO" />
 		</property>
 		<property name="bnktxnDAO">
 			<ref bean="bnktxnDAO" />
@@ -176,6 +220,18 @@
 		</property>
 		<property name="memberQueueDAO">
 			<ref bean="memberQueueDAO" />
+		</property>
+		<property name="txnsLogsDAO">
+			<ref bean="txnsLogsDAO" />
+		</property>
+		<property name="cardHolderBlackDAO">
+			<ref bean="cardHolderBlackDAO" />
+		</property>
+		<property name="riskAnalyseLogDAO">
+			<ref bean="riskAnalyseLogDAO" />
+		</property>
+		<property name="channelDAO">
+			<ref bean="channelDAO" />
 		</property>
 	</bean>
 </beans>

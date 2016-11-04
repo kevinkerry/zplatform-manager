@@ -3,94 +3,96 @@
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
+			+ request.getServerName() + ":" + request.getServerPort() 
 			+ path + "/";
 %>
 <html>
-	<head>
-	</head>
-	<body>
-		<div style="margin: 5px; border: " id="continer">
-			<div id="p" class="easyui-panel" title="路由查询"
-				style="height: 100px; padding: 10px; background: #fafafa;"
-				iconCls="icon-save" collapsible="true">
-				<form id="dedurateForm" method="post">
-					<table width="100%">
+<head>
+</head>
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="路由查询"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="dedurateForm" method="post">
+				<table width="100%">
+					<tr>
+						<td align="right">路由版本代码</td>
+						<td align="left" style="padding-left: 5px"><input
+							name="routeModel.routver" id="routver_qid" maxlength="8" /></td>
+						<td align="right">路由版本名称</td>
+						<td align="left" style="padding-left: 5px"><input
+							name="routeModel.routname" id="routname_qid" maxlength="128" />
+						</td>
+						<td align="right" colspan=2><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+					</tr>
+
+
+				</table>
+			</form>
+		</div>
+		<div style="margin-top: 5px">
+			<table id="test"></table>
+		</div>
+	</div>
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm" method="post"
+					action="pages/route/saveRouteRouteAction.action">
+					<input name="routeModel.routidStr" id="routid" type="hidden" />
+
+
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
 						<tr>
-							<td align="right">
-								路由版本代码
+							<td align="right" width="15%" height="50px">路由版本代码</td>
+
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeModel.routver" id="routver" required="true"
+								validType="minLength[8,8]" maxlength="8"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
 							</td>
-							<td align="left" style="padding-left: 5px">
-								<input name="routeModel.routver" id="routver_qid" maxlength="8"/>
+							<td align="right" width="15%">路由版本名称</td>
+
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeModel.routname" id="routname" required="true"
+								missingMessage="请输入路由版本名称" maxlength="32"
+								class="easyui-validatebox"
+								onblur="value=value.replace( /\s+/g,'')" /> <font color="red">*</font></td>
 							</td>
-							<td align="right">
-								路由版本名称
-							</td>
-							<td align="left" style="padding-left: 5px">
-								<input name="routeModel.routname" id="routname_qid" maxlength="128" />
-							</td>
-							<td align="right" colspan=2>
-								<a href="javascript:search()" class="easyui-linkbutton"
-									iconCls="icon-search">查询</a>
-								
-							</td>
-							</tr>
-							
+						</tr>
+						<tr></tr>
+						<tr>
+							<td align="right" width="15%">备注</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="routeModel.note" id="notes" maxlength="64"
+								class="easyui-validatebox" /></td>
+
+							<td align="center" colspan="2"><font color="red">提示:请于启用、注销前在备注处填写理由</font></td>
+
+						</tr>
+
+
 
 					</table>
 				</form>
 			</div>
-			<div style="margin-top: 5px">
-				<table id="test"></table>
-			</div>
-		</div>
-		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm"   method="post" action="pages/route/saveRouteRouteAction.action" >
-				<input name="routeModel.routidStr" id="routid" type="hidden"/>
-				
-				
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-					<tr>
-						<td align="right" width="15%" height="50px" >路由版本代码</td>
-						
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="routeModel.routver" id="routver" required="true" validType="minLength[8,8]" maxlength="8" class="easyui-validatebox" />
-						    <font color="red">*</font></td>
-						</td>
-						<td align="right" width="15%">路由版本名称</td>
-						
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeModel.routname" id="routname" required="true" missingMessage="请输入路由版本名称"  maxlength="32" class="easyui-validatebox" onblur="value=value.replace( /\s+/g,'')" />
-							<font color="red">*</font></td>
-						</td>
-					</tr>
-					<tr></tr>
-					<tr>						
-						<td align="right" width="15%">备注</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="routeModel.note" id="notes" maxlength="64" class="easyui-validatebox"/>
-						</td >	
-				
-						<td align="center" colspan="2"><font color="red">提示:请于启用、注销前在备注处填写理由</font></td>
-										
-					</tr>	
-								
-					
-					
-				</table>
-				</form>
-			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveRoute()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveRoute()" id="btn_submit" onclick="">保存</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	</body>
+</body>
 
-	<script>
+<script>
 	
 		var width = $("#continer").width();
 	  	var gridHeight = 540;

@@ -15,6 +15,10 @@ public class BnkTxnModel implements java.io.Serializable {
 	// Fields
 
 	/**
+     * serialVersionUID
+     */
+    private static final long serialVersionUID = 1L;
+    /**
 	 * 
 	 */
 	private Long tid;
@@ -36,6 +40,7 @@ public class BnkTxnModel implements java.io.Serializable {
 	private String result;
 	private String notes;
 	private String remarks;
+
 
 	// Constructors
 
@@ -247,5 +252,7 @@ public class BnkTxnModel implements java.io.Serializable {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+
+
 
 }

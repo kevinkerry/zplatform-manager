@@ -58,7 +58,7 @@ public class ChargeDAOImpl
             if (StringUtil.isNotEmpty(e.getMemberId())) {
                 crite.createAlias("memberid", "member",
                         CriteriaSpecification.INNER_JOIN);
-                crite.add(Restrictions.eq("member.memberid", e.getMemberId()));
+                crite.add(Restrictions.eq("member.memberId", e.getMemberId()));
             }
             if (StringUtil.isNotEmpty(e.getStatus())) {
                 crite.add(Restrictions.eq("status", e.getStatus()));

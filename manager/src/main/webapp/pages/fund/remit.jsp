@@ -1,41 +1,49 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@include file="../../top.jsp"%>
-  <body>
-  <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-  </style>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" >
-			<input type="hidden" id="flag_ins" value="${flag}" />
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post">
+				<input type="hidden" id="flag_ins" value="${flag}" />
 				<table width="100%">
 					<tr>
 						<td align="right" width="10%">订单号</td>
-					<!-- <td align="left" style="padding-left:5px" width="15%">
+						<!-- <td align="left" style="padding-left:5px" width="15%">
 							<input  id="merchId_ins" maxlength="15"/>
-						</td> -->	
-						<td>
-							<input type="text" id="order" name="orderId" maxlength="15"/>
-						</td>
-						<td align="right">
-							<a href="javascript:search1()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>
+						</td> -->
+						<td><input type="text" id="order" name="orderId"
+							maxlength="15" /></td>
+						<td align="right"><a href="javascript:search1()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
-					
+
 				</table>
 			</form>
 		</div>
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-		
+
 	</div>
-	
-  </body>
-  
-  <script>
+
+</body>
+
+<script>
   	var ord;
   	var width = $("#continer").width();
 		$(function(){
@@ -52,11 +60,12 @@
 					remoteSort: false,
 					columns:[
 					[
-						{field:'orderid',title:'订单号',align:'center',width:140},
-						{field:'memberid',title:'商户号',width:120,align:'center'},
-						{field:'financingid',title:'融资人',width:100,align:'center'},
-						{field:'productcode',title:'产品代码',width:100,align:'center'}, 
-						{field:'status',title:'状态',width:120,align:'center',
+						{field:'orderid',title:'订单号',align:'center',width:180},
+						{field : 'tid',hidden:true},
+						{field:'memberid',title:'商户号',width:180,align:'center'},
+						{field:'financingid',title:'融资人',width:180,align:'center'},
+						{field:'productcode',title:'产品代码',width:180,align:'center'}, 
+						{field:'status',title:'状态',width:180,align:'center',
 							formatter:function(value,rec){
 							if(value=="00"){
 								return "审核通过";
@@ -99,7 +108,7 @@
 							}
 						}
 							},	
-						{field:'DEPT_ID',title:'操作',width:100,align:'center',
+						{field:'DEPT_ID',title:'操作',width:150,align:'center',
 							formatter:function(value,rec){
 					//			if(rec.status=='11'||rec.status=='21'){
 					//				return '<a href="javascript:toMerchChange('+rec.orderId+')" style="color:blue;margin-left:10px">修改</a>&nbsp;<a href="javascript:toMerchDetail('+rec.SELF_ID+')" style="color:blue;margin-left:10px">详情</a>';
@@ -109,16 +118,16 @@
 					//				return '<a href="javascript:toMerchDetail('+rec.orderId+')" style="color:blue;margin-left:10px">详情</a>';
 					//			}
 							if(rec.status=="01"){
-								
-								return '<a href="javascript:shenHe(\''+rec.orderid+'\')" style="color:blue;margin-left:10px">审核</a>';
+								return '<a href="javascript:shenHe(\''+rec.tid+'\')" style="color:blue;margin-left:10px">审核</a>';
 							}
 							}
 						}
 						
 					]],
-					/**
+				
 						pagination:true,
 						rownumbers:true,
+						/**
 						toolbar:[{
 							id:'btnadd',
 							text:'新增商户',
@@ -128,7 +137,8 @@
 								window.event.returnValue = false;
 							}
 					
-						}]*/
+						}]
+				*/
 				});
 			//}else{
 		//		$('#test').datagrid({
@@ -257,13 +267,13 @@
 			window.location.href= "<%=basePath%>" +'/pages/merchant/.action?='+merchApplyId;
 		}
 		//审核
-		function shenHe(orderId){
-			//window.location.href= "<%=basePath%>" +'/pages/fund/raise_aduit.action?orderId='+orderId;
+		function shenHe(tid){
+			//window.location.href= "<%=basePath%>" +'/pages/fund/raise_aduit.action?tid='+tid;
 			if(confirm("确定审核通过？")){
 			$.ajax({
 				"type":"post",
 				"url" : "<%=basePath%>" +'/pages/fund/raise_aduit.action',
-				"data" :{"orderId":orderId},
+				"data" :{"tid":tid},
 				dataType: "json",
 				success:function(data){
 					if(data.success==1){

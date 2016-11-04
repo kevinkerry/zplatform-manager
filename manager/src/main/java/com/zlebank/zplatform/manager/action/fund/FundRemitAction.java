@@ -17,6 +17,7 @@ import com.zlebank.zplatform.manager.bean.Message;
 import com.zlebank.zplatform.manager.bean.RaiseTr;
 import com.zlebank.zplatform.manager.dao.object.RaiseTrModel;
 import com.zlebank.zplatform.manager.service.iface.RaiseTrService;
+import com.zlebank.zplatform.trade.service.EnterpriseTradeService;
 
 import net.sf.json.JSONObject;
 
@@ -25,18 +26,29 @@ public class FundRemitAction extends BaseAction {
 	private String flag;
 
 	/**
-	 * serialVersionUID
+	 * serialVersionUID 
 	 */
 	private static final long serialVersionUID = 1L;
 	public final static String DEFAULT_TIME_STAMP_FROMAT = "yyyy-MM-dd HH:mm";
-
 	@Autowired
 	private RaiseTrService service;
-
+	@Autowired
+	private EnterpriseTradeService enterpriseTradeService;
+	
 	private String orderId;
 
+	private Long tid;
 	// 查询条件
 	FundQueryCondition fundBean;
+
+	
+	public Long getTid() {
+		return tid;
+	}
+
+	public void setTid(Long tid) {
+		this.tid = tid;
+	}
 
 	public String getOrderId() {
 		return orderId;
@@ -107,7 +119,7 @@ public class FundRemitAction extends BaseAction {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Date date = new Date();
 		try {
-			service.aduitMes(orderId, date);
+			service.aduitMes(tid, date,enterpriseTradeService);
 			// mes.setMess(true);
 			map.put("success", 1);
 		} catch (Exception e) {

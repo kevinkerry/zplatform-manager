@@ -10,37 +10,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </head>
 <body>
-	  <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-  </style>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" action="">
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post" action="">
 				<table width="100%">
-					<tr height="26">	
-											
+					<tr height="26">
+
 						<td align="right">交易日期</td>
-						<td align="left" style="padding-left:5px" width="15%">
-				        	<input id="paydate" type="text" class="easyui-datebox" name="crb.paydate"></input>
-				        </td>
-							
-							
-					    <td align="right">
-								<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>
-														
-					</tr>		
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="paydate" type="text" class="easyui-datebox"
+							name="crb.paydate"></input></td>
+
+
+						<td align="right"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+
+					</tr>
 				</table>
 			</form>
 		</div>
-		<div style="margin-top: 5px">			
-				<table id="test">
-				</table>	
+		<div style="margin-top: 5px">
+			<table id="test">
+			</table>
 		</div>
-			
-		
+
+
 	</div>
 
 </body>

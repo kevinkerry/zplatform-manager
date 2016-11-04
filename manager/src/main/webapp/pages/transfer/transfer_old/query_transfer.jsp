@@ -26,23 +26,22 @@ table tr td select {
 
 						<td align="right" width="10%">批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.batchno" id="batchno" maxlength="32" />
-						</td>
-							<td align="right" width="10%">划拨流水号:</td>
+							name="transQuery.batchno" id="batchno" maxlength="32" /></td>
+						<td align="right" width="10%">划拨流水号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.tranId" id="tranId" maxlength="32" />
-						</td>
+							name="transQuery.tranId" id="tranId" maxlength="32" /></td>
 
-					
+
 						<td align="right" width="10%">关联订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.relatedorderno" id="relatedorderno" maxlength="32" /></td>
+							name="transQuery.relatedorderno" id="relatedorderno"
+							maxlength="32" /></td>
 
 					</tr>
 
 					<tr>
-					
-					<td align="right" width="10%">业务类型:</td>
+
+						<td align="right" width="10%">业务类型:</td>
 						<td colspan="1"><select name="transQuery.busicode"
 							class="easyui-validatebox validatebox-text" id="busicode">
 								<option value="">请选择</option>
@@ -52,14 +51,14 @@ table tr td select {
 
 						</select></td>
 						<td align="right" width="10%">账户类型:</td>
-							<td colspan="1"><select name="transQuery.acctType"
+						<td colspan="1"><select name="transQuery.acctType"
 							class="easyui-validatebox validatebox-text" id="acctType">
 								<option value="">请选择</option>
 								<option value="01">对公</option>
 								<option value="00">对私</option>
 						</select></td>
 						<td align="right" width="10%">状态:</td>
-							<td colspan="1"><select name="transQuery.status"
+						<td colspan="1"><select name="transQuery.status"
 							class="easyui-validatebox validatebox-text" id="status">
 								<option value="">请选择</option>
 								<option value="01">初始</option>
@@ -86,72 +85,133 @@ table tr td select {
 	</div>
 
 
-<div id="ws" class="easyui-window" closed="true" title="My Window"
+	<div id="ws" class="easyui-window" closed="true" title="My Window"
 		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<div>
-				<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"  border="solid">
-<tr><td width="25%"   align="center" >划拨流水号</td><td align="center" whdth="25%" id="ttranid"></td> 
-<td width="25%"   align="center" >账户类型</td><td align="center" whdth="25%" id="tacctype"></td> </tr>
-<tr><td width="25%"   align="center" >账号</td><td align="center" whdth="25%" id="taccno"></td> 
-<td width="25%"   align="center" >户名</td><td align="center" whdth="25%" id="taccname"></td> </tr>
-<tr><td width="25%"   align="center" >支付行号</td><td align="center" whdth="25%" id="tbanktype"></td> 
-<td width="25%"   align="center" >开户行名称</td><td align="center" whdth="25%" id="tbankname"></td> </tr>
-<tr><td width="25%"   align="center" >划拨金额</td><td align="center" whdth="25%" id="ttransamt"></td> 
-<td width="25%"   align="center" >摘要</td><td align="center" whdth="25%" id="tremark"></td> </tr>
-<tr><td width="25%"   align="center" >划拨备注</td><td align="center" whdth="25%" id="tresv"></td> 
-<td width="25%"   align="center" >状态</td><td align="center" whdth="25%" id="tstatus"></td> </tr>
-<tr><td width="25%"   align="center" >银行流水号</td><td align="center" whdth="25%" id="tbanktranid"></td> 
-<td width="25%"   align="center" >付款结果</td><td align="center" whdth="25%" id="tresptype"></td> </tr>
-<tr><td width="25%"   align="center" >应答码</td><td align="center" whdth="25%" id="trespcode"></td> 
-<td width="25%"   align="center" >应答信息</td><td align="center" whdth="25%" id="trespmsg"></td> </tr>
-<tr><td width="25%"   align="center" >付款日期</td><td align="center" whdth="25%" id="ttrandate"></td> 
-<td width="25%"   align="center" >付款时间</td><td align="center" whdth="25%" id="ttrantime"></td> </tr>
-<tr><td width="25%"   align="center" >关联订单号</td><td align="center" whdth="25%" id="trelatedorderno"></td> 
-<td width="25%"   align="center" >交易序列号</td><td align="center" whdth="25%" id="ttxnseqno"></td> </tr>
-<tr><td width="25%"   align="center" >拆分标记</td><td align="center" whdth="25%" id="tsplitflag"></td> 
-<td width="25%"   align="center" >账务处理状态</td><td align="center" whdth="25%" id="taccstatus"></td> </tr>
-<tr><td width="25%"   align="center" >账务处理信息</td><td align="center" whdth="25%" id="taccinfo"></td> 
-<td width="25%"   align="center" >划拨类型</td><td align="center" whdth="25%" id="ttransfertype"></td> </tr>
-<tr><td width="25%"   align="center" >创建时间</td><td align="center" whdth="25%" id="tcreatetime"></td> 
-<td width="25%"   align="center" >会员标示</td><td align="center" whdth="25%" id="tmemberid"></td> </tr>
-<tr><td width="25%"   align="center" >业务名称</td><td align="center" whdth="25%" id="tbusicode"></td>
-<td width="25%"   align="center" >业务类型</td><td align="center" whdth="25%" id="tbusitype"></td> 
- </tr>
-<tr>
-<td width="25%"   align="center" >初审人</td><td align="center" whdth="25%" id="tstexauser"></td>
-<td width="25%"   align="center" >初审时间</td><td align="center" whdth="25%" id="tstexatime"></td> 
- </tr>
-<tr>
-<td width="25%"   align="center" >初审意见</td><td align="center" whdth="25%" id="tstexaopt"></td>
-<td width="25%"   align="center" >复审人</td><td align="center" whdth="25%" id="tcvlexauser"></td> 
- </tr>
-<tr>
-<td width="25%"   align="center" >复审时间</td><td align="center" whdth="25%" id="tcvlexatime"></td>
-<td width="25%"   align="center" >复审意见</td><td align="center" whdth="25%" id="tcvlexaopt"></td> 
- </tr>
-<tr><td width="25%"   align="center" >划拨手续费</td><td align="center" whdth="25%" id="ttxnfee"></td> </tr>
-		
+					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"
+						border="solid">
+						<tr>
+							<td width="25%" align="center">划拨流水号</td>
+							<td align="center" whdth="25%" id="ttranid"></td>
+							<td width="25%" align="center">账户类型</td>
+							<td align="center" whdth="25%" id="tacctype"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">账号</td>
+							<td align="center" whdth="25%" id="taccno"></td>
+							<td width="25%" align="center">户名</td>
+							<td align="center" whdth="25%" id="taccname"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">支付行号</td>
+							<td align="center" whdth="25%" id="tbanktype"></td>
+							<td width="25%" align="center">开户行名称</td>
+							<td align="center" whdth="25%" id="tbankname"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">划拨金额</td>
+							<td align="center" whdth="25%" id="ttransamt"></td>
+							<td width="25%" align="center">摘要</td>
+							<td align="center" whdth="25%" id="tremark"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">划拨备注</td>
+							<td align="center" whdth="25%" id="tresv"></td>
+							<td width="25%" align="center">状态</td>
+							<td align="center" whdth="25%" id="tstatus"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">银行流水号</td>
+							<td align="center" whdth="25%" id="tbanktranid"></td>
+							<td width="25%" align="center">付款结果</td>
+							<td align="center" whdth="25%" id="tresptype"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">应答码</td>
+							<td align="center" whdth="25%" id="trespcode"></td>
+							<td width="25%" align="center">应答信息</td>
+							<td align="center" whdth="25%" id="trespmsg"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">付款日期</td>
+							<td align="center" whdth="25%" id="ttrandate"></td>
+							<td width="25%" align="center">付款时间</td>
+							<td align="center" whdth="25%" id="ttrantime"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">关联订单号</td>
+							<td align="center" whdth="25%" id="trelatedorderno"></td>
+							<td width="25%" align="center">交易序列号</td>
+							<td align="center" whdth="25%" id="ttxnseqno"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">拆分标记</td>
+							<td align="center" whdth="25%" id="tsplitflag"></td>
+							<td width="25%" align="center">账务处理状态</td>
+							<td align="center" whdth="25%" id="taccstatus"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">账务处理信息</td>
+							<td align="center" whdth="25%" id="taccinfo"></td>
+							<td width="25%" align="center">划拨类型</td>
+							<td align="center" whdth="25%" id="ttransfertype"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">创建时间</td>
+							<td align="center" whdth="25%" id="tcreatetime"></td>
+							<td width="25%" align="center">会员标示</td>
+							<td align="center" whdth="25%" id="tmemberid"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">业务名称</td>
+							<td align="center" whdth="25%" id="tbusicode"></td>
+							<td width="25%" align="center">业务类型</td>
+							<td align="center" whdth="25%" id="tbusitype"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">初审人</td>
+							<td align="center" whdth="25%" id="tstexauser"></td>
+							<td width="25%" align="center">初审时间</td>
+							<td align="center" whdth="25%" id="tstexatime"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">初审意见</td>
+							<td align="center" whdth="25%" id="tstexaopt"></td>
+							<td width="25%" align="center">复审人</td>
+							<td align="center" whdth="25%" id="tcvlexauser"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">复审时间</td>
+							<td align="center" whdth="25%" id="tcvlexatime"></td>
+							<td width="25%" align="center">复审意见</td>
+							<td align="center" whdth="25%" id="tcvlexaopt"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">划拨手续费</td>
+							<td align="center" whdth="25%" id="ttxnfee"></td>
+						</tr>
+
 					</table>
 				</div>
 				<br>
-				
 
-	
+
+
 			</div>
 			<div region="south" border="false"
 				style="text-align: center; padding: 5px 0;">
 				<a class="easyui-linkbutton" iconCls="icon-ok"
 					href="javascript:closeAdd()" id="btn_submit" onclick="">返回</a>
-			
+
 			</div>
 		</div>
 	</div>
 
 
-	
+
 </body>
 
 <script>

@@ -48,14 +48,23 @@ table tr td select {
 								<option value="09">初审未过</option>
 								<option value="00">充值成功</option>
 						</select></td>
-						
-						
+
+
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
-						
+
 					</tr>
-
-
+					
+					<tr>
+					    <td align="right" width="10%">账户用途:</td>
+						<td colspan="1"><select name="chargeQuery.usage"
+							class="easyui-validatebox validatebox-text" id="usage1">
+								<option value="">请选择</option>
+								<option value="101">资金账户</option>
+								<option value="109">保证金账户</option>
+								<option value="111">授信账户</option>
+						</select></td>
+					</tr>				
 				</table>
 			</form>
 		</div>
@@ -74,37 +83,48 @@ table tr td select {
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">
 						<tr align="center">
-							<td align="right" width="40%">会员号:</td>
-							<td align="left" style="padding-left: 5px" width="45%"><input
+							<td align="right" width="45%">会员号:</td>
+							<td align="left"  width="45%"><input
 								name="cb.memberid" id="memberids" type="text"
 								class="easyui-validatebox" maxlength="32" required="true" /></td>
 						</tr>
 						<tr align="center">
 							<td align="right" width="45%">充值码:</td>
-							<td align="left"><input  placeholder="请输入充值码"
+							<td align="left"><input placeholder="请输入充值码"
 								name="cb.chargecode" required="true" type="text"
-								class="easyui-validatebox" maxlength="20"
-								required="true" /></td>
+								class="easyui-validatebox" maxlength="20" required="true" /></td>
 						</tr>
-						
+
 						<tr align="center">
 							<td align="right" width="45%">充值金额:</td>
 							<td align="left"><input id="amount" placeholder="请输入充值金额"
 								name="cb.amount" required="true" type="text"
 								class="easyui-validatebox" maxlength="20" onkeyup="money()"
-								required="true" />元 &nbsp;&nbsp;&nbsp;&nbsp;人民币:<span
+								required="true" />元 <span
 								id="moneys"></span></td>
 						</tr>
 						<tr align="center">
 							<td align="right" width="45%">账户:</td>
 							<td align="left"><select name="cb.usage"
-								class="easyui-validatebox validatebox-text" id="usage"
-								required="true">
+								class="easyui-validatebox validatebox-text" id="usage" style="width:150px">
 									<option value="101">资金账户</option>
-
+									<option value="109">保证金账户</option>
+									<option value="111">授信账户</option>
 							</select></td>
 						</tr>
 						
+					   <tr align="center">						
+						 <td align="right" width="45%">充值渠道:</td>
+							<td align="left">
+							 <select name="cb.chargenoinstid"
+								class="easyui-validatebox validatebox-text" id="chargenoinstid" style="width:150px">
+									<option value="">请选择</option>
+									<c:forEach items="${bus}" var="bus">
+										<option value=${bus.chnlcode} >${bus.chnlname}</option>
+									</c:forEach>
+							 </select>
+						 </td>
+	                   </tr>
 					</table>
 				</form>
 			</div>
@@ -127,7 +147,7 @@ table tr td select {
 		$('#test').datagrid({
 			title : '充值信息表',
 			iconCls : 'icon-save',
-			height : 600,
+			height : 500,
 			singleSelect : true,
 			nowrap : false,
 			striped : true,
@@ -142,7 +162,7 @@ table tr td select {
 				width : 120,
 				align : 'center'
 			}, {
-				field : 'memberid',
+				field : 'memberId',
 				title : '会员号',
 				width : 120,
 				align : 'center'
@@ -151,8 +171,24 @@ table tr td select {
 				title : '会员姓名',
 				width : 120,
 				align : 'center'
-			}, {
-				field : 'chargetype',
+			},{
+				field : 'usage', 
+				title : '账户用途',
+				width : 120,
+				align : 'center',
+				formatter : function(value, rec) {
+					if (value == '101') {
+						return '资金账户';
+					} else if (value == '109') {
+						return '保证金账户';
+					} else if (value == '111') {
+						return '授信账户';
+					}else{
+						return '其他';
+					}
+				}
+			},{
+				field : 'chargeType',
 				title : '充值类型',
 				width : 120,
 				align : 'center',
@@ -165,9 +201,8 @@ table tr td select {
 						return '';
 					}
 				}
-			},
-			{
-				field : 'chargecode',
+			},{
+				field : 'chargeCode',
 				title : '充值码',
 				width : 120,
 				align : 'center'
@@ -209,7 +244,7 @@ table tr td select {
 			}, {
 				field : 'intime',
 				title : '写入时间',
-				width : 120,
+				width : 150,
 				align : 'center'
 			} ] ],
 			/* singleSelect : false,
@@ -238,12 +273,14 @@ table tr td select {
 			"chargeQuery.memberId" : $('#memberId').val(),
 			"chargeQuery.chargeType" : $('#chargeType').val(),
 			"chargeQuery.chargeno" : $('#chargeno').val(),
-			"chargeQuery.status" : $('#status').val()
+			"chargeQuery.status" : $('#status').val(),
+			"chargeQuery.usage" : $('#usage1').val()		
 		}
 		$('#test').datagrid('load', data);
 	}
 
 	function showAdd() {
+
 
 		$('#w').window({
 			title : '批量审核',

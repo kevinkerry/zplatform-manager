@@ -8,7 +8,7 @@ public class FundAuditBean implements Bean{
 	private String batchno; // 批次号
 	private String chackBoxData; // 请求的数据
 	private String BiaoJi;
-
+ 
 	public FundAuditBean(String mer_id, String batchno, String chackBoxData, String biaoJi) {
 		super();
 		this.mer_id = mer_id;

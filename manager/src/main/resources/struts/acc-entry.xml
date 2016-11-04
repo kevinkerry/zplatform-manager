@@ -5,27 +5,36 @@
 <struts>
 
 
- 	<package name="acc" namespace="/pages/acc" extends="global">
- 		<default-action-ref name="index" />
-		<action name="*EntryAction" class="com.zlebank.zplatform.manager.action.member.EntryAction" method="{1}">
-            <result >/pages/memberentry/query_acc_entry.jsp</result>
+	<package name="acc" namespace="/pages/acc" extends="global">
+		<default-action-ref name="index" />
+		<action name="*EntryAction"
+			class="com.zlebank.zplatform.manager.action.member.EntryAction"
+			method="{1}">
+			<result>/pages/memberentry/query_acc_entry.jsp</result>
 		</action>
-		
-		<action name="*MemberAccountAction" class="com.zlebank.zplatform.manager.action.member.MemberAccountAction" method="{1}">
-            <result >/pages/memberentry/query_acc_account.jsp</result>
+
+		<action name="*MemberAccountAction"
+			class="com.zlebank.zplatform.manager.action.member.MemberAccountAction"
+			method="{1}">
+			<result>/pages/memberentry/query_acc_account.jsp</result>
+			<result name="detail">/pages/memberentry/acc_account_detail.jsp</result>
 		</action>
-		
-		
-			<action name="*FrozenAccountAction" class="com.zlebank.zplatform.manager.action.member.AccFrozenTaskAction" method="{1}">
-            <result >/pages/memberentry/query_acc__frozen.jsp</result>
+
+
+		<action name="*FrozenAccountAction"
+			class="com.zlebank.zplatform.manager.action.member.AccFrozenTaskAction"
+			method="{1}">
+			<result>/pages/memberentry/query_acc__frozen.jsp</result>
 		</action>
-		
-		
-			<action name="*MemberMessageAction" class="com.zlebank.zplatform.manager.action.member.MemberMessageAction" method="{1}">
-   
+
+
+		<action name="*MemberMessageAction"
+			class="com.zlebank.zplatform.manager.action.member.MemberMessageAction"
+			method="{1}">
+
 		</action>
-		
-    </package>
+
+	</package>
 
 
 </struts>

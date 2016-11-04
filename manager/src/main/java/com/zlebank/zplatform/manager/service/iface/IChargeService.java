@@ -19,6 +19,7 @@ import com.zlebank.zplatform.manager.bean.ChargeBean;
 import com.zlebank.zplatform.manager.bean.ChargeQuery;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
 import com.zlebank.zplatform.member.exception.MemberBussinessException;
+import com.zlebank.zplatform.trade.common.page.PageVo;
 import com.zlebank.zplatform.trade.exception.TradeException;
 
 /**
@@ -34,4 +35,6 @@ public interface IChargeService extends IBasePageService<ChargeQuery,ChargeBean>
    public void saveCharge(ChargeBean cb,Long userId)  throws ManagerWithdrawException, MemberBussinessException;   
    
    public void firstCharge(AuditBean ftb) throws ManagerWithdrawException, AccBussinessException, AbstractBusiAcctException, NumberFormatException,TradeException, IllegalEntryRequestException;
+
+
 }

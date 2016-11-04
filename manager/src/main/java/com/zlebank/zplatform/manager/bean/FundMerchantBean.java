@@ -21,7 +21,7 @@ public class FundMerchantBean implements Bean{
 	private BigDecimal totalAmt;
 	private String status;
 	private Long inuser;
-	private Date intime;
+	private Date intime; 
 	private Long upuser;
 	private Date uptime;
 	private String notes;

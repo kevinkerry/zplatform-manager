@@ -7,106 +7,113 @@
 			+ path + "/";
 %>
 <html>
-	<head>
-		<script type="text/javascript" src="js/extendsValidator_1.0_20151215.js" ></script>
-	</head>
-	<body>
-		<div style="margin: 5px; border: " id="continer">
-			<div id="p" class="easyui-panel" title="分卡种单笔限额查询"
-				style="height: 100px; padding: 10px; background: #fafafa;"
-				iconCls="icon-save" collapsible="true">
-				<form id="dedurateForm" method="post">
-					<table width="100%">
-						<tr>
-							<td align="right">风控版本</td>
-						    <td align="left" style="padding-left: 5px">
-								<select id="busipack_qid" class="easyui-validatebox"  onchange="showFeeCaseQuery()">
-								</select>
-							</td>
-							<td align="right" >版本实例</td>
-							<td align="left" style="padding-left: 5px">
-								<select id="busicase_qid" class="easyui-validatebox"  >
+<head>
+<script type="text/javascript" src="js/extendsValidator_1.0_20151215.js"></script>
+</head>
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="分卡种单笔限额查询"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="dedurateForm" method="post">
+				<table width="100%">
+					<tr>
+						<td align="right">风控版本</td>
+						<td align="left" style="padding-left: 5px"><select
+							id="busipack_qid" class="easyui-validatebox"
+							onchange="showFeeCaseQuery()">
+						</select></td>
+						<td align="right">版本实例</td>
+						<td align="left" style="padding-left: 5px"><select
+							id="busicase_qid" class="easyui-validatebox">
 								<option value="">--请选择业务--</option>
-								</select>
+						</select></td>
+						<td align="right" colspan=2><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
+
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div style="margin-top: 5px">
+			<table id="test"></table>
+		</div>
+	</div>
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 600px; height: 200px; padding: 5px;">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
+				<form id="theForm" method="post" action="">
+					<input name="limitCreditSingleModel.TId" id="TId" type="hidden" />
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td align="right" width="18%" height="30px">风控版本</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="busipack" class="easyui-validatebox" required="true"
+								onchange="showFeeCase()">
+							</select></td>
+							<td align="right" width="18%" height="30px">版本实例</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="busicase" class="easyui-validatebox" required="true"
+								name="limitCreditSingleModel.caseid">
+									<option value="">--请选择业务--</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td align="right" width="18%" height="30px">单笔最小限额（元）</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitCreditSingleModel.minAmount" id="minAmount"
+								validType="amount" maxlength="11" class="easyui-validatebox" />
 							</td>
-							<td align="right" colspan=2>
-								<a href="javascript:search()" class="easyui-linkbutton"
-									iconCls="icon-search">查询</a>						
+							<td align="right" width="18%" height="30px">单笔最大限额（元）</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitCreditSingleModel.maxAmount" id="maxAmount"
+								validType="amount" maxlength="11" class="easyui-validatebox" />
 							</td>
-							
-							</tr>							
+						</tr>
+						<tr>
+							<td align="right" width="18%" height="30px">风险等级</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="risklevel" class="easyui-validatebox"
+								missingMessage="请选选择风险等级" required="true"
+								name="limitCreditSingleModel.risklevel"
+								class="easyui-validatebox">
+									<option value="">--请选择风险等级--</option>
+							</select></td>
+							<td align="right" width="15%">卡类别</td>
+							<td align="left" style="padding-left: 5px" width="25%"><select
+								id="cardtype" class="easyui-validatebox" required="true"
+								missingMessage="请选择卡类型" name="limitCreditSingleModel.cardType">
+									<option value="" selected="selected">--请选择卡类型--</option>
+									<option value="1">--借记--</option>
+									<option value="2">--贷记--</option>
+									<option value="3">--准贷记--</option>
+									<option value="4">--预付费--</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td align="right" width="18%">备注</td>
+							<td align="left" style="padding-left: 5px" width="25%"><input
+								name="limitCreditSingleModel.notes" id="Notes" maxlength="32" />
+							</td>
+						</tr>
 					</table>
 				</form>
 			</div>
-			<div style="margin-top: 5px">
-				<table id="test"></table>
-			</div>
-		</div>
-		<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:600px;height:200px;padding:5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm"   method="post" action="" >
-				<input name="limitCreditSingleModel.TId" id="TId" type="hidden"/>
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-					<tr>
-						<td align="right" width="18%" height="30px" >风控版本</td>
-						<td align="left" style="padding-left:5px" width="25%">
-						<select id="busipack" class="easyui-validatebox"  required="true" onchange="showFeeCase()">
-							</select>
-						</td>
-						<td align="right" width="18%" height="30px" >版本实例</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<select id="busicase" class="easyui-validatebox"  required="true" name="limitCreditSingleModel.caseid" >
-							<option value="">--请选择业务--</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td align="right" width="18%" height="30px" >单笔最小限额（元）</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="limitCreditSingleModel.minAmount" id="minAmount" validType="amount"   maxlength="11" class="easyui-validatebox" />
-						</td>
-						<td align="right" width="18%" height="30px" >单笔最大限额（元）</td>
-						<td align="left" style="padding-left:5px" width="25%">
-							<input name="limitCreditSingleModel.maxAmount" id="maxAmount" validType="amount"   maxlength="11" class="easyui-validatebox" />
-						</td>
-					</tr>
-					<tr>
-					    <td align="right" width="18%" height="30px">风险等级</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<select id="risklevel" class="easyui-validatebox" missingMessage="请选选择风险等级" required="true" name="limitCreditSingleModel.risklevel" class="easyui-validatebox">
-								<option value="">--请选择风险等级--</option>
-							</select>
-						</td>
-						<td align="right" width="15%">卡类别</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<select id="cardtype" class="easyui-validatebox"  required="true"  missingMessage="请选择卡类型"  name="limitCreditSingleModel.cardType" >
-							<option value="" selected="selected">--请选择卡类型--</option>
-							<option value="1">--借记--</option>
-							<option value="2">--贷记--</option>
-							<option value="3">--准贷记--</option>
-							<option value="4">--预付费--</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-					    <td align="right" width="18%">备注</td>
-						<td align="left" style="padding-left: 5px" width="25%">
-							<input name="limitCreditSingleModel.notes" id="Notes" maxlength="32"/>
-						</td>
-					</tr>
-				</table>
-				</form>
-			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:saveWhitePan()" id="btn_submit" onclick="">保存</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:saveWhitePan()" id="btn_submit" onclick="">保存</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-	</body>
+</body>
 
-	<script>
+<script>
 		$(function() {
 			showFeeQuery();
 		});

@@ -5,12 +5,15 @@
 <struts>
 
 
- 	<package name="chargefile" namespace="/pages/checkfile" extends="global">
- 		<default-action-ref name="index" />
-		<action name="*ChargeFileAction" class="com.zlebank.zplatform.action.checkfile.CheckFileAction" method="{1}">
-            <result >/pages/checkfile/query_chargefile.jsp</result>
+	<package name="chargefile" namespace="/pages/checkfile"
+		extends="global">
+		<default-action-ref name="index" />
+		<action name="*ChargeFileAction"
+			class="com.zlebank.zplatform.action.checkfile.CheckFileAction"
+			method="{1}">
+			<result>/pages/checkfile/query_chargefile.jsp</result>
 		</action>
-    </package>	
+	</package>
 
 
 </struts>

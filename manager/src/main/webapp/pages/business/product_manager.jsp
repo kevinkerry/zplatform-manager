@@ -2,85 +2,117 @@
 <jsp:include page="../../top.jsp"></jsp:include>
 <html>
 <head>
-		<script type="text/javascript" src="js/checkboxbeautify/jquery-hcheckbox.js"></script>
-		<link href='js/checkboxbeautify/css.css' rel="stylesheet" type="text/css" />
-		<style type="text/css">
-			#groupinfo {height:25px;}
-			#groupinfo tr td{height:25px;border-style:solid;border-width:0px 0px 0px 0px;border-color:#000000;padding:1px}
-			#groupinfo tr td input{height:20px;margin-left:3px;}
-			#groupinfo tr td span{height:20px;margin-left:3px;}
-			
-			.activeflag_label{width:90px}
-		</style>
+<script type="text/javascript"
+	src="js/checkboxbeautify/jquery-hcheckbox.js"></script>
+<link href='js/checkboxbeautify/css.css' rel="stylesheet"
+	type="text/css" />
+<style type="text/css">
+#groupinfo {
+	height: 25px;
+}
+
+#groupinfo tr td {
+	height: 25px;
+	border-style: solid;
+	border-width: 0px 0px 0px 0px;
+	border-color: #000000;
+	padding: 1px
+}
+
+#groupinfo tr td input {
+	height: 20px;
+	margin-left: 3px;
+}
+
+#groupinfo tr td span {
+	height: 20px;
+	margin-left: 3px;
+}
+
+.activeflag_label {
+	width: 90px
+}
+</style>
 </head>
-  <body>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;" iconCls="icon-save" collapsible="true">
-			<form action="pages/paradic/queryGroupGrouAction.action" id="searchForm">
+<body>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form action="pages/paradic/queryGroupGrouAction.action"
+				id="searchForm">
 				<table width="100%">
 					<tr>
 						<td align="right">产品代码</td>
-						<td align="left" style="padding-left:5px"><input id="code_ins" maxlength="8" /></td>
-						<td align="right" >产品名称</td>
-						<td align="left" style="padding-left: 5px" width="15%"><input id="name_ins"  maxlength="32"/></td>
-					</tr>				
+						<td align="left" style="padding-left: 5px"><input
+							id="code_ins" maxlength="8" /></td>
+						<td align="right">产品名称</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="name_ins" maxlength="32" /></td>
+					</tr>
 					<tr>
-					</tr>	
+					</tr>
 					<tr>
-					    <td align="right"></td>
+						<td align="right"></td>
 						<td align="right"></td>
 						<td align="right"></td>
 						<td style="padding-left: 5px"></td>
-						<td align="right" >
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-							<a href="javascript:resize()" class="easyui-linkbutton" iconCls="icon-redo">清空</a>
-						</td>
+						<td align="right"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
+							href="javascript:resize()" class="easyui-linkbutton"
+							iconCls="icon-redo">清空</a></td>
 					</tr>
 				</table>
 			</form>
 		</div>
-		<div style="margin-top:5px">
+		<div style="margin-top: 5px">
 			<table id="paraList">
 			</table>
 		</div>
 	</div>
-	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
+	<div id="w" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 500px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="padding:10px;background:#fff;border:1px solid #ccc;text-align: center">
+			<div region="center" border="false"
+				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<form id="saveForm" action="" method="post">
-				<input type="hidden" id="t_id" name="productModel.prdtver"/>
+					<input type="hidden" id="t_id" name="productModel.prdtver" />
 					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo">
 						<tr style="height: 25px">
 							<td align="center" width="74px">产品名称</td>
-							<td align="left"><input type="text" id="group_name_ins" name="productModel.prdtname" class="easyui-validatebox" required="true" maxlength="32"/></td>
+							<td align="left"><input type="text" id="group_name_ins"
+								name="productModel.prdtname" class="easyui-validatebox"
+								required="true" maxlength="32" /></td>
 						</tr>
 						<tr style="height: 60px">
-						    <td>选择业务</td>
-						    <td  align="left" id="yewu_ins">
-     							
-		                	</td>
+							<td>选择业务</td>
+							<td align="left" id="yewu_ins"></td>
 						</tr>
-						
-						
-						<tr >
+
+
+						<tr>
 							<td>备注</td>
-							<td align="left" colspan="3"><textarea id="group_notes_ins" rows="2" cols="75" name="productModel.notes" maxlength="64"></textarea>
+							<td align="left" colspan="3"><textarea id="group_notes_ins"
+									rows="2" cols="75" name="productModel.notes" maxlength="64"></textarea>
 							</td>
-						</tr>						
-							
-						
-						
+						</tr>
+
+
+
 					</table>
 				</form>
 			</div>
-			<div id="div_id" region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" id="button_id" iconCls="icon-ok" href="javascript:saveParaDic()" onClick="">提交</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)" onClick="closeAdd()">取消</a>
+			<div id="div_id" region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" id="button_id" iconCls="icon-ok"
+					href="javascript:saveParaDic()" onClick="">提交</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" onClick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>
-  </body>
-  <script>
+</body>
+<script>
   
   var width = $("#continer").width();
   var gridHeight = 600;

@@ -12,6 +12,7 @@ import com.zlebank.zplatform.manager.service.iface.IFinProductService;
 import com.zlebank.zplatform.manager.service.iface.IFunctionService;
 import com.zlebank.zplatform.manager.service.iface.ILimitPerdayService;
 import com.zlebank.zplatform.manager.service.iface.IMccListService;
+import com.zlebank.zplatform.manager.service.iface.IMerchConfigService;
 import com.zlebank.zplatform.manager.service.iface.IMerchDetaService;
 import com.zlebank.zplatform.manager.service.iface.INoticeService;
 import com.zlebank.zplatform.manager.service.iface.IOperLogService;
@@ -64,7 +65,7 @@ public class ServiceContainer {
     private IChannelService channelService;
     private IRouteService routeService;
     private IEnterpriseRealNameService enterpriseRealnamService;
-
+    private IMerchConfigService merchConfigService;
     private IfundMerchantService fundMerchantService;
     private RaiseTrService raiseTrService;
     
@@ -328,6 +329,14 @@ public class ServiceContainer {
 
     public void setRouteService(IRouteService routeService) {
         this.routeService = routeService;
+    }
+
+    public IMerchConfigService getMerchConfigService() {
+        return merchConfigService;
+    }
+
+    public void setMerchConfigService(IMerchConfigService merchConfigService) {
+        this.merchConfigService = merchConfigService;
     }
     
     

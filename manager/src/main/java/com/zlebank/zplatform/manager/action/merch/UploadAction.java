@@ -43,6 +43,7 @@ import com.zlebank.zplatform.manager.service.iface.CheckFileService;
 import com.zlebank.zplatform.manager.service.iface.IChannelFileService;
 import com.zlebank.zplatform.manager.service.iface.ICmbcResfileService;
 import com.zlebank.zplatform.member.bean.enums.BusinessActorType;
+import com.zlebank.zplatform.trade.service.IChnlDetaService;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
 
 public class UploadAction extends BaseAction {
@@ -186,7 +187,7 @@ public class UploadAction extends BaseAction {
         Map<String, Object> result = new HashMap<String, Object>();
         try{
         List<Map<String, Object>> resultMark = null;// 保存对账数据后，返回的标记
-        // 判断文件的类型（证联or中信）
+        // 判断文件的类型
         if (uploadFileName[0] != null) {
             // 判断机构与对账文件是否一致，（98000001：证联）（ 97000001：中信）（96000001：融宝）（93000003
             // 民生本行代扣）
@@ -194,6 +195,7 @@ public class UploadAction extends BaseAction {
             Boolean flag = iChannelFileService.booChanCodeAndFileName(
                     uploadFileName[0], instiid);
             if (flag) {
+                
             } else {
                 result.put("info", "上传文件类型与机构不符！");
                 json_encode(result);
@@ -224,14 +226,15 @@ public class UploadAction extends BaseAction {
         List<BnkTxnModel> list = null;
         String sonInstiid = "";
         ChannelFileMode channelFileMode = null;
-        if (uploadFileName[0].split("_").length > 2) {
+        if(uploadFileName[0].split("_").length > 3){
+            channelFileMode = iChannelFileService.getLikeInstiid(uploadFileName[0].split("_")[0]+"_"+uploadFileName[0].split("_")[1]+"_"+uploadFileName[0].split("_")[2]+"_");
+        }else if (uploadFileName[0].split("_").length > 2) {
             channelFileMode = iChannelFileService
                     .getLikeInstiid(uploadFileName[0].split("_")[2]);
             if(channelFileMode==null){
-                channelFileMode = iChannelFileService
-                        .getLikeInstiid(uploadFileName[0].split("_")[0]);
-            }
-        } else {
+                    channelFileMode = iChannelFileService.getLikeInstiid(uploadFileName[0].split("_")[0]);
+            }    
+        }else {
             // excel
 //            channelFileMode = iChannelFileService.getLikeInstiid(uploadFileName[0].split("-")[0]);
             channelFileMode = iChannelFileService.getLikeInstiid(uploadFileName[0].substring(0, 5));

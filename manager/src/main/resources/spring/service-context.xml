@@ -1,74 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	
-	<bean id="fundMerchantService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.FundMerchantImpl">
+
+	<bean id="fundMerchantService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.FundMerchantImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="raiseTrService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.RaiseTrServiceImpl">
+	<bean id="raiseTrService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.RaiseTrServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
-	</bean>	
+	</bean>
 	<bean id="operLogService" parent="baseServiceImpl"
 		class="com.zlebank.zplatform.manager.service.OperLogServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="userService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.UserServiceImpl">
+	<bean id="userService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.UserServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="functionService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.FunctionServiceImpl">
+	<bean id="functionService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.FunctionServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="organService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.OrganServiceImpl">
+	<bean id="organService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.OrganServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="provinceService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.ProvinceServiceImpl">
+	<bean id="provinceService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.ProvinceServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="cityService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.CityServiceImpl">
+	<bean id="cityService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.CityServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="deptService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.DeptServiceImpl">
+	<bean id="deptService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.DeptServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="roleService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.RoleServiceImpl">
+	<bean id="roleService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.RoleServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="roleFunctService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.RoleFunctServiceImpl">
+	<bean id="roleFunctService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.RoleFunctServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="userRoleService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.UserRoleServiceImpl">
+	<bean id="userRoleService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.UserRoleServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="userFunctService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.UserFunctServiceImpl">
+	<bean id="userFunctService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.UserFunctServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="merchDetaService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.MerchDetaServiceImpl">
+	<bean id="merchDetaService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.MerchDetaServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
@@ -79,32 +92,38 @@
 			<ref bean="memberServiceImpl" />
 		</property>
 	</bean>
-	<bean id="uploadlogService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.UploadLogServiceImpl">
+	<bean id="uploadlogService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.UploadLogServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="bnktxnService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.BnkTxnServiceImpl">
+	<bean id="bnktxnService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.BnkTxnServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="productService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.ProductServiceImpl">
+	<bean id="productService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.ProductServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="feeService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.FeeServiceImpl">
+	<bean id="feeService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.FeeServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="riskService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.RiskServiceImpl">
+	<bean id="riskService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.RiskServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
 	</bean>
-	<bean id="limitperdayService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.LimitPerdayServiceImpl">
+	<bean id="limitperdayService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.LimitPerdayServiceImpl">
 		<property name="daoContainer">
 			<ref bean="DAOContainer" />
 		</property>
@@ -122,63 +141,75 @@
 		</property>
 	</bean>
 	<bean id="cardHolderBlackService" parent="baseServiceImpl"
-	    class="com.zlebank.zplatform.manager.service.CardHolderBlackServiceImpl">	   
-	    <property name="daoContainer">
-	        <ref bean="DAOContainer"/>
-	    </property>
+		class="com.zlebank.zplatform.manager.service.CardHolderBlackServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
 	</bean>
 	<bean id="riskAnalyseLogService" parent="baseServiceImpl"
-	   class="com.zlebank.zplatform.manager.service.RiskAnalyseLogServiceImpl">
-	   <property name="daoContainer">
-	       <ref bean="DAOContainer"/>
-	   </property>	
+		class="com.zlebank.zplatform.manager.service.RiskAnalyseLogServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
 	</bean>
 
-    <bean id="channelService" parent="baseServiceImpl" 
-    class="com.zlebank.zplatform.manager.service.ChannelServiceImpl">
-        <property name="daoContainer">
-            <ref bean="DAOContainer"/>
-        </property>
-    </bean>
-    <bean id="routeService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.RouteServiceImpl">
-        <property name="daoContainer">
-            <ref bean="DAOContainer"/>
-        </property>
-    </bean>
-      <bean id="enterpriseRealnamService" parent="baseServiceImpl" class=" com.zlebank.zplatform.manager.service.EnterpriseRealNameServiceImpl">
-        <property name="daoContainer">
-            <ref bean="DAOContainer"/>
-        </property>
-    </bean>
-     <bean id="finProductService" parent="baseServiceImpl" class=" com.zlebank.zplatform.manager.service.FinProductServiceImpl">
-        <property name="daoContainer">
-            <ref bean="DAOContainer"/>
-        </property>
-    </bean>
-    <bean id="ftpEnterpriseService" parent="baseServiceImpl" class="com.zlebank.zplatform.manager.service.FTPEnterpriseServiceImpl">
-        <property name="daoContainer">
-            <ref bean="DAOContainer"/>
-        </property>
-    </bean>
-	<bean id="serviceContainer" class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
-	    <property name="fundMerchantService">
-	        <ref bean="fundMerchantService"/>
-	    </property>
-	    <property name="raiseTrService">
-	        <ref bean="raiseTrService"/>
-	    </property>
-	    <property name="ftpEnterpriseService">
-	        <ref bean="ftpEnterpriseService"/>
-	    </property>
-	    <property name="finProductService">
-	        <ref bean="finProductService"/>
-	    </property>
-	    <property name="enterpriseRealnamService">
-	        <ref bean="enterpriseRealnamService"/>
-	    </property>
-	    <property name="routeService">
-	        <ref bean="routeService"/>
-	    </property>
+	<bean id="channelService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.ChannelServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
+	</bean>
+	<bean id="routeService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.RouteServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
+	</bean>
+	<bean id="enterpriseRealnamService" parent="baseServiceImpl"
+		class=" com.zlebank.zplatform.manager.service.EnterpriseRealNameServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
+	</bean>
+	<bean id="finProductService" parent="baseServiceImpl"
+		class=" com.zlebank.zplatform.manager.service.FinProductServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
+	</bean>
+	<bean id="ftpEnterpriseService" parent="baseServiceImpl"
+		class="com.zlebank.zplatform.manager.service.FTPEnterpriseServiceImpl">
+		<property name="daoContainer">
+			<ref bean="DAOContainer" />
+		</property>
+	</bean>
+	<bean id="merchConfigService" parent="baseServiceImpl" 
+	class="com.zlebank.zplatform.manager.service.MerchConfigServiceImpl">
+		<property name="daoContainer">
+				<ref bean="DAOContainer" />
+			</property>
+	</bean>
+	
+	<bean id="serviceContainer"
+		class="com.zlebank.zplatform.manager.service.container.ServiceContainer">
+		<property name="fundMerchantService">
+			<ref bean="fundMerchantService" />
+		</property>
+		<property name="raiseTrService">
+			<ref bean="raiseTrService" />
+		</property>
+		<property name="ftpEnterpriseService">
+			<ref bean="ftpEnterpriseService" />
+		</property>
+		<property name="finProductService">
+			<ref bean="finProductService" />
+		</property>
+		<property name="enterpriseRealnamService">
+			<ref bean="enterpriseRealnamService" />
+		</property>
+		<property name="routeService">
+			<ref bean="routeService" />
+		</property>
 		<property name="operLogService">
 			<ref bean="operLogService" />
 		</property>
@@ -188,7 +219,7 @@
 		<property name="functionService">
 			<ref bean="functionService" />
 		</property>
-			<property name="organService">
+		<property name="organService">
 			<ref bean="organService" />
 		</property>
 		<property name="provinceService">
@@ -215,7 +246,7 @@
 		<property name="merchDetaService">
 			<ref bean="merchDetaService" />
 		</property>
-		<property name="bnktxnService">  
+		<property name="bnktxnService">
 			<ref bean="bnktxnService" />
 		</property>
 		<property name="uploadlogService">
@@ -240,21 +271,25 @@
 			<ref bean="paraDicService" />
 		</property>
 		<property name="cardHolderBlackService">
-		    <ref bean="cardHolderBlackService"/>
+			<ref bean="cardHolderBlackService" />
 		</property>
 		<property name="riskAnalyseLogService">
-		    <ref bean="riskAnalyseLogService"/>
+			<ref bean="riskAnalyseLogService" />
 		</property>
 		<property name="channelService">
-		    <ref bean="channelService"/>
+			<ref bean="channelService" />
+		</property>
+		<property name="merchConfigService">
+			<ref bean="merchConfigService"/>
 		</property>
 	</bean>
 	<bean id="ftpClientFactory" class="com.zlebank.zplatform.manager.util.net.FTPClientFactory">
 	</bean>
 
-	<bean id="enterpriseRealnameService" class=" com.zlebank.zplatform.manager.service.EnterpriseRealNameServiceImpl" >
+	<bean id="enterpriseRealnameService"
+		class=" com.zlebank.zplatform.manager.service.EnterpriseRealNameServiceImpl">
 		<property name="daoContainer">
-	            <ref bean="DAOContainer"/>
-	        </property>
+			<ref bean="DAOContainer" />
+		</property>
 	</bean>
 </beans>

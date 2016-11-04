@@ -26,23 +26,22 @@ table tr td select {
 
 						<td align="right" width="10%">批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.batchno" id="batchno" maxlength="32" />
-						</td>
-							<td align="right" width="10%">划拨流水号:</td>
+							name="transQuery.batchno" id="batchno" maxlength="32" /></td>
+						<td align="right" width="10%">划拨流水号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.tranId" id="tranId" maxlength="32" />
-						</td>
+							name="transQuery.tranId" id="tranId" maxlength="32" /></td>
 
-					
+
 						<td align="right" width="10%">关联订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.relatedorderno" id="relatedorderno" maxlength="32" /></td>
+							name="transQuery.relatedorderno" id="relatedorderno"
+							maxlength="32" /></td>
 
 					</tr>
 
 					<tr>
-					
-					<td align="right" width="10%">业务类型:</td>
+
+						<td align="right" width="10%">业务类型:</td>
 						<td colspan="1"><select name="transQuery.busicode"
 							class="easyui-validatebox validatebox-text" id="busicode">
 								<option value="">请选择</option>
@@ -51,13 +50,13 @@ table tr td select {
 
 						</select></td>
 						<td align="right" width="10%">账户类型:</td>
-							<td colspan="1"><select name="transQuery.acctType"
+						<td colspan="1"><select name="transQuery.acctType"
 							class="easyui-validatebox validatebox-text" id="acctType">
 								<option value="">请选择</option>
 								<option value="01">对公</option>
 								<option value="00">对私</option>
 						</select></td>
-				
+
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 
@@ -72,51 +71,105 @@ table tr td select {
 
 	</div>
 
-<div id="wss" class="easyui-window" closed="true" title="My Window"
+	<div id="wss" class="easyui-window" closed="true" title="My Window"
 		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<div>
-				<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"  border="solid">
-<tr><td width="25%"   align="center" >划拨流水号</td><td align="center" whdth="25%" id="ttranid"></td> 
-<td width="25%"   align="center" >账户类型</td><td align="center" whdth="25%" id="tacctype"></td> </tr>
-<tr><td width="25%"   align="center" >账号</td><td align="center" whdth="25%" id="taccno"></td> 
-<td width="25%"   align="center" >户名</td><td align="center" whdth="25%" id="taccname"></td> </tr>
-<tr><td width="25%"   align="center" >支付行号</td><td align="center" whdth="25%" id="tbanktype"></td> 
-<td width="25%"   align="center" >开户行名称</td><td align="center" whdth="25%" id="tbankname"></td> </tr>
-<tr><td width="25%"   align="center" >划拨金额</td><td align="center" whdth="25%" id="ttransamt"></td> 
-<td width="25%"   align="center" >摘要</td><td align="center" whdth="25%" id="tremark"></td> </tr>
-<tr><td width="25%"   align="center" >划拨备注</td><td align="center" whdth="25%" id="tresv"></td> 
-<td width="25%"   align="center" >状态</td><td align="center" whdth="25%" id="tstatus"></td> </tr>
-<tr><td width="25%"   align="center" >银行流水号</td><td align="center" whdth="25%" id="tbanktranid"></td> 
-<td width="25%"   align="center" >付款结果</td><td align="center" whdth="25%" id="tresptype"></td> </tr>
-<tr><td width="25%"   align="center" >应答码</td><td align="center" whdth="25%" id="trespcode"></td> 
-<td width="25%"   align="center" >应答信息</td><td align="center" whdth="25%" id="trespmsg"></td> </tr>
-<tr><td width="25%"   align="center" >付款日期</td><td align="center" whdth="25%" id="ttrandate"></td> 
-<td width="25%"   align="center" >付款时间</td><td align="center" whdth="25%" id="ttrantime"></td> </tr>
-<tr><td width="25%"   align="center" >关联订单号</td><td align="center" whdth="25%" id="trelatedorderno"></td> 
-<td width="25%"   align="center" >交易序列号</td><td align="center" whdth="25%" id="ttxnseqno"></td> </tr>
-<tr><td width="25%"   align="center" >拆分标记</td><td align="center" whdth="25%" id="tsplitflag"></td> 
-<td width="25%"   align="center" >账务处理状态</td><td align="center" whdth="25%" id="taccstatus"></td> </tr>
-<tr><td width="25%"   align="center" >账务处理信息</td><td align="center" whdth="25%" id="taccinfo"></td> 
-<td width="25%"   align="center" >划拨类型</td><td align="center" whdth="25%" id="ttransfertype"></td> </tr>
-<tr><td width="25%"   align="center" >创建时间</td><td align="center" whdth="25%" id="tcreatetime"></td> 
-<td width="25%"   align="center" >会员标示</td><td align="center" whdth="25%" id="tmemberid"></td> </tr>
-<tr><td width="25%"   align="center" >业务名称</td><td align="center" whdth="25%" id="tbusicode"></td>
-<td width="25%"   align="center" >业务类型</td><td align="center" whdth="25%" id="tbusitype"></td> 
- </tr>
-<tr><td width="25%"   align="center" >划拨手续费</td><td align="center" whdth="25%" id="ttxnfee"></td> </tr>
+					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"
+						border="solid">
+						<tr>
+							<td width="25%" align="center">划拨流水号</td>
+							<td align="center" whdth="25%" id="ttranid"></td>
+							<td width="25%" align="center">账户类型</td>
+							<td align="center" whdth="25%" id="tacctype"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">账号</td>
+							<td align="center" whdth="25%" id="taccno"></td>
+							<td width="25%" align="center">户名</td>
+							<td align="center" whdth="25%" id="taccname"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">支付行号</td>
+							<td align="center" whdth="25%" id="tbanktype"></td>
+							<td width="25%" align="center">开户行名称</td>
+							<td align="center" whdth="25%" id="tbankname"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">划拨金额</td>
+							<td align="center" whdth="25%" id="ttransamt"></td>
+							<td width="25%" align="center">摘要</td>
+							<td align="center" whdth="25%" id="tremark"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">划拨备注</td>
+							<td align="center" whdth="25%" id="tresv"></td>
+							<td width="25%" align="center">状态</td>
+							<td align="center" whdth="25%" id="tstatus"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">银行流水号</td>
+							<td align="center" whdth="25%" id="tbanktranid"></td>
+							<td width="25%" align="center">付款结果</td>
+							<td align="center" whdth="25%" id="tresptype"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">应答码</td>
+							<td align="center" whdth="25%" id="trespcode"></td>
+							<td width="25%" align="center">应答信息</td>
+							<td align="center" whdth="25%" id="trespmsg"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">付款日期</td>
+							<td align="center" whdth="25%" id="ttrandate"></td>
+							<td width="25%" align="center">付款时间</td>
+							<td align="center" whdth="25%" id="ttrantime"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">关联订单号</td>
+							<td align="center" whdth="25%" id="trelatedorderno"></td>
+							<td width="25%" align="center">交易序列号</td>
+							<td align="center" whdth="25%" id="ttxnseqno"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">拆分标记</td>
+							<td align="center" whdth="25%" id="tsplitflag"></td>
+							<td width="25%" align="center">账务处理状态</td>
+							<td align="center" whdth="25%" id="taccstatus"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">账务处理信息</td>
+							<td align="center" whdth="25%" id="taccinfo"></td>
+							<td width="25%" align="center">划拨类型</td>
+							<td align="center" whdth="25%" id="ttransfertype"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">创建时间</td>
+							<td align="center" whdth="25%" id="tcreatetime"></td>
+							<td width="25%" align="center">会员标示</td>
+							<td align="center" whdth="25%" id="tmemberid"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">业务名称</td>
+							<td align="center" whdth="25%" id="tbusicode"></td>
+							<td width="25%" align="center">业务类型</td>
+							<td align="center" whdth="25%" id="tbusitype"></td>
+						</tr>
+						<tr>
+							<td width="25%" align="center">划拨手续费</td>
+							<td align="center" whdth="25%" id="ttxnfee"></td>
+						</tr>
 
-		
+
 					</table>
 				</div>
-					<br>
+				<br>
 				<form id="firstTrial" method="post"
 					action="pages/withdraw/queryTrialWithdraTriaAction.action">
-					<input id="withdraworderno" type="hidden"
-						name="ftb.orderNo"> <input id="falg" type="hidden"
-						name="ftb.falg">
+					<input id="withdraworderno" type="hidden" name="ftb.orderNo">
+					<input id="falg" type="hidden" name="ftb.falg">
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">
 						<tr>
@@ -127,7 +180,7 @@ table tr td select {
 					</table>
 				</form>
 
-		</div>
+			</div>
 			<div region="south" border="false"
 				style="text-align: center; padding: 5px 0;">
 				<a class="easyui-linkbutton" iconCls="icon-ok"
@@ -138,58 +191,63 @@ table tr td select {
 			</div>
 		</div>
 	</div>
-	
-	
-	
-		<div id="ws" class="easyui-window" closed="true" title="My Window"
+
+
+
+	<div id="ws" class="easyui-window" closed="true" title="My Window"
 		iconCls="icon-save" style="width: 800px; height: 200px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
-				<form id="secondTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="withdraworderno3" type="hidden" name="ftb.orderNo">
-				<input id="falgs" type="hidden" name="ftb.falg">
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-				<tr>
-				  <td width="10%">时间段从:</td> 
-						    <td  width="90%" style="text-align:left" id="intime">
-     						<input id="startTime" type="text"  name="transQuery.startTime" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" ></input> 
-				至			<input id="startTime" type="text"  name="transQuery.endTime" style="width: 120PX" class="easyui-datetimebox" data-options="showSeconds:false" ></input>
-				</td>
-				
-				</tr>
-				<tr>
-					<td>业务类型:</td>
-						<td colspan="1"><select name="transQuery.busicode"
-							class="easyui-validatebox validatebox-text" id="busicode">
-								<option value="">所有</option>
-								<option value="30000001">提现</option>
-								<option value="70000001">代付</option>
-						</select></td>
-					</tr>
-					<tr>
-					<td >关联批次号:</td>
-						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.batch" id="batch" maxlength="32" />
-						</td>
-			
-						
-						
-				</tr>
-				<tr>
-				<td >复审意见:</td>
-				<td>
-				<textarea rows="5" cols="80" name="ftb.stexaopt">
-				</textarea>
-				
-				</td>
-				</tr>
-				</table>
-			</form>
+				<form id="secondTrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="withdraworderno3" type="hidden" name="ftb.orderNo">
+					<input id="falgs" type="hidden" name="ftb.falg">
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td width="10%">时间段从:</td>
+							<td width="90%" style="text-align: left" id="intime"><input
+								id="startTime" type="text" name="transQuery.startTime"
+								style="width: 120PX" class="easyui-datetimebox"
+								data-options="showSeconds:false"></input> 至 <input
+								id="startTime" type="text" name="transQuery.endTime"
+								style="width: 120PX" class="easyui-datetimebox"
+								data-options="showSeconds:false"></input></td>
+
+						</tr>
+						<tr>
+							<td>业务类型:</td>
+							<td colspan="1"><select name="transQuery.busicode"
+								class="easyui-validatebox validatebox-text" id="busicode">
+									<option value="">所有</option>
+									<option value="30000001">提现</option>
+									<option value="70000001">代付</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>关联批次号:</td>
+							<td align="left" style="padding-left: 5px" width="15%"><input
+								name="transQuery.batch" id="batch" maxlength="32" /></td>
+
+
+
+						</tr>
+						<tr>
+							<td>复审意见:</td>
+							<td><textarea rows="5" cols="80" name="ftb.stexaopt">
+				</textarea></td>
+						</tr>
+					</table>
+				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:secondTrial(true)" id="btn_submit" onclick="">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)"  id="icon-cancel" onclick="secondTrial(false)">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:secondTrial(true)" id="btn_submit" onclick="">通过</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" id="icon-cancel"
+					onclick="secondTrial(false)">拒绝</a>
 			</div>
 		</div>
 	</div>
@@ -199,24 +257,27 @@ table tr td select {
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
-				<form id="firstTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="withdraworderno" type="hidden" name="ftb.orderNo">
-				<input id="falg" type="hidden" name="ftb.falg">
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-				<tr>
-				<td align="center">初审意见:</td>
-				<td>
-				<textarea rows="5" cols="80" name="ftb.stexaopt">
-				</textarea>
-				
-				</td>
-				</tr>
-				</table>
-			</form>
+				<form id="firstTrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="withdraworderno" type="hidden" name="ftb.orderNo">
+					<input id="falg" type="hidden" name="ftb.falg">
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td align="center">初审意见:</td>
+							<td><textarea rows="5" cols="80" name="ftb.stexaopt">
+				</textarea></td>
+						</tr>
+					</table>
+				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:firstTrial(true)" id="btn_submit" onclick="">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)"  id="icon-cancel" onclick="firstTrial(false)">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:firstTrial(true)" id="btn_submit" onclick="">通过</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" id="icon-cancel"
+					onclick="firstTrial(false)">拒绝</a>
 			</div>
 		</div>
 	</div>

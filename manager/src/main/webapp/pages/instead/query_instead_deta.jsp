@@ -30,11 +30,11 @@ table tr td select {
 						<td align="right" width="10%">商户订单号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="instead.orderId" id="orderId" maxlength="32" /></td>-->
-							<td align="right" width="10%">代付批次号:</td>
+						<td align="right" width="10%">代付批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
 							name="insteadPayBatchQuery.batchNo" id="batchNo" maxlength="32" /></td>
 
-						<td align="left" rowspan="6"><a href="javascript:search()"	
+						<td align="left" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
 
@@ -51,13 +51,18 @@ table tr td select {
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
-				<form id="firstTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" enctype="multipart/form-data">
-				导入文件:<input  id="file" type="file" name="file">
-			    </form>
+				<form id="firstTrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action"
+					enctype="multipart/form-data">
+					导入文件:<input id="file" type="file" name="file">
+				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:filel()" id="btn_submit" onclick="">上传</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)"  id="icon-cancel" onclick="closeAdd()">取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:filel()" id="btn_submit" onclick="">上传</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" id="icon-cancel" onclick="closeAdd()">取消</a>
 			</div>
 		</div>
 	</div>

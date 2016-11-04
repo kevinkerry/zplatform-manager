@@ -39,7 +39,7 @@ table tr td select {
 						<td align="right" width="10%">充值订单号:</td>
 						<td align="left" style="padding-left: 5px" width="10%"><input
 							name="chargeQuery.chargeno" id="chargeno" maxlength="32" /></td>
-						
+
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
@@ -59,7 +59,8 @@ table tr td select {
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
-		<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"  border="solid">
+				<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"
+					border="solid">
 					<tr>
 						<td whdth="40px" align="center">充值订单号</td>
 						<td whdth="40px" align="center" id="tchargeno"></td>
@@ -83,11 +84,10 @@ table tr td select {
 						<td whdth="40px" align="center" id="tchargetype"></td>
 					</tr>
 				</table>
-			<br>
+				<br>
 				<form id="firstTrial" method="post">
-					<input id="withdraworderno" type="hidden"
-						name="trial.orderNo"> <input id="falg"
-						type="hidden" name="trial.falg">
+					<input id="withdraworderno" type="hidden" name="trial.orderNo">
+					<input id="falg" type="hidden" name="trial.falg">
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">
 						<tr>
@@ -137,7 +137,7 @@ table tr td select {
 										align : 'center'
 									},
 									{
-										field : 'memberid',
+										field : 'memberId',
 										title : '会员号',
 										width : 120,
 										align : 'center'
@@ -150,7 +150,7 @@ table tr td select {
 									},
 									
 									{
-										field : 'chargetype',
+										field : 'chargeType',
 										title : '充值类型',
 										width : 120,
 										align : 'center',
@@ -165,7 +165,7 @@ table tr td select {
 										}
 									},
 									{
-										field : 'chargecode',
+										field : 'chargeCode',
 										title : '充值码',
 										width : 120,
 										align : 'center'
@@ -331,14 +331,14 @@ table tr td select {
 					$.messager.alert('提示', "数据不正确，请刷新后重试");
 				} else {
 					
-					$("#tchargecode").html(json.chargecode);
+					$("#tchargecode").html(json.chargeCode);
 					$("#tchargeno").html(json.chargeno);
-					$("#tmemberid").html(json.memberid);
+					$("#tmemberid").html(json.memberId);
 					$("#memberName").html(json.memberName);
 					$("#tintime").html(json.intime);
-					if (json.chargetype == '01') {
+					if (json.chargeType == '01') {
 						$("#tchargetype").html('个人')
-					} else if (json.chargetype == '02') {
+					} else if (json.chargeType == '02') {
 						$("#tchargetype").html('商户')
 					}
 					$("#tamount").html(json.amount + "(元)");

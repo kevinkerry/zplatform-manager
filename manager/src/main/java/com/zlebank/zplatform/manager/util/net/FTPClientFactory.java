@@ -1,8 +1,10 @@
 package com.zlebank.zplatform.manager.util.net;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationObjectSupport;
 
@@ -10,6 +12,7 @@ import com.zlebank.zplatform.commons.utils.net.ftp.AbstractFTPClient;
 import com.zlebank.zplatform.commons.utils.net.ftp.ApacheFTPClient;
 import com.zlebank.zplatform.manager.dao.iface.IFTPDAO;
 import com.zlebank.zplatform.manager.dao.object.FTPModel;
+import com.zlebank.zplatform.trade.service.ITxnsLogService;
 /**
  * 
  * {@link AbstractFTPClient} client Factory. <br>It create instance of {@link AbstractFTPClient}.
@@ -26,6 +29,8 @@ public class FTPClientFactory extends WebApplicationObjectSupport {
 	private final String serverName = "FTP_SERVER_PRODUCT";
 	private final String module = "MANAGER";
 
+    @Autowired
+    private ITxnsLogService txnsLogService;
 	private void fetchApplicationContext() {
 		if (applicationContext == null) {
 			applicationContext = getApplicationContext();
@@ -73,4 +78,30 @@ public class FTPClientFactory extends WebApplicationObjectSupport {
 				ftpConfig.getPwd(), ftpConfig.getIp(), port);
 		return ftpClient;
 	}
+	
+	//民生实时代付的退汇文件地址和路径
+	@SuppressWarnings("unchecked")
+    public AbstractFTPClient getFtpClient1(String memberId) {
+	        if (applicationContext == null) {
+	            fetchApplicationContext();
+	        }
+	        List<Map<String, Object>> allConfig = (List<Map<String, Object>>) txnsLogService.getFtpUploadAddress(memberId);
+            String ip =  allConfig.get(0).get("IP").toString();
+            int port = Integer.parseInt(allConfig.get(0).get("PORT").toString());
+            String username = allConfig.get(0).get("USER_NAME").toString();
+            String password = allConfig.get(0).get("PASSWORD").toString();
+	        AbstractFTPClient ftpClient = new ApacheFTPClient(username,
+	                password, ip, port);
+	        return ftpClient;
+	    }
+
+    public ITxnsLogService getTxnsLogService() {
+        return txnsLogService;
+    }
+
+    public void setTxnsLogService(ITxnsLogService txnsLogService) {
+        this.txnsLogService = txnsLogService;
+    }
+	   
+	   
 }

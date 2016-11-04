@@ -3,7 +3,7 @@
 
 <jsp:include page="../../top.jsp"></jsp:include>
 <body>
-<style type="text/css">
+	<style type="text/css">
 table tr td {
 	height: 25px
 }
@@ -25,21 +25,20 @@ table tr td select {
 					<tr>
 						<td align="right" width="10%">划拨批次号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="transQuery.batchno" id="batchno" maxlength="32" />
-						</td>
-						
+							name="transQuery.batchno" id="batchno" maxlength="32" /></td>
+
 						<td align="right" width="10%">申请日期:</td>
-						<td align="left" style="padding-left: 5px" width="30%">
-							<input name="queryTransferBean.beginDate" id="beginDate" maxlength="32" />-
-							<input name="queryTransferBean.endDate" id="endDate" maxlength="32" />
-						</td>
-				</tr>
-				<tr>
-				        <td align="right" width="10%">订单编号:</td>
+						<td align="left" style="padding-left: 5px" width="30%"><input
+							name="queryTransferBean.beginDate" id="beginDate" maxlength="32" />-
+							<input name="queryTransferBean.endDate" id="endDate"
+							maxlength="32" /></td>
+					</tr>
+					<tr>
+						<td align="right" width="10%">订单编号:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							name="queryTransferBean.merchOrderNo" id="merchOrderNo" maxlength="32" />
-						</td>
-						
+							name="queryTransferBean.merchOrderNo" id="merchOrderNo"
+							maxlength="32" /></td>
+
 						<td align="right" rowspan="7"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
@@ -49,30 +48,35 @@ table tr td select {
 		<div style="margin-top: 1px">
 			<table id="test"></table>
 		</div>
-		
+
 		<div style="margin-top: 1px">
-			<input type="hidden" id="detail_tid"/>
+			<input type="hidden" id="detail_tid" />
 			<table id="test2"></table>
 		</div>
 	</div>
 
 
-	
-	
-	
-	<div id="ws" class="easyui-window" closed="true" title="My Window"iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
+
+
+
+	<div id="ws" class="easyui-window" closed="true" title="My Window"
+		iconCls="icon-save" style="width: 800px; height: 70px; padding: 5px;">
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; text-align: center">
-				<form id="singleTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="withdraworderno_" type="hidden" name="auditBean.orderNo">
-				<input id="falg_" type="hidden" name="auditBean.falg">
-				
+				<form id="singleTrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="withdraworderno_" type="hidden" name="auditBean.orderNo">
+					<input id="falg_" type="hidden" name="auditBean.falg">
+
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:singleTrial(true)" id="btn_submit_">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:singleTrial(false)"  id="icon-cancel_">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:singleTrial(true)" id="btn_submit_">通过</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:singleTrial(false)" id="icon-cancel_">拒绝</a>
 			</div>
 		</div>
 	</div>
@@ -82,15 +86,19 @@ table tr td select {
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; text-align: center">
-				<form id="firstTrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="withdraworderno" type="hidden" name="auditBean.batchno">
-				<input id="falg" type="hidden" name="auditBean.falg">
-				
+				<form id="firstTrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="withdraworderno" type="hidden" name="auditBean.batchno">
+					<input id="falg" type="hidden" name="auditBean.falg">
+
 				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:batchTrial(true)" id="btn_submit">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:batchTrial(false)"  id="icon-cancel">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:batchTrial(true)" id="btn_submit">通过</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:batchTrial(false)" id="icon-cancel">拒绝</a>
 			</div>
 		</div>
 	</div>
@@ -176,6 +184,15 @@ table tr td select {
 			checkOnSelect : false,
 			pagination : true,
 			rownumbers : true,
+			onUnselect:function(rowIndex, rowData){
+				//当用户取消全选时候触发
+				quXiaoQuanXuan(1);
+				
+			},
+			onSelect:function(){
+				//当用户选中一行的时候触发
+				quanXuan(1);
+			},
 			onClickRow : function(index,row){
 				//alert(row.tranBatchId);
 				$("#detail_tid").val(row.tid);
@@ -261,7 +278,7 @@ table tr td select {
 				{
 					title : '划拨明细审核',
 					iconCls : 'icon-save',
-					height : 500,
+					height : 240,
 					collapsible:true,
 					singleSelect : true,
 					nowrap : false,
@@ -272,7 +289,7 @@ table tr td select {
 					columns : [ [
 							{field : 'ck',checkbox : true},
 							{field : 'tranDataSeqNo',title : '划拨流水号',width : 190,align : 'center'},
-							{field : 'merchOrderNo',title : '商户订单号',width : 190,align : 'center'},
+							{field : 'merchOrderNo',title : '商户订单号',width : 100,align : 'center'},
 							{field : 'busiSeqNo',title : '业务流水号',width : 190,align : 'center'},
 							{field : 'accType',title : '账户类型',width : 90,align : 'center',
 								formatter : function(value, rec) {
@@ -284,10 +301,10 @@ table tr td select {
 											} 
 							},
 							{field : 'accNo',title : '账号',width : 120,align : 'center'},
-							{field : 'accName',title : '户名',width : 120,align : 'center'},
-							{field : 'bankNo',title : '支付行号',width : 120,align : 'center',},
+							{field : 'accName',title : '户名',width : 100,align : 'center'},
+							{field : 'bankNo',title : '支付行号',width : 100,align : 'center',},
 							{field : 'bankName',title : '开户行名称',width : 120,align : 'center'},
-							{field : 'busiDataId',title : '业务订单号',width : 120,align : 'center'},
+							{field : 'busiDataId',title : '业务订单号',width : 100,align : 'center'},
 							{field : 'tranAmt',title : '金额(元)',width : 90,align : 'center',
 								formatter:function(value,rec){
 										return value/100.00;
@@ -296,9 +313,9 @@ table tr td select {
 								formatter:function(value,rec){
 									return value/100.00;
 							}},
-							{field : 'applyTime',title : '创建时间',width : 120,align : 'center'},
-							{field : 'approveTime',title : '通过时间',width : 120,align : 'center'},
-							{field : 'status',title : '状态',width : 120,align : 'center',
+							{field : 'applyTime',title : '创建时间',width : 100,align : 'center'},
+							{field : 'approveTime',title : '通过时间',width : 100,align : 'center'},
+							{field : 'status',title : '状态',width : 100,align : 'center',
 								formatter : function(value, rec) {
 									//(01:未审核 00：审核通过 02：转账成功 03：转账失败 09：审核拒绝)
 												if (value == '01') {
@@ -324,6 +341,15 @@ table tr td select {
 					checkOnSelect : false,
 					pagination : true,
 					rownumbers : true,
+					onUnselect:function(rowIndex, rowData){
+						//当用户取消全选时候触发
+						quXiaoQuanXuan(2);
+						
+					},
+					onSelect:function(){
+						//当用户选中一行的时候触发
+						quanXuan(2);
+					},
 					toolbar : [ {
 						id : 'btnadd',
 						text : '审核',
@@ -412,7 +438,7 @@ table tr td select {
 	}
 
 	function showAdds() {
-	
+		
 		$('#ws').window({
 			title : '明细审核',
 			top : 200,
@@ -502,9 +528,9 @@ table tr td select {
 	    		var data = {
 						"queryTransferBean.tid" : $("#detail_tid").val(),
 						"queryTransferBean.status":"01"
-					   }
-					$('#test2').datagrid('load', data);
-	    		//$($('#test2').datagrid('getPanel')).panel('collapse',false);
+				}
+				$('#test2').datagrid('load', data);	
+	    		$("div.datagrid-header-check input:last").attr("checked",false);
 		    }  
 		});   
 	}
@@ -548,5 +574,34 @@ table tr td select {
 			    }  
 			});   
 		}
+	
+	//取消全选复选框状态
+	function quXiaoQuanXuan(flg){
+		if(flg ==1){
+	    	$("div.datagrid-header-check input:first").removeAttr("checked");
+		}else if(flg ==2){
+			$("div.datagrid-header-check input:last").removeAttr("checked");
+		}
+	}
+	//选中全选复选框状态
+	function quanXuan(flg){
+		if(flg == 1){
+		//var allrows = $('#test').datagrid('getData').total;
+		var allrows = $("#test").datagrid('getRows').length;
+		var check= $('#test' ).datagrid( 'getChecked').length;
+		if(allrows == check){
+			//将复选框至为选中状态
+			$("div.datagrid-header-check input:first").attr("checked",true);
+		}
+		}else if(flg == 2){
+			//var allrows = $('#test2').datagrid('getData').total;
+			var allrows = $("#test2").datagrid('getRows').length;
+			var check= $('#test2' ).datagrid( 'getChecked').length;
+			if(allrows == check){
+				//将复选框至为选中状态
+				$("div.datagrid-header-check input:last").attr("checked",true);
+			}
+		}
+	}
 </script>
 </html>

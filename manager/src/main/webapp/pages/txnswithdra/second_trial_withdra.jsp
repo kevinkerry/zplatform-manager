@@ -45,8 +45,8 @@ table tr td select {
 					</tr>
 
 					<tr>
-						
-						
+
+
 						<td align="right" rowspan="6"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 
@@ -69,21 +69,27 @@ table tr td select {
 		<div class="easyui-layout" fit="true">
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
-				<form id="secondtrial"   method="post" action="pages/withdraw/queryTrialWithdraTriaAction.action" >
-				<input id="withdraworderno" type="hidden" name="ftb.orderNo">
-				<input id="falg" type="hidden" name="ftb.falg">
-				<table width="100%" cellpadding="2" cellspacing="2" style="text-align: left" id="inputForm">
-				<tr>
-				<td align="center">复审意见:</td>
-				<td><textarea rows="5" cols="80" name="ftb.stexaopt">
+				<form id="secondtrial" method="post"
+					action="pages/withdraw/queryTrialWithdraTriaAction.action">
+					<input id="withdraworderno" type="hidden" name="ftb.orderNo">
+					<input id="falg" type="hidden" name="ftb.falg">
+					<table width="100%" cellpadding="2" cellspacing="2"
+						style="text-align: left" id="inputForm">
+						<tr>
+							<td align="center">复审意见:</td>
+							<td><textarea rows="5" cols="80" name="ftb.stexaopt">
 				</textarea></td>
-				</tr>
-				</table>
-			</form>
+						</tr>
+					</table>
+				</form>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:secondtrial(true)" id="btn_submit" onclick="">通过</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:void(0)"  id="icon-cancel" onclick="secondtrial(false)">拒绝</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok"
+					href="javascript:secondtrial(true)" id="btn_submit" onclick="">通过</a>
+				<a class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:void(0)" id="icon-cancel"
+					onclick="secondtrial(false)">拒绝</a>
 			</div>
 		</div>
 	</div>
@@ -94,27 +100,45 @@ table tr td select {
 			<div region="center" border="false"
 				style="padding: 10px; background: #fff; border: 1px solid #ccc; text-align: center">
 				<div>
-					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"  border="solid">
-		<tr><td whdth="40px" align="center">会员号:</td><td whdth="40px" align="center" id="tmemberid"></td> 
-			<td whdth="40px" align="center">提现类型:</td><td whdth="40px" align="center"  id="twithdrawtype"></td> </tr>
-			<tr><td whdth="40px" align="center" >提现金额:</td><td whdth="40px" align="center" id="tamount"></td> 
-			<td  whdth="20%" >银行账号:</td><td whdth="20%"  id="tacctno"></td> </tr>
-			<tr><td whdth="40px" align="center" >银行账户名称:</td><td whdth="40px" align="center"  id="tacctname"></td> 
-			<td whdth="40px" align="center" >银行代码:</td><td whdth="40px" align="center"  id="tbankcode"></td> </tr>
-			<tr><td whdth="40px" align="center"  >支行名称:</td><td whdth="40px" align="center"  id="tbankname"></td> 
-			<td whdth="40px" align="center" >写入时间:</td><td whdth="40px" align="center"  id="tintime"></td>
-			</tr>
-			<tr>
-			<td whdth="40px" align="center" >初审时间</td><td id="tstexatime"></td>
-			<td whdth="40px" align="center" >初审意见</td><td id="tstexaopt"></td> </tr>
+					<table width="100%" cellpadding="2" cellspacing="2" id="groupinfo"
+						border="solid">
+						<tr>
+							<td whdth="40px" align="center">会员号:</td>
+							<td whdth="40px" align="center" id="tmemberid"></td>
+							<td whdth="40px" align="center">提现类型:</td>
+							<td whdth="40px" align="center" id="twithdrawtype"></td>
+						</tr>
+						<tr>
+							<td whdth="40px" align="center">提现金额:</td>
+							<td whdth="40px" align="center" id="tamount"></td>
+							<td whdth="20%">银行账号:</td>
+							<td whdth="20%" id="tacctno"></td>
+						</tr>
+						<tr>
+							<td whdth="40px" align="center">银行账户名称:</td>
+							<td whdth="40px" align="center" id="tacctname"></td>
+							<td whdth="40px" align="center">银行代码:</td>
+							<td whdth="40px" align="center" id="tbankcode"></td>
+						</tr>
+						<tr>
+							<td whdth="40px" align="center">支行名称:</td>
+							<td whdth="40px" align="center" id="tbankname"></td>
+							<td whdth="40px" align="center">写入时间:</td>
+							<td whdth="40px" align="center" id="tintime"></td>
+						</tr>
+						<tr>
+							<td whdth="40px" align="center">初审时间</td>
+							<td id="tstexatime"></td>
+							<td whdth="40px" align="center">初审意见</td>
+							<td id="tstexaopt"></td>
+						</tr>
 					</table>
 				</div>
 				<br>
 				<form id="firstTrial" method="post"
 					action="pages/withdraw/queryTrialWithdraTriaAction.action">
-					<input id="withdraworderno" type="hidden"
-						name="ftb.orderNo"> <input id="falg" type="hidden"
-						name="ftb.falg">
+					<input id="withdraworderno" type="hidden" name="ftb.orderNo">
+					<input id="falg" type="hidden" name="ftb.falg">
 					<table width="100%" cellpadding="2" cellspacing="2"
 						style="text-align: left" id="inputForm">
 						<tr>

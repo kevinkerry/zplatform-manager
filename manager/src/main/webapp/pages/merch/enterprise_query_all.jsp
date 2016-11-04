@@ -4,56 +4,62 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-  <body>
-  <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-  </style>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="查询条件" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" >
-			<input type="hidden" id="flag_ins" value="${flag}" />
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="查询条件"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post">
+				<input type="hidden" id="flag_ins" value="${flag}" />
 				<table width="100%">
 					<tr>
 						<td align="right" width="10%">会员编号</td>
-						<td align="left" style="padding-left:5px" width="15%">
-							<input  id="enterpriseMemberId_ins" maxlength="15"/>
-						</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="enterpriseMemberId_ins" maxlength="15" /></td>
 						<td align="right" width="10%">企业名称</td>
-						<td align="left" style="padding-left: 5px" width="15%">
-							<input  id="enterpriseName_ins" maxlength="50"/>
-						</td>
+						<td align="left" style="padding-left: 5px" width="15%"><input
+							id="enterpriseName_ins" maxlength="50" /></td>
 						<td align="right" width="10%">企业状态</td>
-						<td align="left" style="padding-left: 5px" width="15%" >
-							<select id="status_ins" class="easyui-validatebox">
-						          <option value='00'>在用</option>
-						          <option value='12'>注册待完善信息</option>
-						          <option value='10'>注册待初审</option>
-						          <option value='11'>注册初审未过</option>
-						          <option value='19'>注册初审终止</option>
-						          <option value='20'>注册待复审</option>
-						          <option value='21'>注册复审未过</option>
-								  <option value='29'>注册复审终止</option>						         								  
-					        </select>
-						</td>
-						<td align="right"  width="10%">
-							<a href="javascript:search()"  class="easyui-linkbutton" iconCls="icon-search">查询</a>
-						</td>
+						<td align="left" style="padding-left: 5px" width="15%"><select
+							id="status_ins" class="easyui-validatebox">
+								<option value='00'>在用</option>
+								<option value='12'>注册待完善信息</option>
+								<option value='10'>注册待初审</option>
+								<option value='11'>注册初审未过</option>
+								<option value='19'>注册初审终止</option>
+								<option value='20'>注册待复审</option>
+								<option value='21'>注册复审未过</option>
+								<option value='29'>注册复审终止</option>
+						</select></td>
+						<td align="right" width="10%"><a href="javascript:search()"
+							class="easyui-linkbutton" iconCls="icon-search">查询</a></td>
 					</tr>
-					
+
 				</table>
 			</form>
 		</div>
 		<div style="margin-top: 5px">
 			<table id="test"></table>
 		</div>
-		
+
 	</div>
-	
-  </body>
-  
-  <script>
+
+</body>
+
+<script>
   	var width = $("#continer").width();
 		$(function(){
 			flag=$('#flag_ins').val();

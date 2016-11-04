@@ -4,30 +4,40 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-  <body>
-  <style type="text/css">
-  	table tr td{height:25px}
-  	table tr td input{height:15px}
-  	table tr td select{height:20px}
-  </style>
-  	<div style="margin: 5px;border:" id="continer">
-	    <div id="p" class="easyui-panel" title="结算" style="height:100px;padding:10px;background:#fafafa;"   iconCls="icon-save" collapsible="true">
-			<form id="theForm"   method="post" action="pages/merchant/saveProcessUploadAction.action">
+<body>
+	<style type="text/css">
+table tr td {
+	height: 25px
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td select {
+	height: 20px
+}
+</style>
+	<div style="margin: 5px; border:" id="continer">
+		<div id="p" class="easyui-panel" title="结算"
+			style="height: 100px; padding: 10px; background: #fafafa;"
+			iconCls="icon-save" collapsible="true">
+			<form id="theForm" method="post"
+				action="pages/merchant/saveProcessUploadAction.action">
 				<table width="100%">
-						<tr align="center">
-							<td>
-						 		<a class="easyui-linkbutton" iconCls="icon-ok" href="javascript:setted()" id="btn_submit" onclick="">开始结算</a>
-			            	</td>
-					    </tr>
+					<tr align="center">
+						<td><a class="easyui-linkbutton" iconCls="icon-ok"
+							href="javascript:setted()" id="btn_submit" onclick="">开始结算</a></td>
+					</tr>
 				</table>
 			</form>
 		</div>
-		
-		
+
+
 	</div>
-  </body>
-  
-  <script>
+</body>
+
+<script>
 	
 	function setted() {
 

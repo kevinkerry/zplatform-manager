@@ -1,59 +1,52 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@taglib prefix="s" uri="/struts-tags" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../../../top.jsp"></jsp:include>
 <body class="easyui-layout" style="padding: 5px">
-	
-	<div region="west" title="角色栏" style="width: 250px; padding: 10px;" split="false">
+
+	<div region="west" title="角色栏" style="width: 250px; padding: 10px;"
+		split="false">
 		<ul id="tt1" class="easyui-tree" animate="true" dnd="true">
-			<li>
-				<span>角色</span>
+			<li><span>角色</span>
 				<ul>
-					
+
 					<c:forEach var="organ" items="${organList}">
-						<li state="closed">
-							<span>${organ.organName}</span>
-							<c:set var="organId" value="${organ.organId}"></c:set>
-							<c:forEach var="dept" items="${deptList}">
-									<c:if test="${dept.organId==organId}">
-										<ul>
-											<li state="closed">
-												<span>${dept.deptName}</span>
-												<c:set var="deptId" value="${dept.deptId}"></c:set>
-												<ul>
-													<c:forEach var="role" items="${roleList}">
-														<c:if test="${role.deptId==deptId}">
-														 <li>
-													      <span>
-														      <a href="javascript:roleQueryFunction('${role.roleId }')">
-														      ${role.roleName }</a>
-													      </span>
-													     </li>
-													     </c:if>
-													</c:forEach>
-												</ul>
-											</li>
-										</ul>
-									</c:if>
-									
-								</c:forEach>
-							
-					    </li>
-						
+						<li state="closed"><span>${organ.organName}</span> <c:set
+								var="organId" value="${organ.organId}"></c:set> <c:forEach
+								var="dept" items="${deptList}">
+								<c:if test="${dept.organId==organId}">
+									<ul>
+										<li state="closed"><span>${dept.deptName}</span> <c:set
+												var="deptId" value="${dept.deptId}"></c:set>
+											<ul>
+												<c:forEach var="role" items="${roleList}">
+													<c:if test="${role.deptId==deptId}">
+														<li><span> <a
+																href="javascript:roleQueryFunction('${role.roleId }')">
+																	${role.roleName }</a>
+														</span></li>
+													</c:if>
+												</c:forEach>
+											</ul></li>
+									</ul>
+								</c:if>
+
+							</c:forEach></li>
+
 					</c:forEach>
-		        </ul>
-        </li>
-</ul>
+				</ul></li>
+		</ul>
 
 	</div>
-<input type="hidden" id="roleId"/>
+	<input type="hidden" id="roleId" />
 	<div region="center" title="权限栏" id="authMenu">
-	
+
 		<div style="margin: 5px" id="menu_div">
 			<ul id="tt2"></ul>
-			
-		    <a href="javascript:submitUserAuth()" class="easyui-linkbutton" iconCls="icon-ok">提交</a>
-		    <a href="javascript:invokeFunction()" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
+
+			<a href="javascript:submitUserAuth()" class="easyui-linkbutton"
+				iconCls="icon-ok">提交</a> <a href="javascript:invokeFunction()"
+				class="easyui-linkbutton" iconCls="icon-reload">重置</a>
 		</div>
 	</div>
 </body>

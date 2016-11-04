@@ -14,7 +14,7 @@ public class PagResultBean {
 	
 	private List<RaiseTrModel> raiseTrModels;
 	/**
-	 * 行数
+	 * 行数 
 	 * */
 	private Long rows;
 	public List<FundMerchantBeanModel> getList() {
@@ -40,6 +40,19 @@ public class PagResultBean {
 	}
 	public void setRaiseTrModels(List<RaiseTrModel> raiseTrModels) {
 		this.raiseTrModels = raiseTrModels;
+	}
+	
+	public PagResultBean() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public PagResultBean(List<FundMerchantBeanModel> list, List<FundMerchantModel> fundmerchants,
+			List<RaiseTrModel> raiseTrModels, Long rows) {
+		super();
+		this.list = list;
+		this.fundmerchants = fundmerchants;
+		this.raiseTrModels = raiseTrModels;
+		this.rows = rows;
 	}
 	
 	

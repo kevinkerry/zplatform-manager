@@ -10,9 +10,7 @@
  */
 package com.zlebank.zplatform.manager.action.member;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +19,11 @@ import com.zlebank.zplatform.acc.bean.AccountAmount;
 import com.zlebank.zplatform.acc.bean.AccountAmountQuery;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
 import com.zlebank.zplatform.acc.service.FreezeAmountService;
-import com.zlebank.zplatform.commons.bean.PagedResult;
-import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
-import com.zlebank.zplatform.commons.utils.DateUtil;
 import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
-import com.zlebank.zplatform.manager.bean.AccountAmountMan;
+import com.zlebank.zplatform.manager.bean.FrozenAccBean;
+import com.zlebank.zplatform.manager.service.iface.AccAcctService;
+import com.zlebank.zplatform.trade.common.page.PageVo;
 
 /**
  *冻结信息查询
@@ -45,14 +42,27 @@ public class AccFrozenTaskAction extends BaseAction{
     public final static String DEFAULT_TIME_STAMP_FROMAT = "yyyy-MM-dd HH:mm";
     @Autowired
     private FreezeAmountService fas;
+    @Autowired
+    private AccAcctService accAcctService;
+    
     
     private AccountAmountQuery aaq;
+    
+    private FrozenAccBean query;
     
     private String id;
     
     
     
-    public String getId() {
+    public FrozenAccBean getQuery() {
+		return query;
+	}
+
+	public void setQuery(FrozenAccBean query) {
+		this.query = query;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -74,33 +84,15 @@ public class AccFrozenTaskAction extends BaseAction{
     }
     
     public void  freezeAmount(){
-    String messg="";
-        int page=  this.getPage();
-       int pageSize= this.getRows();
+    	if(query==null){
+    		query = new FrozenAccBean();
+    	}
+         String messg="";
        Map<String, Object> map = new HashMap<String, Object>();
-       PagedResult<AccountAmount> pr  =   fas.queryPaged(page, pageSize, aaq);
-        try {
-            List<AccountAmount> li=pr.getPagedResult();
-            List<AccountAmountMan> accountam=new ArrayList<AccountAmountMan>();
-           if(li!=null){
-            for(AccountAmount acca:li){
-                AccountAmountMan aam=BeanCopyUtil.copyBean(AccountAmountMan.class, acca);
-             aam.setStartTime(aam.getFrozenSTime()==null?null:DateUtil.formatDateTime(DEFAULT_TIME_STAMP_FROMAT,aam.getFrozenSTime()));
-             aam.setEndTime(aam.getUnfrozenTime()==null?null:DateUtil.formatDateTime(DEFAULT_TIME_STAMP_FROMAT,aam.getUnfrozenTime()));
-                aam.setFrozenBalance(acca.getFrozenBalance()==null?null:acca.getFrozenBalance().toYuan());
-               aam.setStatus(acca.getStatus()==null?null:acca.getStatus().getCode());
-               accountam.add(aam);
-           
-            }
-           }
-            Long total = pr.getTotal();
-            map.put("total", total);
-            map.put("rows", accountam);
-          
-        } catch (IllegalAccessException e) {
-           messg=e.getMessage();
-           map.put("messg", messg);
-        }
+       //accAcctService.f
+       PageVo<FrozenAccBean> pagevo = accAcctService.queryByPage(query, this.getPage(), this.getRows());
+       map.put("total", pagevo.getTotal());
+       map.put("rows", pagevo.getList());
         json_encode(map);
     }
     /**

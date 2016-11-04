@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
 import com.zlebank.zplatform.acc.bean.TradeInfo;
 import com.zlebank.zplatform.acc.exception.AbstractBusiAcctException;
 import com.zlebank.zplatform.acc.exception.AccBussinessException;
@@ -37,8 +36,9 @@ import com.zlebank.zplatform.commons.utils.StringUtil;
 import com.zlebank.zplatform.manager.bean.AuditBean;
 import com.zlebank.zplatform.manager.bean.ChargeBean;
 import com.zlebank.zplatform.manager.bean.ChargeQuery;
-import com.zlebank.zplatform.manager.bean.TxnsLog;
+import com.zlebank.zplatform.manager.bean.FrozenAccBean;
 import com.zlebank.zplatform.manager.dao.iface.IChargeDAO;
+import com.zlebank.zplatform.manager.dao.object.AccAcctModel;
 import com.zlebank.zplatform.manager.dao.object.ChargeModel;
 import com.zlebank.zplatform.manager.enums.ChargeEnum;
 import com.zlebank.zplatform.manager.exception.ManagerWithdrawException;
@@ -52,12 +52,13 @@ import com.zlebank.zplatform.member.pojo.PojoParaDic;
 import com.zlebank.zplatform.member.service.MemberService;
 import com.zlebank.zplatform.member.service.MerchService;
 import com.zlebank.zplatform.trade.bean.enums.BusinessEnum;
-import com.zlebank.zplatform.trade.bean.gateway.SplitAcctBean;
+import com.zlebank.zplatform.trade.common.page.PageVo;
 import com.zlebank.zplatform.trade.exception.TradeException;
 import com.zlebank.zplatform.trade.model.TxnsLogModel;
 import com.zlebank.zplatform.trade.model.TxnsOrderinfoModel;
 import com.zlebank.zplatform.trade.service.IGateWayService;
 import com.zlebank.zplatform.trade.service.ITxnsLogService;
+import com.zlebank.zplatform.trade.service.base.BaseServiceImpl;
 import com.zlebank.zplatform.trade.utils.OrderNumber;
 import com.zlebank.zplatform.trade.utils.UUIDUtil;
 
@@ -80,6 +81,9 @@ public class ChargeServiceImpl
     private final static String CHARGENOINSTID="CHARGENOINSTID";
     private final static String DEFAULT_TIME_STAMP_FROMAT = "yyyy-MM-dd HH:mm:ss";
     private final static String CHARGEBUSICODE="90000001";
+    private final static String CHARGEBUSICODEBOND="90000002";
+    private final static String CHARGEBUSICODECREDIT="90000003";
+    
     private final static String COOPINSTICODE="300000000000004";
     
     
@@ -171,18 +175,23 @@ public class ChargeServiceImpl
          }else if(MemberType.fromValue("02")==member.getMemberType()){
              cm.setChargetype(MemberType.ENTERPRISE.getCode());
          }
-         //渠道
-         PojoParaDic changeno = paradic.getPrimay(CHARGENOINSTID);
+//         //渠道
+//         PojoParaDic changeno = paradic.getPrimay(CHARGENOINSTID);
+         
+         
+         //设计的bug，以前默认渠道是99999999，现在是需要根据用户选择
+         cm.setChargenoinstid(cb.getChargenoinstid());
          // 得到状态
          PojoParaDic status = paradic.getPrimay(CHARGESTATUS);
-         if (status == null||changeno==null) {
+         if (status == null||cb.getChargenoinstid() ==null) {
              throw new ManagerWithdrawException("G100011"); 
          }
          cm.setStatus(status.getParaCode());
-      
-         cm.setChargenoinstid(changeno.getParaCode());
+         
+
          //充值码
          cm.setChargecode(cb.getChargecode());
+         cm.setUsage(cb.getUsage());
          charge.saveA(cm);
     }
 
@@ -243,15 +252,27 @@ public class ChargeServiceImpl
             txnsLog.setAccsettledate(DateUtil.getSettleDate(1));
         }else{
             PojoMerchDeta member = merchService.getMerchBymemberId(charge_memberId);
-            txnsLog.setRiskver(member.getRiskVer());
-            txnsLog.setSplitver(member.getSpiltVer());
-            txnsLog.setFeever(member.getFeeVer());
-            txnsLog.setPrdtver(member.getPrdtVer());
-           // txnsLog.setCheckstandver(member.getCashver());
-            txnsLog.setRoutver(member.getRoutVer());
-            txnsLog.setAccordinst(member.getParent());
-            txnsLog.setAccsettledate(DateUtil.getSettleDate(Integer.valueOf(member.getSetlCycle().toString())));
-        }
+            if(member == null ){
+                txnsLog.setRiskver(null);
+                txnsLog.setSplitver(null);
+                txnsLog.setFeever(null);
+                txnsLog.setPrdtver(null);
+               // txnsLog.setCheckstandver(member.getCashver());
+                txnsLog.setRoutver(null);
+                txnsLog.setAccordinst(null);
+                txnsLog.setAccsettledate(null);
+            }else{
+                txnsLog.setRiskver(member.getRiskVer());
+                txnsLog.setSplitver(member.getSpiltVer());
+                txnsLog.setFeever(member.getFeeVer());
+                txnsLog.setPrdtver(member.getPrdtVer());
+               // txnsLog.setCheckstandver(member.getCashver());
+                txnsLog.setRoutver(member.getRoutVer());
+                txnsLog.setAccordinst(member.getParent());
+                txnsLog.setAccsettledate(DateUtil.getSettleDate(Integer.valueOf(member.getSetlCycle().toString())));
+            }
+
+        } 
         txnsLog.setTxndate(DateUtil.getCurrentDate());
         txnsLog.setTxntime(DateUtil.getCurrentTime());
         txnsLog.setBusicode(BusinessEnum.CHARGE_OFFLINE.getBusiCode());
@@ -296,15 +317,34 @@ public class ChargeServiceImpl
         
         TxnsOrderinfoModel orderinfo = gateWayService.getOrderinfoByOrderNoAndMemberId(txnsLog.getAccordno(), txnsLog.getAccsecmerno());
         if(orderinfo!=null){
-        	orderinfo.setStatus("00");
-        	orderinfo.setRelatetradetxn(txnsLog.getTxnseqno());
-        	gateWayService.update(orderinfo);
+            orderinfo.setStatus("00");
+            orderinfo.setRelatetradetxn(txnsLog.getTxnseqno());
+            gateWayService.update(orderinfo);
         }
-        // 调用分录规则
+        if(StringUtil.isNotEmpty(charge.getTn())){
+            orderinfo = gateWayService.getOrderinfoByTN(charge.getTn());
+            if(orderinfo!=null){
+                orderinfo.setStatus("00");
+                orderinfo.setRelatetradetxn(txnsLog.getTxnseqno());
+                gateWayService.update(orderinfo);
+            }
+        }
+        
+        
+        // 调用分录规则        
         TradeInfo tradeInfo = new TradeInfo();
         tradeInfo.setAmount(charge.getAmount() == null ? new BigDecimal(0) : charge
                 .getAmount().getAmount());
-        tradeInfo.setBusiCode(CHARGEBUSICODE);
+        //**账户改造1.8版本**  增加保证金账户、授信账户的充值以及审核
+        if(StringUtil.isNotEmpty(charge.getUsage())){
+            if(charge.getUsage().equals("101")){//资金账户
+                tradeInfo.setBusiCode(CHARGEBUSICODE);
+            }else if(charge.getUsage().equals("109")){//保证金账户
+                tradeInfo.setBusiCode(CHARGEBUSICODEBOND);
+            }else if(charge.getUsage().equals("111")){//授信账户
+                tradeInfo.setBusiCode(CHARGEBUSICODECREDIT);
+            }
+        }        
         tradeInfo.setChannelId(charge.getChargenoinstid());
         tradeInfo.setPayMemberId(charge.getMemberid().getMemberId());
         tradeInfo.setPayToMemberId(charge.getMemberid().getMemberId());
@@ -316,6 +356,7 @@ public class ChargeServiceImpl
     
     @Transactional(propagation=Propagation.REQUIRED)
     public String getDefaultVerInfo(String instiCode,String busicode,int verType) throws TradeException{
+        @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultList = (List<Map<String, Object>>) txnsLogService.queryBySQL("select COOP_INSTI_CODE,BUSI_CODE,VER_TYPE,VER_VALUE from T_NONMER_DEFAULT_CONFIG where COOP_INSTI_CODE=? and BUSI_CODE=? and VER_TYPE=?", new Object[]{instiCode,busicode,verType+""});
         if(resultList.size()>0){
             Map<String, Object> valueMap = resultList.get(0);
@@ -324,4 +365,6 @@ public class ChargeServiceImpl
         throw new TradeException("GW03");
         //return null;
     }
+
+
 }

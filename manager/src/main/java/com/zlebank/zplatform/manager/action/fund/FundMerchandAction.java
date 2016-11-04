@@ -9,23 +9,15 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.zlebank.zplatform.commons.bean.PagedResult;
 import com.zlebank.zplatform.commons.utils.BeanCopyUtil;
 import com.zlebank.zplatform.manager.action.base.BaseAction;
-import com.zlebank.zplatform.manager.bean.FundAuditBean;
 import com.zlebank.zplatform.manager.bean.FundMerchant;
 import com.zlebank.zplatform.manager.bean.FundMerchantBean;
 import com.zlebank.zplatform.manager.bean.FundQueryCondition;
-import com.zlebank.zplatform.manager.bean.TranBatch;
-import com.zlebank.zplatform.manager.dao.FundMerchantDaoImpl;
 import com.zlebank.zplatform.manager.dao.object.FundMerchantBeanModel;
 import com.zlebank.zplatform.manager.dao.object.FundMerchantModel;
-import com.zlebank.zplatform.manager.service.iface.IInsteadPayService;
 import com.zlebank.zplatform.manager.service.iface.IfundMerchantService;
-import com.zlebank.zplatform.trade.bean.InsteadPayBatchBean;
-import com.zlebank.zplatform.trade.bean.InsteadPayBatchQuery;
-import com.zlebank.zplatform.trade.service.InsteadBatchService;
-import com.zlebank.zplatform.trade.service.InsteadPayService;
+import com.zlebank.zplatform.trade.service.EnterpriseTradeService;
 
 public class FundMerchandAction extends BaseAction {
 
@@ -37,27 +29,26 @@ public class FundMerchandAction extends BaseAction {
 
 	@Autowired
 	private IfundMerchantService service;
+	@Autowired
+	private EnterpriseTradeService enterpriseTradeService;
 
 	private String mer_id;
 	private String batchno; // 批次号
 	private String orderId;
 	private String chackBoxData; // 请求的数据
 	private String biaoJi;
-	private String status;
+	private String beginDate;
+	private String endDate;
 
 	// 查询条件
-	FundQueryCondition fundBean;
+	private FundQueryCondition fundBean;
 
-	public String getStatus() {
-		return status;
+	public void setBeginDate(String beginDate) {
+		this.beginDate = beginDate;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getOrderId() {
-		return orderId;
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 	public void setOrderId(String orderId) {
@@ -80,14 +71,6 @@ public class FundMerchandAction extends BaseAction {
 		biaoJi = this.biaoJi;
 	}
 
-	public IfundMerchantService getService() {
-		return service;
-	}
-
-	public void setService(IfundMerchantService service) {
-		this.service = service;
-	}
-
 	/**
 	 * 跳转页面
 	 * 
@@ -103,7 +86,6 @@ public class FundMerchandAction extends BaseAction {
 	public void getAllmers() {
 		int page = this.getPage();
 		int pageSize = this.getRows();
-		fundBean = new FundQueryCondition();
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			List<FundMerchantBean> list = null;
@@ -112,8 +94,6 @@ public class FundMerchandAction extends BaseAction {
 				if (list != null) {
 					map.put("total", 1);
 				}
-			} else if (status != null) {
-				list = service.getmerByStatus(status);
 			} else {
 				// 查询所有
 				fundBean = new FundQueryCondition(page, pageSize);
@@ -183,72 +163,123 @@ public class FundMerchandAction extends BaseAction {
 	}
 
 	/**
-	 * 根据请求判断要审核的数据是明细“|”还是商户信息“-”
+	 * 根据订单号查询
 	 */
-	public Map<String, Object> getPag() {
+	public void QueryByOrder() {
+		int page = this.getPage();
+		int pageSize = this.getRows();
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (orderId != null) {
+			fundBean = new FundQueryCondition(page, pageSize);
+			fundBean.setOrderId(orderId);
+			try {
+				PagResultBean pag = service.selectByOrder(fundBean);
+				List<FundMerchantModel> fundmerchants = pag.getFundmerchants();
+				List<FundMerchant> list = new ArrayList<FundMerchant>();
+				if (fundmerchants != null) {
+					for (FundMerchantModel mr : fundmerchants) {
+						FundMerchant fundMerchant = BeanCopyUtil.copyBean(FundMerchant.class, mr);
+						list.add(fundMerchant);
+					}
+					map.put("rows", list);
+					map.put("total", pag.getRows());
+				} else {
+					map.put("total", 0);
+					map.put("success", 2);
+				}
+			} catch (Exception e) {
+				map.put("success", 1);
+			}
+			json_encode(map);
+		}
+	}
+
+	/**
+	 * 根据请求判断要审核的数据是明细“//”还是商户信息“-”
+	 */
+	public void getPag() {
 
 		// 判断审核通过还是拒绝
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (chackBoxData.indexOf("//") > -1) {
-			// 包含|的话做明细审核订单号
+			// 包含|的话做明细审核tid
 			List<String> tt = Arrays.asList(chackBoxData.split("//"));
 			List<String> arr = new ArrayList<String>();
+			Integer flg = 2 ;
 			for (String str : tt) {
-
 				arr.add(str.replace("//", ""));
-				audit1(arr);
+				flg = audit1(arr);
 			}
-			map.put("success", 1);
+			map.put("success", flg);
 		} else if (chackBoxData.indexOf("-") > -1) {
-			// 包含 - 做商户审核，根据批次号
+			// 包含 - 做商户审核，根据tid
 			List<String> tt = Arrays.asList(chackBoxData.split("-"));
 			List<String> arr = new ArrayList<String>();
 			for (String str : tt) {
-				// if(biaoJi.indexOf("T")>-1){
 				arr.add(str.replace("-", ""));
 				audit2(arr);
-				// }else {
-				// 审核拒绝
-				// auditNo2(arr);
-				// }
 			}
 			map.put("success", 1);
 		}
 		json_encode(map);
-		return null;
 	}
 
 	/**
 	 * 明细审核通过订单号
 	 */
-	public void audit1(List<String> arr) {
-		// 根据订单号修改状态
-		Date data = new Date();
-		service.auditByOrder(arr, data);
+	public Integer audit1(List<String> tids) {
+		Date date = new Date();
+		Integer falg = 1;
+		try {
+			service.auditBytid(tids, date, enterpriseTradeService);
+		} catch (Exception e) {
+			e.printStackTrace();
+			falg = 2;
+		}
+		return falg;
 	}
 
 	/**
-	 * 商户还款审核通过model
+	 * 商户还款审核通过
 	 */
-	public void audit2(List<String> arr) {
-		// 根据批次号进行审核
-		Date data = new Date();
-		service.auditByPc(arr, data);
+	public void audit2(List<String> tids) {
+		// 根据tid进行审核
+		Date date = new Date();
+		service.getAllDataByTid(tids, date);
 	}
 
 	/**
-	 * 审核拒绝
+	 * 根据时间查询 前端验证不能为空
 	 */
-	public void auditNo1(List<String> arr) {
-		service.auditNoByOrder(arr);
+	public void QueryByDate() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 拿到时间调用方法查询所有满足条件的
+		int page = this.getPage();
+		int pageSize = this.getRows();
+		FundQueryCondition fundBean = new FundQueryCondition(page, pageSize);
+		if (beginDate == null) {
+			fundBean.setEndDate(endDate);
+		} else if (endDate == null) {
+			fundBean.setBeginDate(beginDate);
+		} else {
+			fundBean.setBeginDate(beginDate);
+			fundBean.setEndDate(endDate);
+		}
+		PagResultBean result = service.selectByDate(fundBean);
+		if (result == null) {
+			map.put("success", false);
+			map.put("total", 0);
+		} else {
+			map.put("success", true);
+			List<FundMerchantBeanModel> fundmerchants = result.getList();
+			List<FundMerchantBean> list = new ArrayList<FundMerchantBean>();
+			for (FundMerchantBeanModel mr : fundmerchants) {
+				FundMerchantBean fundMerchant = BeanCopyUtil.copyBean(FundMerchantBean.class, mr);
+				list.add(fundMerchant);
+			}
+			map.put("rows", list);
+			map.put("total", result.getRows());
+		}
+		json_encode(map);
 	}
-
-	/**
-	 * 商户还款审核拒绝model
-	 */
-	public void auditNo2(List<String> arr) {
-		// 根据批次号进行审核
-		service.auditNoByPc(arr);
-	}
-
 }

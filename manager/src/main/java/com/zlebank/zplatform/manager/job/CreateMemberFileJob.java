@@ -44,6 +44,7 @@ public class CreateMemberFileJob extends SpringApplicationObjectSupport{
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dateTime = sdf.format(date);
+//        String dateTime ="20161021";
         // 根据日期取出t_txns_log取出当天清算的所有商户号
         List<?> memberList = txnsLogService.getAllMemberByDate(dateTime);
         List<?> memberListA = txnsLogService
@@ -68,10 +69,10 @@ public class CreateMemberFileJob extends SpringApplicationObjectSupport{
             String memberId = entry.getKey();
             fileBuffer.setLength(0);
             fileBuffer.append("memberId:" + memberId + "|date:" + dateTime);
-            // 消费(账户，快捷)汇总信息;账户资金增加
+            // 消费(账户，快捷)汇总信息;商户账户资金增加
             List<?> sumCoumList = txnsLogService.getSumExpense(
                     memberId, dateTime);
-            //退款资金减少
+            //退款，商户资金减少
             List<?> sumReList = txnsLogService.getSumRefund(memberId,
                     dateTime);
              
@@ -129,20 +130,15 @@ public class CreateMemberFileJob extends SpringApplicationObjectSupport{
                         .append(DELETIMER)
                         .append(job.get("BUSICODE").toString())
                         .append(DELETIMER);
-            
-                if ("'30000001', '40000001', '70000001', '80000001'"
-                        .contains(job.get("BUSICODE").toString())) {
-                    //fileBuffer.append("D" + "|");
-                    settAmount = amount + fee;
-                } else if ("'10000001', '10000002', '90000001', '20000001'"
-                        .contains(job.get("BUSICODE").toString())) {
-                    //fileBuffer.append("C" + "|");
+                //注：日明细对账文件，包括商户所有资金交易。不需要商户收付款标志C或者D，需要更新的是文档
+                if ("'30000001', '40000001','40000002','40000003','40000004'".contains(job.get("BUSICODE").toString())) {
+                        settAmount = amount + fee;                   
+                        fileBuffer.append(amount).append(DELETIMER).append(fee).append(DELETIMER).append(settAmount)
+                        .append(DELETIMER).append(job.get("TXNSEQNO_OG").toString());                  
+                }  if ("'10000001', '10000002','10000005','10000006','11000001'".contains(job.get("BUSICODE").toString())) {
                     settAmount = amount - fee;
-                } else {
-                    //fileBuffer.append("N" + "|");
-                }
-                
-                fileBuffer.append(amount).append(DELETIMER).append(fee).append(DELETIMER).append(settAmount);
+                    fileBuffer.append(amount).append(DELETIMER).append(fee).append(DELETIMER).append(settAmount);
+                }          
             }
             fileBuffer.append("\n");
             fileBuffer.append("######");

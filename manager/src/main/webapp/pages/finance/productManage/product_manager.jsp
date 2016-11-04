@@ -44,19 +44,17 @@
 					<tr>
 						<td align="right">产品代码:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="productCode"  maxlength="10" />
-						</td>
-						<td align="right" >产品名称:</td>
+							id="productCode" maxlength="10" /></td>
+						<td align="right">产品名称:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="productName"  maxlength="64" /></td>
-							 
-					   <td align="right">资管人:</td>
+							id="productName" maxlength="64" /></td>
+
+						<td align="right">资管人:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="fundManager"  maxlength="16" />
-						</td>
-						<td align="right" >融资人:</td>
+							id="fundManager" maxlength="16" /></td>
+						<td align="right">融资人:</td>
 						<td align="left" style="padding-left: 5px" width="15%"><input
-							 id="financier"  maxlength="16" /></td>
+							id="financier" maxlength="16" /></td>
 						<td align="right"><a href="javascript:search()"
 							class="easyui-linkbutton" iconCls="icon-search">查询</a> <a
 							href="javascript:resizeAdd()" class="easyui-linkbutton"
@@ -153,8 +151,8 @@
 
 </script>
 
-	
 
-	
+
+
 </script>
 </html>

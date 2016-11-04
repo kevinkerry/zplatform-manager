@@ -29,10 +29,29 @@ public class ChargeQuery implements Bean{
     private String status;
     /**充值订单号**/
     private String chargeno;
+    /**用途**/
+    private String usage;
+    /**会员名称**/
+    private String memberName;
+    /**充值码**/
+    private String chargeCode;
+    /**充值金额**/
+    private String amount;    
+    /**写入时间**/
+    private String intime;
     
-    
-    
-    
+    public String getMemberName() {
+        return memberName;
+    }
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+    public String getUsage() {
+        return usage;
+    }
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
     public String getChargeno() {
         return chargeno;
     }
@@ -56,6 +75,24 @@ public class ChargeQuery implements Bean{
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+    public String getChargeCode() {
+        return chargeCode;
+    }
+    public void setChargeCode(String chargeCode) {
+        this.chargeCode = chargeCode;
+    }
+    public String getAmount() {
+        return amount;
+    }
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+    public String getIntime() {
+        return intime;
+    }
+    public void setIntime(String intime) {
+        this.intime = intime;
     }
     
     

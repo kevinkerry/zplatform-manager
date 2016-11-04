@@ -1,311 +1,350 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="../../../top.jsp"></jsp:include>
-<%@taglib prefix="s" uri="/struts-tags" %>
+<%@taglib prefix="s" uri="/struts-tags"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 </head>
-	<style type="text/css">
-	table{}
-	table tr td{height:25px;padding-left:10px;border-width:1px 1px 1px 1px;border-style:groove;}
-	table tr td input{height:15px}
-	table tr td.head-title{background-color:#F0F8FF;font-weight:bold;}
-	table tr td.head-guide{background-color:#F0FFFF;font-weight:bold;}
-	table tr td font.current-step{color:#EE4000;}
-	</style>
-  	<script type="text/javascript" src="<%=basePath%>/js/extendsValidator_1.0_20151215.js"></script>
+<style type="text/css">
+table {
+	
+}
+
+table tr td {
+	height: 25px;
+	padding-left: 10px;
+	border-width: 1px 1px 1px 1px;
+	border-style: groove;
+}
+
+table tr td input {
+	height: 15px
+}
+
+table tr td.head-title {
+	background-color: #F0F8FF;
+	font-weight: bold;
+}
+
+table tr td.head-guide {
+	background-color: #F0FFFF;
+	font-weight: bold;
+}
+
+table tr td font.current-step {
+	color: #EE4000;
+}
+</style>
+<script type="text/javascript"
+	src="<%=basePath%>/js/extendsValidator_1.0_20151215.js"></script>
 </head>
-  <body>
-  	<div style="margin: 5px;" id="continer">
+<body>
+	<div style="margin: 5px;" id="continer">
 		<div id="title" name="title" class="easyui-panel" title="商户开通"
-			style="background: #fafafa;" iconCls="icon-save"
-			collapsible="false">		
-			<div style="padding-left:5px;padding-right:5px">
-		<form id="merchDetaForm" action="pages/merchant/saveMerchDetaMerchantAction.action" method="post" >
-		<input type="hidden" id="merchant_busiScan1" name="enterprise.taxfile" />
-		<input type="hidden" id="merchant_busiScan2" name="enterprise.licencefile" />
-		<input type="hidden" id="merchant_busiScan3" name="enterprise.orgcodefile" />
-		<input type="hidden" id="merchant_busiScan4" name="enterprise.corpfile" />
-				<table width="100%">
-					<tr>
-						<td colspan="4" class="head-guide"><font class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
-					</tr>	
-					<tr>
-						<td colspan="4" class="head-title"></td>
-					</tr>
-					<tr>
-						<td align="center" width="20%">企业名称</td>
-						<td  width="30%"><input id="merName" name="enterprise.enterpriseName" required="true" maxlength="30" style="width:250px"  class="easyui-validatebox" validType="MerchLength[60]" /> <font color="red">*</font></td>
-						<td colspan="2"></td>
-					</tr>
-					<tr> 
-						<td align="center">企业所在地</td>
-						<td colspan="3">
-						  <select id="province_ins" class="easyui-validatebox" required="true" name="enterprise.province"   onchange="showCity('province_ins')"/></select>
-						  <select id="city_ins" class="easyui-validatebox" required="true" name="enterprise.city" onchange="showCounty('city_ins')"/></select>
-						  <select id="county_ins" class="easyui-validatebox" required="true" name="enterprise.street"   /></select>
-						  <font color="red">*</font>
-						 </td> 
-					</tr>
-					<tr>
-						<td align="center">联系手机号</td> 
-						<td>
-							<input  class="easyui-validatebox" maxlength="11"  validType="cellphonenum"  required="true" name="enterprise.phone" />
-							<font color="red">*</font>
-						</td>
-						<td align="center">邮箱</td>
-						<td>
-							<input name="enterprise.email" maxlength="32" validType="email"  type="text" required="true" class="easyui-validatebox" />
-							<font color="red">*</font>
-						</td>
-					</tr>
-					<tr>
-						<td align="center">地址</td>
-						<td>
-							<input  class="easyui-validatebox" maxlength="128"  name="enterprise.address"  style="width:300px" />
-						</td>
-						<td align="center">邮编编码</td>
-						<td>
-							<input  class="easyui-validatebox" validType="postcode[6]" maxlength="6"  name="enterprise.postCode"/>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="4" class="head-title"></td>
-					</tr>
-					<!--  
+			style="background: #fafafa;" iconCls="icon-save" collapsible="false">
+			<div style="padding-left: 5px; padding-right: 5px">
+				<form id="merchDetaForm"
+					action="pages/merchant/saveMerchDetaMerchantAction.action"
+					method="post">
+					<input type="hidden" id="merchant_busiScan1"
+						name="enterprise.taxfile" /> <input type="hidden"
+						id="merchant_busiScan2" name="enterprise.licencefile" /> <input
+						type="hidden" id="merchant_busiScan3"
+						name="enterprise.orgcodefile" /> <input type="hidden"
+						id="merchant_busiScan4" name="enterprise.corpfile" />
+					<table width="100%">
+						<tr>
+							<td colspan="4" class="head-guide"><font
+								class="current-step">第一步:企业信息录入</font>---->第二步:上传证件照片</td>
+						</tr>
+						<tr>
+							<td colspan="4" class="head-title"></td>
+						</tr>
+						<tr>
+							<td align="center" width="20%">企业名称</td>
+							<td width="30%"><input id="merName"
+								name="enterprise.enterpriseName" required="true" maxlength="30"
+								style="width: 250px" class="easyui-validatebox"
+								validType="MerchLength[60]" /> <font color="red">*</font></td>
+							<td colspan="2"></td>
+						</tr>
+						<tr>
+							<td align="center">企业所在地</td>
+							<td colspan="3"><select id="province_ins"
+								class="easyui-validatebox" required="true"
+								name="enterprise.province" onchange="showCity('province_ins')" /></select>
+								<select id="city_ins" class="easyui-validatebox" required="true"
+								name="enterprise.city" onchange="showCounty('city_ins')" /></select> <select
+								id="county_ins" class="easyui-validatebox" required="true"
+								name="enterprise.street" /></select> <font color="red">*</font></td>
+						</tr>
+						<tr>
+							<td align="center">联系手机号</td>
+							<td><input class="easyui-validatebox" maxlength="11"
+								validType="cellphonenum" required="true" name="enterprise.phone" />
+								<font color="red">*</font></td>
+							<td align="center">邮箱</td>
+							<td><input name="enterprise.email" maxlength="32"
+								validType="email" type="text" required="true"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+						</tr>
+						<tr>
+							<td align="center">地址</td>
+							<td><input class="easyui-validatebox" maxlength="128"
+								name="enterprise.address" style="width: 300px" /></td>
+							<td align="center">邮编编码</td>
+							<td><input class="easyui-validatebox"
+								validType="postcode[6]" maxlength="6" name="enterprise.postCode" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4" class="head-title"></td>
+						</tr>
+						<!--  
 					<tr> 
 						<td align="center">企业类型</td>
 						<td> 企业</td><td></td><td></td>
 					</tr>-->
-					<tr>
-						<td align="center">营业执照号</td>
-						<td>
-							<input name="enterprise.licenceNo" maxlength="15" type="text" validType="licencenoMerLength[15]"  onkeyup="value=value.replace(/[^0-9a-zA-Z]/g,'')"   required="true" class="easyui-validatebox" /><font color="red">*</font>
-						</td>    
-						<td align="center">组织机构代码号</td>
-						<td>
-						 <input name="enterprise.orgCode" maxlength="10" type="text"  validType="orgLength[8]"  onkeyup="value=value.replace(/[^\d\-]/g,'')"    required="true" class="easyui-validatebox" /> <font color="red">*</font>
-						</td> 
-					</tr>
-					<tr>
-						<td align="center">税务登记号</td>
-						<td> 
-							<input name="enterprise.taxno" maxlength="20" type="text"  required="true" validType="merLength[15]"  onkeyup="value=value.replace(/[^0-9a-zA-Z]/g,'')"   class="easyui-validatebox" />
-						     <font color="red">*</font>
-						</td>
-						<td align="center">所属行业</td>
-						<td>
-							<select id="mcclist_ins" class="easyui-validatebox" name="enterprise.mccList" required="true"/></select><font color="red">*</font>					
-						</td>
-					</tr>
-					<tr>
-						<td align="center">企业网站地址</td>
-						<td>
-						 	<input name="enterprise.website" maxlength="256" type="text"  validType="url" required="true" class="easyui-validatebox" /> <font color="red">*</font>
-						</td>
-						<td></td><td></td>
-						<!--  
+						<tr>
+							<td align="center">营业执照号</td>
+							<td><input name="enterprise.licenceNo" maxlength="15"
+								type="text" validType="licencenoMerLength[15]"
+								onkeyup="value=value.replace(/[^0-9a-zA-Z]/g,'')"
+								required="true" class="easyui-validatebox" /><font color="red">*</font>
+							</td>
+							<td align="center">组织机构代码号</td>
+							<td><input name="enterprise.orgCode" maxlength="10"
+								type="text" validType="orgLength[8]"
+								onkeyup="value=value.replace(/[^\d\-]/g,'')" required="true"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+						</tr>
+						<tr>
+							<td align="center">税务登记号</td>
+							<td><input name="enterprise.taxno" maxlength="20"
+								type="text" required="true" validType="merLength[15]"
+								onkeyup="value=value.replace(/[^0-9a-zA-Z]/g,'')"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+							<td align="center">所属行业</td>
+							<td><select id="mcclist_ins" class="easyui-validatebox"
+								name="enterprise.mccList" required="true" /></select><font color="red">*</font>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">企业网站地址</td>
+							<td><input name="enterprise.website" maxlength="256"
+								type="text" validType="url" required="true"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+							<td></td>
+							<td></td>
+							<!--  
 						<td align="center">ICP备案号</td>
 						<td>
 						 	<input name="merchDate.icp" maxlength="256" type="text"  required="true" class="easyui-validatebox" /> <font color="red">*</font>
 						</td>-->
-					</tr> 
-					<tr>
-						<td align="center" id="psamORpass">法人姓名</td>
-						<td>
-							<input name="enterprise.corporation" maxlength="16" type="text" required="true"  class="easyui-validatebox" />
-						    <font color="red">*</font>
-						</td>
-						<td align="center">法人身份证号</td>
-						<td>
-							<input class="easyui-validatebox" required="true" validType="cardNo[18]"   maxlength="18"  name="enterprise.corpNo" />
-						    <font color="red">*</font>
-						 </td>
-					</tr> 
-					
-					<tr>
-						<td colspan="4" class="head-title"></td>
-					</tr>
-					<tr>
-						<td align="center">商户清算类型</td>
-						<td>
-						 	<select id="setltype_ins" class="easyui-validatebox" required="true" name="merchDeta.setlType" /></select> 
-						    <font color="red">*</font>
-						 </td> 
-						 <td align="center">商户清算周期</td>
-						 <td>
-							<select id="setlcycle_ins" class="easyui-validatebox" required="true" name="merchDeta.setlCycle" /></select>
-							<font color="red">*</font>
-						   </td>
-					</tr>
-					<tr>
-					     
-						<td align="center">开户行</td>
-						<td colspan="3"> 
-							<select id="banknode_ins" class="easyui-validatebox" required="true"  name="merchDeta.bankNode" style="width:350px"  /></select>
-					    	<font color="red">*</font>
-					    	<input id="banknode_key" maxlength="16" type="text" onclick="checkBankKey()" onchange="queryBankNode()"/>
-					    </td>
-					</tr>
-					<tr>
-						<td align="center">开户账号</td>
-						<td>
-							<input name="merchDeta.accNum" maxlength="32" required="true"  type="text" validType="settleAccount"  class="easyui-validatebox"/>
-						    <font color="red">*</font>
-						</td>
-						<td align="center">开户名</td>
-						<td><input  class="easyui-validatebox" maxlength="30" validType="accName" required="true" name="merchDeta.accName" />
-						    <font color="red">*</font></td>
-					</tr>
-					
-					<tr>
-						<td colspan="4" class="head-title"></td>
-					</tr>
-					<tr> 
-						<td align="center">合作机构</td>
-						<td>
-							<select id="coop_insti_ins" class="easyui-validatebox" required="true"  name="enterprise.coopInstiId" style="width:150px"  onchange="refreshProduct()"/></select>
-					        <font color="red">*</font>
-				        </td>
-				        <td align="center" colspan="2"></td>
-					</tr>
-					<tr> 
-						<td align="center">产品</td>
-						<td>
-							<select id="prdtver_ins" class="easyui-validatebox" required="true"  name="merchDeta.prdtVer" style="width:150px"  onchange="showThreeVersion()"/></select>
-					        <font color="red">*</font>
-				        </td>
-				        <td align="center">风控版本</td>
-						<td>
-							<select name="merchDeta.riskVer" maxlength="8" required="true"  id="riskver"  /></select>
-							<font color="red">*</font>
-						</td>
-					</tr>
-					<tr>
-						<td align="center">扣率版本</td>
-						<td><select id="feever_ins" class="easyui-validatebox"  required="true" name="merchDeta.feeVer"   /></select>
-					    <font color="red">*</font>
-						   </td>
-						<td align="center">分润版本</td>
-						<td>
-						<select name="merchDeta.spiltVer" maxlength="8"  id="spiltver"  /></select>
-						    </td>
-					</tr>
-					<tr>
-						
-						<td align="center">路由版本</td>
-						<td>
-							<select id="routver_ins" class="easyui-validatebox"  name="merchDeta.routVer" style="width:150px" required="true"/></select>
-						    <font color="red">*</font>
-						</td>
-						<td align="center"></td>
-						<td>
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="4" class="head-title"></td>
-					</tr> 
-					<tr>
-						<td align="center" ><input type="checkbox" id="isDelegation" name="enterprise.isDelegation" onchange="checkIsDelegation()"/>是否授权人办理</td>
-						 <td colspan="3"></td>
-					</tr>
-					<tr id="delegation">
-						<td align="center">委托人姓名</td>
-						<td><input  class="easyui-validatebox"  maxlength="16" id="signatory"  name="enterprise.signatory" />						     
-						    <font color="red">*</font>
-						</td>
-						<td align="center">委托人身份证号</td>
-						<td>
-							<input class="easyui-validatebox" validType="cardNo[18]" id="signCertNo"  maxlength="18"  name="enterprise.signCertNo" />
-						    <font color="red">*</font>
-						 </td>
-					</tr>
-					<tr>
-						<td align="center">客户经理</td>
-						<td><input  class="easyui-validatebox" maxlength="16"  name="enterprise.custMgr" />
-						   </td>
-						<td align="center">客户经理部门</td>
-						<td><input name="enterprise.custMgrDept" maxlength="16"   type="text"  />
-						    </td>
-					</tr>
-					<tr>
-						<td align="center">合约开始日期</td>
-						<td><input name="merchDeta.agreemtStart" maxlength="12"   type="text"  id="startDate"/>
-						</td>
-						<td align="center">合约终止日期</td>
-						<td><input  class="easyui-validatebox" maxlength="32"  name="merchDeta.agreemtEnd"  id="endDate"/>
-						    </td>
-					</tr>
-					<tr>
-						<td align="center">保证金</td>
-						<td><input  class="easyui-validatebox" maxlength="8"  validType="amount" name="deposit" /><font color="red">元</font>
-						</td>
-						<td align="center">服务费</td>
-						<td><input name="charge" maxlength="8"  validType="amount"  class="easyui-validatebox" type="text"  /><font color="red">元</font>
-						</td>
-					</tr>
-					
-					<tr>
-						<td colspan="4" class="head-title"></td>
-					</tr>
-					<tr>
-						<td align="center">联系人姓名</td>
-						<td><input name="enterprise.contact" maxlength="16" type="text" class="easyui-validatebox"  />
-						<td align="center">联系人地址</td>
-						<td><input name="enterprise.contAddress" maxlength="120" style="width:250px"  type="text" class="easyui-validatebox"  />
-						    </td>    
-					</tr>
-					<tr>
-						<td align="center">联系人电话</td>
-						<td><input  class="easyui-validatebox" maxlength="11"  validType="chinesetest"   name="enterprise.contPhone" />
-						    </td>
-						<td align="center">联系人职位</td>
-						<td><input name="enterprise.contTitle" maxlength="16"  type="text"  />
-						    </td>
-					</tr>
-					<tr>
-						<td align="center">联系人邮箱</td>
-						<td>
-							<input  class="easyui-validatebox" maxlength="16" validType="email" name="enterprise.contEmail" />
-						</td>
-						<td colspan="2"></td>
-					</tr>
-				</table>
-			</form>
-	<div id="w" class="easyui-window" closed="true" title="My Window" iconCls="icon-save" style="width:500px;height:200px;padding:5px;">
-		<div class="easyui-layout" fit="true">
-			<div region="center" border="false" style="border:1px solid #ccc;background:#fff;border:1px solid #ccc;text-align: center">
-				<form id="theForm" action="pages/merchant/uploadMerchantAction.action" method="post" enctype="multipart/form-data">
-					<input type="hidden" id="scanType" />
-					<table width="100%" height="100%" cellpadding="2" cellspacing="2" border="0" >
+						</tr>
 						<tr>
-							<td align="right" id="uptitle"></td>
-							<td align="left">
-								<input style="height:20px" id="imagehead"  type="file" name="headImage" class="easyui-validatebox" >
+							<td align="center" id="psamORpass">法人姓名</td>
+							<td><input name="enterprise.corporation" maxlength="16"
+								type="text" required="true" class="easyui-validatebox" /> <font
+								color="red">*</font></td>
+							<td align="center">法人身份证号</td>
+							<td><input class="easyui-validatebox" required="true"
+								validType="cardNo[18]" maxlength="18" name="enterprise.corpNo" />
+								<font color="red">*</font></td>
+						</tr>
+
+						<tr>
+							<td colspan="4" class="head-title"></td>
+						</tr>
+						<tr>
+							<td align="center">商户清算类型</td>
+							<td><select id="setltype_ins" class="easyui-validatebox"
+								required="true" name="merchDeta.setlType" /></select> <font color="red">*</font>
 							</td>
+							<td align="center">商户清算周期</td>
+							<td><select id="setlcycle_ins" class="easyui-validatebox"
+								required="true" name="merchDeta.setlCycle" /></select> <font color="red">*</font>
+							</td>
+						</tr>
+						<tr>
+
+							<td align="center">开户行</td>
+							<td colspan="3"><select id="banknode_ins"
+								class="easyui-validatebox" required="true"
+								name="merchDeta.bankNode" style="width: 350px" /></select> <font
+								color="red">*</font> <input id="banknode_key" maxlength="16"
+								type="text" onclick="checkBankKey()" onchange="queryBankNode()" />
+							</td>
+						</tr>
+						<tr>
+							<td align="center">开户账号</td>
+							<td><input name="merchDeta.accNum" maxlength="32"
+								required="true" type="text" validType="settleAccount"
+								class="easyui-validatebox" /> <font color="red">*</font></td>
+							<td align="center">开户名</td>
+							<td><input class="easyui-validatebox" maxlength="30"
+								validType="accName" required="true" name="merchDeta.accName" />
+								<font color="red">*</font></td>
+						</tr>
+
+						<tr>
+							<td colspan="4" class="head-title"></td>
+						</tr>
+						<tr>
+							<td align="center">合作机构</td>
+							<td><select id="coop_insti_ins" class="easyui-validatebox"
+								required="true" name="enterprise.coopInstiId"
+								style="width: 150px" onchange="refreshProduct()" /></select> <font
+								color="red">*</font></td>
+							<td align="center" colspan="2"></td>
+						</tr>
+						<tr>
+							<td align="center">产品</td>
+							<td><select id="prdtver_ins" class="easyui-validatebox"
+								required="true" name="merchDeta.prdtVer" style="width: 150px"
+								onchange="showThreeVersion()" /></select> <font color="red">*</font></td>
+							<td align="center">风控版本</td>
+							<td><select name="merchDeta.riskVer" maxlength="8"
+								required="true" id="riskver" /></select> <font color="red">*</font></td>
+						</tr>
+						<tr>
+							<td align="center">扣率版本</td>
+							<td><select id="feever_ins" class="easyui-validatebox"
+								required="true" name="merchDeta.feeVer" /></select> <font color="red">*</font>
+							</td>
+							<td align="center">分润版本</td>
+							<td><select name="merchDeta.spiltVer" maxlength="8"
+								id="spiltver" /></select></td>
+						</tr>
+						<tr>
+
+							<td align="center">路由版本</td>
+							<td><select id="routver_ins" class="easyui-validatebox"
+								name="merchDeta.routVer" style="width: 150px" required="true" /></select>
+								<font color="red">*</font></td>
+							<td align="center"></td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td colspan="4" class="head-title"></td>
+						</tr>
+						<tr>
+							<td align="center"><input type="checkbox" id="isDelegation"
+								name="enterprise.isDelegation" onchange="checkIsDelegation()" />是否授权人办理</td>
+							<td colspan="3"></td>
+						</tr>
+						<tr id="delegation">
+							<td align="center">委托人姓名</td>
+							<td><input class="easyui-validatebox" maxlength="16"
+								id="signatory" name="enterprise.signatory" /> <font color="red">*</font>
+							</td>
+							<td align="center">委托人身份证号</td>
+							<td><input class="easyui-validatebox" validType="cardNo[18]"
+								id="signCertNo" maxlength="18" name="enterprise.signCertNo" />
+								<font color="red">*</font></td>
+						</tr>
+						<tr>
+							<td align="center">客户经理</td>
+							<td><input class="easyui-validatebox" maxlength="16"
+								name="enterprise.custMgr" /></td>
+							<td align="center">客户经理部门</td>
+							<td><input name="enterprise.custMgrDept" maxlength="16"
+								type="text" /></td>
+						</tr>
+						<tr>
+							<td align="center">合约开始日期</td>
+							<td><input name="merchDeta.agreemtStart" maxlength="12"
+								type="text" id="startDate" /></td>
+							<td align="center">合约终止日期</td>
+							<td><input class="easyui-validatebox" maxlength="32"
+								name="merchDeta.agreemtEnd" id="endDate" /></td>
+						</tr>
+						<tr>
+							<td align="center">保证金</td>
+							<td><input class="easyui-validatebox" maxlength="8"
+								validType="amount" name="deposit" /><font color="red">元</font>
+							</td>
+							<td align="center">服务费</td>
+							<td><input name="charge" maxlength="8" validType="amount"
+								class="easyui-validatebox" type="text" /><font color="red">元</font>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="4" class="head-title"></td>
+						</tr>
+						<tr>
+							<td align="center">联系人姓名</td>
+							<td><input name="enterprise.contact" maxlength="16"
+								type="text" class="easyui-validatebox" />
+							<td align="center">联系人地址</td>
+							<td><input name="enterprise.contAddress" maxlength="120"
+								style="width: 250px" type="text" class="easyui-validatebox" />
+							</td>
+						</tr>
+						<tr>
+							<td align="center">联系人电话</td>
+							<td><input class="easyui-validatebox" maxlength="11"
+								validType="chinesetest" name="enterprise.contPhone" /></td>
+							<td align="center">联系人职位</td>
+							<td><input name="enterprise.contTitle" maxlength="16"
+								type="text" /></td>
+						</tr>
+						<tr>
+							<td align="center">联系人邮箱</td>
+							<td><input class="easyui-validatebox" maxlength="16"
+								validType="email" name="enterprise.contEmail" /></td>
+							<td colspan="2"></td>
 						</tr>
 					</table>
 				</form>
+				<div id="w" class="easyui-window" closed="true" title="My Window"
+					iconCls="icon-save"
+					style="width: 500px; height: 200px; padding: 5px;">
+					<div class="easyui-layout" fit="true">
+						<div region="center" border="false"
+							style="border: 1px solid #ccc; background: #fff; border: 1px solid #ccc; text-align: center">
+							<form id="theForm"
+								action="pages/merchant/uploadMerchantAction.action"
+								method="post" enctype="multipart/form-data">
+								<input type="hidden" id="scanType" />
+								<table width="100%" height="100%" cellpadding="2"
+									cellspacing="2" border="0">
+									<tr>
+										<td align="right" id="uptitle"></td>
+										<td align="left"><input style="height: 20px"
+											id="imagehead" type="file" name="headImage"
+											class="easyui-validatebox"></td>
+									</tr>
+								</table>
+							</form>
+						</div>
+						<div region="south" border="false"
+							style="text-align: center; padding: 5px 0;">
+							<a class="easyui-linkbutton" iconCls="icon-save"
+								href="javascript:uploadProcess()" id="btn_upload">上传</a> <a
+								class="easyui-linkbutton" iconCls="icon-cancel"
+								href="javascript:closeUpload()">取消</a>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-save" href="javascript:uploadProcess()" id="btn_upload" >上传</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:closeUpload()" >取消</a>
+			<div region="south" border="false"
+				style="text-align: center; padding: 5px 0;">
+				<a class="easyui-linkbutton" iconCls="icon-ok" id="button_id"
+					href="javascript:savemerchDate()" onclick="">下一步</a> <a
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					href="javascript:resize()" onclick="resize()">取消</a> <a
+					href="javascript:backToMerchIndex()" class="easyui-linkbutton"
+					iconCls="icon-back">返回</a>
 			</div>
 		</div>
-     </div>	
-		</div>
-			<div region="south" border="false" style="text-align:center;padding:5px 0;">
-				<a class="easyui-linkbutton" iconCls="icon-ok" id="button_id" href="javascript:savemerchDate()" onclick="">下一步</a>
-				<a class="easyui-linkbutton" iconCls="icon-cancel" href="javascript:resize()" onclick="resize()">取消</a>
-				<a href="javascript:backToMerchIndex()" class="easyui-linkbutton" iconCls="icon-back">返回</a>
-			</div>
 	</div>
-	</div>	
-  </body>
-  
-  <script>
+</body>
+
+<script>
 	  $(function() {
 			showProvince();
 			showMerchType();

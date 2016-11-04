@@ -16,8 +16,7 @@ public class ChannelFileService implements IChannelFileService {
 
     @Override
     public ChannelFileMode getLikeInstiid(String fileName) {
-        String queryString = "from ChannelFileMode c where c.fileName like '%"
-                + fileName + "%' and c.status=01";
+        String queryString = "from ChannelFileMode c where c.fileName like '%"+fileName+"%' and c.status=01";
         List<ChannelFileMode> list = iChannelFileDao.queryByHQL(queryString);
 
         if (list.size() > 0) {
