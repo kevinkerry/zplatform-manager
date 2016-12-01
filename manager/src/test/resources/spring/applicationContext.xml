@@ -164,7 +164,6 @@
 
 	<!-- 数据源配置begin -->
 	<!-- 非jndi,单元测用 -->
-<<<<<<< HEAD
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="oracle.jdbc.OracleDriver" />
